@@ -18,24 +18,27 @@ class HotelController extends Controller {
     public function index() {
         return view('hotel.index');
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+    /*
+     Insert hotel information into database
      */
     public function store(Request $request) {
-        //
+        
+        
+        
+        
+        echo $request->hotel_name."<br>";
+        echo $request->hotel_address."<br>";
+        echo $request->hotel_comment."<br>";
     }
 
     /**

@@ -19,6 +19,7 @@
   die("Could not connect to the database.  Please check your configuration.");
   }
  *  */
+Route::resource('hotel', 'HotelController');
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,4 +29,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('hotel', 'HotelController');
+
+
