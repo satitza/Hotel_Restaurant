@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Hotels;
+
 
 class HotelController extends Controller {
 
@@ -18,7 +20,7 @@ class HotelController extends Controller {
     public function index() {
         return view('hotel.index');
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,16 +31,20 @@ class HotelController extends Controller {
     }
 
     /*
-     Insert hotel information into database
+      Insert hotel information into database
      */
+
     public function store(Request $request) {
-        
-        
-        
-        
-        echo $request->hotel_name."<br>";
-        echo $request->hotel_address."<br>";
-        echo $request->hotel_comment."<br>";
+        try {
+            $hotel = new Hotels;
+            $hotel->hotel_name = $request->hotel_name;
+            $hotel->hotel_address = $request->hotel_address;
+            $hotel->hotel_comment = $request->hotel_comment;
+            $hotel->save();
+            echo "Insert Complate";
+        } catch (Exception $e) {
+            echo $e;
+        }
     }
 
     /**

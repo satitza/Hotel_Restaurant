@@ -4,20 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHotelTable extends Migration
-{
+class CreateHotelsTable extends Migration {
+
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('hotel', function (Blueprint $table) {
+    public function up() {
+        Schema::create('hotels', function (Blueprint $table) {
             $table->increments('id');
             $table->string('hotel_name', 100);
-            $table->string('hotel_address', 300);
-            $table->string('hotel_comment', 300);
+            $table->string('hotel_address', 300)->nullable();
+            $table->text('hotel_comment')->nullable();
             $table->timestamps();
         });
     }
@@ -27,8 +26,8 @@ class CreateHotelTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('hotel');
+    public function down() {
+        Schema::dropIfExists('hotels');
     }
+
 }
