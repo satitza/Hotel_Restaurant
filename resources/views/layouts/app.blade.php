@@ -59,14 +59,47 @@
                             <!--Loged-->
                             @else
                             <li class="dropdown">
-                                <a href="{{ url('hotel') }}">Add Hotel</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Manage Hotel <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu"> 
+                                    <li>
+                                        <a href="{{ url('hotel') }}">Add Hotel</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">List Hotel</a>
+                                    </li>
+                                </ul>
                             </li>
+                            
                             <li class="dropdown">
-                                <a href="#">Add Restaurant</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Manage Restaurant <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu"> 
+                                    <li>
+                                        <a href="#">Add Restaurant</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">List Restaurant</a>
+                                    </li>
+                                </ul>
                             </li>
+                            
                             <li class="dropdown">
-                                <a href="#">Add Offer</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Manage Offer <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu"> 
+                                    <li>
+                                        <a href="#">Add Offer</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">List Offer</a>
+                                    </li>
+                                </ul>
                             </li>
+                          
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>

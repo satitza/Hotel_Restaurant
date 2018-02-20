@@ -5,8 +5,6 @@
         <group>
             <file>file:/C:/xampp/htdocs/web/Hotel_Restaurant/routes/web.php</file>
             <file>file:/C:/xampp/htdocs/web/Hotel_Restaurant/config/app.php</file>
-            <file>file:/C:/xampp/htdocs/web/Hotel_Restaurant/database/seeds/DatabaseSeeder.php</file>
-            <file>file:/C:/xampp/htdocs/web/Hotel_Restaurant/resources/views/hotel/index.blade.php</file>
             <file>file:/C:/xampp/htdocs/web/Hotel_Restaurant/app/Http/Controllers/HotelController.php</file>
         </group>
     </open-files>

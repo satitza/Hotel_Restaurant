@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Hotels;
 
@@ -35,14 +36,17 @@ class HotelController extends Controller {
      */
 
     public function store(Request $request) {
+        DB::beginTransaction();
         try {
             $hotel = new Hotels;
             $hotel->hotel_name = $request->hotel_name;
             $hotel->hotel_address = $request->hotel_address;
             $hotel->hotel_comment = $request->hotel_comment;
             $hotel->save();
-            echo "Insert Complate";
+            DB::commit();
+            return view('hotel.index');
         } catch (Exception $e) {
+            DB::rollback();
             echo $e;
         }
     }
