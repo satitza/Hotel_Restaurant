@@ -52,13 +52,14 @@
                             <!--Never Login-->
                             @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <!--li><a href="{{ route('register') }}">Register</a></li-->
+                            <!--Register-->
+                            <li><a href="{{ route('register') }}">Register</a></li>
 
 
                             <!--Loged-->
                             @else
                             <li class="dropdown">
-                                <a href="#">Add Hotel</a>
+                                <a href="{{ url('hotel') }}">Add Hotel</a>
                             </li>
                             <li class="dropdown">
                                 <a href="#">Add Restaurant</a>
