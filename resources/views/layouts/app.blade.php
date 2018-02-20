@@ -67,7 +67,7 @@
                                         <a href="{{ url('hotel') }}">Add Hotel</a>
                                     </li>
                                     <li>
-                                        <a href="#">List Hotel</a>
+                                        <a href="{{ url('list_hotel') }}">List Hotel</a>
                                     </li>
                                 </ul>
                             </li>

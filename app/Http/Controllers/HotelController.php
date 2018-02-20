@@ -6,7 +6,6 @@ use DB;
 use Illuminate\Http\Request;
 use App\Hotels;
 
-
 class HotelController extends Controller {
 
     public function __construct() {
@@ -22,13 +21,19 @@ class HotelController extends Controller {
         return view('hotel.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+    /*
+      Show list hotel from database
      */
+
     public function create() {
-        
+        try {
+            $hotels = Hotels::paginate(5);
+            return view('hotel.list', [
+                'hotels' => $hotels
+            ]);
+        } catch (Exception $e) {
+            echo $e;
+        }
     }
 
     /*
@@ -44,7 +49,7 @@ class HotelController extends Controller {
             $hotel->hotel_comment = $request->hotel_comment;
             $hotel->save();
             DB::commit();
-            return view('hotel.index');
+            return view('hotel.list');
         } catch (Exception $e) {
             DB::rollback();
             echo $e;

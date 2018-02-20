@@ -1,3 +1,4 @@
+@extends('layouts.app')
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
@@ -65,6 +66,7 @@
         </style>
     </head>
     <body>
+        @section('content')
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
