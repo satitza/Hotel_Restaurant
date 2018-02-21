@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Hotels;
+use App\Actives;
 
 class HotelController extends Controller {
 
@@ -18,7 +19,14 @@ class HotelController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('hotel.index');
+        try {
+            $actives = Actives::orderBy('id', 'ASC')->get();
+            return view('hotel.index', [
+                'actives' => $actives,
+            ]);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /*
@@ -45,7 +53,7 @@ class HotelController extends Controller {
         try {
             $hotel = new Hotels;
             $hotel->hotel_name = $request->hotel_name;
-            $hotel->hotel_address = $request->hotel_address;
+            $hotel->active = $request->active_id;
             $hotel->hotel_comment = $request->hotel_comment;
             $hotel->save();
             DB::commit();
@@ -76,7 +84,7 @@ class HotelController extends Controller {
             return view('hotel.edit', [
                 'hotel_id' => $hotels->id,
                 'hotel_name' => $hotels->hotel_name,
-                'hotel_address' => $hotels->hotel_address,
+                'active' => $hotels->active,
                 'hotel_comment' => $hotels->hotel_comment
             ]);
         } catch (Exception $e) {

@@ -15,7 +15,7 @@
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">Hotel Name</th>
-                                <th scope="col">Hotel Address</th>
+                                <th scope="col">Hotel Status</th>
                                 <th scope="col">Hotel Comment</th>
                                 <th scope="col1">Edit Hotel</th>
                                 <th scope="col1">Delete</th>
@@ -26,7 +26,7 @@
                             <tr>
                                 <th></th>
                                 <td>{{ $hotel->hotel_name }}</td>
-                                <td>{{ $hotel->hotel_address }}</td>
+                                <td>{{ $hotel->active }}</td>
                                 <td>{{ $hotel->hotel_comment }}</td>
                                 <td>
                                     <?php /*

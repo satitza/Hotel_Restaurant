@@ -23,14 +23,22 @@
                                 <tr>
                                     <td>{{ Form::label('lb_hotel_name', 'ชื่อโรงแรม') }}</td>
                                     <td>{{ Form::text('hotel_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อโรงแรม']) }}</td>
-                                </tr>                           
+                                </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_address', 'ที่อยู่') }}</td>
-                                    <td>{{ Form::textarea('hotel_address', null, ['class' => 'form-control', 'placeholder' => 'ที่อยู่โรงแรม']) }}</td>
+                                    <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
+                                    <td>
+                                        <div class="form-group">                     
+                                            <select class="form-control" name="active_id">
+                                                @foreach ($actives as $active)
+                                                <option value="{{ $active->id }}"> {{ $active->active }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_hotel_comment', 'หมายเหตุ') }}</td>
-                                    <td>{{ Form::text('hotel_comment', null, ['class' => 'form-control', 'placeholder' => 'หมายเหตุ']) }}</td>
+                                    <td>{{ Form::textarea('hotel_comment', null, ['class' => 'form-control', 'placeholder' => 'หมายเหตุ']) }}</td>
                                 </tr>
                             </tbody>
                         </table>
