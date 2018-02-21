@@ -67,7 +67,7 @@
                                         <a href="{{ url('hotel') }}">Add Hotel</a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('list_hotel') }}">List Hotel</a>
+                                        <a href="{{ url('hotel/create') }}">List Hotel</a>
                                     </li>
                                 </ul>
                             </li>
@@ -78,10 +78,10 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu"> 
                                     <li>
-                                        <a href="#">Add Restaurant</a>
+                                        <a href="{{ url('restaurant') }}">Add Restaurant</a>
                                     </li>
                                     <li>
-                                        <a href="#">List Restaurant</a>
+                                        <a href="{{ url('restaurant/create') }}">List Restaurant</a>
                                     </li>
                                 </ul>
                             </li>

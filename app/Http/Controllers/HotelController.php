@@ -27,12 +27,12 @@ class HotelController extends Controller {
 
     public function create() {
         try {
-            $hotels = Hotels::paginate(5);
+            $hotels = Hotels::paginate(10);
             return view('hotel.list', [
                 'hotels' => $hotels
             ]);
         } catch (Exception $e) {
-            echo $e;
+            echo $e->getMessage();
         }
     }
 
@@ -49,10 +49,10 @@ class HotelController extends Controller {
             $hotel->hotel_comment = $request->hotel_comment;
             $hotel->save();
             DB::commit();
-            return view('hotel.list');
+            return redirect()->action('HotelController@create');
         } catch (Exception $e) {
             DB::rollback();
-            echo $e;
+            echo $e->getMessage();
         }
     }
 
@@ -66,35 +66,59 @@ class HotelController extends Controller {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+    /*
+      Query hotel where id and return to view edit page
      */
+
     public function edit($id) {
-        //
+        try {
+            $hotels = Hotels::find($id);
+            return view('hotel.edit', [
+                'hotel_id' => $hotels->id,
+                'hotel_name' => $hotels->hotel_name,
+                'hotel_address' => $hotels->hotel_address,
+                'hotel_comment' => $hotels->hotel_comment
+            ]);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+      Update hotel information to database
      */
     public function update(Request $request, $id) {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('hotels')
+                    ->where('id', $id)
+                    ->update([
+                        'hotel_name' => $request->hotel_name,
+                        'hotel_address' => $request->hotel_address,
+                        'hotel_comment' => $request->hotel_comment
+            ]);
+            DB::commit();
+            return redirect()->action('HotelController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            echo $e->getMessage();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+    /*
+      Delete hotel where id
      */
+
     public function destroy($id) {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('hotels')->where('id', $id)->delete();
+            DB::commit();
+            return redirect()->action('HotelController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            echo $e->getMessage();
+        }
     }
 
 }

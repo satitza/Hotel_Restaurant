@@ -20,6 +20,11 @@
   }
  *  */
 Route::resource('hotel', 'HotelController');
+Route::get('delete_hotel/{id}', 'HotelController@destroy');
+
+Route::resource('restaurant', 'RestaurantsController');
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,7 +33,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('list_hotel', 'HotelController@create');
+
 
 
 
