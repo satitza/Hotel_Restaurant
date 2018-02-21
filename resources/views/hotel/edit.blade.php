@@ -27,10 +27,13 @@
                                 <tr>
                                     <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
                                     <td>
-                                        <div class="form-group">                     
+                                        <div class="form-group">                                                              
                                             <select class="form-control" name="active_id">
-                                                <option value=""> {{ $active }} </option>
-                                            </select>
+                                                @foreach ($actives as $active) 
+                                                <!--   -->
+                                                <option value="{{ $active->id}} "> {{ $active->active }} </option>
+                                                @endforeach
+                                            </select>                                 
                                         </div>
                                     </td>
                                 </tr>

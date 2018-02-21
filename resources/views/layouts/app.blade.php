@@ -60,7 +60,7 @@
                             @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    Manage Hotel <span class="caret"></span>
+                                    Hotel <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu"> 
                                     <li>
@@ -74,7 +74,7 @@
                             
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    Manage Restaurant <span class="caret"></span>
+                                    Restaurant <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu"> 
                                     <li>
@@ -88,17 +88,61 @@
                             
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    Manage Offer <span class="caret"></span>
+                                    Set Menu <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu"> 
                                     <li>
-                                        <a href="#">Add Offer</a>
+                                        <a href="#">Add</a>
                                     </li>
                                     <li>
-                                        <a href="#">List Offer</a>
+                                        <a href="#">List</a>
                                     </li>
                                 </ul>
                             </li>
+                            
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Book Check Balance <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu"> 
+                                    <li>
+                                        <a href="#">Add</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">List</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Report <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu"> 
+                                    <li>
+                                        <a href="#">Add</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">List</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Setting <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu"> 
+                                    <li>
+                                        <a href="#">Add</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">List</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            
                           
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
