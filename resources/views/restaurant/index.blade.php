@@ -37,13 +37,25 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>{{ Form::label('lb_restaurant_active', 'สถานะ') }}</td>
+                                    <td>
+                                        <div class="form-group">                     
+                                            <select class="form-control" name="hotel_id">
+                                                @foreach ($actives as $active)
+                                                <option value="{{ $active->id }}"> {{ $active->active }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>{{ Form::label('lb_restaurant_comment', 'หมายเหตุ') }}</td>
                                     <td>{{ Form::textarea('restaurant_comment', null, ['class' => 'form-control', 'placeholder' => 'หมายเหตุ']) }}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Add Hotel', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Add Restaurant', ['class' => 'btn btn-primary']) }}
                         </center>
                         {{ csrf_field() }}
                         {!! Form::close() !!}

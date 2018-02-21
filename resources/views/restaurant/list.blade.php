@@ -16,6 +16,7 @@
                                 <th scope="col"></th>
                                 <th scope="col">Restaurant Name</th>
                                 <th scope="col">Hotel Name</th>
+                                <th scope="col">Active</th>
                                 <th scope="col">Restaurant Comment</th>
                                 <th scope="col1">Edit Hotel</th>
                                 <th scope="col1">Delete</th>
@@ -24,6 +25,7 @@
 
                             <tr>
                                 <th></th>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

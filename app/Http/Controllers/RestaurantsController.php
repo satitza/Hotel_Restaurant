@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Hotels;
+use App\Actives;
 use App\Restaurants;
 use Illuminate\Http\Request;
 
@@ -21,8 +22,10 @@ class RestaurantsController extends Controller {
     public function index() {
         try {
             $hotels = Hotels::orderBy('hotel_name', 'ASC')->get();
+            $actives = Actives::orderBy('id', 'ASC')->get();
             return view('restaurant.index', [
                 'hotels' => $hotels,
+                'actives' => $actives
             ]);
         } catch (Exception $e) {
             echo $e->getMessage();
