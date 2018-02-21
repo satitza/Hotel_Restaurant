@@ -35,7 +35,11 @@ class RestaurantsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('restaurant.list');
+        try {
+            return view('restaurant.list');
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**

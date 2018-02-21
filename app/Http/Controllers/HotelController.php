@@ -27,7 +27,7 @@ class HotelController extends Controller {
 
     public function create() {
         try {
-            $hotels = Hotels::paginate(10);
+            $hotels = DB::table('hotels')->orderBy('id', 'asc')->paginate(10);
             return view('hotel.list', [
                 'hotels' => $hotels
             ]);

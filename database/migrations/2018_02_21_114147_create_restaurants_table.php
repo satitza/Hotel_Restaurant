@@ -18,6 +18,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('restaurant_name', 100);
             $table->integer('hotel_id')->unsigned();
             $table->foreign('hotel_id')->references('id')->on('hotels');
+            $table->integer('active');
             $table->text('restaurant_comment')->nullable();
             $table->timestamps();
         });
