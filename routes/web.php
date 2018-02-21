@@ -23,6 +23,7 @@ Route::resource('hotel', 'HotelController');
 Route::get('delete_hotel/{id}', 'HotelController@destroy');
 
 Route::resource('restaurant', 'RestaurantsController');
+Route::get('delete_restaurant/{id}', 'RestaurantsController@destroy');
 
 
 

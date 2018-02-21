@@ -22,36 +22,36 @@
                                 <th scope="col1">Delete</th>
                             </tr>
                         </thead>
+                        @foreach ($restaurants as $restaurant)
+                        <tr>
+                            <th></th>
+                            <td>{{ $restaurant->restaurant_name }}</td>
+                            <td>{{ $restaurant->hotel_name }}</td>
+                            <td>{{ $restaurant->active }}</td>
+                            <td>{{ $restaurant->restaurant_comment }}</td>
+                            <td>
+                                <?php /*
+                                  {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
+                                 */ ?>
+                                <button type="button" class="btn btn-info">
+                                    <a href="{{ url('restaurant/'.$restaurant->id.'/edit') }}">
+                                        Edit Hotel
+                                    </a>
+                                </button>
 
-                            <tr>
-                                <th></th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <?php /*
-                                      {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
-                                     */ ?>
-                                    <button type="button" class="btn btn-info">
-                                        <a href="{{ url('hotel/' .'/edit') }}">
-                                            Edit Hotel
-                                        </a>
-                                    </button>
-
-                                </td>
-                                <td>                      
-                                    <button type="submit" class="btn btn-danger">
-                                        <a href="{{ url('delete_hotel/') }}" onclick="return confirm('Confrim Delete ?')">
-                                            Delete Hotel
-                                        </a> 
-                                    </button>
-                                </td>
-                            </tr>
-          
+                            </td>
+                            <td>                      
+                                <button type="submit" class="btn btn-danger">
+                                    <a href="{{ url('delete_restaurant/'.$restaurant->id ) }}" onclick="return confirm('Confrim Delete ?')">
+                                        Delete Hotel
+                                    </a> 
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
                         </tbody>
                     </table>
-           
+
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                 </div>

@@ -39,7 +39,14 @@ class RestaurantsController extends Controller {
      */
     public function create() {
         try {
-            return view('restaurant.list');
+            $restaurants = DB::table('restaurants')
+                            ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'actives.active', 'restaurant_comment')
+                            ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
+                            ->join('actives', 'restaurants.active', '=', 'actives.id')
+                            ->orderBy('restaurants.id', 'asc')->paginate(10);
+            return view('restaurant.list', [
+                'restaurants' => $restaurants
+            ]);
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -57,6 +64,7 @@ class RestaurantsController extends Controller {
             $restaurants = new Restaurants;
             $restaurants->restaurant_name = $request->restaurant_name;
             $restaurants->hotel_id = $request->hotel_id;
+            $restaurants->active = $request->active_id;
             $restaurants->restaurant_comment = $request->restaurant_comment;
             $restaurants->save();
             DB::commit();
@@ -84,7 +92,7 @@ class RestaurantsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-//
+        echo $id;
     }
 
     /**
@@ -105,7 +113,7 @@ class RestaurantsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-//
+        echo $id;
     }
 
 }

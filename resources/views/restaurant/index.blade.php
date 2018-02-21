@@ -40,7 +40,7 @@
                                     <td>{{ Form::label('lb_restaurant_active', 'สถานะ') }}</td>
                                     <td>
                                         <div class="form-group">                     
-                                            <select class="form-control" name="hotel_id">
+                                            <select class="form-control" name="active_id">
                                                 @foreach ($actives as $active)
                                                 <option value="{{ $active->id }}"> {{ $active->active }}</option>
                                                 @endforeach
