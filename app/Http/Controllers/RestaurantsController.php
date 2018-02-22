@@ -130,21 +130,27 @@ class RestaurantsController extends Controller {
         //echo $request->hotel_id."<br>";
         //echo $request->active_id."<br>";
         //echo $request->restaurant_comment."<br>";
-        DB::beginTransaction();
-        try {
-            DB::table('restaurants')
-                    ->where('id', $id)
-                    ->update([
-                        'restaurant_name' => $request->restaurant_name,
-                        'hotel_id' => $request->hotel_id,
-                        'active' => $request->active_id,
-                        'restaurant_comment' => $request->restaurant_comment
-            ]);
-            DB::commit();
-            return redirect()->action('RestaurantsController@create');
-        } catch (Exception $e) {
-            DB::rollback();
-            return view('error.index')->with('error', $e);
+        if ($request->hotel_id == "please_selected_hotel") {
+            return view('error.index')->with('error', 'Please selected hotel');
+        } elseif ($request->active_id == "please_selected_active") {
+            return view('error.index')->with('error', 'Please selected active');
+        } else {
+            DB::beginTransaction();
+            try {
+                DB::table('restaurants')
+                        ->where('id', $id)
+                        ->update([
+                            'restaurant_name' => $request->restaurant_name,
+                            'hotel_id' => $request->hotel_id,
+                            'active' => $request->active_id,
+                            'restaurant_comment' => $request->restaurant_comment
+                ]);
+                DB::commit();
+                return redirect()->action('RestaurantsController@create');
+            } catch (Exception $e) {
+                DB::rollback();
+                return view('error.index')->with('error', $e);
+            }
         }
     }
 
@@ -155,7 +161,16 @@ class RestaurantsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        echo $id;
+        //echo $id;
+        DB::beginTransaction();
+        try {
+            DB::table('restaurants')->where('id', $id)->delete();
+            DB::commit();
+            return redirect()->action('RestaurantsController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            echo $e->getMessage();
+        }
     }
 
 }

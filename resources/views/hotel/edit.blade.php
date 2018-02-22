@@ -31,15 +31,37 @@
                                             {{ Form::text('hotel_active', $hotel_active , ['class' => 'form-control', 'placeholder' => 'ชื่อโรงแรม', 'readonly']) }}
                                         </div>
                                         <br>
-                                        <div class="form-group">                                                              
-                                            <select class="form-control" name="active_id">
-                                                @foreach ($actives as $active) 
+                                        <div class="form-group">
+                                            <?php /*
+                                              @foreach ($actives as $active)
+                                              {{ Form::select('myselect', $active, null, ['class' => 'form-control', 'placeholder' => 'Please Select'])}}
+                                              @endforeach
+                                             */ ?>      
+
+
+                                            <select class="form-control" name="active_id" id="select-active">
+                                                <option value="please_selected">Please Selected</option>
+                                                @foreach ($actives as $active)
                                                 <!--   -->
                                                 <option value="{{ $active->id}} "> {{ $active->active }} </option>
                                                 @endforeach
-                                            </select>                                 
+                                            </select>
+
+
                                         </div>
                                     </td>
+                                    <!--td>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#select-active").hide();
+                                                //console.log("ready!");
+                                                $("#button-edit").click(function () {
+                                                    $("#select-active").show();
+                                                });
+                                            });
+                                        </script>
+                                        <input type="button" value="edit" id="button-edit" class="btn btn-info"/>
+                                    </td-->
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_hotel_comment', 'หมายเหตุ') }}</td>

@@ -86,8 +86,10 @@ class HotelController extends Controller {
             $hotels = DB::table('hotels')
                             ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
                             ->join('actives', 'hotels.active', '=', 'actives.id')
-                            ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->get();        
-            foreach ($hotels as $hotel){}
+                            ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->get();
+            foreach ($hotels as $hotel) {
+                
+            }
             $actives = Actives::orderBy('id', 'ASC')->get();
             return view('hotel.edit', [
                         'hotel_id' => $hotel->id,
@@ -104,20 +106,24 @@ class HotelController extends Controller {
       Update hotel information to database
      */
     public function update(Request $request, $id) {
-        DB::beginTransaction();
-        try {
-            DB::table('hotels')
-                    ->where('id', $id)
-                    ->update([
-                        'hotel_name' => $request->hotel_name,
-                        'active' => $request->active_id,
-                        'hotel_comment' => $request->hotel_comment
-            ]);
-            DB::commit();
-            return redirect()->action('HotelController@create');
-        } catch (Exception $e) {
-            DB::rollback();
-            echo $e->getMessage();
+        if ($request->active_id == "please_selected") {
+            return view('error.index')->with('error', 'Please select active');
+        } else {
+            DB::beginTransaction();
+            try {
+                DB::table('hotels')
+                        ->where('id', $id)
+                        ->update([
+                            'hotel_name' => $request->hotel_name,
+                            'active' => $request->active_id,
+                            'hotel_comment' => $request->hotel_comment
+                ]);
+                DB::commit();
+                return redirect()->action('HotelController@create');
+            } catch (Exception $e) {
+                DB::rollback();
+                echo $e->getMessage();
+            }
         }
     }
 

@@ -33,6 +33,7 @@
                                         <br>
                                         <div class="form-group">                                                              
                                             <select class="form-control" name="hotel_id">
+                                                <option value="please_selected_hotel">Please Selected Hotel</option>
                                                 @foreach ($hotels as $hotel)
                                                 <!--   -->
                                                 <option value="{{ $hotel->id }}"> {{ $hotel->hotel_name }} </option>
@@ -50,6 +51,7 @@
                                         <br>
                                         <div class="form-group">                                                              
                                             <select class="form-control" name="active_id">
+                                                <option value="please_selected_active">Please Selected Active</option>
                                                 @foreach ($actives as $active)
                                                 <!--   -->
                                                 <option value="{{ $active->id }}"> {{ $active->active }} </option>
