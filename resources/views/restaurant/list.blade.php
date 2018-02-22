@@ -3,11 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">List Restaurant</div>
-
                 <div class="panel-body"> 
                     <!--{!! Form::open(['url' => 'edit_hotel', 'files' => false]) !!} -->
                     <table class="table">                  
@@ -18,7 +16,7 @@
                                 <th scope="col">Hotel Name</th>
                                 <th scope="col">Active</th>
                                 <th scope="col">Restaurant Comment</th>
-                                <th scope="col1">Edit Hotel</th>
+                                <th scope="col1">Edit Restaurant</th>
                                 <th scope="col1">Delete</th>
                             </tr>
                         </thead>
@@ -35,7 +33,7 @@
                                  */ ?>
                                 <button type="button" class="btn btn-info">
                                     <a href="{{ url('restaurant/'.$restaurant->id.'/edit') }}">
-                                        Edit Hotel
+                                        Edit Restaurant
                                     </a>
                                 </button>
 
@@ -43,7 +41,7 @@
                             <td>                      
                                 <button type="submit" class="btn btn-danger">
                                     <a href="{{ url('delete_restaurant/'.$restaurant->id ) }}" onclick="return confirm('Confrim Delete ?')">
-                                        Delete Hotel
+                                        Delete Restaurant
                                     </a> 
                                 </button>
                             </td>

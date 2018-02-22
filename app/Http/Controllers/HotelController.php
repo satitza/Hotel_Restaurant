@@ -81,16 +81,20 @@ class HotelController extends Controller {
       Query hotel where id and return to view edit page
      */
 
-    public function edit($id) {      
+    public function edit($id) {
         try {
-            $hotels = Hotels::find($id);
-            $actives = Actives::orderBy('id', 'ASC')->get();                    
+            $hotels = DB::table('hotels')
+                            ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
+                            ->join('actives', 'hotels.active', '=', 'actives.id')
+                            ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->get();        
+            foreach ($hotels as $hotel){}
+            $actives = Actives::orderBy('id', 'ASC')->get();
             return view('hotel.edit', [
-                'hotel_id' => $hotels->id,
-                'hotel_name' => $hotels->hotel_name,
-                'hotel_active' => $hotels->active,
-                'hotel_comment' => $hotels->hotel_comment
-            ])->with('actives', $actives);
+                        'hotel_id' => $hotel->id,
+                        'hotel_name' => $hotel->hotel_name,
+                        'hotel_active' => $hotel->active,
+                        'hotel_comment' => $hotel->hotel_comment
+                    ])->with('actives', $actives);
         } catch (Exception $e) {
             echo $e->getMessage();
         }

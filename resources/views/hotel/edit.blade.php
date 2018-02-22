@@ -27,6 +27,10 @@
                                 <tr>
                                     <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
                                     <td>
+                                        <div>
+                                            {{ Form::text('hotel_active', $hotel_active , ['class' => 'form-control', 'placeholder' => 'ชื่อโรงแรม', 'readonly']) }}
+                                        </div>
+                                        <br>
                                         <div class="form-group">                                                              
                                             <select class="form-control" name="active_id">
                                                 @foreach ($actives as $active) 
