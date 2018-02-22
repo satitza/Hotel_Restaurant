@@ -92,27 +92,19 @@ class RestaurantsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        /*
-          $restaurants = DB::table('restaurants')
-          ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'actives.active', 'restaurant_comment')
-          ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
-          ->join('actives', 'restaurants.active', '=', 'actives.id')
-          ->orderBy('restaurants.id', 'asc')->where('restaurants.active', '1')->paginate(10);
-          return view('restaurant.list', [
-          'restaurants' => $restaurants
-          ]);
-         */
         try {
             $restaurants = DB::table('restaurants')
                             ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'actives.active', 'restaurant_comment')
                             ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                             ->join('actives', 'restaurants.active', '=', 'actives.id')
-                            ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->get();         
-            foreach ($restaurants as $restaurant){}
-               
+                            ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->get();
+            foreach ($restaurants as $restaurant) {
+                
+            }
+
             $actives = Actives::orderBy('id', 'ASC')->get();
             $hotels = Hotels::orderBy('id', 'ASC')->where('active', '1')->get();
-            
+
             return view('restaurant.edit', [
                         'id' => $restaurant->id,
                         'restaurant_name' => $restaurant->restaurant_name,
@@ -133,7 +125,27 @@ class RestaurantsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        echo $id;
+        //echo $id."<br>";
+        //echo $request->restaurant_name."<br>";
+        //echo $request->hotel_id."<br>";
+        //echo $request->active_id."<br>";
+        //echo $request->restaurant_comment."<br>";
+        DB::beginTransaction();
+        try {
+            DB::table('restaurants')
+                    ->where('id', $id)
+                    ->update([
+                        'restaurant_name' => $request->restaurant_name,
+                        'hotel_id' => $request->hotel_id,
+                        'active' => $request->active_id,
+                        'restaurant_comment' => $request->restaurant_comment
+            ]);
+            DB::commit();
+            return redirect()->action('RestaurantsController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**

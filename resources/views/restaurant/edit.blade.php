@@ -28,7 +28,7 @@
                                     <td>{{ Form::label('lb_hotel_id', 'โรงแรม') }}</td>
                                     <td>
                                         <div>
-                                            {{ Form::text('restaurant_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร', 'readonly']) }}
+                                            {{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร', 'readonly']) }}
                                         </div>
                                         <br>
                                         <div class="form-group">                                                              
@@ -45,7 +45,7 @@
                                     <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
                                     <td>
                                         <div>
-                                            {{ Form::text('restaurant_name', $active, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร', 'readonly']) }}
+                                            {{ Form::text('active', $active, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร', 'readonly']) }}
                                         </div>
                                         <br>
                                         <div class="form-group">                                                              

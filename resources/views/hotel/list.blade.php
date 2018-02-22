@@ -4,6 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Search Option</div>
+                <div class="panel-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
 
             <div class="panel panel-default">
                 <div class="panel-heading">List Hotel</div>
