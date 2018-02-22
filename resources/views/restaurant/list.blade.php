@@ -59,7 +59,7 @@
                         @endforeach
                         </tbody>
                     </table>
-
+                    {!! $restaurants->render() !!}  
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                 </div>

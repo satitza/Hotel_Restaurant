@@ -2,15 +2,23 @@
 
 use Illuminate\Database\Seeder;
 
-class RestaurantListSeeder extends Seeder
-{
+class RestaurantListSeeder extends Seeder {
+
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
-        //
+    public function run() {
+           
+        for ($i = 1; $i < 30; $i++) {
+            $restaurant = New App\Restaurants();
+            $restaurant->restaurant_name = 'restaurant_' . $i;
+            $restaurant->hotel_id = $i;
+            $restaurant->active = '1';
+            $restaurant->restaurant_comment = 'restaurant_' . $i;
+            $restaurant->save();
+        }
     }
+
 }
