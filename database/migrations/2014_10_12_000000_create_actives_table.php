@@ -14,6 +14,9 @@ class CreateActivesTable extends Migration
     public function up()
     {
         Schema::create('actives', function (Blueprint $table) {
+            
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->string('active', 100);
             $table->timestamps();

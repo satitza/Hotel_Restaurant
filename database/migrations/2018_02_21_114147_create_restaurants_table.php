@@ -14,13 +14,20 @@ class CreateRestaurantsTable extends Migration
     public function up()
     {
         Schema::create('restaurants', function (Blueprint $table) {
+            
+            $table->engine = 'InnoDB';
+            
             $table->increments('id');
             $table->string('restaurant_name', 100);
-            $table->integer('hotel_id')->unsigned();
-            $table->foreign('hotel_id')->references('id')->on('hotels');
-            $table->integer('active');
+            $table->integer('hotel_id')->unsigned(); 
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
+            $table->integer('active')->unsigned();
+            $table->foreign('active')->references('id')->on('actives')->onDelete('cascade');
             $table->text('restaurant_comment')->nullable();
             $table->timestamps();
+            
+            
+            //$table->foreign('active')->references('id')->on('actives')->onDelete('cascade');
         });
     }
 
