@@ -48,7 +48,7 @@
 
 
                                             <select class="form-control" name="active_id" id="select-active">
-                                                <option value="{{ $hotel_active_id }}" >{{ $hotel_active }}</option>
+                                                <option value="{{ $hotel_active_id }}">{{ $hotel_active }}</option>
                                                 @foreach ($actives as $active)
                                                 <!--   -->
                                                 <option value="{{ $active->id}} "> {{ $active->active }} </option>

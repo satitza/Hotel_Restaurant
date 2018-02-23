@@ -95,7 +95,7 @@ class RestaurantsController extends Controller {
     public function edit($id) {
         try {
             $restaurants = DB::table('restaurants')
-                            ->select('restaurants.id', 'restaurant_name', 'hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
+                            ->select('restaurants.id', 'restaurant_name', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
                             ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                             ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                             ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->get();

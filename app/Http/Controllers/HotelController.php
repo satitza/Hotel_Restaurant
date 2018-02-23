@@ -85,7 +85,7 @@ class HotelController extends Controller {
     public function edit($id) {
         try {
             $hotels = DB::table('hotels')
-                            ->select('hotels.id', 'hotel_name', 'active_id', 'actives.active', 'hotel_comment')
+                            ->select('hotels.id', 'hotel_name', 'hotels.active_id', 'actives.active', 'hotel_comment')
                             ->join('actives', 'hotels.active_id', '=', 'actives.id')
                             ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->get();
             foreach ($hotels as $hotel) {

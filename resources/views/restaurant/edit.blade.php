@@ -41,7 +41,7 @@
                                       
                                         <div class="form-group">                                                              
                                             <select class="form-control" name="hotel_id">
-                                                <option value="{{$hotel_id }}" >{{ $hotel_name }}</option>
+                                                <option value="{{$hotel_id }}">{{ $hotel_name }}</option>
                                                 @foreach ($hotels as $hotel)
                                                 <!--   -->
                                                 <option value="{{ $hotel->id }}"> {{ $hotel->hotel_name }} </option>
@@ -59,7 +59,7 @@
                                         
                                         <div class="form-group">                                                              
                                             <select class="form-control" name="active_id">
-                                                <option value="{{ $active_id }}" >{{ $active }}</option>
+                                                <option value="{{ $active_id }}">{{ $active }}</option>
                                                 @foreach ($actives as $active)
                                                 <!--   -->
                                                 <option value="{{ $active->id }}"> {{ $active->active }} </option>
