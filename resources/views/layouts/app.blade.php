@@ -91,10 +91,10 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu"> 
                                     <li>
-                                        <a href="#">Add</a>
+                                        <a href="{{ url('set_menu') }}">Add Menu</a>
                                     </li>
                                     <li>
-                                        <a href="#">List</a>
+                                        <a href="{{ url('set_menu/create') }}">List Menu</a>
                                     </li>
                                 </ul>
                             </li>

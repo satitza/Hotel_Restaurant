@@ -25,11 +25,15 @@ Route::get('delete_hotel/{id}', 'HotelController@destroy');
 Route::resource('restaurant', 'RestaurantsController');
 Route::get('delete_restaurant/{id}', 'RestaurantsController@destroy');
 
+Route::resource('set_menu', 'SetMenusController');
+Route::get('delete_set_menu/{id}', 'SetMenusController@destroy');
+
+
+
+
 Route::get('test', function(){
     return view('test.index');
 });
-
-
 
 Route::get('/', function () {
     return view('welcome');
