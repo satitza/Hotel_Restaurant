@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use App\Http\Requests\HotelsRequest;
 use App\Hotels;
 use App\Actives;
 
@@ -51,7 +52,7 @@ class HotelController extends Controller {
       Insert hotel information into database
      */
 
-    public function store(Request $request) {
+    public function store(HotelsRequest $request) {
         DB::beginTransaction();
         try {
             $hotel = new Hotels;
@@ -105,25 +106,22 @@ class HotelController extends Controller {
     /**
       Update hotel information to database
      */
-    public function update(Request $request, $id) {
-        if ($request->active_id == "please_selected") {
-            return view('error.index')->with('error', 'Please select active');
-        } else {
-            DB::beginTransaction();
-            try {
-                DB::table('hotels')
-                        ->where('id', $id)
-                        ->update([
-                            'hotel_name' => $request->hotel_name,
-                            'active' => $request->active_id,
-                            'hotel_comment' => $request->hotel_comment
-                ]);
-                DB::commit();
-                return redirect()->action('HotelController@create');
-            } catch (Exception $e) {
-                DB::rollback();
-                echo $e->getMessage();
-            }
+    public function update(HotelsRequest $request, $id) {
+
+        DB::beginTransaction();
+        try {
+            DB::table('hotels')
+                    ->where('id', $id)
+                    ->update([
+                        'hotel_name' => $request->hotel_name,
+                        'active' => $request->active_id,
+                        'hotel_comment' => $request->hotel_comment
+            ]);
+            DB::commit();
+            return redirect()->action('HotelController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            echo $e->getMessage();
         }
     }
 

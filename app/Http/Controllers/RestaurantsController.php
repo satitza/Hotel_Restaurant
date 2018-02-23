@@ -21,7 +21,7 @@ class RestaurantsController extends Controller {
      */
     public function index() {
         try {
-            $hotels = Hotels::orderBy('hotel_name', 'ASC')->where('active', '1')->get();
+            $hotels = Hotels::orderBy('hotel_name', 'ASC')->get();
             $actives = Actives::orderBy('id', 'ASC')->get();
             return view('restaurant.index', [
                 'hotels' => $hotels,
@@ -43,7 +43,7 @@ class RestaurantsController extends Controller {
                             ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'actives.active', 'restaurant_comment')
                             ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                             ->join('actives', 'restaurants.active', '=', 'actives.id')
-                            ->orderBy('restaurants.id', 'asc')->where('restaurants.active', '1')->paginate(10);
+                            ->orderBy('restaurants.id', 'asc')->paginate(10);
             return view('restaurant.list', [
                 'restaurants' => $restaurants
             ]);

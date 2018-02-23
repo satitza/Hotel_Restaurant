@@ -13,9 +13,11 @@ class CreateHotelsTable extends Migration {
      */
     public function up() {
         Schema::create('hotels', function (Blueprint $table) {
-            
+
             $table->engine = 'InnoDB';
-            
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
+
             $table->increments('id');
             $table->string('hotel_name', 100);
             $table->integer('active')->unsigned();

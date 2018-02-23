@@ -3,8 +3,16 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-
+        <div class="col-md-12">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <center>{{ $error }}</center>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <div class="panel panel-default">
                 <div class="panel-heading">Add Hotel</div>
 
@@ -29,6 +37,7 @@
                                     <td>
                                         <div class="form-group">                     
                                             <select class="form-control" name="active_id">
+                                                <option value="" disabled selected>please_selected</option>
                                                 @foreach ($actives as $active)
                                                 <option value="{{ $active->id }}"> {{ $active->active }} </option>
                                                 @endforeach
