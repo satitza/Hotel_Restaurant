@@ -30,8 +30,8 @@ class CreateSetMenusTable extends Migration {
             $table->date('menu_date_start')->nullable();
             $table->date('menu_date_end')->nullable();
                                   
-            $table->integer('menu_date_select')->unsigned();
-            $table->foreign('menu_date_select')->references('id')->on('days')->onDelete('cascade');
+            $table->json('menu_date_select')->nullable();
+            //$table->foreign('menu_date_select')->references('id')->on('days')->onDelete('cascade');
                       
             $table->integer('menu_time_lunch_start')->unsigned();
             //$table->foreign('menu_time_lunch_start')->references('id')->on('time_lunch');
