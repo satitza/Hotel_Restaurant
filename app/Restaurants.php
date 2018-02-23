@@ -13,6 +13,6 @@ class Restaurants extends Model
     }
     
     public function Actives(){
-        return $this->belongsTo(Actives::class, 'active');
+        return $this->belongsTo(Actives::class, 'active_id');
     }
 }

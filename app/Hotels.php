@@ -9,7 +9,7 @@ class Hotels extends Model {
     protected $table = 'hotels';
     
     public function Actives(){
-        return $this->belongsTo(Actives::class, 'active');
+        return $this->belongsTo(Actives::class, 'active_id');
     }
 
     public function Restaurants() {

@@ -4,7 +4,15 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <center>{{ $error }}</center>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <div class="panel panel-default">
                 <div class="panel-heading">Edit Restaurant</div>
 
@@ -27,13 +35,13 @@
                                 <tr>
                                     <td>{{ Form::label('lb_hotel_id', 'โรงแรม') }}</td>
                                     <td>
-                                        <div>
+                                        <div style="display: none">
                                             {{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร', 'readonly']) }}
                                         </div>
-                                        <br>
+                                      
                                         <div class="form-group">                                                              
                                             <select class="form-control" name="hotel_id">
-                                                <option value="please_selected_hotel">Please Selected Hotel</option>
+                                                <option value="{{$hotel_id }}" >{{ $hotel_name }}</option>
                                                 @foreach ($hotels as $hotel)
                                                 <!--   -->
                                                 <option value="{{ $hotel->id }}"> {{ $hotel->hotel_name }} </option>
@@ -45,13 +53,13 @@
                                 <tr>
                                     <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
                                     <td>
-                                        <div>
+                                        <div style="display: none">
                                             {{ Form::text('active', $active, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร', 'readonly']) }}
                                         </div>
-                                        <br>
+                                        
                                         <div class="form-group">                                                              
                                             <select class="form-control" name="active_id">
-                                                <option value="please_selected_active">Please Selected Active</option>
+                                                <option value="{{ $active_id }}" >{{ $active }}</option>
                                                 @foreach ($actives as $active)
                                                 <!--   -->
                                                 <option value="{{ $active->id }}"> {{ $active->active }} </option>

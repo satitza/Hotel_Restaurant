@@ -20,8 +20,8 @@ class CreateHotelsTable extends Migration {
 
             $table->increments('id');
             $table->string('hotel_name', 100);
-            $table->integer('active')->unsigned();
-            $table->foreign('active')->references('id')->on('actives')->onDelete('cascade');
+            $table->integer('active_id')->unsigned();
+            $table->foreign('active_id')->references('id')->on('actives')->onDelete('cascade');
             $table->text('hotel_comment')->nullable();
             $table->timestamps();
         });

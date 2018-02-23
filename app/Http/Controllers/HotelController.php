@@ -38,7 +38,7 @@ class HotelController extends Controller {
         try {
             $hotels = DB::table('hotels')
                             ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
-                            ->join('actives', 'hotels.active', '=', 'actives.id')
+                            ->join('actives', 'hotels.active_id', '=', 'actives.id')
                             ->orderBy('hotels.id', 'asc')->paginate(10);
             return view('hotel.list', [
                 'hotels' => $hotels
@@ -57,7 +57,7 @@ class HotelController extends Controller {
         try {
             $hotel = new Hotels;
             $hotel->hotel_name = $request->hotel_name;
-            $hotel->active = $request->active_id;
+            $hotel->active_id = $request->active_id;
             $hotel->hotel_comment = $request->hotel_comment;
             $hotel->save();
             DB::commit();
@@ -85,8 +85,8 @@ class HotelController extends Controller {
     public function edit($id) {
         try {
             $hotels = DB::table('hotels')
-                            ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
-                            ->join('actives', 'hotels.active', '=', 'actives.id')
+                            ->select('hotels.id', 'hotel_name', 'active_id', 'actives.active', 'hotel_comment')
+                            ->join('actives', 'hotels.active_id', '=', 'actives.id')
                             ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->get();
             foreach ($hotels as $hotel) {
                 
@@ -95,6 +95,7 @@ class HotelController extends Controller {
             return view('hotel.edit', [
                         'hotel_id' => $hotel->id,
                         'hotel_name' => $hotel->hotel_name,
+                        'hotel_active_id' => $hotel->active_id,
                         'hotel_active' => $hotel->active,
                         'hotel_comment' => $hotel->hotel_comment
                     ])->with('actives', $actives);
@@ -114,7 +115,7 @@ class HotelController extends Controller {
                     ->where('id', $id)
                     ->update([
                         'hotel_name' => $request->hotel_name,
-                        'active' => $request->active_id,
+                        'active_id' => $request->active_id,
                         'hotel_comment' => $request->hotel_comment
             ]);
             DB::commit();

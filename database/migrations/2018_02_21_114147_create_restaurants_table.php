@@ -22,8 +22,8 @@ class CreateRestaurantsTable extends Migration {
             $table->string('restaurant_name', 100);
             $table->integer('hotel_id')->unsigned();
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
-            $table->integer('active')->unsigned();
-            $table->foreign('active')->references('id')->on('actives')->onDelete('cascade');
+            $table->integer('active_id')->unsigned();
+            $table->foreign('active_id')->references('id')->on('actives')->onDelete('cascade');
             $table->text('restaurant_comment')->nullable();
             $table->timestamps();
 

@@ -20,7 +20,7 @@ class HotelsListSeeder extends Seeder {
             }
             $hotels = New App\Hotels();
             $hotels->hotel_name = 'hotel_'.$i;
-            $hotels->active = $status;
+            $hotels->active_id = $status;
             $hotels->hotel_comment = 'hotel_'.$i;
             $hotels->save();
         }

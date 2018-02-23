@@ -35,10 +35,10 @@
                                 <tr>
                                     <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
                                     <td>
-                                        <div>
+                                        <div style="display: none">
                                             {{ Form::text('hotel_active', $hotel_active , ['class' => 'form-control', 'placeholder' => 'ชื่อโรงแรม', 'readonly']) }}
                                         </div>
-                                        <br>
+                                        
                                         <div class="form-group">
                                             <?php /*
                                               @foreach ($actives as $active)
@@ -48,7 +48,7 @@
 
 
                                             <select class="form-control" name="active_id" id="select-active">
-                                                <option value="" disabled selected>please_selected</option>
+                                                <option value="{{ $hotel_active_id }}" >{{ $hotel_active }}</option>
                                                 @foreach ($actives as $active)
                                                 <!--   -->
                                                 <option value="{{ $active->id}} "> {{ $active->active }} </option>

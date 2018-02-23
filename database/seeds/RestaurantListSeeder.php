@@ -15,7 +15,7 @@ class RestaurantListSeeder extends Seeder {
             $restaurant = New App\Restaurants();
             $restaurant->restaurant_name = 'restaurant_' . $i;
             $restaurant->hotel_id = $i;
-            $restaurant->active = '1';
+            $restaurant->active_id = '1';
             $restaurant->restaurant_comment = 'restaurant_' . $i;
             $restaurant->save();
         }

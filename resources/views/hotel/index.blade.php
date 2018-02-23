@@ -37,7 +37,7 @@
                                     <td>
                                         <div class="form-group">                     
                                             <select class="form-control" name="active_id">
-                                                <option value="" disabled selected>please_selected</option>
+                                                <!--option value="" disabled selected>please_selected</option-->
                                                 @foreach ($actives as $active)
                                                 <option value="{{ $active->id }}"> {{ $active->active }} </option>
                                                 @endforeach
