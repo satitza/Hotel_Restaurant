@@ -33,16 +33,16 @@ class CreateSetMenusTable extends Migration {
             $table->json('menu_date_select')->nullable();
             //$table->foreign('menu_date_select')->references('id')->on('days')->onDelete('cascade');
                       
-            $table->integer('menu_time_lunch_start')->unsigned();
+            $table->integer('menu_time_lunch_start')->nullable();
             //$table->foreign('menu_time_lunch_start')->references('id')->on('time_lunch');
             
-            $table->integer('menu_time_lunch_end')->unsigned();//->unsigned();
+            $table->integer('menu_time_lunch_end')->nullable();//->unsigned();
             //$table->foreign('menu_time_lunch_end')->references('id')->on('time_lunch');
             
-            $table->integer('menu_time_dinner_start')->unsigned();
+            $table->integer('menu_time_dinner_start')->nullable();
             //$table->foreign('menu_time_dinner_start')->references('id')->on('time_dinner');
             
-            $table->integer('menu_time_dinner_end')->unsigned();
+            $table->integer('menu_time_dinner_end')->nullable();
             //$table->foreign('menu_time_dinner_end')->references('id')->on('time_dinner');
                        
             $table->double('menu_price', 8, 2)->nullable();

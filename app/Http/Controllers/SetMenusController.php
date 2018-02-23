@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\SetMenu;
 
 class SetMenusController extends Controller {
 
@@ -35,7 +36,8 @@ class SetMenusController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
+        $ck =  $request->input('date_check_box');
+        echo json_encode($ck)."<br>";       
     }
 
     /**
