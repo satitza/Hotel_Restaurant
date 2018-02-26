@@ -1,34 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
+    <script>
+        jQuery(document).ready(function ($) {
+            $('.datepicker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+            });
+        });
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Add Menu</div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Add Menu</div>
 
-                <div class="panel-body">
+                    <div class="panel-body">
 
                     {!! Form::open(['url' => 'set_menu', 'files' => false]) !!}
                     <!-- {{ Form::open(array('url' => 'hotel/create', 'method' => 'get')) }} -->
-                    <table class="table table-striped table-hover ">
-                        <thead>
+                        <table class="table table-striped table-hover ">
+                            <thead>
                             <tr class="">
                                 <th></th>
                                 <th></th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             <tr>
                                 <td>{{ Form::label('lb_hotel_name', 'ชื่อโรงแรม') }}</td>
                                 <td>
-                                    <div class="form-group">                     
+                                    <div class="form-group">
                                         <select class="form-control" name="hotel_id">
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value="">  </option>
-
+                                            @foreach($hotels as $hotel)
+                                                <option value="{{ $hotel->id }}">{{ $hotel->hotel_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -36,12 +44,12 @@
                             <tr>
                                 <td>{{ Form::label('lb_restaurant_name', 'ชื่อร้านอาหาร') }}</td>
                                 <td>
-                                    <div class="form-group">                     
+                                    <div class="form-group">
                                         <select class="form-control" name="restaurant_id">
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value="">  </option>
-
+                                            @foreach($restaurants as $restaurant)
+                                                <option value="{{ $restaurant->id }}">{{ $restaurant->restaurant_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -52,11 +60,13 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_start', 'เริ่มตั้งแต่วันที่') }}</td>
-                                <td>{{ Form::text('menu_date_start', null, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
+                                <td>
+                                    {{ Form::text('menu_date_start', null, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_end', 'สิ้นสุดวันที่') }}</td>
-                                <td>{{ Form::text('menu_date_end', null, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
+                                <td>{{ Form::text('menu_date_end', null, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_select', 'เลือกวัน') }}</td>
@@ -101,12 +111,12 @@
                             <tr>
                                 <td>{{ Form::label('lb_menu_time_lunch_start', 'เวลาเริ่มช่วงกลางวัน') }}</td>
                                 <td>
-                                    <div class="form-group">                     
+                                    <div class="form-group">
                                         <select class="form-control" name="menu_time_lunch_start">
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value="">  </option>
-
+                                            @foreach($time_lunchs as $time_lunch)
+                                                <option value="{{ $time_lunch->id }}">{{ $time_lunch->time_lunch }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -114,12 +124,12 @@
                             <tr>
                                 <td>{{ Form::label('lb_menu_time_lunch_end', 'เวลาสิ้นสุดช่วงกลางวัน') }}</td>
                                 <td>
-                                    <div class="form-group">                     
+                                    <div class="form-group">
                                         <select class="form-control" name="menu_time_lunch_end">
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value="">  </option>
-
+                                            @foreach($time_lunchs as $time_lunch)
+                                                <option value="{{ $time_lunch->id }}">{{ $time_lunch->time_lunch }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -127,12 +137,12 @@
                             <tr>
                                 <td>{{ Form::label('lb_menu_time_dinner_start', 'เวลาเริ่มช่วงกลางคืน') }}</td>
                                 <td>
-                                    <div class="form-group">                     
+                                    <div class="form-group">
                                         <select class="form-control" name="menu_time_dinner_start">
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value="">  </option>
-
+                                            @foreach($time_dinners as $time_dinner)
+                                                <option value="{{ $time_dinner->id }}">{{ $time_dinner->time_dinner }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -140,12 +150,12 @@
                             <tr>
                                 <td>{{ Form::label('lb_menu_time_dinner_end', 'เวลาสิ้นสุดช่วงกลางคืน') }}</td>
                                 <td>
-                                    <div class="form-group">                     
+                                    <div class="form-group">
                                         <select class="form-control" name="menu_time_dinner_end">
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value="">  </option>
-
+                                            @foreach($time_dinners as $time_dinner)
+                                                <option value="{{ $time_dinner->id }}">{{ $time_dinner->time_dinner }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -162,17 +172,18 @@
                                 <td>{{ Form::label('lb_set_menu_comment', 'รายละเอียด') }}</td>
                                 <td>{{ Form::textarea('set_menu_comment', null, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
                             </tr>
-                        </tbody>
-                    </table>
-                    <center>
-                        {{ Form::submit('Add Menu', ['class' => 'btn btn-primary']) }}
-                    </center>
-                    {{ csrf_field() }}
-                    {!! Form::close() !!}
+                            </tbody>
+                        </table>
+                        <center>
+                            {{ Form::submit('Add Menu', ['class' => 'btn btn-primary']) }}
+                        </center>
+                        {{ csrf_field() }}
+                        {!! Form::close() !!}
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
+

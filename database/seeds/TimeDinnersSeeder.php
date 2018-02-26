@@ -12,6 +12,10 @@ class TimeDinnersSeeder extends Seeder
     public function run()
     {
         $time_dinner = New App\TimeDinner();
+        $time_dinner->time_dinner = 'closed';
+        $time_dinner->save();
+
+        $time_dinner = New App\TimeDinner();
         $time_dinner->time_dinner = '18.00';
         $time_dinner->save();
         

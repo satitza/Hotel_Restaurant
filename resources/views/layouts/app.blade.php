@@ -11,10 +11,14 @@
         <title>{{ config('app.name', 'Hotel Restaurant') }}</title>
 
         <!-- Styles -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
+        <!--link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet"-->
+        <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" type="text/css">
+
         <!-- Script -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>      
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script--> 
+        <script src="{{ asset('js/jquery-ui.js') }}" type="text/javascript"></script>
 
     </head>
     <body>
@@ -61,7 +65,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     Hotel <span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu" role="menu"> 
+                                <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="{{ url('hotel') }}">Add Hotel</a>
                                     </li>
@@ -70,12 +74,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     Restaurant <span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu" role="menu"> 
+                                <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="{{ url('restaurant') }}">Add Restaurant</a>
                                     </li>
@@ -84,12 +88,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     Set Menu <span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu" role="menu"> 
+                                <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="{{ url('set_menu') }}">Add Menu</a>
                                     </li>
@@ -98,12 +102,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     Book Check Balance <span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu" role="menu"> 
+                                <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="#">Add</a>
                                     </li>
@@ -112,12 +116,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     Report <span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu" role="menu"> 
+                                <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="#">Add</a>
                                     </li>
@@ -126,12 +130,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     Setting <span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu" role="menu"> 
+                                <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="#">Add</a>
                                     </li>
@@ -140,9 +144,9 @@
                                     </li>
                                 </ul>
                             </li>
-                            
-                            
-                          
+
+
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>

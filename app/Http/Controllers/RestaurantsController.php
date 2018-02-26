@@ -9,9 +9,11 @@ use App\Restaurants;
 use Illuminate\Http\Request;
 use App\Http\Requests\RestaurantsRequest;
 
-class RestaurantsController extends Controller {
+class RestaurantsController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -20,9 +22,10 @@ class RestaurantsController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         try {
-            $hotels = Hotels::orderBy('hotel_name', 'ASC')->get();
+            $hotels = Hotels::orderBy('hotel_name', 'ASC')->where('active_id', '1')->get();
             $actives = Actives::orderBy('id', 'ASC')->get();
             return view('restaurant.index', [
                 'hotels' => $hotels,
@@ -38,13 +41,14 @@ class RestaurantsController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         try {
             $restaurants = DB::table('restaurants')
-                            ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'actives.active', 'restaurant_comment')
-                            ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
-                            ->join('actives', 'restaurants.active_id', '=', 'actives.id')
-                            ->orderBy('restaurants.id', 'asc')->paginate(10);
+                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'actives.active', 'restaurant_comment')
+                ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
+                ->join('actives', 'restaurants.active_id', '=', 'actives.id')
+                ->orderBy('restaurants.id', 'asc')->paginate(10);
             return view('restaurant.list', [
                 'restaurants' => $restaurants
             ]);
@@ -56,10 +60,11 @@ class RestaurantsController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RestaurantsRequest $request) {
+    public function store(RestaurantsRequest $request)
+    {
         DB::beginTransaction();
         try {
             $restaurants = new Restaurants;
@@ -79,42 +84,44 @@ class RestaurantsController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
 //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         try {
             $restaurants = DB::table('restaurants')
-                            ->select('restaurants.id', 'restaurant_name', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
-                            ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
-                            ->join('actives', 'restaurants.active_id', '=', 'actives.id')
-                            ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->get();
+                ->select('restaurants.id', 'restaurant_name', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
+                ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
+                ->join('actives', 'restaurants.active_id', '=', 'actives.id')
+                ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->get();
             foreach ($restaurants as $restaurant) {
-                
+
             }
 
             $actives = Actives::orderBy('id', 'ASC')->get();
             $hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
 
             return view('restaurant.edit', [
-                        'id' => $restaurant->id,
-                        'restaurant_name' => $restaurant->restaurant_name,
-                        'hotel_id' => $restaurant->hotel_id,
-                        'hotel_name' => $restaurant->hotel_name,
-                        'active_id' => $restaurant->active_id,
-                        'active' => $restaurant->active,
-                        'restaurant_comment' => $restaurant->restaurant_comment
-                    ])->with('actives', $actives)->with('hotels', $hotels);
+                'id' => $restaurant->id,
+                'restaurant_name' => $restaurant->restaurant_name,
+                'hotel_id' => $restaurant->hotel_id,
+                'hotel_name' => $restaurant->hotel_name,
+                'active_id' => $restaurant->active_id,
+                'active' => $restaurant->active,
+                'restaurant_comment' => $restaurant->restaurant_comment
+            ])->with('actives', $actives)->with('hotels', $hotels);
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -123,21 +130,22 @@ class RestaurantsController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RestaurantsRequest $request, $id) {
+    public function update(RestaurantsRequest $request, $id)
+    {
         DB::beginTransaction();
         try {
             DB::table('restaurants')
-                    ->where('id', $id)
-                    ->update([
-                        'restaurant_name' => $request->restaurant_name,
-                        'hotel_id' => $request->hotel_id,
-                        'active_id' => $request->active_id,
-                        'restaurant_comment' => $request->restaurant_comment
-            ]);
+                ->where('id', $id)
+                ->update([
+                    'restaurant_name' => $request->restaurant_name,
+                    'hotel_id' => $request->hotel_id,
+                    'active_id' => $request->active_id,
+                    'restaurant_comment' => $request->restaurant_comment
+                ]);
             DB::commit();
             return redirect()->action('RestaurantsController@create');
         } catch (Exception $e) {
@@ -149,10 +157,11 @@ class RestaurantsController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         //echo $id;
         DB::beginTransaction();
         try {

@@ -11,6 +11,10 @@ class TimeLunchsSeeder extends Seeder {
      */
     public function run() {
         $time_lunch = New App\TimeLunch();
+        $time_lunch->time_lunch = 'closed';
+        $time_lunch->save();
+
+        $time_lunch = New App\TimeLunch();
         $time_lunch->time_lunch = '06.00';
         $time_lunch->save();
         
