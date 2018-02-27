@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65386618-6c47-4098-8c11-8be26eed967c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SetMenusController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/SetMenusController.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/set_menu/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/set_menu/edit.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/set_menu/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/set_menu/index.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -184,8 +181,8 @@
       <file leaf-file-name="SetMenusController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SetMenusController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="205" column="41" lean-forward="true" selection-start-line="205" selection-start-column="41" selection-end-line="205" selection-end-column="41" />
+            <state relative-caret-position="546">
+              <caret line="219" column="86" lean-forward="false" selection-start-line="219" selection-start-column="86" selection-end-line="219" selection-end-column="86" />
               <folding />
             </state>
           </provider>
@@ -230,8 +227,8 @@
         <option value="$PROJECT_DIR$/database/migrations/2018_02_23_131620_create_set_menus_table.php" />
         <option value="$PROJECT_DIR$/resources/views/set_menu/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/set_menu/edit.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/SetMenusController.php" />
         <option value="$PROJECT_DIR$/../../../php/php.ini" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/SetMenusController.php" />
       </list>
     </option>
   </component>
@@ -482,12 +479,12 @@
       <workItem from="1519628846577" duration="185000" />
       <workItem from="1519631154938" duration="11305000" />
       <workItem from="1519700250708" duration="14779000" />
-      <workItem from="1519719134685" duration="9077000" />
+      <workItem from="1519719134685" duration="9134000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46640000" />
+    <option name="totallyTimeSpent" value="46697000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
@@ -1201,8 +1198,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SetMenusController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="205" column="41" lean-forward="true" selection-start-line="205" selection-start-column="41" selection-end-line="205" selection-end-column="41" />
+        <state relative-caret-position="546">
+          <caret line="219" column="86" lean-forward="false" selection-start-line="219" selection-start-column="86" selection-end-line="219" selection-end-column="86" />
           <folding />
         </state>
       </provider>

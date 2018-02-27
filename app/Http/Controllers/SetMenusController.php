@@ -206,7 +206,7 @@ class SetMenusController extends Controller
         echo $request->menu_guest."<br>";
         echo $request->menu_comment."<br>";*/
 
-        $date_start = $request->menu_date_start;
+        //$date_start = $request->menu_date_start;
 
         DB::beginTransaction();
         try {
@@ -216,8 +216,8 @@ class SetMenusController extends Controller
                     'hotel_id' => $request->hotel_id,
                     'restaurant_id' => $request->restaurant_id,
                     'menu_name' => $request->menu_name,
-                    'menu_date_start' => date('Y-m-d', strtotime($date_start)),
-                    'menu_date_end' => date('Y-m-d', strtotime('27-02-2018')),
+                    'menu_date_start' => date('Y-m-d', strtotime($request->menu_date_start)),
+                    'menu_date_end' => date('Y-m-d', strtotime($request->menu_date_end)),
                     'menu_date_select' => $request->menu_date_select,
                     'menu_time_lunch_start' => $request->menu_time_lunch_start,
                     'menu_time_lunch_end' => $request->menu_time_lunch_end,
