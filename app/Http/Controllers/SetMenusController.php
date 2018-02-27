@@ -147,15 +147,12 @@ class SetMenusController extends Controller
             foreach ($set_menus as $set_menu) {
             }
 
-            $date_start = strtotime($set_menu->menu_date_start);
-            $date_start_format = date('d/m/Y', $date_start);
-
-            $date_end = strtotime($set_menu->menu_date_end);
-            $date_end_format = date('d/m/Y', $date_end);
+            $date_start_format = date('d/m/Y', strtotime($set_menu->menu_date_start));
+            $date_end_format = date('d/m/Y', strtotime($set_menu->menu_date_end));
 
 
             return view('set_menu.edit', [
-                'id' => $set_menu->id,
+                'set_menu_id' => $set_menu->id,
                 'hotel_id' => $set_menu->hotel_id,
                 'hotel_name' => $set_menu->hotel_name,
                 'restaurant_id' => $set_menu->restaurant_id,
@@ -190,11 +187,51 @@ class SetMenusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        echo $id . "<br>";
+        /*echo $id . "<br>";
         echo $request->hotel_id . "<br>";
         echo $request->restaurant_id."<br>";
-        echo $request->menu_name."<br>";
-        
+        echo $request->menu_name."<br>";*/
+
+        //echo $request->menu_date_start."<br>";
+        //echo $request->menu_date_end."<br>";
+        //echo gettype($request->menu_date_start);
+        //dd($request);
+
+        /*echo $request->menu_date_select."<br>";
+        echo $request->menu_time_lunch_start."<br>";
+        echo $request->menu_time_lunch_end."<br>";
+        echo $request->menu_time_dinner_start."<br>";
+        echo $request->menu_time_dinner_end."<br>";
+        echo $request->menu_price."<br>";
+        echo $request->menu_guest."<br>";
+        echo $request->menu_comment."<br>";*/
+
+        $date_start = $request->menu_date_start;
+
+        DB::beginTransaction();
+        try {
+            DB::table('set_menus')
+                ->where('id', $id)
+                ->update([
+                    'hotel_id' => $request->hotel_id,
+                    'restaurant_id' => $request->restaurant_id,
+                    'menu_name' => $request->menu_name,
+                    'menu_date_start' => date('Y-m-d', strtotime($date_start)),
+                    'menu_date_end' => date('Y-m-d', strtotime('27-02-2018')),
+                    'menu_date_select' => $request->menu_date_select,
+                    'menu_time_lunch_start' => $request->menu_time_lunch_start,
+                    'menu_time_lunch_end' => $request->menu_time_lunch_end,
+                    'menu_time_dinner_start' => $request->menu_time_dinner_start,
+                    'menu_time_dinner_end' => $request->menu_time_dinner_end,
+                    'menu_price' => $request->menu_price,
+                    'menu_guest' => $request->menu_guest,
+                    'menu_comment' => $request->menu_comment
+                ]);
+            DB::commit();
+            return redirect()->action('SetMenusController@create');
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
@@ -205,7 +242,15 @@ class SetMenusController extends Controller
      */
     public function destroy($id)
     {
-        echo $id;
+        DB::beginTransaction();
+        try {
+            DB::table('set_menus')->where('id', $id)->delete();
+            DB::commit();
+            return redirect()->action('SetMenusController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            echo $e->getMessage();
+        }
     }
 
 }

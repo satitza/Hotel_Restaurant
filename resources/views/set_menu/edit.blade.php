@@ -3,7 +3,10 @@
 @section('content')
     <script>
         jQuery(document).ready(function ($) {
+
+
             $('.datepicker').datepicker({
+                defaultDate: null,
                 changeMonth: true,
                 changeYear: true,
             });
@@ -19,7 +22,7 @@
                     <div class="panel-body">
 
                         <?php /* {!! Form::open(['url' => 'edit_set_menu', 'files' => false]) !!} --> */ ?>
-                        {{ Form::open(array('url' => 'set_menu/'.$id, 'method' => 'put')) }}
+                        {{ Form::open(array('url' => 'set_menu/'.$set_menu_id, 'method' => 'put')) }}
                         <table class="table table-striped table-hover ">
                             <thead>
                             <tr class="">
@@ -63,16 +66,20 @@
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_start', 'เริ่มตั้งแต่วันที่') }}</td>
                                 <td>
-                                    {{ Form::text('menu_date_start', $menu_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}
+                                    <input type="text" value="{{ $menu_date_start }}" name="menu_date_start" class="datepicker">
+                                    <?php //{{ Form::text('menu_date_start', $menu_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }} ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_end', 'สิ้นสุดวันที่') }}</td>
-                                <td>{{ Form::text('menu_date_end', $menu_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
+                                <td>
+                                    <input type="text" value="{{ $menu_date_end }}" name="menu_date_end" class="datepicker">
+                                    <?php //{{ Form::text('menu_date_end', $menu_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }} ?>
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_select', 'เลือกวัน') }}</td>
-                                <td>{{ Form::text('menu_date_end', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน', 'readonly']) }}</td>
+                                <td>{{ Form::text('menu_date_select', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน', 'readonly']) }}</td>
                                 <!--td>
                                     <div class="checkbox">
                                         <label>
@@ -119,7 +126,7 @@
                                             <option value="{{ $menu_time_lunch_start }}">{{ $menu_time_lunch_start }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_lunchs as $time_lunch)
-                                                <option value="{{ $time_lunch->id }}">{{ $time_lunch->time_lunch }}</option>
+                                                <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -133,7 +140,7 @@
                                             <option value="{{ $menu_time_lunch_end }}">{{ $menu_time_lunch_end }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_lunchs as $time_lunch)
-                                                <option value="{{ $time_lunch->id }}">{{ $time_lunch->time_lunch }}</option>
+                                                <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -147,7 +154,7 @@
                                             <option value="{{ $menu_time_dinner_start }}">{{ $menu_time_dinner_start }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_dinners as $time_dinner)
-                                                <option value="{{ $time_dinner->id }}">{{ $time_dinner->time_dinner }}</option>
+                                                <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -161,7 +168,7 @@
                                             <option value="{{ $menu_time_dinner_end }}">{{ $menu_time_dinner_end }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_dinners as $time_dinner)
-                                                <option value="{{ $time_dinner->id }}">{{ $time_dinner->time_dinner }}</option>
+                                                <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -177,7 +184,7 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_set_menu_comment', 'รายละเอียด') }}</td>
-                                <td>{{ Form::textarea('set_menu_comment', $menu_comment, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
+                                <td>{{ Form::textarea('menu_comment', $menu_comment, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
                             </tr>
                             </tbody>
                         </table>

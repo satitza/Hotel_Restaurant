@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <script>
+    <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            $('.datepicker').datepicker({
+            $( ".datepicker" ).datepicker( {
+                //defaultDate: now,
                 changeMonth: true,
                 changeYear: true,
-            });
+            } );
         });
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
@@ -60,9 +61,7 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_start', 'เริ่มตั้งแต่วันที่') }}</td>
-                                <td>
-                                    {{ Form::text('menu_date_start', null, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}
-                                </td>
+                                <td>{{ Form::text('menu_date_start', null, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_end', 'สิ้นสุดวันที่') }}</td>
