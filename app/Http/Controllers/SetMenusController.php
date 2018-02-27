@@ -107,8 +107,6 @@ class SetMenusController extends Controller
             DB::rollback();
             return view('error.index')->with('error', $e);
         }
-        //  }
-
     }
 
     /**
@@ -131,8 +129,13 @@ class SetMenusController extends Controller
     public function edit($id)
     {
         try {
+            $hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
+            $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
+            $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
+            $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
+
             $set_menus = DB::table('set_menus')
-                ->select('set_menus.id', 'set_menus.hotel_id','hotels.hotel_name',
+                ->select('set_menus.id', 'set_menus.hotel_id', 'hotels.hotel_name',
                     'set_menus.restaurant_id', 'restaurants.restaurant_name',
                     'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                     'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
@@ -141,41 +144,41 @@ class SetMenusController extends Controller
                 ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                 ->where('set_menus.id', $id)->get();
 
-                 foreach ($set_menus as $set_menu){}
+            foreach ($set_menus as $set_menu) {
+            }
 
-                 $date_start = strtotime($set_menu->menu_date_start);
-                 $date_start_format = date('d/m/Y', $date_start);
+            $date_start = strtotime($set_menu->menu_date_start);
+            $date_start_format = date('d/m/Y', $date_start);
 
-                 $date_end = strtotime($set_menu->menu_date_end);
-                 $date_end_format = date('d/m/Y', $date_end);
+            $date_end = strtotime($set_menu->menu_date_end);
+            $date_end_format = date('d/m/Y', $date_end);
 
 
-
-                return view('set_menu.edit', [
-                    'id' => $set_menu->id,
-                    'hotel_id' => $set_menu->hotel_id,
-                    'hotel_name' => $set_menu->hotel_name,
-                    'restaurant_id' => $set_menu->restaurant_id,
-                    'restaurant_name' => $set_menu->restaurant_name,
-                    'menu_name' => $set_menu->menu_name,
-                    'menu_date_start' => $date_start_format,
-                    'menu_date_end' => $date_end_format,
-                    'menu_date_select' => $set_menu->menu_date_select,
-                    'menu_time_lunch_start' => $set_menu->menu_time_lunch_start,
-                    'menu_time_lunch_end' => $set_menu->menu_time_lunch_end,
-                    'menu_time_dinner_start' => $set_menu->menu_time_dinner_start,
-                    'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
-                    'menu_price' => $set_menu->menu_price,
-                    'menu_guest' => $set_menu->menu_guest,
-                    'menu_comment' => $set_menu->menu_comment
-                ]);
+            return view('set_menu.edit', [
+                'id' => $set_menu->id,
+                'hotel_id' => $set_menu->hotel_id,
+                'hotel_name' => $set_menu->hotel_name,
+                'restaurant_id' => $set_menu->restaurant_id,
+                'restaurant_name' => $set_menu->restaurant_name,
+                'menu_name' => $set_menu->menu_name,
+                'menu_date_start' => $date_start_format,
+                'menu_date_end' => $date_end_format,
+                'menu_date_select' => $set_menu->menu_date_select,
+                'menu_time_lunch_start' => $set_menu->menu_time_lunch_start,
+                'menu_time_lunch_end' => $set_menu->menu_time_lunch_end,
+                'menu_time_dinner_start' => $set_menu->menu_time_dinner_start,
+                'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
+                'menu_price' => $set_menu->menu_price,
+                'menu_guest' => $set_menu->menu_guest,
+                'menu_comment' => $set_menu->menu_comment
+            ])
+                ->with('hotels', $hotels)
+                ->with('restaurants', $restaurants)
+                ->with('time_lunchs', $time_lunchs)
+                ->with('time_dinners', $time_dinners);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
-
-        //foreach ($set_menus as $set_menu){}
-        //print_r($set_menu->menu_name);
-        //dd($set_menus);
     }
 
     /**
@@ -187,7 +190,11 @@ class SetMenusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        echo id;
+        echo $id . "<br>";
+        echo $request->hotel_id . "<br>";
+        echo $request->restaurant_id."<br>";
+        echo $request->menu_name."<br>";
+        
     }
 
     /**

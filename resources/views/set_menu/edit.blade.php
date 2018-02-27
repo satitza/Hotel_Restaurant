@@ -18,8 +18,8 @@
 
                     <div class="panel-body">
 
-                    {!! Form::open(['url' => 'edit_set_menu', 'files' => false]) !!}
-                    <!-- {{ Form::open(array('url' => 'hotel/'.$id, 'method' => 'put')) }} -->
+                        <?php /* {!! Form::open(['url' => 'edit_set_menu', 'files' => false]) !!} --> */ ?>
+                        {{ Form::open(array('url' => 'set_menu/'.$id, 'method' => 'put')) }}
                         <table class="table table-striped table-hover ">
                             <thead>
                             <tr class="">
@@ -35,9 +35,9 @@
                                         <select class="form-control" name="hotel_id">
                                             <option value="{{ $hotel_id }}">{{ $hotel_name }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value=""></option>
-
+                                            @foreach($hotels as $hotel)
+                                                <option value="{{ $hotel->id }}">{{ $hotel->hotel_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -49,9 +49,9 @@
                                         <select class="form-control" name="restaurant_id">
                                             <option value="{{ $restaurant_id }}">{{ $restaurant_name }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value=""></option>
-
+                                            @foreach($restaurants as $restaurant)
+                                                <option value="{{ $restaurant->id }}">{{ $restaurant->restaurant_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -72,7 +72,7 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_select', 'เลือกวัน') }}</td>
-                                <td>{{ Form::text('menu_date_end', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
+                                <td>{{ Form::text('menu_date_end', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน', 'readonly']) }}</td>
                                 <!--td>
                                     <div class="checkbox">
                                         <label>
@@ -118,9 +118,9 @@
                                         <select class="form-control" name="menu_time_lunch_start">
                                             <option value="{{ $menu_time_lunch_start }}">{{ $menu_time_lunch_start }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value=""></option>
-
+                                            @foreach($time_lunchs as $time_lunch)
+                                                <option value="{{ $time_lunch->id }}">{{ $time_lunch->time_lunch }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -132,9 +132,9 @@
                                         <select class="form-control" name="menu_time_lunch_end">
                                             <option value="{{ $menu_time_lunch_end }}">{{ $menu_time_lunch_end }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value=""></option>
-
+                                            @foreach($time_lunchs as $time_lunch)
+                                                <option value="{{ $time_lunch->id }}">{{ $time_lunch->time_lunch }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -146,9 +146,9 @@
                                         <select class="form-control" name="menu_time_dinner_start">
                                             <option value="{{ $menu_time_dinner_start }}">{{ $menu_time_dinner_start }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value=""></option>
-
+                                            @foreach($time_dinners as $time_dinner)
+                                                <option value="{{ $time_dinner->id }}">{{ $time_dinner->time_dinner }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
@@ -160,9 +160,9 @@
                                         <select class="form-control" name="menu_time_dinner_end">
                                             <option value="{{ $menu_time_dinner_end }}">{{ $menu_time_dinner_end }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
-
-                                            <option value=""></option>
-
+                                            @foreach($time_dinners as $time_dinner)
+                                                <option value="{{ $time_dinner->id }}">{{ $time_dinner->time_dinner }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </td>
