@@ -41,9 +41,6 @@ class SetMenusController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
-
-
-        return view('set_menu.index');
     }
 
     /**
@@ -53,7 +50,21 @@ class SetMenusController extends Controller
      */
     public function create()
     {
-        return view('set_menu.list');
+        try {
+            $set_menus = DB::table('set_menus')
+                ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
+                    'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
+                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
+                ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
+                ->orderBy('set_menus.id', 'asc')->paginate(10);
+            return view('set_menu.list', [
+                'set_menus' => $set_menus
+            ]);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
@@ -64,7 +75,7 @@ class SetMenusController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->menu_time_lunch_start > $request->menu_time_lunch_end) {
+        /*if ($request->menu_time_lunch_start > $request->menu_time_lunch_end) {
             return view('error.index')->with('error', 'Time Lunch : คุณเลือกช่วงวลาอาหารวันเริ่มหลังช่วงเวลาสิ้นสุด');
         } else if ($request->menu_time_lunch_start == 1 && $request->menu_time_lunch_end != 1) {
             return view('error.index')->with('error', 'Time Lunch : คุณไม่ได้เลือกช่วงเวลาอาหารเริ่ม');
@@ -72,47 +83,31 @@ class SetMenusController extends Controller
             return view('error.index')->with('error', 'Time Dinner : คุณเลือกช่วงวลาเริ่มหลังช่วงเวลาสิ้นสุด');
         } else if ($request->menu_time_dinner_start == 1 && $request->menu_time_dinner_end != 1) {
             return view('error.index')->with('error', 'Time Dinner : คุณไม่ได้เลือกช่วงเวลาอาหารเริ่ม');
-        } else {
-            /*echo $request->hotel_id . "<br>";
-            echo $request->restaurant_id . "<br>";
-            echo $request->menu_name . "<br>";
-            echo $request->menu_date_start . "<br>";
-            echo $request->menu_date_end . "<br>";
-            $date_select_json = $request->input('date_check_box');
-            echo json_encode($date_select_json) . "<br>";
-            echo $request->menu_time_lunch_start . "<br>";
-            echo $request->menu_time_lunch_end . "<br>";
-            echo $request->menu_time_dinner_start . "<br>";
-            echo $request->menu_time_dinner_end . "<br>";
-            echo $request->menu_price . "<br>";
-            echo $request->menu_guest . "<br>";
-            echo $request->set_menu_comment . "<br>";*/
-            DB::beginTransaction();
-            try {
-
-                $set_menu = new SetMenu;
-                $set_menu->hotel_id = $request->hotel_id;
-                $set_menu->restaurant_id = $request->restaurant_id;
-                $set_menu->menu_name = $request->menu_name;
-                $set_menu->menu_date_start = Carbon::parse($request->menu_date_start);
-                $set_menu->menu_date_end = Carbon::parse($request->menu_date_end);
-                $set_menu->menu_date_select = json_encode($request->input('date_check_box'));
-                $set_menu->menu_time_lunch_start = $request->menu_time_lunch_start;
-                $set_menu->menu_time_lunch_end = $request->menu_time_lunch_end;
-                $set_menu->menu_time_dinner_start = $request->menu_time_dinner_start;
-                $set_menu->menu_time_dinner_end = $request->menu_time_dinner_end;
-                $set_menu->menu_price = $request->menu_price;
-                $set_menu->menu_guest = $request->menu_guest;
-                $set_menu->menu_comment = $request->set_menu_comment;
-                $set_menu->save();
-                DB::commit();
-                echo "WTF";
-
-            } catch (Exception $e) {
-                DB::rollback();
-                return view('error.index')->with('error', $e);
-            }
+        } else {*/
+        DB::beginTransaction();
+        try {
+            $set_menu = new SetMenu;
+            $set_menu->hotel_id = $request->hotel_id;
+            $set_menu->restaurant_id = $request->restaurant_id;
+            $set_menu->menu_name = $request->menu_name;
+            $set_menu->menu_date_start = Carbon::parse($request->menu_date_start);
+            $set_menu->menu_date_end = Carbon::parse($request->menu_date_end);
+            $set_menu->menu_date_select = json_encode($request->input('date_check_box'));
+            $set_menu->menu_time_lunch_start = $request->menu_time_lunch_start;
+            $set_menu->menu_time_lunch_end = $request->menu_time_lunch_end;
+            $set_menu->menu_time_dinner_start = $request->menu_time_dinner_start;
+            $set_menu->menu_time_dinner_end = $request->menu_time_dinner_end;
+            $set_menu->menu_price = $request->menu_price;
+            $set_menu->menu_guest = $request->menu_guest;
+            $set_menu->menu_comment = $request->set_menu_comment;
+            $set_menu->save();
+            DB::commit();
+            return redirect()->action('SetMenusController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
         }
+        //  }
 
     }
 
@@ -122,8 +117,7 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function show($id)
+    public function show($id)
     {
         //
     }
@@ -134,10 +128,54 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function edit($id)
+    public function edit($id)
     {
-        //
+        try {
+            $set_menus = DB::table('set_menus')
+                ->select('set_menus.id', 'set_menus.hotel_id','hotels.hotel_name',
+                    'set_menus.restaurant_id', 'restaurants.restaurant_name',
+                    'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
+                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
+                ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
+                ->where('set_menus.id', $id)->get();
+
+                 foreach ($set_menus as $set_menu){}
+
+                 $date_start = strtotime($set_menu->menu_date_start);
+                 $date_start_format = date('d/m/Y', $date_start);
+
+                 $date_end = strtotime($set_menu->menu_date_end);
+                 $date_end_format = date('d/m/Y', $date_end);
+
+
+
+                return view('set_menu.edit', [
+                    'id' => $set_menu->id,
+                    'hotel_id' => $set_menu->hotel_id,
+                    'hotel_name' => $set_menu->hotel_name,
+                    'restaurant_id' => $set_menu->restaurant_id,
+                    'restaurant_name' => $set_menu->restaurant_name,
+                    'menu_name' => $set_menu->menu_name,
+                    'menu_date_start' => $date_start_format,
+                    'menu_date_end' => $date_end_format,
+                    'menu_date_select' => $set_menu->menu_date_select,
+                    'menu_time_lunch_start' => $set_menu->menu_time_lunch_start,
+                    'menu_time_lunch_end' => $set_menu->menu_time_lunch_end,
+                    'menu_time_dinner_start' => $set_menu->menu_time_dinner_start,
+                    'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
+                    'menu_price' => $set_menu->menu_price,
+                    'menu_guest' => $set_menu->menu_guest,
+                    'menu_comment' => $set_menu->menu_comment
+                ]);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
+
+        //foreach ($set_menus as $set_menu){}
+        //print_r($set_menu->menu_name);
+        //dd($set_menus);
     }
 
     /**
@@ -147,10 +185,9 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        //
+        echo id;
     }
 
     /**
@@ -159,10 +196,9 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
-        //
+        echo $id;
     }
 
 }

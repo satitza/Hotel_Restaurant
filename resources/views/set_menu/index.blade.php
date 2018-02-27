@@ -9,7 +9,7 @@
             });
         });
     </script>
-    <div class="container">
+    <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
             <div class="col-md-12">
 
@@ -115,7 +115,7 @@
                                         <select class="form-control" name="menu_time_lunch_start">
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_lunchs as $time_lunch)
-                                                <option value="{{ $time_lunch->id }}">{{ $time_lunch->time_lunch }}</option>
+                                                <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -128,7 +128,7 @@
                                         <select class="form-control" name="menu_time_lunch_end">
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_lunchs as $time_lunch)
-                                                <option value="{{ $time_lunch->id }}">{{ $time_lunch->time_lunch }}</option>
+                                                <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -141,7 +141,7 @@
                                         <select class="form-control" name="menu_time_dinner_start">
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_dinners as $time_dinner)
-                                                <option value="{{ $time_dinner->id }}">{{ $time_dinner->time_dinner }}</option>
+                                                <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -154,7 +154,7 @@
                                         <select class="form-control" name="menu_time_dinner_end">
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_dinners as $time_dinner)
-                                                <option value="{{ $time_dinner->id }}">{{ $time_dinner->time_dinner }}</option>
+                                                <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
                                             @endforeach
                                         </select>
                                     </div>
