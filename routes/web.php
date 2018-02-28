@@ -51,6 +51,18 @@ Route::get('/run-migrations', function () {
     }
 });
 
+Route::get('/run-seeder', function(){
+    try{
+        $seeder = Artisan::call('db:seed');
+        if(!$seeder){
+            echo "Run seeder success";
+        }
+    }
+    catch (Exception $e){
+        return view('error.index')->with('error', $e);
+    }
+});
+
 
 
 

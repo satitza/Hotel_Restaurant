@@ -30,7 +30,7 @@ class CreateSetMenusTable extends Migration {
             $table->date('menu_date_start')->nullable();
             $table->date('menu_date_end')->nullable();
                                   
-            $table->json('menu_date_select')->nullable();
+            $table->longText('menu_date_select')->nullable();
             //$table->foreign('menu_date_select')->references('id')->on('days')->onDelete('cascade');
                       
             $table->string('menu_time_lunch_start', 50)->nullable();
