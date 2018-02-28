@@ -3,17 +3,25 @@
 @section('content')
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            $( ".datepicker" ).datepicker( {
+            $(".datepicker").datepicker({
                 dateFormat: 'dd/mm/yy',
                 changeMonth: true,
                 changeYear: true,
-            } );
+            });
         });
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
             <div class="col-md-12">
-
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <center>{{ $error }}</center>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Add Menu</div>
 

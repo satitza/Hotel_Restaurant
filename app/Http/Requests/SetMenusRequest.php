@@ -13,7 +13,7 @@ class SetMenusRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,25 @@ class SetMenusRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'menu_name' => 'required',
+            'menu_date_start' => 'required',
+            'menu_date_end' => 'required',
+            'menu_price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/|between:1,100000',
+            'menu_guest' => 'required|integer|between:1,10000',
+        ];
+    }
+
+    public function messages() {
+        return [
+            'menu_name.required' => 'กรุณากรอกชื่อเมนู',
+            'menu_date_start.required' => 'กรุณากรอกวันที่เริ่ม',
+            'menu_date_end.required' => 'กรุณากรอกวันที่สิ้นสุด',
+            'menu_price.required' => 'กรุณากรอกราคาต่อคน',
+            'menu_price.regex' => 'กรุณากรอกราคาต่อคนเป็นตัวเลขทศนิยม 2 ตำแหน่ง 00.00',
+            'menu_price.between' => 'กรุณากรอกเป็นตัวเลข 1 ถึง 1000000',
+            'menu_guest.required' => 'กรุณากรอกจำนวนคนต่อวัน',
+            'menu_guest.integer' => 'กรุณากรอกจำนวนคนต่อวันเป็นตัวเลข',
+            'menu_guest.between' => 'กรุณากรอกจำนวนคนต่อวันเป็นตัวเลข 1 ถึง 10000',
         ];
     }
 }

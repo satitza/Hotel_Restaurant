@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
+use App\Http\Requests\SetMenusRequest;
 use App\Hotels;
 use App\Restaurants;
 use App\TimeLunch;
@@ -73,7 +74,7 @@ class SetMenusController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SetMenusRequest $request)
     {
         /*if ($request->menu_time_lunch_start > $request->menu_time_lunch_end) {
             return view('error.index')->with('error', 'Time Lunch : คุณเลือกช่วงวลาอาหารวันเริ่มหลังช่วงเวลาสิ้นสุด');
@@ -186,7 +187,7 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SetMenusRequest $request, $id)
     {
         $date_insert = NULL;
         $new_date_select = ($request->input('date_check_box'));
