@@ -186,6 +186,16 @@ class SetMenusController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $date_insert = NULL;
+        $new_date_select = ($request->input('date_check_box'));
+        
+        //Check box is null
+        if (!isset($new_date_select)) {
+            $date_insert = $request->old_date_select;
+        } else {
+            $date_insert = json_encode($request->input('date_check_box'));
+        }
+
         DB::beginTransaction();
         try {
             DB::table('set_menus')
@@ -196,7 +206,7 @@ class SetMenusController extends Controller
                     'menu_name' => $request->menu_name,
                     'menu_date_start' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-')))),
                     'menu_date_end' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-')))),
-                    'menu_date_select' => $request->menu_date_select,
+                    'menu_date_select' => $date_insert,
                     'menu_time_lunch_start' => $request->menu_time_lunch_start,
                     'menu_time_lunch_end' => $request->menu_time_lunch_end,
                     'menu_time_dinner_start' => $request->menu_time_dinner_start,

@@ -4,13 +4,16 @@
     <script>
         jQuery(document).ready(function ($) {
             $('.datepicker').datepicker({
-                //defaultDate: 0,
                 dateFormat: 'dd/mm/yy',
                 changeMonth: true,
                 changeYear: true,
             });
         });
+
+
     </script>
+
+
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
             <div class="col-md-12">
@@ -72,44 +75,12 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_select', 'เลือกวัน') }}</td>
-                                <td>{{ Form::text('menu_date_select', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน', 'readonly']) }}</td>
-                                <!--td>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="date_check_box[]" value="sun"> Sun.
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="date_check_box[]" value="mon"> Mon.
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="date_check_box[]" value="tues"> Tues.
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="date_check_box[]" value="wed"> Wed.
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="date_check_box[]" value="thurs"> Thurs.
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="date_check_box[]" value="fri"> Fri.
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="date_check_box[]" value="sat"> Sat.
-                                        </label>
-                                    </div>
-                                </td-->
+                                <td>{{ Form::text('old_date_select', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน', 'readonly']) }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-info" data-toggle="modal"
+                                            data-target="#myModal">Edit
+                                    </button>
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_time_lunch_start', 'เวลาเริ่มช่วงกลางวัน') }}</td>
@@ -185,6 +156,79 @@
                             {{ Form::submit('Edit Menu', ['class' => 'btn btn-primary']) }}
                         </center>
                         {{ csrf_field() }}
+
+                    <!--Modal-->
+
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!--Modal Content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        Edit Date Select
+                                    </div>
+                                    <div class="modal-content">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-1"></div>
+                                                <div class="col-lg-10">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="date_check_box[]" value="sun">
+                                                            Sun.
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="date_check_box[]" value="mon">
+                                                            Mon.
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="date_check_box[]" value="tues">
+                                                            Tues.
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="date_check_box[]" value="wed">
+                                                            Wed.
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="date_check_box[]"
+                                                                   value="thurs"> Thurs.
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="date_check_box[]" value="fri">
+                                                            Fri.
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="date_check_box[]" value="sat">
+                                                            Sat.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-info" data-dismiss="modal"
+                                                id="modal-close">Close
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
                         {!! Form::close() !!}
                     </div>
                 </div>
