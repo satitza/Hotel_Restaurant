@@ -5,6 +5,7 @@
         jQuery(document).ready(function ($) {
             $( ".datepicker" ).datepicker( {
                 //defaultDate: now,
+                dateFormat: 'dd/mm/yy',
                 changeMonth: true,
                 changeYear: true,
             } );

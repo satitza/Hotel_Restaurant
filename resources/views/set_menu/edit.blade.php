@@ -3,10 +3,9 @@
 @section('content')
     <script>
         jQuery(document).ready(function ($) {
-
-
             $('.datepicker').datepicker({
-                defaultDate: null,
+                //defaultDate: 0,
+                dateFormat: 'dd/mm/yy',
                 changeMonth: true,
                 changeYear: true,
             });
@@ -65,17 +64,11 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_start', 'เริ่มตั้งแต่วันที่') }}</td>
-                                <td>
-                                    <input type="text" value="{{ $menu_date_start }}" name="menu_date_start" class="datepicker">
-                                    <?php //{{ Form::text('menu_date_start', $menu_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }} ?>
-                                </td>
+                                <td>{{ Form::text('menu_date_start', $menu_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_end', 'สิ้นสุดวันที่') }}</td>
-                                <td>
-                                    <input type="text" value="{{ $menu_date_end }}" name="menu_date_end" class="datepicker">
-                                    <?php //{{ Form::text('menu_date_end', $menu_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }} ?>
-                                </td>
+                                <td>{{ Form::text('menu_date_end', $menu_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_select', 'เลือกวัน') }}</td>

@@ -90,8 +90,8 @@ class SetMenusController extends Controller
             $set_menu->hotel_id = $request->hotel_id;
             $set_menu->restaurant_id = $request->restaurant_id;
             $set_menu->menu_name = $request->menu_name;
-            $set_menu->menu_date_start = Carbon::parse($request->menu_date_start);
-            $set_menu->menu_date_end = Carbon::parse($request->menu_date_end);
+            $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
+            $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));
             $set_menu->menu_date_select = json_encode($request->input('date_check_box'));
             $set_menu->menu_time_lunch_start = $request->menu_time_lunch_start;
             $set_menu->menu_time_lunch_end = $request->menu_time_lunch_end;
@@ -150,7 +150,6 @@ class SetMenusController extends Controller
             $date_start_format = date('d/m/Y', strtotime($set_menu->menu_date_start));
             $date_end_format = date('d/m/Y', strtotime($set_menu->menu_date_end));
 
-
             return view('set_menu.edit', [
                 'set_menu_id' => $set_menu->id,
                 'hotel_id' => $set_menu->hotel_id,
@@ -187,27 +186,6 @@ class SetMenusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        /*echo $id . "<br>";
-        echo $request->hotel_id . "<br>";
-        echo $request->restaurant_id."<br>";
-        echo $request->menu_name."<br>";*/
-
-        //echo $request->menu_date_start."<br>";
-        //echo $request->menu_date_end."<br>";
-        //echo gettype($request->menu_date_start);
-        //dd($request);
-
-        /*echo $request->menu_date_select."<br>";
-        echo $request->menu_time_lunch_start."<br>";
-        echo $request->menu_time_lunch_end."<br>";
-        echo $request->menu_time_dinner_start."<br>";
-        echo $request->menu_time_dinner_end."<br>";
-        echo $request->menu_price."<br>";
-        echo $request->menu_guest."<br>";
-        echo $request->menu_comment."<br>";*/
-
-        //$date_start = $request->menu_date_start;
-
         DB::beginTransaction();
         try {
             DB::table('set_menus')
@@ -216,8 +194,8 @@ class SetMenusController extends Controller
                     'hotel_id' => $request->hotel_id,
                     'restaurant_id' => $request->restaurant_id,
                     'menu_name' => $request->menu_name,
-                    'menu_date_start' => date('Y-m-d', strtotime($request->menu_date_start)),
-                    'menu_date_end' => date('Y-m-d', strtotime($request->menu_date_end)),
+                    'menu_date_start' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-')))),
+                    'menu_date_end' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-')))),
                     'menu_date_select' => $request->menu_date_select,
                     'menu_time_lunch_start' => $request->menu_time_lunch_start,
                     'menu_time_lunch_end' => $request->menu_time_lunch_end,
