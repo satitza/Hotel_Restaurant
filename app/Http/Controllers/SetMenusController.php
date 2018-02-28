@@ -84,10 +84,12 @@ class SetMenusController extends Controller
         } else if ($request->menu_time_dinner_start == 1 && $request->menu_time_dinner_end != 1) {
             return view('error.index')->with('error', 'Time Dinner : คุณไม่ได้เลือกช่วงเวลาอาหารเริ่ม');
         } else {*/
+
         DB::beginTransaction();
         try {
+            $get_hotel_id = Restaurants::find($request->restaurant_id);
             $set_menu = new SetMenu;
-            $set_menu->hotel_id = $request->hotel_id;
+            $set_menu->hotel_id = $get_hotel_id->hotel_id;
             $set_menu->restaurant_id = $request->restaurant_id;
             $set_menu->menu_name = $request->menu_name;
             $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
@@ -188,20 +190,22 @@ class SetMenusController extends Controller
     {
         $date_insert = NULL;
         $new_date_select = ($request->input('date_check_box'));
-        
-        //Check box is null
+
         if (!isset($new_date_select)) {
+            //Check box is null insert old date select
             $date_insert = $request->old_date_select;
         } else {
+            //Check box not null insert new date select json
             $date_insert = json_encode($request->input('date_check_box'));
         }
 
         DB::beginTransaction();
         try {
+            $get_hotel_id = Restaurants::find($request->restaurant_id);
             DB::table('set_menus')
                 ->where('id', $id)
                 ->update([
-                    'hotel_id' => $request->hotel_id,
+                    'hotel_id' => $get_hotel_id->hotel_id,
                     'restaurant_id' => $request->restaurant_id,
                     'menu_name' => $request->menu_name,
                     'menu_date_start' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-')))),

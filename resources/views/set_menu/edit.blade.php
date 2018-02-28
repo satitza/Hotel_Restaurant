@@ -33,7 +33,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
+                            <tr style="display: none">
                                 <td>{{ Form::label('lb_hotel_name', 'ชื่อโรงแรม') }}</td>
                                 <td>
                                     <div class="form-group">

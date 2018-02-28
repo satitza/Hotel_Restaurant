@@ -4,7 +4,6 @@
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             $( ".datepicker" ).datepicker( {
-                //defaultDate: now,
                 dateFormat: 'dd/mm/yy',
                 changeMonth: true,
                 changeYear: true,
@@ -30,7 +29,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
+                            <tr style="display: none">
                                 <td>{{ Form::label('lb_hotel_name', 'ชื่อโรงแรม') }}</td>
                                 <td>
                                     <div class="form-group">
