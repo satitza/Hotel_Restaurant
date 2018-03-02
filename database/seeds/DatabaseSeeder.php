@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DaysSeeder::class);
         $this->call(TimeLunchsSeeder::class);
         $this->call(TimeDinnersSeeder::class);
+        $this->call(SetMenuListSeeder::class);
+
     }
 }
