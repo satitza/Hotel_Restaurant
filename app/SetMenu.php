@@ -11,12 +11,17 @@ class SetMenu extends Model {
         'menu_date_select' => 'json',
     ];
 
+
     public function Hotels() {
         return $this->belongsTo(Hotels::class, 'hotes_id');
     }
 
     public function Restaurants() {
         return $this->belongsTo(Restaurants::class, 'restaurant_id');
+    }
+
+    public function BookCheckBalance(){
+        return $this->hasMany(BookCheckBalance::class);
     }
 
     /* public function Days() {
