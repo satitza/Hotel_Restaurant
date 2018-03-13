@@ -6,7 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="65386618-6c47-4098-8c11-8be26eed967c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_03_12_171513_create_book_check_balances_table.php" afterPath="$PROJECT_DIR$/database/migrations/2018_03_12_171513_create_book_check_balances_table.php" />
+      <change beforePath="$PROJECT_DIR$/app/BookCheckBalance.php" afterPath="$PROJECT_DIR$/app/BookCheckBalance.php" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/RestaurantsRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/RestaurantsRequest.php" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2018_02_21_114147_create_restaurants_table.php" afterPath="$PROJECT_DIR$/database/migrations/2018_02_21_114147_create_restaurants_table.php" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/RestaurantListSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/RestaurantListSeeder.php" />
+      <change beforePath="$PROJECT_DIR$/resources/views/restaurant/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/restaurant/edit.blade.php" />
+      <change beforePath="$PROJECT_DIR$/resources/views/restaurant/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/restaurant/index.blade.php" />
+      <change beforePath="$PROJECT_DIR$/resources/views/restaurant/list.blade.php" afterPath="$PROJECT_DIR$/resources/views/restaurant/list.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,12 +44,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="2018_03_12_171513_create_book_check_balances_table.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/database/migrations/2018_03_12_171513_create_book_check_balances_table.php">
+      <file leaf-file-name="RestaurantsController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="580">
+              <caret line="34" column="58" lean-forward="false" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="edit.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/restaurant/edit.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
-              <caret line="23" column="71" lean-forward="false" selection-start-line="23" selection-start-column="71" selection-end-line="23" selection-end-column="71" />
-              <folding />
+              <caret line="36" column="152" lean-forward="false" selection-start-line="36" selection-start-column="152" selection-end-line="36" selection-end-column="152" />
+              <folding>
+                <marker date="1520911645996" expanded="true" signature="9:22" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="34:43" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="140:154" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="252:276" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="308:316" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="650:700" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="734:801" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="1241:1293" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="1343:1455" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="1580:1626" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="1676:1790" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="1915:1953" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="2116:2230" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="2601:2611" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="2617:2630" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="2700:2717" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="2843:2855" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="2862:2882" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="3248:3283" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="3446:3552" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="3926:3938" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="3944:3953" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="4023:4042" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="4168:4181" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="4188:4205" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="4571:4621" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="4671:4788" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="4967:5032" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="5095:5109" ph="..." />
+                <marker date="1520911645996" expanded="true" signature="5138:5153" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -67,7 +115,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/Http/Controllers/HotelController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php" />
         <option value="$PROJECT_DIR$/database/seeds/TimeDinnersSeeder.php" />
         <option value="$PROJECT_DIR$/database/seeds/TimeLunchsSeeder.php" />
         <option value="D:/../php/php.ini" />
@@ -83,11 +130,18 @@
         <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
         <option value="$PROJECT_DIR$/database/seeds/SetMenuListSeeder.php" />
         <option value="$PROJECT_DIR$/.env" />
-        <option value="$PROJECT_DIR$/app/BookCheckBalance.php" />
         <option value="$PROJECT_DIR$/app/SetMenu.php" />
         <option value="$PROJECT_DIR$/database/migrations/2018_02_23_131620_create_set_menus_table.php" />
         <option value="$PROJECT_DIR$/app/Actives.php" />
         <option value="$PROJECT_DIR$/database/migrations/2018_03_12_171513_create_book_check_balances_table.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2018_02_21_114147_create_restaurants_table.php" />
+        <option value="$PROJECT_DIR$/database/seeds/RestaurantListSeeder.php" />
+        <option value="$PROJECT_DIR$/resources/views/restaurant/list.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/restaurant/index.blade.php" />
+        <option value="$PROJECT_DIR$/app/BookCheckBalance.php" />
+        <option value="$PROJECT_DIR$/app/Http/Requests/RestaurantsRequest.php" />
+        <option value="$PROJECT_DIR$/resources/views/restaurant/edit.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php" />
       </list>
     </option>
   </component>
@@ -185,7 +239,7 @@
     </include_path>
   </component>
   <component name="PhpXdebugProxy" ide_key="PHPSTROM" host="127.0.0.1" port="9000" />
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="140" />
     <option name="y" value="20" />
     <option name="width" value="1400" />
@@ -237,18 +291,27 @@
             <path>
               <item name="Hotel_Restaurant" type="b2602c69:ProjectViewProjectNode" />
               <item name="Hotel_Restaurant" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="Hotel_Restaurant" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Hotel_Restaurant" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="migrations" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Requests" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="Hotel_Restaurant" type="b2602c69:ProjectViewProjectNode" />
               <item name="Hotel_Restaurant" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="Hotel_Restaurant" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Hotel_Restaurant" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="Hotel_Restaurant" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Hotel_Restaurant" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="restaurant" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -311,18 +374,19 @@
       <workItem from="1519956726172" duration="8000" />
       <workItem from="1519982656510" duration="1165000" />
       <workItem from="1520848978838" duration="2079000" />
-      <workItem from="1520909782296" duration="108000" />
+      <workItem from="1520909782296" duration="286000" />
+      <workItem from="1520910469429" duration="1576000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74784000" />
+    <option name="totallyTimeSpent" value="76538000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="7" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23899755" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15403423" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -360,42 +424,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/hotel/list.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="34" column="56" lean-forward="false" selection-start-line="34" selection-start-column="56" selection-end-line="34" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HotelController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="777">
-          <caret line="41" column="72" lean-forward="false" selection-start-line="38" selection-start-column="12" selection-end-line="41" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/set_menu/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SetMenusController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HotelController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1974">
-          <caret line="94" column="24" lean-forward="false" selection-start-line="94" selection-start-column="24" selection-end-line="94" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
@@ -495,13 +523,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="160" column="40" lean-forward="true" selection-start-line="160" selection-start-column="40" selection-end-line="160" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://table:/3a100368/797391ac-b7aa-41c5-aa77-0c1dae9f8630/hotel_restaurant.set_menus" />
     <entry file="file://D:/../php/php.ini" />
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
@@ -575,13 +596,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/restaurant/list.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-189">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/set_menu/list.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-189">
@@ -594,13 +608,6 @@
         <state relative-caret-position="147">
           <caret line="7" column="38" lean-forward="false" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="38" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/RestaurantListSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="19" column="32" lean-forward="true" selection-start-line="15" selection-start-column="12" selection-end-line="19" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -626,14 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/BookCheckBalance.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -645,6 +644,90 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-40">
           <caret line="13" column="26" lean-forward="false" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2018_03_12_171513_create_book_check_balances_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="23" column="71" lean-forward="false" selection-start-line="23" selection-start-column="71" selection-end-line="23" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/RestaurantListSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2018_02_21_114147_create_restaurants_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="22" column="63" lean-forward="false" selection-start-line="22" selection-start-column="63" selection-end-line="22" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/restaurant/list.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="38" column="65" lean-forward="false" selection-start-line="38" selection-start-column="65" selection-end-line="38" selection-end-column="65" />
+          <folding>
+            <marker date="1520910945998" expanded="true" signature="9:22" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="34:43" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="576:631" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="1394:1421" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="1524:1554" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="1596:1621" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="1663:1694" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="1736:1757" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="1799:1832" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="2170:2214" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="2573:2617" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="3050:3064" ph="..." />
+            <marker date="1520910945998" expanded="true" signature="3090:3105" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/restaurant/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="36" column="71" lean-forward="false" selection-start-line="36" selection-start-column="71" selection-end-line="36" selection-end-column="71" />
+          <folding>
+            <marker date="1520911111682" expanded="true" signature="9:22" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="34:43" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="140:154" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="252:276" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="308:316" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="734:797" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="1241:1293" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="1343:1443" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="1568:1614" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="1664:1765" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="1890:1925" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="2323:2340" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="2407:2419" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="2426:2446" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="2779:2825" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="3224:3243" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="3310:3323" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="3330:3347" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="3679:3729" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="3779:3881" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="4060:4124" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="4187:4201" ph="..." />
+            <marker date="1520911111682" expanded="true" signature="4231:4246" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Restaurants.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -657,6 +740,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/RestaurantsRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="599">
+          <caret line="35" column="72" lean-forward="false" selection-start-line="35" selection-start-column="72" selection-end-line="35" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Actives.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -665,10 +756,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2018_03_12_171513_create_book_check_balances_table.php">
+    <entry file="file://$PROJECT_DIR$/app/BookCheckBalance.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/restaurant/edit.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
-          <caret line="23" column="71" lean-forward="false" selection-start-line="23" selection-start-column="71" selection-end-line="23" selection-end-column="71" />
+          <caret line="36" column="152" lean-forward="false" selection-start-line="36" selection-start-column="152" selection-end-line="36" selection-end-column="152" />
+          <folding>
+            <marker date="1520911645996" expanded="true" signature="9:22" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="34:43" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="140:154" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="252:276" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="308:316" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="650:700" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="734:801" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="1241:1293" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="1343:1455" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="1580:1626" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="1676:1790" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="1915:1953" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="2116:2230" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="2601:2611" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="2617:2630" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="2700:2717" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="2843:2855" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="2862:2882" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="3248:3283" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="3446:3552" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="3926:3938" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="3944:3953" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="4023:4042" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="4168:4181" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="4188:4205" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="4571:4621" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="4671:4788" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="4967:5032" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="5095:5109" ph="..." />
+            <marker date="1520911645996" expanded="true" signature="5138:5153" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="34" column="58" lean-forward="false" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
           <folding />
         </state>
       </provider>

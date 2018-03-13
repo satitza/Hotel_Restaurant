@@ -23,6 +23,7 @@ class RestaurantsRequest extends FormRequest {
     public function rules() {
         return [
             'restaurant_name' => 'required',
+            'restaurant_email' => 'required|email',
             'hotel_id' => 'required',
             'active_id' => 'required',
         ];
@@ -31,6 +32,8 @@ class RestaurantsRequest extends FormRequest {
     public function messages() {
         return [
             'restaurant_name.required' => 'กรุณากรอกชื่อร้านอาหาร',
+            'restaurant_email.required' => 'กรุณากรอก อีเมล์',
+            'restaurant_email.email' => 'กรูณากรอกรูปแบบอีเมล์ให้ถูกต้อง',
             'hotel_id.required' => 'กรุณาเลือกโรงแรม',
             'active_id.required' => 'กรุณาเลือกสถานะร้านอาหาร',
         ];

@@ -32,7 +32,7 @@ class RestaurantsController extends Controller
                 'actives' => $actives
             ]);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -45,7 +45,7 @@ class RestaurantsController extends Controller
     {
         try {
             $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'actives.active', 'restaurant_comment')
+                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('restaurants.id', 'asc')->paginate(10);
@@ -53,7 +53,7 @@ class RestaurantsController extends Controller
                 'restaurants' => $restaurants
             ]);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -69,6 +69,7 @@ class RestaurantsController extends Controller
         try {
             $restaurants = new Restaurants;
             $restaurants->restaurant_name = $request->restaurant_name;
+            $restaurants->restaurant_email = $request->restaurant_email;
             $restaurants->hotel_id = $request->hotel_id;
             $restaurants->active_id = $request->active_id;
             $restaurants->restaurant_comment = $request->restaurant_comment;
@@ -77,7 +78,7 @@ class RestaurantsController extends Controller
             return redirect()->action('RestaurantsController@create');
         } catch (Exception $e) {
             DB::rollback();
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -102,7 +103,7 @@ class RestaurantsController extends Controller
     {
         try {
             $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
+                ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->get();
@@ -116,6 +117,7 @@ class RestaurantsController extends Controller
             return view('restaurant.edit', [
                 'id' => $restaurant->id,
                 'restaurant_name' => $restaurant->restaurant_name,
+                'restaurant_email' => $restaurant->restaurant_email,
                 'hotel_id' => $restaurant->hotel_id,
                 'hotel_name' => $restaurant->hotel_name,
                 'active_id' => $restaurant->active_id,
@@ -123,7 +125,7 @@ class RestaurantsController extends Controller
                 'restaurant_comment' => $restaurant->restaurant_comment
             ])->with('actives', $actives)->with('hotels', $hotels);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -142,6 +144,7 @@ class RestaurantsController extends Controller
                 ->where('id', $id)
                 ->update([
                     'restaurant_name' => $request->restaurant_name,
+                    'restaurant_email' => $request->restaurant_email,
                     'hotel_id' => $request->hotel_id,
                     'active_id' => $request->active_id,
                     'restaurant_comment' => $request->restaurant_comment
@@ -170,7 +173,7 @@ class RestaurantsController extends Controller
             return redirect()->action('RestaurantsController@create');
         } catch (Exception $e) {
             DB::rollback();
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 

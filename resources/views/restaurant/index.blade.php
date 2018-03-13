@@ -31,7 +31,11 @@
                                 <tr>
                                     <td>{{ Form::label('lb_restaurant_name', 'ชื่อร้านอาหาร') }}</td>
                                     <td>{{ Form::text('restaurant_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร']) }}</td>
-                                </tr>                           
+                                </tr>
+                                <tr>
+                                    <td>{{ Form::label('lb_restaurant_email', 'อีเมล์') }}</td>
+                                    <td>{{ Form::text('restaurant_email', null, ['class' => 'form-control', 'placeholder' => 'ที่อยู่อีเมล์']) }}</td>
+                                </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_hotel', 'โรงแรม') }}</td>
                                     <td>

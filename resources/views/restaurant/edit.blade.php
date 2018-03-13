@@ -33,6 +33,10 @@
                                     <td>{{ Form::text('restaurant_name', $restaurant_name, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร']) }}</td>
                                 </tr>
                                 <tr>
+                                    <td>{{ Form::label('lb_restaurant_email', 'อีเมล์') }}</td>
+                                    <td>{{ Form::text('restaurant_email', $restaurant_email, ['class' => 'form-control', 'placeholder' => 'ที่อยู่อีเมล์']) }}</td>
+                                </tr>
+                                <tr>
                                     <td>{{ Form::label('lb_hotel_id', 'โรงแรม') }}</td>
                                     <td>
                                         <div style="display: none">
