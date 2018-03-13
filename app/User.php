@@ -26,4 +26,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function Hotels() {
+        return $this->belongsTo(UserRole::class, 'user_role');
+    }
 }
