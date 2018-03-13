@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class CheckAdmin
+class CheckEditor
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,9 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->user_role != 1){
+        if(Auth::user()->user_role != 1 && Auth::user()->user_role != 2){
             return response()->json([
-                'message' => 'You don`t have permission',
-                'role' => Auth::user()->user_role,
+                'message' => 'You don`t have administrator or editor user',
             ], 403);
         }
         return $next($request);

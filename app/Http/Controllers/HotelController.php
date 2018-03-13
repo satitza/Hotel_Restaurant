@@ -33,7 +33,7 @@ class HotelController extends Controller {
                 'actives' => $actives,
             ]);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -51,7 +51,7 @@ class HotelController extends Controller {
                 'hotels' => $hotels
             ]);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -71,7 +71,7 @@ class HotelController extends Controller {
             return redirect()->action('HotelController@create');
         } catch (Exception $e) {
             DB::rollback();
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -107,7 +107,7 @@ class HotelController extends Controller {
                         'hotel_comment' => $hotel->hotel_comment
                     ])->with('actives', $actives);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -129,7 +129,7 @@ class HotelController extends Controller {
             return redirect()->action('HotelController@create');
         } catch (Exception $e) {
             DB::rollback();
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 
@@ -145,7 +145,7 @@ class HotelController extends Controller {
             return redirect()->action('HotelController@create');
         } catch (Exception $e) {
             DB::rollback();
-            echo $e->getMessage();
+            return view('error.index')->with('error', $e);
         }
     }
 

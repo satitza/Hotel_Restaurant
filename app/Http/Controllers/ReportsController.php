@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 class ReportsController extends Controller
 {
 
-
+     public function __construct()
+     {
+         $this->middleware('auth');
+         $this->middleware('report');
+     }
 
     /**
      * Display a listing of the resource.
@@ -16,7 +20,9 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'msg' => 'report controller'
+        ]);
     }
 
     /**

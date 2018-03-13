@@ -123,10 +123,7 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="#">Add</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">List</a>
+                                        <a href="{{ url('report') }}">Get Report</a>
                                     </li>
                                 </ul>
                             </li>
