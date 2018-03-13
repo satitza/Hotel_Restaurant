@@ -29,7 +29,11 @@ Route::resource('set_menu', 'SetMenusController');
 Route::get('delete_set_menu/{id}', 'SetMenusController@destroy');
 
 Route::get('test', function () {
-    return view('test.index');
+
+    //$user = Auth::user();
+    //echo $user->user_role;
+
+    //return view('test.index');
 });
 
 Route::get('/', function () {
@@ -40,28 +44,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/run-migrations', function () {
-    try {
-        $migrate = Artisan::call('migrate:refresh', ['--seed' => true]);
-        if (!$migrate) {
-            echo "Reset database success";
-        }
-    } catch (Exception $e) {
-        return view('error.index')->with('error', $e);
-    }
-});
 
-Route::get('/run-seeder', function(){
-    try{
-        $seeder = Artisan::call('db:seed');
-        if(!$seeder){
-            echo "Run seeder success";
-        }
-    }
-    catch (Exception $e){
-        return view('error.index')->with('error', $e);
-    }
-});
 
 
 
