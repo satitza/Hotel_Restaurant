@@ -19,7 +19,6 @@ class CheckAdmin
         if(Auth::user()->user_role != 1){
             return response()->json([
                 'message' => 'You don`t have permission',
-                'role' => Auth::user()->user_role,
             ], 403);
         }
         return $next($request);

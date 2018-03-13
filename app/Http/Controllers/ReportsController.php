@@ -20,9 +20,12 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'msg' => 'report controller'
-        ]);
+        try{
+            return view('report.index');
+        }
+        catch (Exception $e){
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**

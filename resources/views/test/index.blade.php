@@ -1,38 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-<!--scrip src="{{ asset('jquery/jquery-1.10.2.min.js') }}"></scrip-->
-<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
+    <div class="container">
+        <h2>Multi-Level Dropdowns</h2>
+        <p>In this example, we have created a .dropdown-submenu class for multi-level dropdowns (see style section
+            above).</p>
+        <p>Note that we have added jQuery to open the multi-level dropdown on click (see script section below).</p>
 
-<script>
-    $(function () {
-        $("#btn-edit").click(function () {
-            $("#select").toggle("hide")();
-        });
-    });
-</script>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="dropdown">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Test JQuery</div>
 
-                <div class="panel-body">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Tutorials
+                <span class="caret"></span></button>
 
-                    <div>
-                        <select id="select">
-                            <option>Enable</option>
-                            <option>Disable</option>
-                        </select>
-                    </div>
-                    <button id="btn-edit">edit</button>
-                </div>
-            </div>
+
+            <ul class="dropdown-menu">
+                <li><a tabindex="-1" href="#">HTML</a></li>
+                <li><a tabindex="-1" href="#">CSS</a></li>
+                <li class="dropdown-submenu">
+                    <a class="test" tabindex="-1" href="#">New dropdown <span class="caret"></span></a>
+
+
+
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+                        <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+                        <li class="dropdown-submenu">
+                            <a class="test" href="#">Another dropdown <span class="caret"></span></a>
+
+
+
+                            <ul class="dropdown-menu">
+                                <li><a href="#">3rd level dropdown</a></li>
+                                <li><a href="#">3rd level dropdown</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
+
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
+
+
 @endsection
 
 

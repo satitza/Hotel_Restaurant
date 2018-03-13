@@ -28,6 +28,14 @@ Route::get('delete_restaurant/{id}', 'RestaurantsController@destroy');
 Route::resource('set_menu', 'SetMenusController');
 Route::get('delete_set_menu/{id}', 'SetMenusController@destroy');
 
+Route::resource('report', 'ReportsController');
+
+Route::group(['prefix' => 'setting'], function (){
+    Route::get('add_user', '\App\Http\Controllers\Setting\User\UsersController@index');
+});
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -36,8 +44,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('test', function(){
+    return view('test.index');
+});
 
-Route::resource('report', 'ReportsController');
+
 
 
 

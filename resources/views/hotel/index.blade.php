@@ -17,6 +17,7 @@
                 <div class="panel-heading">Add Hotel</div>
 
                 <div class="panel-body">
+
                     <div class="form-group">
                         {!! Form::open(['url' => 'hotel', 'files' => false]) !!}
                         <!-- {{ Form::open(array('url' => 'hotel/create', 'method' => 'get')) }} -->
@@ -57,6 +58,7 @@
                         {{ csrf_field() }}
                         {!! Form::close() !!}
                     </div>
+
                 </div>
             </div>
         </div>
