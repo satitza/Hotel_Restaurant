@@ -20,7 +20,8 @@ class CreateBookCheckBalancesTable extends Migration
             $table->date('book_menu_date')->nullable();
             $table->integer('book_menu_guest')->nullable();
             $table->integer('book_menu_balance')->nullable();
-            $table->integer('active_id')->nullable();
+            $table->integer('active_id')->unsigned();
+            $table->foreign('active_id')->references('id')->on('actives')->onDelete('cascade');
             $table->timestamps();
         });
     }
