@@ -35,9 +35,6 @@
                                         <div class="form-group">
                                             <select class="form-control" name="user_role">
                                                 <option value="{{ $user_role_id }}"> {{ $user_role }}</option>
-                                                @foreach($roles as $role)
-                                                    <option value="{{ $role->id }}"> {{ $role->role }} </option>
-                                                @endforeach
                                             </select>
                                         </div>
                                     </td>

@@ -152,6 +152,8 @@
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ url('setting/users') }}">Add User</a></li>
                                         <li><a href="{{ url('setting/users/create') }}">List User</a></li>
+                                        <li><a href="{{ url('setting/report/users') }}">Make Report User</a></li>
+                                        <li><a href="{{ url('#') }}">Make Editor User</a></li>
                                     </ul>
                                 </li>
                             </ul>

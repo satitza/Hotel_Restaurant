@@ -12,7 +12,7 @@ class HotelController extends Controller {
 
     public function __construct() {
         $this->middleware('auth');
-        $this->middleware('admin', ['only' => [
+        $this->middleware('editor', ['only' => [
             'index',
             'store',
             'edit',

@@ -138,7 +138,6 @@ class UsersController extends Controller
     public function edit($id)
     {
         try {
-            $roles = UserRole::orderBy('id', 'ASC')->get();
             $users = DB::table('users')
                 ->select('users.id', 'name', 'email', 'users.user_role', 'user_roles.role')
                 ->join('user_roles', 'users.user_role', '=', 'user_roles.id')
@@ -152,7 +151,7 @@ class UsersController extends Controller
                 'user_email' => $user->email,
                 'user_role_id' => $user->user_role,
                 'user_role' => $user->role
-            ])->with('roles', $roles);
+            ]);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }

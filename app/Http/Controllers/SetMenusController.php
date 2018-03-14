@@ -18,6 +18,13 @@ class SetMenusController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('editor', ['only' => [
+            'index',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ]]);
     }
 
     /**
