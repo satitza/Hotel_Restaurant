@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Setting\User;
 
+use App\UserReport;
 use DB;
 use App\User;
 use App\Hotels;
@@ -15,7 +16,11 @@ class ReportUsersController extends Controller
         $this->middleware('auth');
         $this->middleware('admin', ['only' => [
             'index',
-            'create'
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy('
         ]]);
     }
 
@@ -46,7 +51,19 @@ class ReportUsersController extends Controller
      */
     public function create()
     {
-
+        try{
+            $user_ports = DB::table('user_reports')
+                ->select('user_reports.id', 'user_id', 'users.name', 'hotel_id', 'hotels.hotel_name')
+                ->join('users', 'user_reports.user_id', '=', 'users.id')
+                ->join('hotels', 'user_reports.hotel_id', '=', 'hotels.id')
+                ->orderBy('user_reports.id', 'asc')->paginate(10);
+            return view('setting.report_user.list_user', [
+                'user_reports' => $user_ports
+            ]);
+        }
+        catch (Exception $e){
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
@@ -57,11 +74,21 @@ class ReportUsersController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            echo $request->user_id."<br>";
-            echo $request->hotel_id."<br>";
-        }
-        catch (Exception $e){
+        DB::beginTransaction();
+        try {
+            if (DB::table('user_reports')->where('user_id', '=', $request->user_id)->exists()) {
+                return view('error.index')->with('error', 'เคยทำการ Match User คนนี้ กับ Hotels นี้แล้ว');
+            }
+
+            $user_report = new UserReport;
+            $user_report->user_id = $request->user_id;
+            $user_report->hotel_id = $request->hotel_id;
+            $user_report->save();
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
+
+        } catch (Exception $e) {
+            DB::rollback();
             return view('error.index')->with('error', $e);
         }
     }
@@ -85,7 +112,12 @@ class ReportUsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        try{
+            return view('setting.report_user.edit_user');
+        }
+        catch (Exception $e){
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**

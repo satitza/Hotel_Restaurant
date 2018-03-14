@@ -38,7 +38,6 @@ Route::group(['prefix' => 'setting'], function (){
 
     Route::group(['prefix' => 'report'], function(){
         Route::resource('users', '\App\Http\Controllers\Setting\User\ReportUsersController');
-        //Route::post('users', '\App\Http\Controllers\Setting\User\ReportUsersController@create');
     });
 });
 
