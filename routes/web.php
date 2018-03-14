@@ -34,6 +34,7 @@ Route::group(['prefix' => 'setting'], function (){
 
     Route::resource('users', '\App\Http\Controllers\Setting\User\UsersController');
     Route::get('delete_users/{id}', '\App\Http\Controllers\Setting\User\UsersController@destroy');
+    Route::post('users_update_password', '\App\Http\Controllers\Setting\User\UsersController@update_password');
 });
 
 

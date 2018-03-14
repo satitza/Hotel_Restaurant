@@ -19,7 +19,9 @@ class UsersController extends Controller
             'store',
             'edit',
             'update',
-            'destroy'
+            'destroy',
+            'show',
+            'update_password'
         ]]);
     }
 
@@ -92,7 +94,39 @@ class UsersController extends Controller
      */
     public function show($id)
     {
+        try {
+            $old_pass = DB::table('users')->where('id', '=', $id)->get();
+            foreach ($old_pass as $password) {
 
+            }
+            return view('setting.user.reset_password', [
+                'user_id' => $password->id,
+                'user_name' => $password->name,
+                'password' => $password->password
+            ]);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
+    }
+
+    public function update_password(Request $request)
+    {
+        if ($request->user_password_1 != $request->user_password_2) {
+            return view('error.index')->with('error', 'คุณกรอกรหัสผ่านไม่ตรงกัน');
+        }
+        DB::beginTransaction();
+        try {
+            DB::table('users')
+                ->where('id', $request->user_id)
+                ->update([
+                    'password' => bcrypt($request->user_password_1)
+                ]);
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**

@@ -27,6 +27,7 @@
                                 <th scope="col">E-Mail</th>
                                 <th scope="col">Role</th>
                                 <th scope="col1">Edit User</th>
+                                <th scope="col">Reset Password</th>
                                 <th scope="col1">Delete User</th>
                             </tr>
                             </thead>
@@ -40,6 +41,13 @@
                                     <button type="button" class="btn btn-info">
                                         <a href="{{ url('setting/users/'.$user->id.'/edit') }}">
                                             Edit User
+                                        </a>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-warning">
+                                        <a href="{{ url('setting/users/'.$user->id) }}">
+                                            Reset Password
                                         </a>
                                     </button>
                                 </td>
