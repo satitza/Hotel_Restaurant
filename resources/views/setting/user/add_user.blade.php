@@ -11,7 +11,7 @@
                     <div class="panel-body">
 
                         <div class="form-group">
-                        {!! Form::open(['url' => 'setting/create_user', 'files' => false]) !!}
+                        {!! Form::open(['url' => 'setting/users', 'files' => false]) !!}
                             <?php // {{ Form::open(array('url' => 'setting/create_user', 'method' => 'post')) }} ?>
                             <table class="table table-striped table-hover ">
                                 <thead>

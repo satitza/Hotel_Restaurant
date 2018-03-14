@@ -150,9 +150,8 @@
                                 <li class="dropdown-submenu">
                                     <a class="submenu" tabindex="-1" href="#">User Manage<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ url('setting/add_user') }}">Add User</a></li>
-                                        <li><a href="#">List Report User</a></li>
-                                        <li><a href="#">List Editor User</a></li>
+                                        <li><a href="{{ url('setting/users') }}">Add User</a></li>
+                                        <li><a href="{{ url('setting/users/create') }}">List User</a></li>
                                     </ul>
                                 </li>
                             </ul>

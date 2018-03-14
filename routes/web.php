@@ -31,8 +31,11 @@ Route::get('delete_set_menu/{id}', 'SetMenusController@destroy');
 Route::resource('report', 'ReportsController');
 
 Route::group(['prefix' => 'setting'], function (){
-    Route::get('add_user', '\App\Http\Controllers\Setting\User\UsersController@index');
-    Route::post('create_user', '\App\Http\Controllers\Setting\User\UsersController@store');
+
+    Route::resource('users', '\App\Http\Controllers\Setting\User\UsersController');
+
+    //Route::get('edit_user/{id}', '\App\Http\Controllers\Setting\User\UsersController@edit');
+    //Route::post('create_user', '\App\Http\Controllers\Setting\User\UsersController@store');
 });
 
 
