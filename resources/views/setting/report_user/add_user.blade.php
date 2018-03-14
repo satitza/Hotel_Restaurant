@@ -11,8 +11,8 @@
                     <div class="panel-body">
 
                         <div class="form-group">
-                            {!! Form::open(['url' => '#', 'files' => false]) !!}
-                            <?php // {{ Form::open(array('url' => 'setting/create_user', 'method' => 'post')) }} ?>
+                            <?php // {!! Form::open(['url' => 'setting/report/users', 'files' => false]) !!} ?>
+                            {{ Form::open(array('url' => 'setting/report/users', 'method' => 'post')) }}
                             <table class="table table-striped table-hover ">
                                 <thead>
                                 <tr class="">
@@ -25,10 +25,10 @@
                                     <td>{{ Form::label('lb_user_report', 'ชื่อ') }}</td>
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control" name="user_report_id">
+                                            <select class="form-control" name="user_id">
                                                 <!--option value="" disabled selected>please_selected</option-->
                                                 @foreach($report_users as $report_user)
-                                                <option value="{{ $report_user->id }}">{{ $report_user->name }}</option>
+                                                    <option value="{{ $report_user->id }}">{{ $report_user->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -50,7 +50,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Add User', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Match User', ['class' => 'btn btn-primary']) }}
                             </center>
                             {{ csrf_field() }}
                             {!! Form::close() !!}

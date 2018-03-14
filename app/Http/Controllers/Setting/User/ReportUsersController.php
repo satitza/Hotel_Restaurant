@@ -14,7 +14,8 @@ class ReportUsersController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('admin', ['only' => [
-            'index'
+            'index',
+            'create'
         ]]);
     }
 
@@ -45,7 +46,7 @@ class ReportUsersController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -56,7 +57,13 @@ class ReportUsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            echo $request->user_id."<br>";
+            echo $request->hotel_id."<br>";
+        }
+        catch (Exception $e){
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
@@ -90,7 +97,7 @@ class ReportUsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**

@@ -27,7 +27,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function Hotels() {
+    public function UserReport() {
+        return $this->hasMany(UserReport::class);
+    }
+
+    public function UserRole() {
         return $this->belongsTo(UserRole::class, 'user_role');
     }
 }

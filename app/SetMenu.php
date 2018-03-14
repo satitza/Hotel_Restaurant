@@ -13,7 +13,7 @@ class SetMenu extends Model {
 
 
     public function Hotels() {
-        return $this->belongsTo(Hotels::class, 'hotes_id');
+        return $this->belongsTo(Hotels::class, 'hotel_id');
     }
 
     public function Restaurants() {
