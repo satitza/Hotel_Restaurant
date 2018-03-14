@@ -11,8 +11,8 @@
                     <div class="panel-body">
 
                         <div class="form-group">
-                        <?php //{!! Form::open(['url' => 'hotel', 'files' => false]) !!} ?>
-                        <!-- {{ Form::open(array('url' => 'setting/create', 'method' => 'post')) }} -->
+                        {!! Form::open(['url' => 'setting/create_user', 'files' => false]) !!}
+                            <?php // {{ Form::open(array('url' => 'setting/create_user', 'method' => 'post')) }} ?>
                             <table class="table table-striped table-hover ">
                                 <thead>
                                 <tr class="">
@@ -31,13 +31,13 @@
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_user_password', 'รหัสผ่าน') }}</td>
-                                    <td><input id="password" type="password" class="form-control" name="password" placeholder="รหัสผ่าน"></td>
+                                    <td><input id="password" type="password" class="form-control" name="user_password" placeholder="รหัสผ่าน"></td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_role', 'สถานะ') }}</td>
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control" name="role_id">
+                                            <select class="form-control" name="user_role">
                                                 <!--option value="" disabled selected>please_selected</option-->
                                                 @foreach($roles as $role)
                                                     <option value="{{ $role->id }}"> {{ $role->role }} </option>
@@ -49,7 +49,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Add Hotel', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Add User', ['class' => 'btn btn-primary']) }}
                             </center>
                             {{ csrf_field() }}
                             {!! Form::close() !!}

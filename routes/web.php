@@ -32,6 +32,7 @@ Route::resource('report', 'ReportsController');
 
 Route::group(['prefix' => 'setting'], function (){
     Route::get('add_user', '\App\Http\Controllers\Setting\User\UsersController@index');
+    Route::post('create_user', '\App\Http\Controllers\Setting\User\UsersController@store');
 });
 
 
