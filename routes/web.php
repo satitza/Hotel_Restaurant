@@ -33,9 +33,7 @@ Route::resource('report', 'ReportsController');
 Route::group(['prefix' => 'setting'], function (){
 
     Route::resource('users', '\App\Http\Controllers\Setting\User\UsersController');
-
-    //Route::get('edit_user/{id}', '\App\Http\Controllers\Setting\User\UsersController@edit');
-    //Route::post('create_user', '\App\Http\Controllers\Setting\User\UsersController@store');
+    Route::get('delete_users/{id}', '\App\Http\Controllers\Setting\User\UsersController@destroy');
 });
 
 

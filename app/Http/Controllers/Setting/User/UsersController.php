@@ -16,7 +16,10 @@ class UsersController extends Controller
         $this->middleware('admin', ['only' => [
             'index',
             'create',
-            'store'
+            'store',
+            'edit',
+            'update',
+            'destroy'
         ]]);
     }
 
@@ -44,7 +47,7 @@ class UsersController extends Controller
     {
         try {
             $users = DB::table('users')
-                ->select('users.id', 'name', 'email', 'user_roles.role', 'users.user_role')
+                ->select('users.id', 'name', 'email', 'user_roles.role')
                 ->join('user_roles', 'users.user_role', '=', 'user_roles.id')
                 //->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('users.id', 'asc')->paginate(10);
@@ -89,7 +92,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -100,7 +103,25 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $roles = UserRole::orderBy('id', 'ASC')->get();
+            $users = DB::table('users')
+                ->select('users.id', 'name', 'email', 'users.user_role', 'user_roles.role')
+                ->join('user_roles', 'users.user_role', '=', 'user_roles.id')
+                ->where('users.id', $id)->get();
+            foreach ($users as $user) {
+            }
+
+            return view('setting.user.edit_user', [
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'user_email' => $user->email,
+                'user_role_id' => $user->user_role,
+                'user_role' => $user->role
+            ])->with('roles', $roles);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
@@ -112,7 +133,21 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('users')
+                ->where('id', $id)
+                ->update([
+                    'name' => $request->user_name,
+                    'email' => $request->user_email,
+                    'user_role' => $request->user_role
+                ]);
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
@@ -123,6 +158,14 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('users')->where('id', $id)->delete();
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 }

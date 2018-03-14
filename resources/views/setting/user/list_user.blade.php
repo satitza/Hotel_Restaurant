@@ -38,14 +38,14 @@
                                 <td>{{ $user->role }}</td>
                                 <td>
                                     <button type="button" class="btn btn-info">
-                                        <a href="{{ url('setting/edit_user/'.$user->id) }}">
+                                        <a href="{{ url('setting/users/'.$user->id.'/edit') }}">
                                             Edit User
                                         </a>
                                     </button>
                                 </td>
                                 <td>
                                     <button type="submit" class="btn btn-danger">
-                                        <a href="{{ url('delete_hotel/') }}"
+                                        <a href="{{ url('setting/delete_users/'.$user->id) }}"
                                            onclick="return confirm('Confrim Delete ?')">
                                             Delete User
                                         </a>
