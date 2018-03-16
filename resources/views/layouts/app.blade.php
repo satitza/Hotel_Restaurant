@@ -167,7 +167,7 @@
                                                 class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ url('setting/editor/users') }}">Make Editor User</a></li>
-                                        <li><a href="{{ url('#') }}">List Editor User</a></li>
+                                        <li><a href="{{ url('setting/editor/users/create') }}">List Editor User</a></li>
                                     </ul>
                                 </li>
                             </ul>

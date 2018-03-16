@@ -60,15 +60,22 @@ class EditorUsersController extends Controller
     public function create()
     {
         try {
+            $user_editors = DB::table('user_editors')
+                ->select('user_editors.id', 'user_id', 'users.name', 'restaurant_id')
+                ->join('users', 'user_editors.user_id', '=', 'users.id')
+                ->orderBy('user_editors.id', 'asc')->paginate(10);
 
-            $user_editors = DB::table('user_editors')->get();
-
-            foreach ($user_editors as $user_editor){
-                $array = explode(',', $user_editor->restaurant_id);
-                print_r($array);
-
+            /*foreach ($user_editors as $user_editor){
+                $array = explode(',',$user_editor->restaurant_id,-1);
             }
 
+
+
+            print_r($array);*/
+
+            return view('setting.editor_user.list_user', [
+                'user_editors' => $user_editors
+            ]);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
