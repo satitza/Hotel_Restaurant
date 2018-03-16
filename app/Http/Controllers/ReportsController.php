@@ -13,7 +13,15 @@ class ReportsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('report');
+        $this->middleware('report',['only' => [
+            'index',
+            'create',
+            'store',
+            'show',
+            'edit',
+            'update',
+            'destroy'
+        ]]);
     }
 
     /**
