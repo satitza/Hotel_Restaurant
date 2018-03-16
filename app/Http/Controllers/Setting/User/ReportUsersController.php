@@ -85,7 +85,6 @@ class ReportUsersController extends Controller
             $user_report->save();
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
-
         } catch (Exception $e) {
             DB::rollback();
             return view('error.index')->with('error', $e);

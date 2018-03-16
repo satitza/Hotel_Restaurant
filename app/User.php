@@ -31,6 +31,10 @@ class User extends Authenticatable
         return $this->hasMany(UserReport::class);
     }
 
+    public function UserEditor() {
+        return $this->hasMany(UserEditor::class);
+    }
+
     public function UserRole() {
         return $this->belongsTo(UserRole::class, 'user_role');
     }

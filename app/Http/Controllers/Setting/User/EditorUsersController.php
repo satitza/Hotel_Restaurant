@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Setting\User;
 use DB;
 use App\User;
 use App\Restaurants;
+use App\UserEditor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use PhpParser\Node\Expr\Array_;
+use function PHPSTORM_META\type;
 
 class EditorUsersController extends Controller
 {
@@ -58,8 +59,32 @@ class EditorUsersController extends Controller
      */
     public function create()
     {
-        //
+        try {
+
+            $user_editors = DB::table('user_editors')->get();
+
+            foreach ($user_editors as $user_editor){
+                $array = explode(',', $user_editor->restaurant_id);
+                print_r($array);
+
+            }
+
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
     }
+
+    /*public function object_to_array($data)
+    {
+        if (is_array($data) || is_object($data)) {
+            $result = array();
+            foreach ($data as $key => $value) {
+                $result[$key] = $this->object_to_array($value);
+            }
+            return $result;
+        }
+        return $data;
+    }*/
 
     /**
      * Store a newly created resource in storage.
@@ -69,8 +94,23 @@ class EditorUsersController extends Controller
      */
     public function store(Request $request)
     {
-         $restaurants = $request->input('restaurants_check_box');
+        DB::beginTransaction();
+        try {
 
+            if (DB::table('user_editors')->where('user_id', '=', $request->user_id)->exists()) {
+                return view('error.index')->with('error', 'เคยทำการ Match User คนนี้แล้ว');
+            }
+
+            $user_editor = new UserEditor;
+            $user_editor->user_id = $request->user_id;
+            $user_editor->restaurant_id = implode(",", $request->input('restaurants_check_box'));
+            $user_editor->save();
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
