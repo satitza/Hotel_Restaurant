@@ -51,7 +51,7 @@ class ReportUsersController extends Controller
      */
     public function create()
     {
-        try{
+        try {
             $user_ports = DB::table('user_reports')
                 ->select('user_reports.id', 'user_id', 'users.name', 'hotel_id', 'hotels.hotel_name')
                 ->join('users', 'user_reports.user_id', '=', 'users.id')
@@ -60,8 +60,7 @@ class ReportUsersController extends Controller
             return view('setting.report_user.list_user', [
                 'user_reports' => $user_ports
             ]);
-        }
-        catch (Exception $e){
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -77,7 +76,7 @@ class ReportUsersController extends Controller
         DB::beginTransaction();
         try {
             if (DB::table('user_reports')->where('user_id', '=', $request->user_id)->exists()) {
-                return view('error.index')->with('error', 'เคยทำการ Match User คนนี้ กับ Hotels นี้แล้ว');
+                return view('error.index')->with('error', 'เคยทำการ Match User คนนี้แล้ว');
             }
 
             $user_report = new UserReport;
@@ -112,10 +111,29 @@ class ReportUsersController extends Controller
      */
     public function edit($id)
     {
-        try{
-            return view('setting.report_user.edit_user');
-        }
-        catch (Exception $e){
+        try {
+            $users = DB::table('user_reports')
+                ->select('user_reports.id', 'user_id', 'users.name', 'hotel_id', 'hotels.hotel_name')
+                ->join('users', 'user_reports.user_id', '=', 'users.id')
+                ->join('hotels', 'user_reports.hotel_id', '=', 'hotels.id')
+                ->where('user_reports.id', '=', $id)->get();
+            foreach ($users as $user) {
+            }
+
+            $report_users = User::where('user_role', 3)->orderBy('id', 'ASC')->get();
+            $hotels = Hotels::where('active_id', 1)->orderBy('id', 'ASC')->get();
+
+            return view('setting.report_user.edit_user', [
+                'id' => $user->id,
+                'user_id' => $user->user_id,
+                'user_name' => $user->name,
+                'hotel_id' => $user->hotel_id,
+                'hotel_name' => $user->hotel_name
+            ])->with([
+                'report_users' => $report_users,
+                'hotels' => $hotels
+            ]);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -129,7 +147,20 @@ class ReportUsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        DB::beginTransaction();
+        try {
+            DB::table('user_reports')
+                ->where('id', $id)
+                ->update([
+                    'user_id' => $request->user_id,
+                    'hotel_id' => $request->hotel_id,
+                ]);
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
@@ -140,6 +171,14 @@ class ReportUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('user_reports')->where('id', $id)->delete();
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 }
