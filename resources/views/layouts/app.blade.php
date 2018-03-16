@@ -162,6 +162,14 @@
                                         <li><a href="{{ url('setting/report/users/create') }}">List Report User</a></li>
                                     </ul>
                                 </li>
+                                <li class="dropdown-submenu">
+                                    <a class="submenu" tabindex="-1" href="#">User Editor Manage<span
+                                                class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ url('setting/editor/users') }}">Make Editor User</a></li>
+                                        <li><a href="{{ url('#') }}">List Editor User</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                         <!------------------------------------------------------------------------------------------------------------------->

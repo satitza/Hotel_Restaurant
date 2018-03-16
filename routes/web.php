@@ -40,6 +40,10 @@ Route::group(['prefix' => 'setting'], function (){
         Route::resource('users', '\App\Http\Controllers\Setting\User\ReportUsersController');
         Route::get('delete_report_users/{id}', '\App\Http\Controllers\Setting\User\ReportUsersController@destroy');
     });
+
+    Route::group(['prefix' => 'editor'], function(){
+        Route::resource('users', '\App\Http\Controllers\Setting\User\EditorUsersController');
+    });
 });
 
 
