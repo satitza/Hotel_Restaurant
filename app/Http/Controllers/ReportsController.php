@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Hotels;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReportsController extends Controller
 {
 
-     public function __construct()
-     {
-         $this->middleware('auth');
-         $this->middleware('report');
-     }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('report');
+    }
 
     /**
      * Display a listing of the resource.
@@ -20,11 +23,21 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        try{
-            return view('report.index');
-        }
-        catch (Exception $e){
-            return view('error.index')->with('error', $e);
+        if (DB::table('user_reports')->where('user_id', '=', Auth::id())->exists()) {
+
+            try {
+                $users = DB::table('user_reports')->where('user_id', '=', Auth::id())->get();
+                foreach ($users as $user) {
+                }
+                $hotels = Hotels::where('id', $user->hotel_id)->get();
+                return response()->json([
+                    'hotel' => $hotels
+                ], 200);
+            } catch (Exception $e) {
+                return view('error.index')->with('error', $e);
+            }
+        } else {
+            return view('error.index')->with('error', 'คุณยังไม่ใด้ทำการ Match User กับ Hotel');
         }
     }
 
@@ -41,7 +54,7 @@ class ReportsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -52,7 +65,7 @@ class ReportsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -63,7 +76,7 @@ class ReportsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -74,8 +87,8 @@ class ReportsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -86,7 +99,7 @@ class ReportsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
