@@ -30,10 +30,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($user_editors as $user_editor)
+
+                            @foreach($user_editors as $indexKey => $user_editor)
                                 <tr>
-                                    <th>{{ $user_editor->name }}</th>
-                                    <td></td>
+                                    <td>{{ $user_editor->name }}</td>
+                                    <td>{{ $restaurants[$indexKey] }}</td>
                                     <td>
                                         <button type="button" class="btn btn-info">
                                             <a href="{{ url('setting/report/users//edit') }}">
@@ -53,7 +54,8 @@
                             @endforeach
                             </tbody>
                         </table>
-                    <?php // {!! $users->render() !!} ?>
+
+                    {!! $user_editors->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>

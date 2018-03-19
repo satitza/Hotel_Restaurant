@@ -65,23 +65,22 @@ class EditorUsersController extends Controller
                 ->join('users', 'user_editors.user_id', '=', 'users.id')
                 ->orderBy('user_editors.id', 'asc')->paginate(10);
 
-            /*foreach ($user_editors as $user_editor){
-                $array = explode(',',$user_editor->restaurant_id,-1);
+            $collect = array();
+            foreach ($user_editors as $user_editor) {
+                $arrays = explode(',', $user_editor->restaurant_id, -1);
+                array_push($collect, DB::table('restaurants')->select('restaurant_name')->whereIn('id', $arrays)->get());
             }
 
-
-
-            print_r($array);*/
-
             return view('setting.editor_user.list_user', [
-                'user_editors' => $user_editors
+                'user_editors' => $user_editors,
+                'restaurants' => $collect
             ]);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
 
-    /*public function object_to_array($data)
+    public function object_to_array($data)
     {
         if (is_array($data) || is_object($data)) {
             $result = array();
@@ -91,7 +90,7 @@ class EditorUsersController extends Controller
             return $result;
         }
         return $data;
-    }*/
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -110,7 +109,7 @@ class EditorUsersController extends Controller
 
             $user_editor = new UserEditor;
             $user_editor->user_id = $request->user_id;
-            $user_editor->restaurant_id = implode(",", $request->input('restaurants_check_box'));
+            $user_editor->restaurant_id = implode(",", $request->input('restaurants_check_box')) . ",";
             $user_editor->save();
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
