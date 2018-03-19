@@ -39,7 +39,7 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="old_restaurants_check_box[]"
-                                                           value="{{ $old_restaurants_id[$indexKey] }}" checked> {{ $old_restaurant }}
+                                                           value="{{ $old_restaurants[$indexKey] }}" checked> {{ $old_restaurant }}
                                                 </label>
                                             </div>
                                         @endforeach
@@ -48,13 +48,12 @@
                                 <tr>
                                     <td>{{ Form::label('lb_restaurant', 'ร้านอาหาร') }}</td>
                                     <td>
-
-                                        <?php /* {{ Form::checkbox('role', $restaurant->id, in_array($restaurant->id, $all_data[])) }} ?>
-                                            {{ Form::label('role', $restaurant->restaurant_name) }}<br>  */ ?>
                                         <div class="checkbox">
                                             <label>
-                                                @foreach($restaurants as $restaurant)
-                                                <input type="checkbox" name="restaurants_check_box[]" value="">
+                                             @foreach($restaurants as  $restaurant)
+
+                                                <input type="checkbox" name="restaurants_check_box[]" value="" > {{ $restaurant->restaurant_name }} <br>
+                                             @endforeach
                                             </label>
                                         </div>
 
@@ -63,7 +62,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Match User', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Edit Match User', ['class' => 'btn btn-primary']) }}
                             </center>
                             {{ csrf_field() }}
                             {!! Form::close() !!}

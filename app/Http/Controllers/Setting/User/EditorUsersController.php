@@ -145,24 +145,24 @@ class EditorUsersController extends Controller
                 ->join('users', 'user_editors.user_id', '=', 'users.id')
                 ->where('user_editors.id', '=', $id)->get();
 
-            $collect = array();
+            $old_restaurants = array();
+            //$restaurants = array();
+
             foreach ($user_editors as $user_editor) {
                 $arrays = explode(',', $user_editor->restaurant_id, -1);
                 foreach ($arrays as $array) {
-                    array_push($collect, DB::table('restaurants')->select('id', 'restaurant_name')->where('id', $array)->get());
-                    //$collect = DB::table('restaurants')->select('id', 'restaurant_name')->where('id', $array)->get();
+                    array_push($old_restaurants, DB::table('restaurants')->select('id', 'restaurant_name')->where('id',$array)->get());
                 }
             }
 
-            //dd($collect);
 
             return view('setting.editor_user.edit_user', [
                 'id' => $user_editor->id,
                 'user_id' => $user_editor->user_id,
                 'user_name' => $user_editor->name,
-                'old_restaurants_id' => $arrays,
-                'old_restaurants' => $collect,
-                'restaurants' => DB::table('restaurants')->orderBy('id', 'ASC')->get(),
+                'old_restaurants' => $old_restaurants,
+                //'old_restaurants' => $collect,
+                'restaurants' => Restaurants::orderBy('id', 'ASC')->get()
             ]);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
@@ -180,11 +180,10 @@ class EditorUsersController extends Controller
     function update(Request $request, $id)
     {
         DB::beginTransaction();
-        try{
-            echo $id."<br>";
+        try {
+            echo $id . "<br>";
             dd(implode(",", $request->input('old_restaurants_check_box')));
-        }
-        catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollback();
             return view('error.index')->with('error', $e);
         }
