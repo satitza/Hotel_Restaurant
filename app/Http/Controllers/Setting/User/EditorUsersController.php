@@ -138,7 +138,7 @@ class EditorUsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        echo  $id;
     }
 
     /**
@@ -161,6 +161,14 @@ class EditorUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('user_editors')->where('id', $id)->delete();
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 }

@@ -43,6 +43,7 @@ Route::group(['prefix' => 'setting'], function (){
 
     Route::group(['prefix' => 'editor'], function(){
         Route::resource('users', '\App\Http\Controllers\Setting\User\EditorUsersController');
+        Route::get('delete_editor_users/{id}', '\App\Http\Controllers\Setting\User\EditorUsersController@destroy');
     });
 });
 

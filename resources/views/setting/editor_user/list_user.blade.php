@@ -37,14 +37,14 @@
                                     <td>{{ $restaurants[$indexKey] }}</td>
                                     <td>
                                         <button type="button" class="btn btn-info">
-                                            <a href="{{ url('setting/report/users//edit') }}">
+                                            <a href="{{ url('setting/editor/users/'.$user_editor->id.'/edit') }}">
                                                 Edit User
                                             </a>
                                         </button>
                                     </td>
                                     <td>
                                         <button type="submit" class="btn btn-danger">
-                                            <a href="{{ url('setting/report/delete_report_users/') }}"
+                                            <a href="{{ url('setting/editor/delete_editor_users/'.$user_editor->id) }}"
                                                onclick="return confirm('Confrim Delete ?')">
                                                 Delete User
                                             </a>
