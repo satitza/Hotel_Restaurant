@@ -226,6 +226,10 @@ class EditorUsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if ($request->input('old_restaurants_check_box') == null) {
+            return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
+        }
+
         DB::beginTransaction();
         try {
             DB::table('user_editors')
