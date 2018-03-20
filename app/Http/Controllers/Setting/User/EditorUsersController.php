@@ -141,28 +141,34 @@ class EditorUsersController extends Controller
         }
     }
 
-    public function UpdateAddRestaurant(Request $request, $id){
-          try{
-              //echo "ID : ".$id."<br>";
-              //echo "User ID :".$request->user_id."<br>";
-              //echo "Restaurant ID : ".$request->restaurant_id."<br>";
+    public function UpdateAddRestaurant(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $old_restaurants_id = DB::table('user_editors')->select('restaurant_id')->where('id', $id)->get()->toArray();
+            foreach ($old_restaurants_id as $old_restaurant_id) {
+                $arrays = explode(',', $old_restaurant_id->restaurant_id, -1);
+                foreach ($arrays as $array) {
+                    if ($request->restaurant_id == $array) {
+                        return view('error.index')->with('error', 'User คนนี้ใด้ทำการ Match กับร้านอาหารนี้แล้ว');
+                    }
+                }
+            }
 
-              $user_editors = DB::table('user_editors')->select('restaurant_id')->where('id', $id)->get();
-              foreach ($user_editors as $user_editor) {
-                  $arrays = explode(',', $user_editor->restaurant_id, -1);
-                  foreach ($arrays as $array){
-                      if($request->restaurant_id == $array){
-                          return view('error.index')->with('error', 'User คนนี้ใด้ทำการ Match กับร้านอาหารนี้แล้ว');
-                      }
-                  }
-              }
+            array_push($arrays, $request->restaurant_id);
 
+            DB::table('user_editors')
+                ->where('id', $id)
+                ->update([
+                    'restaurant_id' => implode(",", $arrays) . ","
+                ]);
 
-
-          }
-          catch (Exception $e){
-              return view('error.index')->with('error', $e);
-          }
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**

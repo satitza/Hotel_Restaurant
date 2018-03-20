@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65386618-6c47-4098-8c11-8be26eed967c" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/resources/views/setting/editor_user/add_restaurant.blade.php" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Setting/User/EditorUsersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Setting/User/EditorUsersController.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/editor_user/list_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/editor_user/list_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" afterPath="$PROJECT_DIR$/routes/web.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,17 +49,16 @@
       <file leaf-file-name="EditorUsersController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Setting/User/EditorUsersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="149" column="78" lean-forward="false" selection-start-line="149" selection-start-column="78" selection-end-line="149" selection-end-column="78" />
+            <state relative-caret-position="779">
+              <caret line="177" column="40" lean-forward="true" selection-start-line="177" selection-start-column="40" selection-end-line="177" selection-end-column="40" />
               <folding>
                 <element signature="e#269#370#0#PHP" expanded="false" />
                 <element signature="e#482#653#0#PHP" expanded="false" />
                 <element signature="e#493#652#1#PHP" expanded="false" />
                 <element signature="e#1350#1459#0#PHP" expanded="false" />
                 <element signature="e#2143#2249#0#PHP" expanded="false" />
-                <element signature="e#6595#6870#0#PHP" expanded="false" />
-                <element signature="e#7770#7903#0#PHP" expanded="false" />
-                <marker date="1521531660738" expanded="false" signature="990:1021" ph="..." />
+                <element signature="e#8043#8176#0#PHP" expanded="false" />
+                <marker date="1521533263114" expanded="false" signature="990:1021" ph="..." />
               </folding>
             </state>
           </provider>
@@ -471,18 +466,18 @@
       <workItem from="1521425539381" duration="19201000" />
       <workItem from="1521451742726" duration="4861000" />
       <workItem from="1521517757066" duration="4773000" />
-      <workItem from="1521524074472" duration="7594000" />
+      <workItem from="1521524074472" duration="9192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="166532000" />
+    <option name="totallyTimeSpent" value="168130000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16687042" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12041565" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -965,17 +960,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Setting/User/EditorUsersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="149" column="78" lean-forward="false" selection-start-line="149" selection-start-column="78" selection-end-line="149" selection-end-column="78" />
+        <state relative-caret-position="779">
+          <caret line="177" column="40" lean-forward="true" selection-start-line="177" selection-start-column="40" selection-end-line="177" selection-end-column="40" />
           <folding>
             <element signature="e#269#370#0#PHP" expanded="false" />
             <element signature="e#482#653#0#PHP" expanded="false" />
             <element signature="e#493#652#1#PHP" expanded="false" />
             <element signature="e#1350#1459#0#PHP" expanded="false" />
             <element signature="e#2143#2249#0#PHP" expanded="false" />
-            <element signature="e#6595#6870#0#PHP" expanded="false" />
-            <element signature="e#7770#7903#0#PHP" expanded="false" />
-            <marker date="1521531660738" expanded="false" signature="990:1021" ph="..." />
+            <element signature="e#8043#8176#0#PHP" expanded="false" />
+            <marker date="1521533263114" expanded="false" signature="990:1021" ph="..." />
           </folding>
         </state>
       </provider>
