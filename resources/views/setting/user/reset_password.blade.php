@@ -4,7 +4,15 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <center>{{ $error }}</center>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Reset Password</div>
 
@@ -31,7 +39,7 @@
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_new_password', 'รหัสผ่านใหม่') }}</td>
-                                    <td>{{ Form::text('user_password_1', null, ['class' => 'form-control', 'placeholder' => 'รหัสผ่าน']) }}</td>
+                                    <td>{{ Form::text('user_password', null, ['class' => 'form-control', 'placeholder' => 'รหัสผ่าน']) }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_new_password', 'ยืนยันรหัสผ่าน') }}</td>
@@ -43,6 +51,7 @@
                                 {{ Form::submit('Update Password', ['class' => 'btn btn-primary']) }}
                             </center>
                             {{ Form::hidden('user_id', $user_id) }}
+                            {{ Form::hidden('user_email', 'email@email.com') }}
                             {{ csrf_field() }}
                             {!! Form::close() !!}
                         </div>

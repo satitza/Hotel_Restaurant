@@ -4,14 +4,22 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <center>{{ $error }}</center>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Add User</div>
 
                     <div class="panel-body">
 
                         <div class="form-group">
-                        {!! Form::open(['url' => 'setting/users', 'files' => false]) !!}
+                            {!! Form::open(['url' => 'setting/users', 'files' => false]) !!}
                             <?php // {{ Form::open(array('url' => 'setting/create_user', 'method' => 'post')) }} ?>
                             <table class="table table-striped table-hover ">
                                 <thead>
@@ -31,7 +39,8 @@
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_user_password', 'รหัสผ่าน') }}</td>
-                                    <td><input id="password" type="password" class="form-control" name="user_password" placeholder="รหัสผ่าน"></td>
+                                    <td><input id="password" type="password" class="form-control" name="user_password"
+                                               placeholder="รหัสผ่าน"></td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_role', 'สถานะ') }}</td>

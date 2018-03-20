@@ -8,7 +8,6 @@ use App\Restaurants;
 use App\UserEditor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use function PHPSTORM_META\type;
 
 class EditorUsersController extends Controller
 {
@@ -25,6 +24,8 @@ class EditorUsersController extends Controller
             'index',
             'create',
             'store',
+            'AddRestaurant',
+            'UpdateAddRestaurant',
             'show',
             'edit',
             'update',
@@ -37,11 +38,6 @@ class EditorUsersController extends Controller
         try {
             $editor_users = User::where('user_role', 2)->orderBy('id', 'ASC')->get();
             $restaurants = Restaurants::where('active_id', 1)->orderBy('id', 'ASC')->get();
-
-            /*foreach ($restaurants as $restaurant) {
-                $all_data[] = $restaurant->id;
-                $all_data[] = $restaurant->restaurant_name;
-            }*/
 
             return view('setting.editor_user.add_user', [
                 'editor_users' => $editor_users,
@@ -80,7 +76,7 @@ class EditorUsersController extends Controller
         }
     }
 
-    public function object_to_array($data)
+    /*public function object_to_array($data)
     {
         if (is_array($data) || is_object($data)) {
             $result = array();
@@ -90,7 +86,7 @@ class EditorUsersController extends Controller
             return $result;
         }
         return $data;
-    }
+    }*/
 
     /**
      * Store a newly created resource in storage.
@@ -199,6 +195,7 @@ class EditorUsersController extends Controller
 
             $old_restaurants = array();
             $old_restaurants_id = array();
+
             foreach ($user_editors as $user_editor) {
                 $old_restaurants_id = explode(',', $user_editor->restaurant_id, -1);
                 foreach ($old_restaurants_id as $old_restaurant_id) {
@@ -225,8 +222,7 @@ class EditorUsersController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         DB::beginTransaction();
         try {

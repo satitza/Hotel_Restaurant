@@ -6,6 +6,7 @@ use DB;
 use App\User;
 use App\UserRole;
 use Illuminate\Http\Request;
+use App\Http\Requests\UsersRequest;
 use App\Http\Controllers\Controller;
 
 class UsersController extends Controller
@@ -65,7 +66,7 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsersRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -109,9 +110,9 @@ class UsersController extends Controller
         }
     }
 
-    public function update_password(Request $request)
+    public function update_password(UsersRequest $request)
     {
-        if ($request->user_password_1 != $request->user_password_2) {
+        if ($request->user_password != $request->user_password_2) {
             return view('error.index')->with('error', 'คุณกรอกรหัสผ่านไม่ตรงกัน');
         }
         DB::beginTransaction();
@@ -119,7 +120,7 @@ class UsersController extends Controller
             DB::table('users')
                 ->where('id', $request->user_id)
                 ->update([
-                    'password' => bcrypt($request->user_password_1)
+                    'password' => bcrypt($request->user_password)
                 ]);
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
@@ -164,7 +165,7 @@ class UsersController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UsersRequest $request, $id)
     {
         DB::beginTransaction();
         try {
