@@ -146,23 +146,20 @@ class EditorUsersController extends Controller
                 ->where('user_editors.id', '=', $id)->get();
 
             $old_restaurants = array();
-            //$restaurants = array();
-
+            $old_restaurants_id = array();
             foreach ($user_editors as $user_editor) {
-                $arrays = explode(',', $user_editor->restaurant_id, -1);
-                foreach ($arrays as $array) {
-                    array_push($old_restaurants, DB::table('restaurants')->select('id', 'restaurant_name')->where('id',$array)->get());
+                $old_restaurants_id = explode(',', $user_editor->restaurant_id, -1);
+                foreach ($old_restaurants_id as $old_restaurant_id) {
+                    array_push($old_restaurants, DB::table('restaurants')->select('id', 'restaurant_name')->where('id', $old_restaurant_id)->get());
                 }
             }
-
 
             return view('setting.editor_user.edit_user', [
                 'id' => $user_editor->id,
                 'user_id' => $user_editor->user_id,
                 'user_name' => $user_editor->name,
                 'old_restaurants' => $old_restaurants,
-                //'old_restaurants' => $collect,
-                'restaurants' => Restaurants::orderBy('id', 'ASC')->get()
+                'old_restaurants_id' => $old_restaurants_id
             ]);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
@@ -181,8 +178,13 @@ class EditorUsersController extends Controller
     {
         DB::beginTransaction();
         try {
-            echo $id . "<br>";
-            dd(implode(",", $request->input('old_restaurants_check_box')));
+            DB::table('user_editors')
+                ->where('id', $id)
+                ->update([
+                    'restaurant_id' => implode(",", $request->input('old_restaurants_check_box')) . ","
+                ]);
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
         } catch (Exception $e) {
             DB::rollback();
             return view('error.index')->with('error', $e);

@@ -25,7 +25,8 @@
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Restaurant</th>
-                                <th scope="col1">Edit User</th>
+                                <th scope="col">Add Restaurant</th>
+                                <th scope="col1">Delete Restaurant</th>
                                 <th scope="col1">Delete User</th>
                             </tr>
                             </thead>
@@ -37,8 +38,15 @@
                                     <td>{{ $restaurants[$indexKey] }}</td>
                                     <td>
                                         <button type="button" class="btn btn-info">
+                                            <a href="{{ url('#') }}">
+                                                Add  Restaurant
+                                            </a>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning">
                                             <a href="{{ url('setting/editor/users/'.$user_editor->id.'/edit') }}">
-                                                Edit User
+                                                Delete  Restaurant
                                             </a>
                                         </button>
                                     </td>

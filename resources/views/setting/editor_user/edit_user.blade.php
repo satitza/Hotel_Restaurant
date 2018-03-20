@@ -39,24 +39,10 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="old_restaurants_check_box[]"
-                                                           value="{{ $old_restaurants[$indexKey] }}" checked> {{ $old_restaurant }}
+                                                           value="{{ $old_restaurants_id[$indexKey] }}" checked> {{ $old_restaurant }}
                                                 </label>
                                             </div>
                                         @endforeach
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ Form::label('lb_restaurant', 'ร้านอาหาร') }}</td>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                             @foreach($restaurants as  $restaurant)
-
-                                                <input type="checkbox" name="restaurants_check_box[]" value="" > {{ $restaurant->restaurant_name }} <br>
-                                             @endforeach
-                                            </label>
-                                        </div>
-
                                     </td>
                                 </tr>
                                 </tbody>
