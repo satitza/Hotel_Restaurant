@@ -119,6 +119,52 @@ class EditorUsersController extends Controller
         }
     }
 
+    public function AddRestaurant($id)
+    {
+        try {
+            $restaurants = Restaurants::where('active_id', 1)->orderBy('id', 'ASC')->get();
+            $user_editors = DB::table('user_editors')
+                ->select('user_editors.id', 'user_id', 'users.name', 'restaurant_id')
+                ->join('users', 'user_editors.user_id', '=', 'users.id')
+                ->where('user_editors.id', $id)->get();
+
+            foreach ($user_editors as $user_editor) {
+            }
+
+            return view('setting.editor_user.add_restaurant', [
+                'id' => $user_editor->id,
+                'user_id' => $user_editor->user_id,
+                'user_name' => $user_editor->name
+            ])->with('restaurants', $restaurants);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
+    }
+
+    public function UpdateAddRestaurant(Request $request, $id){
+          try{
+              //echo "ID : ".$id."<br>";
+              //echo "User ID :".$request->user_id."<br>";
+              //echo "Restaurant ID : ".$request->restaurant_id."<br>";
+
+              $user_editors = DB::table('user_editors')->select('restaurant_id')->where('id', $id)->get();
+              foreach ($user_editors as $user_editor) {
+                  $arrays = explode(',', $user_editor->restaurant_id, -1);
+                  foreach ($arrays as $array){
+                      if($request->restaurant_id == $array){
+                          return view('error.index')->with('error', 'User คนนี้ใด้ทำการ Match กับร้านอาหารนี้แล้ว');
+                      }
+                  }
+              }
+
+
+
+          }
+          catch (Exception $e){
+              return view('error.index')->with('error', $e);
+          }
+    }
+
     /**
      * Display the specified resource.
      *

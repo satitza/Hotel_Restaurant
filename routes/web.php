@@ -43,6 +43,8 @@ Route::group(['prefix' => 'setting'], function (){
 
     Route::group(['prefix' => 'editor'], function(){
         Route::resource('users', '\App\Http\Controllers\Setting\User\EditorUsersController');
+        Route::get('users_editor/{id}/add', '\App\Http\Controllers\Setting\User\EditorUsersController@AddRestaurant');
+        Route::post('users_add_restaurant/{id}', '\App\Http\Controllers\Setting\User\EditorUsersController@UpdateAddRestaurant');
         Route::get('delete_editor_users/{id}', '\App\Http\Controllers\Setting\User\EditorUsersController@destroy');
     });
 });

@@ -38,7 +38,7 @@
                                     <td>{{ $restaurants[$indexKey] }}</td>
                                     <td>
                                         <button type="button" class="btn btn-info">
-                                            <a href="{{ url('#') }}">
+                                            <a href="{{ url('setting/editor/users_editor/'.$user_editor->id.'/add') }}">
                                                 Add  Restaurant
                                             </a>
                                         </button>
