@@ -99,7 +99,9 @@ class EditorUsersController extends Controller
         DB::beginTransaction();
         try {
 
-            if (DB::table('user_editors')->where('user_id', '=', $request->user_id)->exists()) {
+            if ($request->input('restaurants_check_box') == null) {
+                return view('error.index')->with('error', 'คุณไม่ใด้เลือกร้านอาหาร');
+            } else if (DB::table('user_editors')->where('user_id', '=', $request->user_id)->exists()) {
                 return view('error.index')->with('error', 'เคยทำการ Match User คนนี้แล้ว');
             }
 

@@ -51,7 +51,7 @@
                             <center>
                                 {{ Form::submit('Edit User', ['class' => 'btn btn-primary']) }}
                             </center>
-                            {{ Form::hidden('user_password', 'secret') }}
+                            {{ Form::hidden('user_password', 'secreted') }}
                             {{ csrf_field() }}
                             {!! Form::close() !!}
                         </div>
