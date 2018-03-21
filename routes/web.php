@@ -26,6 +26,7 @@ Route::resource('restaurant', 'RestaurantsController');
 Route::get('delete_restaurant/{id}', 'RestaurantsController@destroy');
 
 Route::resource('set_menu', 'SetMenusController');
+Route::post('search_menu', 'SetMenusController@SearchMenu');
 Route::get('delete_set_menu/{id}', 'SetMenusController@destroy');
 
 Route::resource('report', 'ReportsController');

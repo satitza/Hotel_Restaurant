@@ -37,14 +37,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr style="display: none">
-                                <td>{{ Form::label('lb_hotel_name', 'Hotel Name') }}</td>
+                            <tr>
+                                <td>{{ Form::label('lb_restaurant_name', 'Language') }}</td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="hotel_id">
+                                        <select class="form-control" name="language_id">
                                             <!--option value="" disabled selected>please_selected</option-->
-                                            @foreach($hotels as $hotel)
-                                                <option value="{{ $hotel->id }}">{{ $hotel->hotel_name }}</option>
+                                            @foreach($languages as $language)
+                                                <option value="{{ $language->id }}">{{ $language->language }}</option>
                                             @endforeach
                                         </select>
                                     </div>

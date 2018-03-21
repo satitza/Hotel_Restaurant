@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Language;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -35,17 +36,39 @@ class SetMenusController extends Controller
     public function index()
     {
         try {
-            $hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
+            //$hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
+            $languages = Language::orderBy('id', 'ASC')->get();
             $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
 
             return view('set_menu.index', [
-                'hotels' => $hotels,
+                //'hotels' => $hotels,
                 'restaurants' => $restaurants,
+                'languages' => $languages,
                 'time_lunchs' => $time_lunchs,
                 'time_dinners' => $time_dinners
             ]);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
+    }
+
+    public function SearchMenu(Request $request)
+    {
+        try {
+            $languages = Language::orderBy('id', 'ASC')->get();
+            $set_menus = DB::table('set_menus')
+                ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
+                    'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
+                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
+                ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
+                ->orderBy('set_menus.id', 'asc')->where('set_menus.language_id', $request->input('language_id') )->paginate(10);
+            return view('set_menu.list', [
+                'set_menus' => $set_menus
+            ])->with('languages', $languages);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -59,6 +82,7 @@ class SetMenusController extends Controller
     public function create()
     {
         try {
+            $languages = Language::orderBy('id', 'ASC')->get();
             $set_menus = DB::table('set_menus')
                 ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
                     'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
@@ -69,7 +93,7 @@ class SetMenusController extends Controller
                 ->orderBy('set_menus.id', 'asc')->paginate(10);
             return view('set_menu.list', [
                 'set_menus' => $set_menus
-            ]);
+            ])->with('languages', $languages);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -99,6 +123,7 @@ class SetMenusController extends Controller
             $set_menu = new SetMenu;
             $set_menu->hotel_id = $get_hotel_id->hotel_id;
             $set_menu->restaurant_id = $request->restaurant_id;
+            $set_menu->language_id = $request->language_id;
             $set_menu->menu_name = $request->menu_name;
             $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
             $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));

@@ -4,9 +4,33 @@
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
             <div class="panel panel-default">
+                <div class="panel-heading">Search Option</div>
+                <div class="panel-body">
+                    {{ Form::open(array('url' => 'search_menu', 'method' => 'post')) }}
+                    <div class="form-group">
+                        <select class="form-control" name="language_id">
+                            <!--option value="" disabled selected>please_selected</option-->
+                            @foreach($languages as $language)
+                                <option value="{{ $language->id }}">{{ $language->language }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{ Form::submit('Search', ['class' => 'btn btn-primary']) }}
+                    <button type="submit" class="btn btn-danger">
+                        <a href="{{ action('SetMenusController@create') }}">
+                            Clear
+                        </a>
+                    </button>
+                <!--{{ csrf_field() }}
+                {!! Form::close() !!} -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
                 <div class="panel-heading">List Menu</div>
                 <div class="panel-body">
-                <!--{!! Form::open(['url' => 'set_menu', 'files' => false]) !!} -->
+                <!--{!! Form::open(['url' => '#', 'files' => false]) !!} -->
                     <table class="table">
                         <thead class="thead-dark">
                         <tr>
