@@ -16,6 +16,7 @@ class SetMenuListSeeder extends Seeder
             $set_menu = new App\SetMenu();
             $set_menu->hotel_id = $i;
             $set_menu->restaurant_id = $i;
+            $set_menu->language_id = 2;
             $set_menu->menu_name = 'menu_'.$i;
             $set_menu->menu_date_start = '2018/02/14';
             $set_menu->menu_date_end = '2018/02/14';

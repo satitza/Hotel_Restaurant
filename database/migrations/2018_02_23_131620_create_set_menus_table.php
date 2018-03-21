@@ -26,6 +26,9 @@ class CreateSetMenusTable extends Migration {
             $table->integer('restaurant_id')->unsigned();
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
 
+            $table->integer('language_id')->unsigned();
+            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
+
             $table->string('menu_name', 100);
             $table->date('menu_date_start')->nullable();
             $table->date('menu_date_end')->nullable();
