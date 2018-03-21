@@ -54,29 +54,29 @@
                         <tbody>
                         @foreach($set_menus as $set_menu)
                             <tr>
-                                <td>{{ $set_menu->hotel_name }}</td>
-                                <td>{{ $set_menu->restaurant_name }}</td>
-                                <td>{{ $set_menu->menu_name }}</td>
-                                <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_start)) }}</td>
-                                <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_end)) }}</td>
-                                <td>{{ $set_menu->menu_date_select }}</td>
-                                <td>{{ $set_menu->menu_time_lunch_start }}</td>
-                                <td>{{ $set_menu->menu_time_lunch_end }}</td>
-                                <td>{{ $set_menu->menu_time_dinner_start }}</td>
-                                <td>{{ $set_menu->menu_time_dinner_end }}</td>
-                                <td>{{ $set_menu->menu_price }}</td>
-                                <td>{{ $set_menu->menu_guest }}</td>
-                                <td>{{ $set_menu->menu_comment }}</td>
+                                <td>{{  $set_menu[0]->id }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     <button type="button" class="btn btn-info">
-                                        <a href="{{ url('set_menu/'.$set_menu->id.'/edit') }}">
+                                        <a href="{{ url('set_menu/') }}">
                                             Edit Menu
                                         </a>
                                     </button>
                                 </td>
                                 <td>
                                     <button type="submit" class="btn btn-danger">
-                                        <a href="{{ url('delete_set_menu/'.$set_menu->id) }}"
+                                        <a href="{{ url('delete_set_menu/') }}"
                                            onclick="return confirm('Confrim Delete ?')">
                                             Delete Menu
                                         </a>
@@ -86,7 +86,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                {{ $set_menus->render() }}
+               <?php // {{ $set_menus->render() }} ?>
                 <!--{{ csrf_field() }}
                 {!! Form::close() !!} -->
 

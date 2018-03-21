@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Language;
+use App\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use App\Restaurants;
 use App\TimeLunch;
 use App\TimeDinner;
 use App\SetMenu;
+use Illuminate\Support\Facades\Auth;
 
 class SetMenusController extends Controller
 {
@@ -19,13 +21,16 @@ class SetMenusController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('editor', ['only' => [
-            'index',
-            'store',
-            'edit',
-            'update',
+        $this->middleware('admin', ['only' => [
+            //'index',
+            //'SearchMenu',
+            //'create',
+            //'store',
+            //'edit',
+            //'update',
             'destroy'
         ]]);
+        $this->middleware('editor');
     }
 
     /**
@@ -36,19 +41,46 @@ class SetMenusController extends Controller
     public function index()
     {
         try {
-            //$hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
+
             $languages = Language::orderBy('id', 'ASC')->get();
-            $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
 
-            return view('set_menu.index', [
-                //'hotels' => $hotels,
-                'restaurants' => $restaurants,
-                'languages' => $languages,
-                'time_lunchs' => $time_lunchs,
-                'time_dinners' => $time_dinners
-            ]);
+
+            $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
+            $restaurants = array();
+
+            foreach ($check_rows as $check_row) {
+                //User Editor
+                if ($check_row->user_role == 2) {
+                    $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
+                    foreach ($restaurant_id as $id) {
+                        //echo $id->restaurant_id."<br>";
+                        $arrays = explode(',', $id->restaurant_id, -1);
+                        foreach ($arrays as $array) {
+                            $where = ['id' => $array];
+                            array_push($restaurants, Restaurants::where($where)->get());
+                        }
+                    }
+                    return view('set_menu.index_editor', [
+                        //'hotels' => $hotels,
+                        'restaurants' => $restaurants,
+                        'languages' => $languages,
+                        'time_lunchs' => $time_lunchs,
+                        'time_dinners' => $time_dinners
+                    ]);
+                } else {
+                    $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
+                    return view('set_menu.index', [
+                        //'hotels' => $hotels,
+                        'restaurants' => $restaurants,
+                        'languages' => $languages,
+                        'time_lunchs' => $time_lunchs,
+                        'time_dinners' => $time_dinners
+                    ]);
+                }
+            }
+
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -58,14 +90,14 @@ class SetMenusController extends Controller
     {
         try {
             $languages = Language::orderBy('id', 'ASC')->get();
-            $set_menus = DB::table('set_menus')
-                ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                    'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
-                    'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
-                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+            $set_menus = SetMenu::
+            select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
+                'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
+                'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                 ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
-                ->orderBy('set_menus.id', 'asc')->where('set_menus.language_id', $request->input('language_id') )->paginate(10);
+                ->orderBy('set_menus.id', 'asc')->where('set_menus.language_id', $request->input('language_id'))->paginate(10);
             return view('set_menu.list', [
                 'set_menus' => $set_menus
             ])->with('languages', $languages);
@@ -82,6 +114,7 @@ class SetMenusController extends Controller
     public function create()
     {
         try {
+
             $languages = Language::orderBy('id', 'ASC')->get();
             $set_menus = DB::table('set_menus')
                 ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
@@ -105,7 +138,8 @@ class SetMenusController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SetMenusRequest $request)
+    public
+    function store(SetMenusRequest $request)
     {
         /*if ($request->menu_time_lunch_start > $request->menu_time_lunch_end) {
             return view('error.index')->with('error', 'Time Lunch : คุณเลือกช่วงวลาอาหารวันเริ่มหลังช่วงเวลาสิ้นสุด');
@@ -151,7 +185,8 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         //
     }
@@ -162,7 +197,8 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         try {
             $hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
@@ -220,7 +256,8 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SetMenusRequest $request, $id)
+    public
+    function update(SetMenusRequest $request, $id)
     {
         $date_insert = NULL;
         $new_date_select = ($request->input('date_check_box'));
@@ -266,7 +303,8 @@ class SetMenusController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         DB::beginTransaction();
         try {
