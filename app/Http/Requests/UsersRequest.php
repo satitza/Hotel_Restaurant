@@ -32,11 +32,11 @@ class UsersRequest extends FormRequest
 
     public function messages() {
         return [
-            'user_name.required' => 'กรุณากรอก User name',
-            'user_email.required' => 'กรุณากรอก Email',
-            'user_email.email' => 'กรูณากรอก Email ให้ถูกต้อง',
-            'user_password.required' => 'กรูณากรอก Password',
-            'user_password.min' => 'กรุณากรอก Password อย่างน้อย 8 ตัวอักษร'
+            'user_name.required' => 'Please insert username',
+            'user_email.required' => 'Please insert email address',
+            'user_email.email' => 'Invalid email address format',
+            'user_password.required' => 'Please insert password',
+            'user_password.min' => 'Password is request min 8 character'
         ];
     }
 }

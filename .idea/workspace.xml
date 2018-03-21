@@ -5,31 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65386618-6c47-4098-8c11-8be26eed967c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Setting/User/EditorUsersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Setting/User/EditorUsersController.php" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Setting/User/ReportUsersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Setting/User/ReportUsersController.php" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Setting/User/UsersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Setting/User/UsersController.php" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/HotelsRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/HotelsRequest.php" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/RestaurantsRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/RestaurantsRequest.php" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/SetMenusRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/SetMenusRequest.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/hotel/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/hotel/edit.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/hotel/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/hotel/index.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/restaurant/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/restaurant/edit.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/restaurant/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/restaurant/index.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/set_menu/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/set_menu/edit.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/set_menu/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/set_menu/index.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/set_menu/list.blade.php" afterPath="$PROJECT_DIR$/resources/views/set_menu/list.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/editor_user/add_restaurant.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/editor_user/add_restaurant.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/editor_user/add_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/editor_user/add_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/editor_user/edit_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/editor_user/edit_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/editor_user/list_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/editor_user/list_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/report_user/add_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/report_user/add_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/report_user/edit_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/report_user/edit_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/report_user/list_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/report_user/list_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/user/add_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/user/add_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/user/edit_user.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/user/edit_user.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setting/user/reset_password.blade.php" afterPath="$PROJECT_DIR$/resources/views/setting/user/reset_password.blade.php" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UsersRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/UsersRequest.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -60,11 +36,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SetMenusRequest.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SetMenusRequest.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Requests/SetMenusRequest.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="619">
               <caret line="44" column="64" lean-forward="false" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UsersRequest.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Requests/UsersRequest.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="642">
+              <caret line="38" column="63" lean-forward="false" selection-start-line="38" selection-start-column="63" selection-end-line="38" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -116,7 +102,6 @@
         <option value="$PROJECT_DIR$/app/UserEditor.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/routes/web.php" />
-        <option value="$PROJECT_DIR$/app/Http/Requests/UsersRequest.php" />
         <option value="$PROJECT_DIR$/resources/views/hotel/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/restaurant/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/set_menu/index.blade.php" />
@@ -141,6 +126,7 @@
         <option value="$PROJECT_DIR$/app/Http/Requests/HotelsRequest.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/RestaurantsRequest.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/SetMenusRequest.php" />
+        <option value="$PROJECT_DIR$/app/Http/Requests/UsersRequest.php" />
       </list>
     </option>
   </component>
@@ -238,7 +224,7 @@
     </include_path>
   </component>
   <component name="PhpXdebugProxy" ide_key="PHPSTROM" host="127.0.0.1" port="9000" />
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="205" />
     <option name="y" value="147" />
     <option name="width" value="1400" />
@@ -394,15 +380,15 @@
       <workItem from="1521517757066" duration="4773000" />
       <workItem from="1521524074472" duration="14196000" />
       <workItem from="1521540083609" duration="38000" />
-      <workItem from="1521604016571" duration="3286000" />
+      <workItem from="1521604016571" duration="3683000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="176458000" />
+    <option name="totallyTimeSpent" value="176855000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="7" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26466992" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -562,14 +548,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/UsersRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="719">
-          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1298,6 +1276,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="619">
           <caret line="44" column="64" lean-forward="false" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/UsersRequest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="642">
+          <caret line="38" column="63" lean-forward="false" selection-start-line="38" selection-start-column="63" selection-end-line="38" selection-end-column="63" />
           <folding />
         </state>
       </provider>
