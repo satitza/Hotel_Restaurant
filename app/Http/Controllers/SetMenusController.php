@@ -102,7 +102,8 @@ class SetMenusController extends Controller
             $set_menu->menu_name = $request->menu_name;
             $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
             $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));
-            $set_menu->menu_date_select = json_encode($request->input('date_check_box'));
+            //$set_menu->menu_date_select = json_encode($request->input('date_check_box'));
+            $set_menu->menu_date_select = implode(",", $request->input('date_check_box')) . ",";
             $set_menu->menu_time_lunch_start = $request->menu_time_lunch_start;
             $set_menu->menu_time_lunch_end = $request->menu_time_lunch_end;
             $set_menu->menu_time_dinner_start = $request->menu_time_dinner_start;
@@ -204,7 +205,7 @@ class SetMenusController extends Controller
             $date_insert = $request->old_date_select;
         } else {
             //Check box not null insert new date select json
-            $date_insert = json_encode($request->input('date_check_box'));
+            $date_insert = implode(",", $request->input('date_check_box')) . ",";
         }
 
         DB::beginTransaction();

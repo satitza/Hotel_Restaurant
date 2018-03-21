@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class SetMenu extends Model {
 
     protected $table = 'set_menus';
-    protected $casts = [
+    /*protected $casts = [
         'menu_date_select' => 'json',
-    ];
+    ];*/
 
 
     public function Hotels() {

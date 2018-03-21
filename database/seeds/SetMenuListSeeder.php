@@ -19,7 +19,7 @@ class SetMenuListSeeder extends Seeder
             $set_menu->menu_name = 'menu_'.$i;
             $set_menu->menu_date_start = '2018/02/14';
             $set_menu->menu_date_end = '2018/02/14';
-            $set_menu->menu_date_select = 'null';
+            //$set_menu->menu_date_select = 'null';
             $set_menu->menu_time_lunch_start = 'closed';
             $set_menu->menu_time_lunch_end = 'closed';
             $set_menu->menu_time_dinner_start = '18.00';
