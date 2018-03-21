@@ -29,15 +29,15 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_name', 'ชื่อ') }}</td>
-                                    <td>{{ Form::text('user_name', $user_name, ['class' => 'form-control', 'placeholder' => 'ชื่อ']) }}</td>
+                                    <td>{{ Form::label('lb_user_name', 'Username') }}</td>
+                                    <td>{{ Form::text('user_name', $user_name, ['class' => 'form-control', 'placeholder' => 'Username']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_email', 'อีเมล์') }}</td>
-                                    <td>{{ Form::text('user_email', $user_email, ['class' => 'form-control', 'placeholder' => 'อีเมล์']) }}</td>
+                                    <td>{{ Form::label('lb_user_email', 'Email Address') }}</td>
+                                    <td>{{ Form::text('user_email', $user_email, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_role', 'สถานะ') }}</td>
+                                    <td>{{ Form::label('lb_role', 'Permission') }}</td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="user_role">
@@ -49,7 +49,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Edit User', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Update User', ['class' => 'btn btn-primary']) }}
                             </center>
                             {{ Form::hidden('user_password', 'secreted') }}
                             {{ csrf_field() }}

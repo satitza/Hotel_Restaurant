@@ -30,20 +30,20 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_name', 'ชื่อผู้ใช้งาน') }}</td>
+                                    <td>{{ Form::label('lb_user_name', 'Username') }}</td>
                                     <td>{{ Form::text('user_name', $user_name, ['class' => 'form-control', 'readonly']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_old_password', 'รหัสผ่านเดิมที่เข้ารหัสใว้') }}</td>
+                                    <td>{{ Form::label('lb_old_password', 'Encrypted Password') }}</td>
                                     <td>{{ Form::text('old_password', $password, ['class' => 'form-control', 'readonly']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_new_password', 'รหัสผ่านใหม่') }}</td>
-                                    <td>{{ Form::text('user_password', null, ['class' => 'form-control', 'placeholder' => 'รหัสผ่าน']) }}</td>
+                                    <td>{{ Form::label('lb_new_password', 'New password') }}</td>
+                                    <td>{{ Form::text('user_password', null, ['class' => 'form-control', 'placeholder' => 'New password']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_new_password', 'ยืนยันรหัสผ่าน') }}</td>
-                                    <td>{{ Form::text('user_password_2', null, ['class' => 'form-control', 'placeholder' => 'ยืนยันรหัสผ่าน']) }}</td>
+                                    <td>{{ Form::label('lb_new_password', 'Confirm password') }}</td>
+                                    <td>{{ Form::text('user_password_2', null, ['class' => 'form-control', 'placeholder' => 'Confirm password']) }}</td>
                                 </tr>
                                 </tbody>
                             </table>

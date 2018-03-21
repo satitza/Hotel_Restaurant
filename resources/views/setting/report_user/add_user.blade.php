@@ -22,7 +22,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_report', 'ชื่อ') }}</td>
+                                    <td>{{ Form::label('lb_user_report', 'User Report') }}</td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="user_id">
@@ -35,7 +35,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_hotel', 'โรงแรม') }}</td>
+                                    <td>{{ Form::label('lb_hotel', 'Hotel') }}</td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="hotel_id">

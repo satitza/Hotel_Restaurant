@@ -31,11 +31,11 @@ class RestaurantsRequest extends FormRequest {
 
     public function messages() {
         return [
-            'restaurant_name.required' => 'กรุณากรอกชื่อร้านอาหาร',
-            'restaurant_email.required' => 'กรุณากรอก อีเมล์',
-            'restaurant_email.email' => 'กรูณากรอกรูปแบบอีเมล์ให้ถูกต้อง',
-            'hotel_id.required' => 'กรุณาเลือกโรงแรม',
-            'active_id.required' => 'กรุณาเลือกสถานะร้านอาหาร',
+            'restaurant_name.required' => 'Please insert restaurant name',
+            'restaurant_email.required' => 'Please insert email address',
+            'restaurant_email.email' => 'Invalid email address format',
+            'hotel_id.required' => 'Please select hotel',
+            'active_id.required' => 'Please select restaurant status',
         ];
     }
 

@@ -53,7 +53,7 @@
                          @endforeach
                             </tbody>
                         </table>
-                   <?php // {!! $users->render() !!} ?>
+                    {!! $user_reports->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>

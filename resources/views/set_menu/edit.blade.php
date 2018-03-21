@@ -38,7 +38,7 @@
                             </thead>
                             <tbody>
                             <tr style="display: none">
-                                <td>{{ Form::label('lb_hotel_name', 'ชื่อโรงแรม') }}</td>
+                                <td>{{ Form::label('lb_hotel_name', 'Hotel Name') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="hotel_id">
@@ -52,7 +52,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_restaurant_name', 'ชื่อร้านอาหาร') }}</td>
+                                <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="restaurant_id">
@@ -66,20 +66,20 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_name', 'ชื่อเมนู') }}</td>
-                                <td>{{ Form::text('menu_name', $menu_name, ['class' => 'form-control', 'placeholder' => 'ชื่อเมนู']) }}</td>
+                                <td>{{ Form::label('lb_menu_name', 'Menu Name') }}</td>
+                                <td>{{ Form::text('menu_name', $menu_name, ['class' => 'form-control', 'placeholder' => 'Menu Name']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_date_start', 'เริ่มตั้งแต่วันที่') }}</td>
-                                <td>{{ Form::text('menu_date_start', $menu_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
+                                <td>{{ Form::label('lb_menu_date_start', 'Date start') }}</td>
+                                <td>{{ Form::text('menu_date_start', $menu_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_date_end', 'สิ้นสุดวันที่') }}</td>
-                                <td>{{ Form::text('menu_date_end', $menu_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'คลิกเลือกวัน']) }}</td>
+                                <td>{{ Form::label('lb_menu_date_end', 'Date end') }}</td>
+                                <td>{{ Form::text('menu_date_end', $menu_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_date_select', 'เลือกวัน') }}</td>
-                                <td>{{ Form::text('old_date_select', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'คลิกเลือกวัน', 'readonly']) }}</td>
+                                <td>{{ Form::label('lb_menu_date_select', 'Select date') }}</td>
+                                <td>{{ Form::text('old_date_select', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'Select date', 'readonly']) }}</td>
                                 <td>
                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                             data-target="#myModal">Edit
@@ -87,7 +87,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_time_lunch_start', 'เวลาเริ่มช่วงกลางวัน') }}</td>
+                                <td>{{ Form::label('lb_menu_time_lunch_start', 'Time lunch start') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="menu_time_lunch_start">
@@ -101,7 +101,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_time_lunch_end', 'เวลาสิ้นสุดช่วงกลางวัน') }}</td>
+                                <td>{{ Form::label('lb_menu_time_lunch_end', 'Time lunch end') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="menu_time_lunch_end">
@@ -115,7 +115,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_time_dinner_start', 'เวลาเริ่มช่วงกลางคืน') }}</td>
+                                <td>{{ Form::label('lb_menu_time_dinner_start', 'Time dinner start') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="menu_time_dinner_start">
@@ -129,7 +129,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_time_dinner_end', 'เวลาสิ้นสุดช่วงกลางคืน') }}</td>
+                                <td>{{ Form::label('lb_menu_time_dinner_end', 'Time dinner end') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="menu_time_dinner_end">
@@ -143,21 +143,21 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_price', 'ราคาต่อคน') }}</td>
+                                <td>{{ Form::label('lb_price', 'Price per person') }}</td>
                                 <td>{{ Form::text('menu_price', $menu_price, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_guest', 'จำนวนคน') }}</td>
-                                <td>{{ Form::text('menu_guest', $menu_guest, ['class' => 'form-control', 'placeholder' => 'จำนวนคน']) }}</td>
+                                <td>{{ Form::label('lb_guest', 'Max guest') }}</td>
+                                <td>{{ Form::text('menu_guest', $menu_guest, ['class' => 'form-control', 'placeholder' => 'Max guest']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_set_menu_comment', 'รายละเอียด') }}</td>
-                                <td>{{ Form::textarea('menu_comment', $menu_comment, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
+                                <td>{{ Form::label('lb_set_menu_comment', 'Comment') }}</td>
+                                <td>{{ Form::textarea('menu_comment', $menu_comment, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
                             </tr>
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Edit Menu', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Update Menu', ['class' => 'btn btn-primary']) }}
                         </center>
                         {{ csrf_field() }}
 

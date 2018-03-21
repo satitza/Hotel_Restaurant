@@ -29,15 +29,15 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant_name', 'ชื่อร้านอาหาร') }}</td>
-                                    <td>{{ Form::text('restaurant_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร']) }}</td>
+                                    <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
+                                    <td>{{ Form::text('restaurant_name', null, ['class' => 'form-control', 'placeholder' => 'Restaurant Name']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant_email', 'อีเมล์') }}</td>
-                                    <td>{{ Form::text('restaurant_email', null, ['class' => 'form-control', 'placeholder' => 'ที่อยู่อีเมล์']) }}</td>
+                                    <td>{{ Form::label('lb_restaurant_email', 'Email Address') }}</td>
+                                    <td>{{ Form::text('restaurant_email', null, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_hotel', 'โรงแรม') }}</td>
+                                    <td>{{ Form::label('lb_hotel', 'Hotel') }}</td>
                                     <td>
                                         <div class="form-group">                     
                                             <select class="form-control" name="hotel_id">
@@ -50,7 +50,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant_active', 'สถานะ') }}</td>
+                                    <td>{{ Form::label('lb_restaurant_active', 'Status') }}</td>
                                     <td>
                                         <div class="form-group">                     
                                             <select class="form-control" name="active_id">
@@ -63,8 +63,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant_comment', 'หมายเหตุ') }}</td>
-                                    <td>{{ Form::textarea('restaurant_comment', null, ['class' => 'form-control', 'placeholder' => 'หมายเหตุ']) }}</td>
+                                    <td>{{ Form::label('lb_restaurant_comment', 'Comment') }}</td>
+                                    <td>{{ Form::textarea('restaurant_comment', null, ['class' => 'form-control', 'placeholder' => 'comment']) }}</td>
                                 </tr>
                             </tbody>
                         </table>

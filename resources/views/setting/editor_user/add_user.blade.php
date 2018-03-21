@@ -22,7 +22,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_report', 'ชื่อ') }}</td>
+                                    <td>{{ Form::label('lb_user_report', 'User Editor') }}</td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="user_id">
@@ -35,7 +35,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant', 'ร้านอาหาร') }}</td>
+                                    <td>{{ Form::label('lb_restaurant', 'Restaurant') }}</td>
                                     <td>
                                         @foreach ($restaurants as $restaurant)
                                             <?php /* {{ Form::checkbox('role', $restaurant->id, in_array($restaurant->id, $all_data[])) }} ?>

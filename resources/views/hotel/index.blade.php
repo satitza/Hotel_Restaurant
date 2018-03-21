@@ -30,11 +30,11 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_hotel_name', 'ชื่อโรงแรม') }}</td>
-                                    <td>{{ Form::text('hotel_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อโรงแรม']) }}</td>
+                                    <td>{{ Form::label('lb_hotel_name', 'Hotel Name') }}</td>
+                                    <td>{{ Form::text('hotel_name', null, ['class' => 'form-control', 'placeholder' => 'Hotel Name']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
+                                    <td>{{ Form::label('lb_active', 'Status') }}</td>
                                     <td>
                                         <div class="form-group">                     
                                             <select class="form-control" name="active_id">
@@ -47,8 +47,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_hotel_comment', 'หมายเหตุ') }}</td>
-                                    <td>{{ Form::textarea('hotel_comment', null, ['class' => 'form-control', 'placeholder' => 'หมายเหตุ']) }}</td>
+                                    <td>{{ Form::label('lb_hotel_comment', 'Comment') }}</td>
+                                    <td>{{ Form::textarea('hotel_comment', null, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
                                 </tr>
                             </tbody>
                         </table>

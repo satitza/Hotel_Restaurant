@@ -29,8 +29,8 @@ class HotelsRequest extends FormRequest {
 
     public function messages() {
         return [
-            'hotel_name.required' => 'กรุณากรอกชื่อโรงแรม',
-            'active_id.required' => 'กรุณาเลือกสถานะโรงแรม'
+            'hotel_name.required' => 'Please insert hotel name',
+            'active_id.required' => 'Please select hotel status'
         ];
     }
 

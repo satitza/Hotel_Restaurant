@@ -46,7 +46,7 @@
                                 <td>
                                     <button type="button" class="btn btn-info">
                                         <a href="{{ url('set_menu/'.$set_menu->id.'/edit') }}">
-                                            Edit Hotel
+                                            Edit Menu
                                         </a>
                                     </button>
                                 </td>
@@ -54,7 +54,7 @@
                                     <button type="submit" class="btn btn-danger">
                                         <a href="{{ url('delete_set_menu/'.$set_menu->id) }}"
                                            onclick="return confirm('Confrim Delete ?')">
-                                            Delete Hotel
+                                            Delete Menu
                                         </a>
                                     </button>
                                 </td>

@@ -113,7 +113,7 @@ class UsersController extends Controller
     public function update_password(UsersRequest $request)
     {
         if ($request->user_password != $request->user_password_2) {
-            return view('error.index')->with('error', 'คุณกรอกรหัสผ่านไม่ตรงกัน');
+            return view('error.index')->with('error', 'Passwords do not match');
         }
         DB::beginTransaction();
         try {

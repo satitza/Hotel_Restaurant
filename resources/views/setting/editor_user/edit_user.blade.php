@@ -22,7 +22,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_report', 'ชื่อ') }}</td>
+                                    <td>{{ Form::label('lb_user_editor', 'User Editor') }}</td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="user_id">
@@ -33,7 +33,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_old_restaurant', 'ร้านอาหารที่ Match แล้ว') }}</td>
+                                    <td>{{ Form::label('lb_old_restaurant', 'Restaurant matched') }}</td>
                                     <td>
                                         @foreach($old_restaurants as $indexKey => $old_restaurant )
                                             <div class="checkbox">
@@ -48,7 +48,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Edit Match User', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Update Match', ['class' => 'btn btn-primary']) }}
                             </center>
                             {{ csrf_field() }}
                             {!! Form::close() !!}

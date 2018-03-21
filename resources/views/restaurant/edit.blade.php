@@ -29,18 +29,18 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant_name', 'ชื่อร้านอาหาร') }}</td>
-                                    <td>{{ Form::text('restaurant_name', $restaurant_name, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร']) }}</td>
+                                    <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
+                                    <td>{{ Form::text('restaurant_name', $restaurant_name, ['class' => 'form-control', 'placeholder' => 'Restaurant Name']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant_email', 'อีเมล์') }}</td>
-                                    <td>{{ Form::text('restaurant_email', $restaurant_email, ['class' => 'form-control', 'placeholder' => 'ที่อยู่อีเมล์']) }}</td>
+                                    <td>{{ Form::label('lb_restaurant_email', 'Email Address') }}</td>
+                                    <td>{{ Form::text('restaurant_email', $restaurant_email, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_hotel_id', 'โรงแรม') }}</td>
+                                    <td>{{ Form::label('lb_hotel_id', 'Hotel') }}</td>
                                     <td>
                                         <div style="display: none">
-                                            {{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร', 'readonly']) }}
+                                            {{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'Hotel', 'readonly']) }}
                                         </div>
                                       
                                         <div class="form-group">                                                              
@@ -55,10 +55,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
+                                    <td>{{ Form::label('lb_active', 'Status') }}</td>
                                     <td>
                                         <div style="display: none">
-                                            {{ Form::text('active', $active, ['class' => 'form-control', 'placeholder' => 'ชื่อร้านอาหาร', 'readonly']) }}
+                                            {{ Form::text('active', $active, ['class' => 'form-control', 'placeholder' => 'Restaurant Name', 'readonly']) }}
                                         </div>
                                         
                                         <div class="form-group">                                                              
@@ -73,13 +73,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant_comment', 'หมายเหตุ') }}</td>
-                                    <td>{{ Form::textarea('restaurant_comment', $restaurant_comment, ['class' => 'form-control', 'placeholder' => 'หมายเหตุ']) }}</td>
+                                    <td>{{ Form::label('lb_restaurant_comment', 'Comment') }}</td>
+                                    <td>{{ Form::textarea('restaurant_comment', $restaurant_comment, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Edit Restaurant', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Update Restaurant', ['class' => 'btn btn-primary']) }}
                         </center>
                         {{ csrf_field() }}
                         {{ Form::close() }}

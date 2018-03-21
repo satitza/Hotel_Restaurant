@@ -100,9 +100,9 @@ class EditorUsersController extends Controller
         try {
 
             if ($request->input('restaurants_check_box') == null) {
-                return view('error.index')->with('error', 'คุณไม่ใด้เลือกร้านอาหาร');
+                return view('error.index')->with('error', 'Please select restaurant');
             } else if (DB::table('user_editors')->where('user_id', '=', $request->user_id)->exists()) {
-                return view('error.index')->with('error', 'เคยทำการ Match User คนนี้แล้ว');
+                return view('error.index')->with('error', 'You matched this restaurant');
             }
 
             $user_editor = new UserEditor;
@@ -148,7 +148,7 @@ class EditorUsersController extends Controller
                 $arrays = explode(',', $old_restaurant_id->restaurant_id, -1);
                 foreach ($arrays as $array) {
                     if ($request->restaurant_id == $array) {
-                        return view('error.index')->with('error', 'User คนนี้ใด้ทำการ Match กับร้านอาหารนี้แล้ว');
+                        return view('error.index')->with('error', 'This user is matched with restaurant');
                     }
                 }
             }

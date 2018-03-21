@@ -29,11 +29,11 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_hotel_name', 'ชื่อโรงแรม') }}</td>
-                                    <td>{{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'ชื่อโรงแรม']) }}</td>
+                                    <td>{{ Form::label('lb_hotel_name', 'Hotel Name') }}</td>
+                                    <td>{{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'Hotel Name']) }}</td>
                                 </tr>                           
                                 <tr>
-                                    <td>{{ Form::label('lb_active', 'สถานะ') }}</td>
+                                    <td>{{ Form::label('lb_active', 'Status') }}</td>
                                     <td>
                                         <div style="display: none">
                                             {{ Form::text('hotel_active', $hotel_active , ['class' => 'form-control', 'placeholder' => 'ชื่อโรงแรม', 'readonly']) }}
@@ -70,13 +70,13 @@
                                     </td-->
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_hotel_comment', 'หมายเหตุ') }}</td>
-                                    <td>{{ Form::textarea('hotel_comment', $hotel_comment, ['class' => 'form-control', 'placeholder' => 'หมายเหตุ']) }}</td>
+                                    <td>{{ Form::label('lb_hotel_comment', 'Comment') }}</td>
+                                    <td>{{ Form::textarea('hotel_comment', $hotel_comment, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Edit Hotel', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Update Hotel', ['class' => 'btn btn-primary']) }}
                         </center>
                         {{ csrf_field() }}
                         {{ Form::close() }}

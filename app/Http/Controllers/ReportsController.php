@@ -45,7 +45,7 @@ class ReportsController extends Controller
                 return view('error.index')->with('error', $e);
             }
         } else {
-            return view('error.index')->with('error', 'คุณยังไม่ใด้ทำการ Match User กับ Hotel');
+            return view('error.index')->with('error', 'You don`t have permission');
         }
     }
 

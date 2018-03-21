@@ -46,7 +46,7 @@
                                     <td>
                                         <button type="button" class="btn btn-warning">
                                             <a href="{{ url('setting/editor/users/'.$user_editor->id.'/edit') }}">
-                                                Delete  Restaurant
+                                                Remove  Restaurant
                                             </a>
                                         </button>
                                     </td>

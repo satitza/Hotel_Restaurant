@@ -30,20 +30,20 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_name', 'ชื่อ') }}</td>
-                                    <td>{{ Form::text('user_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อ']) }}</td>
+                                    <td>{{ Form::label('lb_user_name', 'Username') }}</td>
+                                    <td>{{ Form::text('user_name', null, ['class' => 'form-control', 'placeholder' => 'Username']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_email', 'อีเมล์') }}</td>
-                                    <td>{{ Form::text('user_email', null, ['class' => 'form-control', 'placeholder' => 'อีเมล์']) }}</td>
+                                    <td>{{ Form::label('lb_user_email', 'Email Address') }}</td>
+                                    <td>{{ Form::text('user_email', null, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_user_password', 'รหัสผ่าน') }}</td>
+                                    <td>{{ Form::label('lb_user_password', 'Password') }}</td>
                                     <td><input id="password" type="password" class="form-control" name="user_password"
                                                placeholder="รหัสผ่าน"></td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_role', 'สถานะ') }}</td>
+                                    <td>{{ Form::label('lb_role', 'Permission') }}</td>
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="user_role">

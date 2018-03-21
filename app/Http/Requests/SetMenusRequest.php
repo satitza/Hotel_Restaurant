@@ -34,15 +34,15 @@ class SetMenusRequest extends FormRequest
 
     public function messages() {
         return [
-            'menu_name.required' => 'กรุณากรอกชื่อเมนู',
-            'menu_date_start.required' => 'กรุณากรอกวันที่เริ่ม',
-            'menu_date_end.required' => 'กรุณากรอกวันที่สิ้นสุด',
-            'menu_price.required' => 'กรุณากรอกราคาต่อคน',
-            'menu_price.regex' => 'กรุณากรอกราคาต่อคนเป็นตัวเลขทศนิยม 2 ตำแหน่ง 00.00',
-            'menu_price.between' => 'กรุณากรอกเป็นตัวเลข 1 ถึง 1000000',
-            'menu_guest.required' => 'กรุณากรอกจำนวนคนต่อวัน',
-            'menu_guest.integer' => 'กรุณากรอกจำนวนคนต่อวันเป็นตัวเลข',
-            'menu_guest.between' => 'กรุณากรอกจำนวนคนต่อวันเป็นตัวเลข 1 ถึง 10000',
+            'menu_name.required' => 'Please insert menu name',
+            'menu_date_start.required' => 'Please select date start',
+            'menu_date_end.required' => 'Please select date end',
+            'menu_price.required' => 'Please insert price',
+            'menu_price.regex' => 'Price is request 2 decimal places',
+            'menu_price.between' => 'Please insert integer  1 to 1000000',
+            'menu_guest.required' => 'Please insert max guest',
+            'menu_guest.integer' => 'Please insert max guest is integer',
+            'menu_guest.between' => 'Please insert integer  1 to 10000',
         ];
     }
 }

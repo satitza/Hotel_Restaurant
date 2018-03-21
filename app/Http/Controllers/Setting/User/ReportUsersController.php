@@ -76,7 +76,7 @@ class ReportUsersController extends Controller
         DB::beginTransaction();
         try {
             if (DB::table('user_reports')->where('user_id', '=', $request->user_id)->exists()) {
-                return view('error.index')->with('error', 'เคยทำการ Match User คนนี้แล้ว');
+                return view('error.index')->with('error', 'You matched this user');
             }
 
             $user_report = new UserReport;
