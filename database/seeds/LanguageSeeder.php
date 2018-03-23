@@ -12,15 +12,15 @@ class LanguageSeeder extends Seeder
     public function run()
     {
         $languages = new App\Language;
-        $languages->language = 'ภาษาไทย';
+        $languages->language = 'TH';
         $languages->save();
 
         $languages = new App\Language;
-        $languages->language = 'English';
+        $languages->language = 'EN';
         $languages->save();
 
         $languages = new App\Language;
-        $languages->language = '中国';
+        $languages->language = 'CN';
         $languages->save();
     }
 }

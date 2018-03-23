@@ -6,12 +6,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Search Option</div>
                 <div class="panel-body">
-                    <?php /* {{ Form::open(array('url' => 'search_menu', 'method' => 'post')) }}
+                    {{ Form::open(array('url' => 'search_menu', 'method' => 'post')) }}
+                    <label>Restaurants</label>
                     <div class="form-group">
-                        <select class="form-control" name="language_id">
+                        <select class="form-control" name="restaurant_id">
                             <!--option value="" disabled selected>please_selected</option-->
-                            @foreach($languages as $language)
-                                <option value="{{ $language->id }}">{{ $language->language }}</option>
+                            @foreach($restaurants as $restaurant)
+                                <option value="{{ $restaurant[0]->id }}">{{ $restaurant[0]->restaurant_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -22,7 +23,7 @@
                         </a>
                     </button>
                 <!--{{ csrf_field() }}
-                {!! Form::close() !!} --> */ ?>
+                {!! Form::close() !!} -->
                 </div>
             </div>
         </div>
@@ -34,6 +35,8 @@
                     <table class="table">
                         <thead class="thead-dark">
                         <tr>
+                            <th scope="col">Hotel Name</th>
+                            <th scope="col">Restaurant Name</th>
                             <th scope="col">Menu Name</th>
                             <th scope="col">Date Start</th>
                             <th scope="col">Date End</th>
@@ -50,41 +53,41 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($set_menus as $indexKey => $set_menu)
-                            @for ($i = 0; $i < $indexKey; $i++)
+                        @foreach($set_menus as $set_menu)
                             <tr>
-                                <td>{{ $set_menu[$i]['menu_name'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_date_start'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_date_end'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_date_select'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_time_lunch_start'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_time_lunch_end'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_time_dinner_start'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_time_dinner_end'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_price'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_guest'] }}</td>
-                                <td>{{ $set_menu[$i]['menu_comment'] }}</td>
+                                <td>{{ $set_menu->hotel_name }}</td>
+                                <td>{{ $set_menu->restaurant_name }}</td>
+                                <td>{{ $set_menu->menu_name }}</td>
+                                <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_start)) }}</td>
+                                <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_end)) }}</td>
+                                <td>{{ $set_menu->menu_date_select }}</td>
+                                <td>{{ $set_menu->menu_time_lunch_start }}</td>
+                                <td>{{ $set_menu->menu_time_lunch_end }}</td>
+                                <td>{{ $set_menu->menu_time_dinner_start }}</td>
+                                <td>{{ $set_menu->menu_time_dinner_end }}</td>
+                                <td>{{ $set_menu->menu_price }}</td>
+                                <td>{{ $set_menu->menu_guest }}</td>
+                                <td>{{ $set_menu->menu_comment }}</td>
                                 <td>
                                     <button type="button" class="btn btn-info">
-                                        <a href="{{ url('set_menu/'.$set_menu[$i]['id'].'/edit') }}">
+                                        <a href="{{ url('set_menu/'.$set_menu->id.'/edit') }}">
                                             Edit Menu
                                         </a>
                                     </button>
                                 </td>
                                 <td>
                                     <button type="submit" class="btn btn-danger">
-                                        <a href="{{ url('delete_set_menu/'.$set_menu[$i]['id']) }}"
+                                        <a href="{{ url('delete_set_menu/'.$set_menu->id) }}"
                                            onclick="return confirm('Confrim Delete ?')">
                                             Delete Menu
                                         </a>
                                     </button>
                                 </td>
                             </tr>
-                            @endfor
                         @endforeach
                         </tbody>
                     </table>
-               <?php // {{ $set_menus->render() }} ?>
+                {{ $set_menus->render() }}
                 <!--{{ csrf_field() }}
                 {!! Form::close() !!} -->
 
