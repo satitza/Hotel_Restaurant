@@ -112,7 +112,7 @@ class SetMenusController extends Controller
                         'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
                         ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
-                        ->orderBy('set_menus.id', 'asc')->where('set_menus.language_id', $request->restaurant_id)->paginate(10);
+                        ->orderBy('set_menus.id', 'asc')->where('set_menus.restaurant_id', $request->restaurant_id)->paginate(10);
 
                     return view('set_menu.list_editor', [
                         'set_menus' => $set_menus
