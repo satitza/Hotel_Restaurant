@@ -164,7 +164,6 @@ class SetMenusController extends Controller
                                 array_push($restaurants, Restaurants::where($where)->get());
                             }
 
-
                             return view('set_menu.editor_info', [
                                 'restaurants' => $restaurants,
                             ]);
