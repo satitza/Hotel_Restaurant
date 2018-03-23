@@ -6,7 +6,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Search Option</div>
                 <div class="panel-body">
-                    {{ Form::open(array('url' => 'search_menu', 'method' => 'post')) }}
+                    <?php /* {{ Form::open(array('url' => 'search_menu', 'method' => 'post')) }}
                     <div class="form-group">
                         <select class="form-control" name="language_id">
                             <!--option value="" disabled selected>please_selected</option-->
@@ -22,7 +22,7 @@
                         </a>
                     </button>
                 <!--{{ csrf_field() }}
-                {!! Form::close() !!} -->
+                {!! Form::close() !!} --> */ ?>
                 </div>
             </div>
         </div>
@@ -34,8 +34,6 @@
                     <table class="table">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Hotel Name</th>
-                            <th scope="col">Restaurant Name</th>
                             <th scope="col">Menu Name</th>
                             <th scope="col">Date Start</th>
                             <th scope="col">Date End</th>
@@ -52,37 +50,37 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($set_menus as $set_menu)
+                        @foreach($set_menus as $indexKey => $set_menu)
+                            @for ($i = 0; $i < $indexKey; $i++)
                             <tr>
-                                <td>{{  $set_menu[0]->id }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $set_menu[$i]['menu_name'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_date_start'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_date_end'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_date_select'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_time_lunch_start'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_time_lunch_end'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_time_dinner_start'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_time_dinner_end'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_price'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_guest'] }}</td>
+                                <td>{{ $set_menu[$i]['menu_comment'] }}</td>
                                 <td>
                                     <button type="button" class="btn btn-info">
-                                        <a href="{{ url('set_menu/') }}">
+                                        <a href="{{ url('set_menu/'.$set_menu[$i]['id'].'/edit') }}">
                                             Edit Menu
                                         </a>
                                     </button>
                                 </td>
                                 <td>
                                     <button type="submit" class="btn btn-danger">
-                                        <a href="{{ url('delete_set_menu/') }}"
+                                        <a href="{{ url('delete_set_menu/'.$set_menu[$i]['id']) }}"
                                            onclick="return confirm('Confrim Delete ?')">
                                             Delete Menu
                                         </a>
                                     </button>
                                 </td>
                             </tr>
+                            @endfor
                         @endforeach
                         </tbody>
                     </table>

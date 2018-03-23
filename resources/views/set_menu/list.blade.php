@@ -7,6 +7,7 @@
                 <div class="panel-heading">Search Option</div>
                 <div class="panel-body">
                     {{ Form::open(array('url' => 'search_menu', 'method' => 'post')) }}
+                    <label>Languages</label>
                     <div class="form-group">
                         <select class="form-control" name="language_id">
                             <!--option value="" disabled selected>please_selected</option-->
