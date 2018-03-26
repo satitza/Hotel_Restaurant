@@ -18,6 +18,7 @@ class RestaurantsController extends Controller
         $this->middleware('admin', ['only' => [
             'index',
             'store',
+            'searchRestaurant',
             'edit',
             'update',
             'destroy'
@@ -51,12 +52,18 @@ class RestaurantsController extends Controller
     public function create()
     {
         try {
+
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
+
             $restaurants = DB::table('restaurants')
                 ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('restaurants.id', 'asc')->paginate(10);
             return view('restaurant.list', [
+                'hotel_items' => $hotel_items,
+                'restaurant_items' => $restaurant_items,
                 'restaurants' => $restaurants
             ]);
         } catch (Exception $e) {
@@ -85,6 +92,35 @@ class RestaurantsController extends Controller
             return redirect()->action('RestaurantsController@create');
         } catch (Exception $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
+    }
+
+    public function searchRestaurant(Request $request)
+    {
+        try {
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
+            $where = null;
+
+            if ($request->search_value == 'hotel') {
+                $where = ['restaurants.hotel_id' => $request->hotel_id];
+            }
+            else{
+                $where = ['restaurants.id' => $request->restaurant_id];
+            }
+
+            $restaurants = DB::table('restaurants')
+                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
+                ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
+                ->join('actives', 'restaurants.active_id', '=', 'actives.id')
+                ->where($where)->paginate(10);
+            return view('restaurant.list', [
+                'hotel_items' => $hotel_items,
+                'restaurant_items' => $restaurant_items,
+                'restaurants' => $restaurants
+            ]);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }

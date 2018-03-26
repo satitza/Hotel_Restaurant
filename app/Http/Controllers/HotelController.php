@@ -17,6 +17,7 @@ class HotelController extends Controller
         $this->middleware('admin', ['only' => [
             'index',
             'store',
+            'searchHotel',
             'edit',
             'update',
             'destroy'
@@ -47,7 +48,7 @@ class HotelController extends Controller
     public function create()
     {
         try {
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('id', 'ASC')->get();
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
             $hotels = DB::table('hotels')
                 ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
                 ->join('actives', 'hotels.active_id', '=', 'actives.id')
@@ -89,7 +90,7 @@ class HotelController extends Controller
             $hotels = DB::table('hotels')
                 ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
                 ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                ->where('hotels.id', $request->hotel_id)->paginate(1);
+                ->where('hotels.id', $request->hotel_id)->orderBy('hotels.hotel_name', 'ASC')->paginate(10);
             return view('hotel.list', [
                 'hotel_items' => $hotel_items,
                 'hotels' => $hotels

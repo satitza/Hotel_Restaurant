@@ -123,9 +123,6 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="#">Add</a>
-                                </li>
-                                <li>
                                     <a href="#">List</a>
                                 </li>
                             </ul>
