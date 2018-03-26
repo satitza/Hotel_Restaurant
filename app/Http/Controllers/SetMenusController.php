@@ -88,8 +88,6 @@ class SetMenusController extends Controller
     {
         try {
 
-            //echo $request->menu_id;
-
             $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
             $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
             $menu_items = SetMenu::select('id', 'menu_name')->orderBy('menu_name', 'ASC')->get();
@@ -189,7 +187,7 @@ class SetMenusController extends Controller
                             $arrays = explode(',', $id->restaurant_id, -1);
                             foreach ($arrays as $array) {
                                 $where = ['id' => $array];
-                                array_push($restaurants, Restaurants::where($where)->get());
+                                array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
                             }
 
                             return view('set_menu.editor_info', [

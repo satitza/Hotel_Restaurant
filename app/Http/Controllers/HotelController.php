@@ -17,7 +17,7 @@ class HotelController extends Controller
         $this->middleware('admin', ['only' => [
             'index',
             'store',
-            'searchHotel',
+            //'searchHotel',
             'edit',
             'update',
             'destroy'

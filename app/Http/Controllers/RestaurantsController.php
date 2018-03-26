@@ -18,7 +18,7 @@ class RestaurantsController extends Controller
         $this->middleware('admin', ['only' => [
             'index',
             'store',
-            'searchRestaurant',
+            //'searchRestaurant',
             'edit',
             'update',
             'destroy'
