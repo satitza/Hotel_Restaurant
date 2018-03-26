@@ -277,7 +277,7 @@ class SetMenusController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
-        
+
         foreach ($check_rows as $check_row) {
             //User editor
             if ($check_row->user_role == 2) {

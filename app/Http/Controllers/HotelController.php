@@ -8,9 +8,11 @@ use App\Http\Requests\HotelsRequest;
 use App\Hotels;
 use App\Actives;
 
-class HotelController extends Controller {
+class HotelController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
         $this->middleware('admin', ['only' => [
             'index',
@@ -26,7 +28,8 @@ class HotelController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         try {
             $actives = Actives::orderBy('id', 'ASC')->get();
             return view('hotel.index', [
@@ -41,13 +44,16 @@ class HotelController extends Controller {
       Show list hotel from database
      */
 
-    public function create() {
+    public function create()
+    {
         try {
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('id', 'ASC')->get();
             $hotels = DB::table('hotels')
-                            ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
-                            ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                            ->orderBy('hotels.id', 'asc')->paginate(10);
+                ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
+                ->join('actives', 'hotels.active_id', '=', 'actives.id')
+                ->orderBy('hotels.id', 'asc')->paginate(10);
             return view('hotel.list', [
+                'hotel_items' => $hotel_items,
                 'hotels' => $hotels
             ]);
         } catch (Exception $e) {
@@ -59,7 +65,8 @@ class HotelController extends Controller {
       Insert hotel information into database
      */
 
-    public function store(HotelsRequest $request) {
+    public function store(HotelsRequest $request)
+    {
         DB::beginTransaction();
         try {
             $hotel = new Hotels;
@@ -75,13 +82,31 @@ class HotelController extends Controller {
         }
     }
 
+    public function searchHotel(Request $request)
+    {
+        try {
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('id', 'ASC')->get();
+            $hotels = DB::table('hotels')
+                ->select('hotels.id', 'hotel_name', 'actives.active', 'hotel_comment')
+                ->join('actives', 'hotels.active_id', '=', 'actives.id')
+                ->where('hotels.id', $request->hotel_id)->paginate(1);
+            return view('hotel.list', [
+                'hotel_items' => $hotel_items,
+                'hotels' => $hotels
+            ]);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
+    }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
@@ -89,42 +114,44 @@ class HotelController extends Controller {
       Query hotel where id and return to view edit page
      */
 
-    public function edit($id) {
+    public function edit($id)
+    {
         try {
             $hotels = DB::table('hotels')
-                            ->select('hotels.id', 'hotel_name', 'hotels.active_id', 'actives.active', 'hotel_comment')
-                            ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                            ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->get();
+                ->select('hotels.id', 'hotel_name', 'hotels.active_id', 'actives.active', 'hotel_comment')
+                ->join('actives', 'hotels.active_id', '=', 'actives.id')
+                ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->get();
             foreach ($hotels as $hotel) {
-                
+
             }
             $actives = Actives::orderBy('id', 'ASC')->get();
             return view('hotel.edit', [
-                        'hotel_id' => $hotel->id,
-                        'hotel_name' => $hotel->hotel_name,
-                        'hotel_active_id' => $hotel->active_id,
-                        'hotel_active' => $hotel->active,
-                        'hotel_comment' => $hotel->hotel_comment
-                    ])->with('actives', $actives);
+                'hotel_id' => $hotel->id,
+                'hotel_name' => $hotel->hotel_name,
+                'hotel_active_id' => $hotel->active_id,
+                'hotel_active' => $hotel->active,
+                'hotel_comment' => $hotel->hotel_comment
+            ])->with('actives', $actives);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
 
     /**
-      Update hotel information to database
+     * Update hotel information to database
      */
-    public function update(HotelsRequest $request, $id) {
+    public function update(HotelsRequest $request, $id)
+    {
 
         DB::beginTransaction();
         try {
             DB::table('hotels')
-                    ->where('id', $id)
-                    ->update([
-                        'hotel_name' => $request->hotel_name,
-                        'active_id' => $request->active_id,
-                        'hotel_comment' => $request->hotel_comment
-            ]);
+                ->where('id', $id)
+                ->update([
+                    'hotel_name' => $request->hotel_name,
+                    'active_id' => $request->active_id,
+                    'hotel_comment' => $request->hotel_comment
+                ]);
             DB::commit();
             return redirect()->action('HotelController@create');
         } catch (Exception $e) {
@@ -137,7 +164,8 @@ class HotelController extends Controller {
       Delete hotel where id
      */
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         DB::beginTransaction();
         try {
             DB::table('hotels')->where('id', $id)->delete();
