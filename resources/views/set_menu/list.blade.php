@@ -7,15 +7,43 @@
                 <div class="panel-heading">Search Option</div>
                 <div class="panel-body">
                     {{ Form::open(array('url' => 'search_menu', 'method' => 'post')) }}
+                    <label>Search By</label>
+                    <select class="form-control" name="search_value">
+                        <!--option value="" disabled selected>please_selected</option-->
+                        <option value="hotel">Hotel</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="menu">Menu Name</option>
+                        <option value="language">Language</option>
+                    </select>
+                    <label>Hotel</label>
+                    <select class="form-control" name="hotel_id">
+                        <!--option value="" disabled selected>please_selected</option-->
+                        @foreach($hotel_items as $item)
+                            <option value="{{ $item->id }}">{{ $item->hotel_name }}</option>
+                        @endforeach
+                    </select>
+                    <label>Restaurant</label>
+                    <select class="form-control" name="restaurant_id">
+                        <!--option value="" disabled selected>please_selected</option-->
+                        @foreach($restaurant_items as $item)
+                            <option value="{{ $item->id }}">{{ $item->restaurant_name }}</option>
+                        @endforeach
+                    </select>
+                    <label>Menu</label>
+                    <select class="form-control" name="menu_id">
+                        <!--option value="" disabled selected>please_selected</option-->
+                        @foreach($menu_items as $item)
+                            <option value="{{ $item->id }}">{{ $item->menu_name }}</option>
+                        @endforeach
+                    </select>
                     <label>Languages</label>
-                    <div class="form-group">
-                        <select class="form-control" name="language_id">
-                            <!--option value="" disabled selected>please_selected</option-->
-                            @foreach($languages as $language)
-                                <option value="{{ $language->id }}">{{ $language->language }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <select class="form-control" name="language_id">
+                        <!--option value="" disabled selected>please_selected</option-->
+                        @foreach($language_items as $item)
+                            <option value="{{ $item->id }}">{{ $item->language }}</option>
+                        @endforeach
+                    </select>
+                    <br>
                     {{ Form::submit('Search', ['class' => 'btn btn-primary']) }}
                     <button type="submit" class="btn btn-success">
                         <a href="{{ action('SetMenusController@create') }}">

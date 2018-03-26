@@ -87,7 +87,25 @@ class SetMenusController extends Controller
     public function SearchMenu(Request $request)
     {
         try {
-            $languages = Language::orderBy('id', 'ASC')->get();
+
+            //echo $request->menu_id;
+
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
+            $menu_items = SetMenu::select('id', 'menu_name')->orderBy('menu_name', 'ASC')->get();
+            $language_items = Language::orderBy('id', 'ASC')->get();
+            $where = null;
+
+            if ($request->search_value == 'hotel') {
+                $where = ['set_menus.hotel_id' => $request->hotel_id];
+            } elseif ($request->search_value == 'restaurant') {
+                $where = ['set_menus.restaurant_id' => $request->restaurant_id];
+            } elseif ($request->search_value == 'menu') {
+                $where = ['set_menus.id' => $request->menu_id];
+            } else {
+                $where = ['set_menus.language_id' => $request->language_id];
+            }
+
 
             $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
             $restaurants = array();
@@ -126,10 +144,15 @@ class SetMenusController extends Controller
                         'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
                         ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
-                        ->orderBy('set_menus.id', 'asc')->where('set_menus.language_id', $request->input('language_id'))->paginate(10);
+                        ->where($where)->paginate(10);
+
                     return view('set_menu.list', [
+                        'hotel_items' => $hotel_items,
+                        'restaurant_items' => $restaurant_items,
+                        'menu_items' => $menu_items,
+                        'language_items' => $language_items,
                         'set_menus' => $set_menus
-                    ])->with('languages', $languages);
+                    ]);
                 }
             }
         } catch (Exception $e) {
@@ -146,6 +169,11 @@ class SetMenusController extends Controller
     function create()
     {
         try {
+
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
+            $menu_items = SetMenu::select('id', 'menu_name')->orderBy('menu_name', 'ASC')->get();
+            $language_items = Language::orderBy('id', 'ASC')->get();
 
             $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
             $restaurants = array();
@@ -171,7 +199,7 @@ class SetMenusController extends Controller
                     }
 
                 } else {
-                    $languages = Language::orderBy('id', 'ASC')->get();
+
                     $set_menus = DB::table('set_menus')
                         ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
                             'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
@@ -181,8 +209,12 @@ class SetMenusController extends Controller
                         ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                         ->orderBy('set_menus.id', 'asc')->paginate(10);
                     return view('set_menu.list', [
+                        'hotel_items' => $hotel_items,
+                        'restaurant_items' => $restaurant_items,
+                        'menu_items' => $menu_items,
+                        'language_items' => $language_items,
                         'set_menus' => $set_menus
-                    ])->with('languages', $languages);
+                    ]);
                 }
             }
         } catch (Exception $e) {
