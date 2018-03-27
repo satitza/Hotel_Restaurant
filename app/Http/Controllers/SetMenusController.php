@@ -33,6 +33,15 @@ class SetMenusController extends Controller
         $this->middleware('editor');
     }
 
+    /*public function chooseLanguage()
+    {
+        try {
+            return view('set_menu.index');
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
+    }*/
+
     /**
      * Display a listing of the resource.
      *
@@ -60,7 +69,7 @@ class SetMenusController extends Controller
                             array_push($restaurants, Restaurants::where($where)->get());
                         }
                     }
-                    return view('set_menu.index_editor', [
+                    return view('set_menu.editor.index', [
                         //'hotels' => $hotels,
                         'restaurants' => $restaurants,
                         'languages' => $languages,
@@ -69,7 +78,7 @@ class SetMenusController extends Controller
                     ]);
                 } else {
                     $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
-                    return view('set_menu.index', [
+                    return view('set_menu.admin.index', [
                         //'hotels' => $hotels,
                         'restaurants' => $restaurants,
                         'languages' => $languages,
@@ -104,7 +113,6 @@ class SetMenusController extends Controller
                 $where = ['set_menus.language_id' => $request->language_id];
             }
 
-
             $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
             $restaurants = array();
 
@@ -130,7 +138,7 @@ class SetMenusController extends Controller
                         ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                         ->orderBy('set_menus.id', 'asc')->where('set_menus.restaurant_id', $request->restaurant_id)->paginate(10);
 
-                    return view('set_menu.list_editor', [
+                    return view('set_menu.editor.list', [
                         'set_menus' => $set_menus
                     ])->with('restaurants', $restaurants);
 
@@ -144,7 +152,7 @@ class SetMenusController extends Controller
                         ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                         ->where($where)->paginate(10);
 
-                    return view('set_menu.list', [
+                    return view('set_menu.admin.list', [
                         'hotel_items' => $hotel_items,
                         'restaurant_items' => $restaurant_items,
                         'menu_items' => $menu_items,
@@ -190,7 +198,7 @@ class SetMenusController extends Controller
                                 array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
                             }
 
-                            return view('set_menu.editor_info', [
+                            return view('set_menu.editor.editor_info', [
                                 'restaurants' => $restaurants,
                             ]);
                         }
@@ -206,7 +214,7 @@ class SetMenusController extends Controller
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
                         ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                         ->orderBy('set_menus.id', 'asc')->paginate(10);
-                    return view('set_menu.list', [
+                    return view('set_menu.admin.list', [
                         'hotel_items' => $hotel_items,
                         'restaurant_items' => $restaurant_items,
                         'menu_items' => $menu_items,
@@ -239,7 +247,7 @@ class SetMenusController extends Controller
             $set_menu = new SetMenu;
             $set_menu->hotel_id = $get_hotel_id->hotel_id;
             $set_menu->restaurant_id = $request->restaurant_id;
-            $set_menu->language_id = $request->language_id;
+            $set_menu->language_id = (int)$request->language_id;
             $set_menu->menu_name = $request->menu_name;
             $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
             $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));

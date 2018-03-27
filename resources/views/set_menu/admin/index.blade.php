@@ -27,8 +27,8 @@
 
                     <div class="panel-body">
 
-                    {!! Form::open(['url' => 'set_menu', 'files' => false]) !!}
-                    <!-- {{ Form::open(array('url' => 'hotel/create', 'method' => 'get')) }} -->
+                        {{ Form::open(array('url' => 'set_menu', 'method' => 'post')) }}
+
                         <table class="table table-striped table-hover ">
                             <thead>
                             <tr class="">
@@ -38,12 +38,12 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>{{ Form::label('lb_restaurant_name', 'Language') }}</td>
+                                <td>{{ Form::label('lb_restaurant_language', 'Languages') }}</td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="language_id">
+                                        <select class="form-control" name="restaurant_id">
                                             <!--option value="" disabled selected>please_selected</option-->
-                                            @foreach($languages as $language)
+                                            @foreach($languages as  $language)
                                                 <option value="{{ $language->id }}">{{ $language->language }}</option>
                                             @endforeach
                                         </select>
@@ -193,4 +193,3 @@
         </div>
     </div>
 @endsection
-
