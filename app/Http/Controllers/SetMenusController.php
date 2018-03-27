@@ -292,12 +292,11 @@ class SetMenusController extends Controller
     {
         try {
             $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
-            $hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
-            $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
+            $restaurants = array();
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
             $set_menus = DB::table('set_menus')
-                ->select('set_menus.id', 'set_menus.hotel_id', 'hotels.hotel_name',
+                ->select('set_menus.id', 'hotels.hotel_name',
                     'set_menus.restaurant_id', 'restaurants.restaurant_name',
                     'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                     'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
@@ -324,10 +323,15 @@ class SetMenusController extends Controller
                 }
                 $arrays = explode(',', $res_id->restaurant_id, -1);
                 foreach ($arrays as $array) {
+
+                    $where = ['id' => $array];
+                    array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
+
+                }
+                foreach ($arrays as $array) {
                     if ($set_menu->restaurant_id == $array) {
-                        return view('set_menu.edit', [
+                        return view('set_menu.editor.edit', [
                             'set_menu_id' => $set_menu->id,
-                            'hotel_id' => $set_menu->hotel_id,
                             'hotel_name' => $set_menu->hotel_name,
                             'restaurant_id' => $set_menu->restaurant_id,
                             'restaurant_name' => $set_menu->restaurant_name,
@@ -343,7 +347,6 @@ class SetMenusController extends Controller
                             'menu_guest' => $set_menu->menu_guest,
                             'menu_comment' => $set_menu->menu_comment
                         ])
-                            ->with('hotels', $hotels)
                             ->with('restaurants', $restaurants)
                             ->with('time_lunchs', $time_lunchs)
                             ->with('time_dinners', $time_dinners);
@@ -351,9 +354,9 @@ class SetMenusController extends Controller
                 }
             } else {
                 //Administrator role
-                return view('set_menu.edit', [
+                $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
+                return view('set_menu.admin.edit', [
                     'set_menu_id' => $set_menu->id,
-                    'hotel_id' => $set_menu->hotel_id,
                     'hotel_name' => $set_menu->hotel_name,
                     'restaurant_id' => $set_menu->restaurant_id,
                     'restaurant_name' => $set_menu->restaurant_name,
@@ -369,7 +372,6 @@ class SetMenusController extends Controller
                     'menu_guest' => $set_menu->menu_guest,
                     'menu_comment' => $set_menu->menu_comment
                 ])
-                    ->with('hotels', $hotels)
                     ->with('restaurants', $restaurants)
                     ->with('time_lunchs', $time_lunchs)
                     ->with('time_dinners', $time_dinners);

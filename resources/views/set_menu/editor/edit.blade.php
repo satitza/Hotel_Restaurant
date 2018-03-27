@@ -37,20 +37,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr style="display: none">
-                                <td>{{ Form::label('lb_hotel_name', 'Hotel Name') }}</td>
-                                <td>
-                                    <div class="form-group">
-                                        <select class="form-control" name="hotel_id">
-                                            <option value="{{ $hotel_id }}">{{ $hotel_name }}</option>
-                                            <!--option value="" disabled selected>please_selected</option-->
-                                            @foreach($hotels as $hotel)
-                                                <option value="{{ $hotel->id }}">{{ $hotel->hotel_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
                             <tr>
                                 <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
                                 <td>
@@ -59,7 +45,7 @@
                                             <option value="{{ $restaurant_id }}">{{ $restaurant_name }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($restaurants as $restaurant)
-                                                <option value="{{ $restaurant->id }}">{{ $restaurant->restaurant_name }}</option>
+                                                <option value="{{ $restaurant[0]->id }}">{{ $restaurant[0]->restaurant_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
