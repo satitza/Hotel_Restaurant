@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SetMenu;
 use DB;
 use App\Hotels;
 use App\Actives;
@@ -105,8 +106,7 @@ class RestaurantsController extends Controller
 
             if ($request->search_value == 'hotel') {
                 $where = ['restaurants.hotel_id' => $request->hotel_id];
-            }
-            else{
+            } else {
                 $where = ['restaurants.id' => $request->restaurant_id];
             }
 
@@ -193,7 +193,17 @@ class RestaurantsController extends Controller
                     'restaurant_comment' => $request->restaurant_comment
                 ]);
             DB::commit();
-            return redirect()->action('RestaurantsController@create');
+            if (SetMenu::select('hotel_id')->where('restaurant_id', $id)->exists()) {
+                //Found hotel_id  in  set_menus
+                DB::table('set_menus')->where('restaurant_id', $id)
+                    ->update([
+                        'hotel_id' => $request->hotel_id
+                    ]);
+                DB::commit();
+                return redirect()->action('RestaurantsController@create');
+            } else {
+                return redirect()->action('RestaurantsController@create');
+            }
         } catch (Exception $e) {
             DB::rollback();
             return view('error.index')->with('error', $e);
