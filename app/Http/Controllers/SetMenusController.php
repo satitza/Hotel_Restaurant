@@ -33,15 +33,6 @@ class SetMenusController extends Controller
         $this->middleware('editor');
     }
 
-    /*public function chooseLanguage()
-    {
-        try {
-            return view('set_menu.index');
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
-        }
-    }*/
-
     /**
      * Display a listing of the resource.
      *
