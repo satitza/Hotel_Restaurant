@@ -7,6 +7,7 @@ use App\User;
 use Carbon\Carbon;
 use DB;
 use File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Http\Requests\SetMenusRequest;
@@ -16,6 +17,7 @@ use App\TimeLunch;
 use App\TimeDinner;
 use App\SetMenu;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class SetMenusController extends Controller
 {
@@ -30,7 +32,8 @@ class SetMenusController extends Controller
             //'store',
             //'edit',
             //'update',
-            'destroy'
+            'destroy',
+            'DeleteImage'
         ]]);
         $this->middleware('editor');
     }
@@ -124,7 +127,7 @@ class SetMenusController extends Controller
 
                     $set_menus = DB::table('set_menus')->
                     select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                        'menu_name', 'image','menu_date_start', 'menu_date_end', 'menu_date_select',
+                        'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                         'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
                         'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
@@ -138,7 +141,7 @@ class SetMenusController extends Controller
                 } else {
                     $set_menus = DB::table('set_menus')->
                     select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                        'menu_name', 'image','menu_date_start', 'menu_date_end', 'menu_date_select',
+                        'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                         'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
                         'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
@@ -201,7 +204,7 @@ class SetMenusController extends Controller
 
                     $set_menus = DB::table('set_menus')
                         ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                            'menu_name', 'image','menu_date_start', 'menu_date_end', 'menu_date_select',
+                            'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                             'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
                             'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
@@ -299,7 +302,7 @@ class SetMenusController extends Controller
             $set_menus = DB::table('set_menus')
                 ->select('set_menus.id', 'hotels.hotel_name',
                     'set_menus.restaurant_id', 'restaurants.restaurant_name',
-                    'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                     'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
                     'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                 ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
@@ -337,6 +340,7 @@ class SetMenusController extends Controller
                             'restaurant_id' => $set_menu->restaurant_id,
                             'restaurant_name' => $set_menu->restaurant_name,
                             'menu_name' => $set_menu->menu_name,
+                            'old_image' => $set_menu->image,
                             'menu_date_start' => $date_start_format,
                             'menu_date_end' => $date_end_format,
                             'menu_date_select' => $set_menu->menu_date_select,
@@ -362,6 +366,7 @@ class SetMenusController extends Controller
                     'restaurant_id' => $set_menu->restaurant_id,
                     'restaurant_name' => $set_menu->restaurant_name,
                     'menu_name' => $set_menu->menu_name,
+                    'old_image' => $set_menu->image,
                     'menu_date_start' => $date_start_format,
                     'menu_date_end' => $date_end_format,
                     'menu_date_select' => $set_menu->menu_date_select,
@@ -390,8 +395,10 @@ class SetMenusController extends Controller
     public
     function update(SetMenusRequest $request, $id)
     {
-        $date_insert = NULL;
+        $date_insert = null;
+        $filename = null;
         $new_date_select = ($request->input('date_check_box'));
+        $get_hotel_id = Restaurants::find($request->restaurant_id);
 
         if (!isset($new_date_select)) {
             //Check box is null insert old date select
@@ -401,15 +408,29 @@ class SetMenusController extends Controller
             $date_insert = implode(",", $request->input('date_check_box')) . ",";
         }
 
-        DB::beginTransaction();
         try {
-            $get_hotel_id = Restaurants::find($request->restaurant_id);
+
+            if (Input::hasFile('image')) {
+                //update and upload new file
+                $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                $destinationPath = public_path('/images');
+                $request->file('image')->move($destinationPath, $filename);
+                $this->DeleteImage($id);
+            } else {
+                //no update image
+                $filename_obj = $get_old_image = SetMenu::find($id);
+                $filename = $filename_obj->image;
+            }
+
+            DB::beginTransaction();
+
             DB::table('set_menus')
                 ->where('id', $id)
                 ->update([
                     'hotel_id' => $get_hotel_id->hotel_id,
                     'restaurant_id' => $request->restaurant_id,
                     'menu_name' => $request->menu_name,
+                    'image' => $filename,
                     'menu_date_start' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-')))),
                     'menu_date_end' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-')))),
                     'menu_date_select' => $date_insert,
@@ -424,6 +445,7 @@ class SetMenusController extends Controller
             DB::commit();
             return redirect()->action('SetMenusController@create');
         } catch (Exception $e) {
+            DB::rollback();
             return view('error.index')->with('error', $e);
         }
     }
@@ -439,12 +461,23 @@ class SetMenusController extends Controller
     {
         DB::beginTransaction();
         try {
+            $this->DeleteImage($id);
             DB::table('set_menus')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('SetMenusController@create');
         } catch (Exception $e) {
             DB::rollback();
             echo $e->getMessage();
+        }
+    }
+
+    public function DeleteImage($id)
+    {
+        try {
+            $get_old_image = SetMenu::find($id);
+            return File::delete(public_path('images\\' . $get_old_image->image));
+        } catch (FileException $e) {
+            return view('error.index')->with('error', $e);
         }
     }
 

@@ -28,7 +28,7 @@
                     <div class="panel-body">
 
                         <?php /* {!! Form::open(['url' => 'edit_set_menu', 'files' => false]) !!} --> */ ?>
-                        {{ Form::open(array('url' => 'set_menu/'.$set_menu_id, 'method' => 'put')) }}
+                        {{ Form::open(array('url' => 'set_menu/'.$set_menu_id, 'method' => 'put', 'files' => true)) }}
                         <table class="table table-striped table-hover ">
                             <thead>
                             <tr class="">
@@ -37,6 +37,14 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <tr>
+                                <td>{{ Form::label('lb_menu_image', 'Image') }}</td>
+                                <td><img class="d-block w-50" src="{{ asset('images/'.$old_image ) }}" alt="First slide" height="200"></td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_menu_image', 'New Image', array('class' => 'lb_menu_image')) }}</td>
+                                <td>{{ Form::file('image', array('class' => 'image')) }}</td>
+                            </tr>
                             <tr>
                                 <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
                                 <td>
