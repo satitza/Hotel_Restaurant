@@ -12,12 +12,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
-    <!--link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet"-->
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Script -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
-    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script-->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script-->
+    <script src="{{ asset('jquery/jquery.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/jquery-ui.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
