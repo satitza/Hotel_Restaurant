@@ -77,8 +77,7 @@
 
                     <div class="panel-body">
 
-                    {!! Form::open(['url' => 'set_menu', 'files' => false]) !!}
-                    <!-- {{ Form::open(array('url' => 'hotel/create', 'method' => 'get')) }} -->
+                        {!! Form::open(['url' => 'set_menu', 'files' => true]) !!}
 
                         <table class="table table-striped table-hover ">
                             <thead>
@@ -117,6 +116,10 @@
                             <tr>
                                 <td>{{ Form::label('lb_menu_name', 'ชื่อเมนู', array('class' => 'lb_menu_name')) }}</td>
                                 <td>{{ Form::text('menu_name', null, ['class' => 'form-control', 'placeholder' => 'Menu Name']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_menu_image', 'รูปภาพ', array('class' => 'lb_menu_image')) }}</td>
+                                <td>{{ Form::file('image', array('class' => 'image')) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_date_start', 'วันที่เริ่ม', array('class' => 'lb_date_start')) }}</td>

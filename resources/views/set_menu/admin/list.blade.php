@@ -63,16 +63,17 @@
                     <table class="table">
                         <thead class="thead-dark">
                         <tr>
+                            <th scope="col">Image</th>
                             <th scope="col">Hotel Name</th>
                             <th scope="col">Restaurant Name</th>
                             <th scope="col">Menu Name</th>
                             <th scope="col">Date Start</th>
                             <th scope="col">Date End</th>
-                            <th scope="col">Date Select</th>
-                            <th scope="col">Time Lunch Start</th>
-                            <th scope="col">Time Lunch End</th>
-                            <th scope="col">Time Dinner Start</th>
-                            <th scope="col">Time Dinner End</th>
+                            <!--th scope="col">Date Select</th-->
+                            <!--th scope="col">Time Lunch Start</th-->
+                            <!--th scope="col">Time Lunch End</th-->
+                            <!--th scope="col">Time Dinner Start</th-->
+                            <!--th scope="col">Time Dinner End</th-->
                             <th scope="col">Price</th>
                             <th scope="col">Guest</th>
                             <th scope="col">Comment</th>
@@ -83,16 +84,17 @@
                         <tbody>
                         @foreach($set_menus as $set_menu)
                             <tr>
+                                <td><img class="d-block w-50" src="{{ asset('/images/'.$set_menu->image) }}" alt="First slide" height="120"></td>
                                 <td>{{ $set_menu->hotel_name }}</td>
                                 <td>{{ $set_menu->restaurant_name }}</td>
                                 <td>{{ $set_menu->menu_name }}</td>
                                 <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_start)) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_end)) }}</td>
-                                <td>{{ $set_menu->menu_date_select }}</td>
-                                <td>{{ $set_menu->menu_time_lunch_start }}</td>
-                                <td>{{ $set_menu->menu_time_lunch_end }}</td>
-                                <td>{{ $set_menu->menu_time_dinner_start }}</td>
-                                <td>{{ $set_menu->menu_time_dinner_end }}</td>
+                                <!--td>{{ $set_menu->menu_date_select }}</td-->
+                                <!--td>{{ $set_menu->menu_time_lunch_start }}</td-->
+                                <!--td>{{ $set_menu->menu_time_lunch_end }}</td-->
+                                <!--td>{{ $set_menu->menu_time_dinner_start }}</td-->
+                                <!--td>{{ $set_menu->menu_time_dinner_end }}</td-->
                                 <td>{{ $set_menu->menu_price }}</td>
                                 <td>{{ $set_menu->menu_guest }}</td>
                                 <td>{{ $set_menu->menu_comment }}</td>

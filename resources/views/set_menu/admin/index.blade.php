@@ -17,6 +17,7 @@
                     $('.lb_language').text("เลือกภาษา");
                     $('.lb_restaurant_name').text("ชื่อโรงแรม");
                     $('.lb_menu_name').text("ชื่อเมนู");
+                    $('.lb_menu_image').text("รูปภาพ");
                     $('.lb_date_start').text("วันที่เริ่ม");
                     $('.lb_date_end').text("วันที่สิ้นสุด");
                     $('.lb_date_select').text("เลือกวัน");
@@ -31,6 +32,7 @@
                     $('.lb_language').text("Choose Language");
                     $('.lb_restaurant_name').text("Restaurant Name");
                     $('.lb_menu_name').text("Menu Name");
+                    $('.lb_menu_image').text("Menu Image");
                     $('.lb_date_start').text("Date Start");
                     $('.lb_date_end').text("Date End");
                     $('.lb_date_select').text("Date Select");
@@ -45,6 +47,7 @@
                     $('.lb_language').text("選擇語言");
                     $('.lb_restaurant_name').text("酒店名稱");
                     $('.lb_menu_name').text("菜單標題");
+                    $('.lb_menu_image').text("圖片");
                     $('.lb_date_start').text("開始日期");
                     $('.lb_date_end').text("結束日期");
                     $('.lb_date_select').text("選擇一天");
@@ -77,8 +80,7 @@
 
                     <div class="panel-body">
 
-                    {!! Form::open(['url' => 'set_menu', 'files' => false]) !!}
-                    <!-- {{ Form::open(array('url' => 'hotel/create', 'method' => 'get')) }} -->
+                        {!! Form::open(['url' => 'set_menu', 'files' => true]) !!}
 
                         <table class="table table-striped table-hover ">
                             <thead>
@@ -117,6 +119,10 @@
                             <tr>
                                 <td>{{ Form::label('lb_menu_name', 'ชื่อเมนู', array('class' => 'lb_menu_name')) }}</td>
                                 <td>{{ Form::text('menu_name', null, ['class' => 'form-control', 'placeholder' => 'Menu Name']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_menu_image', 'รูปภาพ', array('class' => 'lb_menu_image')) }}</td>
+                                <td>{{ Form::file('image', array('class' => 'image')) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_date_start', 'วันที่เริ่ม', array('class' => 'lb_date_start')) }}</td>

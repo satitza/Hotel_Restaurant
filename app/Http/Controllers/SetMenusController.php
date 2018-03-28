@@ -6,6 +6,8 @@ use App\Language;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use File;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Http\Requests\SetMenusRequest;
 use App\Hotels;
@@ -122,7 +124,7 @@ class SetMenusController extends Controller
 
                     $set_menus = DB::table('set_menus')->
                     select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                        'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                        'menu_name', 'image','menu_date_start', 'menu_date_end', 'menu_date_select',
                         'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
                         'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
@@ -136,7 +138,7 @@ class SetMenusController extends Controller
                 } else {
                     $set_menus = DB::table('set_menus')->
                     select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                        'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                        'menu_name', 'image','menu_date_start', 'menu_date_end', 'menu_date_select',
                         'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
                         'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
@@ -199,7 +201,7 @@ class SetMenusController extends Controller
 
                     $set_menus = DB::table('set_menus')
                         ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                            'menu_name', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                            'menu_name', 'image','menu_date_start', 'menu_date_end', 'menu_date_select',
                             'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
                             'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
                         ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
@@ -230,33 +232,41 @@ class SetMenusController extends Controller
     {
         if ($request->input('date_check_box') == null) {
             return view('error.index')->with('error', 'You never set date select');
-        }
+        } elseif (Input::hasFile('image')) {
+            DB::beginTransaction();
+            try {
+                $get_hotel_id = Restaurants::find($request->restaurant_id);
 
-        DB::beginTransaction();
-        try {
-            $get_hotel_id = Restaurants::find($request->restaurant_id);
-            $set_menu = new SetMenu;
-            $set_menu->hotel_id = $get_hotel_id->hotel_id;
-            $set_menu->restaurant_id = $request->restaurant_id;
-            $set_menu->language_id = (int)$request->language_id;
-            $set_menu->menu_name = $request->menu_name;
-            $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
-            $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));
-            //$set_menu->menu_date_select = json_encode($request->input('date_check_box'));
-            $set_menu->menu_date_select = implode(", ", $request->input('date_check_box')) . ",";
-            $set_menu->menu_time_lunch_start = $request->menu_time_lunch_start;
-            $set_menu->menu_time_lunch_end = $request->menu_time_lunch_end;
-            $set_menu->menu_time_dinner_start = $request->menu_time_dinner_start;
-            $set_menu->menu_time_dinner_end = $request->menu_time_dinner_end;
-            $set_menu->menu_price = $request->menu_price;
-            $set_menu->menu_guest = $request->menu_guest;
-            $set_menu->menu_comment = $request->set_menu_comment;
-            $set_menu->save();
-            DB::commit();
-            return redirect()->action('SetMenusController@create');
-        } catch (Exception $e) {
-            DB::rollback();
-            return view('error.index')->with('error', $e);
+                $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                $destinationPath = public_path('/images');
+
+                $set_menu = new SetMenu;
+                $set_menu->hotel_id = $get_hotel_id->hotel_id;
+                $set_menu->restaurant_id = $request->restaurant_id;
+                $set_menu->language_id = (int)$request->language_id;
+                $set_menu->menu_name = $request->menu_name;
+                $set_menu->image = $filename;
+                $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
+                $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));
+                //$set_menu->menu_date_select = json_encode($request->input('date_check_box'));
+                $set_menu->menu_date_select = implode(", ", $request->input('date_check_box')) . ",";
+                $set_menu->menu_time_lunch_start = $request->menu_time_lunch_start;
+                $set_menu->menu_time_lunch_end = $request->menu_time_lunch_end;
+                $set_menu->menu_time_dinner_start = $request->menu_time_dinner_start;
+                $set_menu->menu_time_dinner_end = $request->menu_time_dinner_end;
+                $set_menu->menu_price = $request->menu_price;
+                $set_menu->menu_guest = $request->menu_guest;
+                $set_menu->menu_comment = $request->set_menu_comment;
+                $set_menu->save();
+                DB::commit();
+                $request->file('image')->move($destinationPath, $filename);
+                return redirect()->action('SetMenusController@create');
+            } catch (Exception $e) {
+                DB::rollback();
+                return view('error.index')->with('error', $e);
+            }
+        } else {
+            return view('error.index')->with('error', 'Images is not upload');
         }
     }
 

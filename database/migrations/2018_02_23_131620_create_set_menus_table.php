@@ -30,23 +30,18 @@ class CreateSetMenusTable extends Migration {
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
 
             $table->string('menu_name', 100);
+            $table->string('image', 100);
+
             $table->date('menu_date_start')->nullable();
             $table->date('menu_date_end')->nullable();
 
             $table->longText('menu_date_select')->nullable();
-            //$table->foreign('menu_date_select')->references('id')->on('days')->onDelete('cascade');
 
             $table->string('menu_time_lunch_start', 50)->nullable();
-            //$table->foreign('menu_time_lunch_start')->references('id')->on('time_lunch');
-
-            $table->string('menu_time_lunch_end', 50)->nullable();//->unsigned();
-            //$table->foreign('menu_time_lunch_end')->references('id')->on('time_lunch');
+            $table->string('menu_time_lunch_end', 50)->nullable();
 
             $table->string('menu_time_dinner_start', 50)->nullable();
-            //$table->foreign('menu_time_dinner_start')->references('id')->on('time_dinner');
-
             $table->string('menu_time_dinner_end', 50)->nullable();
-            //$table->foreign('menu_time_dinner_end')->references('id')->on('time_dinner');
 
             $table->double('menu_price', 8, 2)->nullable();
             $table->integer('menu_guest')->nullable();
