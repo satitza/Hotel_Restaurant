@@ -27,7 +27,7 @@
                     $('.lb_price').text("ราคาต่อคน");
                     $('.lb_guest').text("จำนวนคนที่รองรับสูงสุด");
                     $('.lb_comment').text("รายละเอียด");
-                }else if(language == "EN"){
+                } else if (language == "EN") {
                     $('.lb_language').text("Choose Language");
                     $('.lb_restaurant_name').text("Restaurant Name");
                     $('.lb_menu_name').text("Menu Name");
@@ -41,7 +41,7 @@
                     $('.lb_price').text("Price per person");
                     $('.lb_guest').text("Max guest");
                     $('.lb_comment').text("Comment");
-                }else if(language == "CN"){
+                } else if (language == "CN") {
                     $('.lb_language').text("選擇語言");
                     $('.lb_restaurant_name').text("酒店名稱");
                     $('.lb_menu_name').text("菜單標題");
