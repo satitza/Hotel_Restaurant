@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Language;
-use App\User;
+use App\UserEditor;
 use Carbon\Carbon;
 use DB;
 use File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Http\Requests\SetMenusRequest;
+use App\User;
 use App\Hotels;
 use App\Restaurants;
 use App\TimeLunch;
@@ -50,40 +50,36 @@ class SetMenusController extends Controller
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
 
-            $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
+            $check_rows = User::find(Auth::id());
             $restaurants = array();
 
-            foreach ($check_rows as $check_row) {
-                //User Editor
-                if ($check_row->user_role == 2) {
-                    $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                    foreach ($restaurant_id as $id) {
-                        //echo $id->restaurant_id."<br>";
-                        $arrays = explode(',', $id->restaurant_id, -1);
-                        foreach ($arrays as $array) {
-                            $where = ['id' => $array];
-                            array_push($restaurants, Restaurants::where($where)->get());
-                        }
+            //User Editor
+            if ($check_rows->user_role == 2) {
+                $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
+                foreach ($restaurant_id as $id) {
+                    $arrays = explode(',', $id->restaurant_id, -1);
+                    foreach ($arrays as $array) {
+                        $where = ['id' => $array];
+                        array_push($restaurants, Restaurants::where($where)->get());
                     }
-                    return view('set_menu.editor.index', [
-                        //'hotels' => $hotels,
-                        'restaurants' => $restaurants,
-                        'languages' => $languages,
-                        'time_lunchs' => $time_lunchs,
-                        'time_dinners' => $time_dinners
-                    ]);
-                } else {
-                    $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
-                    return view('set_menu.admin.index', [
-                        //'hotels' => $hotels,
-                        'restaurants' => $restaurants,
-                        'languages' => $languages,
-                        'time_lunchs' => $time_lunchs,
-                        'time_dinners' => $time_dinners
-                    ]);
                 }
+                return view('set_menu.editor.index', [
+                    //'hotels' => $hotels,
+                    'restaurants' => $restaurants,
+                    'languages' => $languages,
+                    'time_lunchs' => $time_lunchs,
+                    'time_dinners' => $time_dinners
+                ]);
+            } else {
+                $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
+                return view('set_menu.admin.index', [
+                    //'hotels' => $hotels,
+                    'restaurants' => $restaurants,
+                    'languages' => $languages,
+                    'time_lunchs' => $time_lunchs,
+                    'time_dinners' => $time_dinners
+                ]);
             }
-
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -109,54 +105,52 @@ class SetMenusController extends Controller
                 $where = ['set_menus.language_id' => $request->language_id];
             }
 
-            $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
+            $check_rows = User::find(Auth::id());
             $restaurants = array();
 
-            foreach ($check_rows as $check_row) {
-                if ($check_row->user_role == 2) {
+            if ($check_rows->user_role == 2) {
 
-                    $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                    foreach ($restaurant_id as $id) {
-                        //echo $id->restaurant_id."<br>";
-                        $arrays = explode(',', $id->restaurant_id, -1);
-                        foreach ($arrays as $array) {
-                            $where = ['id' => $array];
-                            array_push($restaurants, Restaurants::where($where)->get());
-                        }
+                $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
+                foreach ($restaurant_id as $id) {
+                    //echo $id->restaurant_id."<br>";
+                    $arrays = explode(',', $id->restaurant_id, -1);
+                    foreach ($arrays as $array) {
+                        $where = ['id' => $array];
+                        array_push($restaurants, Restaurants::where($where)->get());
                     }
-
-                    $set_menus = DB::table('set_menus')->
-                    select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                        'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
-                        'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
-                        'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
-                        ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
-                        ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
-                        ->orderBy('set_menus.id', 'asc')->where('set_menus.restaurant_id', $request->restaurant_id)->paginate(10);
-
-                    return view('set_menu.editor.list', [
-                        'set_menus' => $set_menus
-                    ])->with('restaurants', $restaurants);
-
-                } else {
-                    $set_menus = DB::table('set_menus')->
-                    select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                        'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
-                        'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
-                        'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
-                        ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
-                        ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
-                        ->where($where)->paginate(10);
-
-                    return view('set_menu.admin.list', [
-                        'hotel_items' => $hotel_items,
-                        'restaurant_items' => $restaurant_items,
-                        'menu_items' => $menu_items,
-                        'language_items' => $language_items,
-                        'set_menus' => $set_menus
-                    ]);
                 }
+                $set_menus = DB::table('set_menus')->
+                select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
+                    'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
+                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                    ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
+                    ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
+                    ->orderBy('set_menus.id', 'asc')->where('set_menus.restaurant_id', $request->restaurant_id)->paginate(10);
+
+                return view('set_menu.editor.list', [
+                    'set_menus' => $set_menus
+                ])->with('restaurants', $restaurants);
+
+            } else {
+                $set_menus = DB::table('set_menus')->
+                select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
+                    'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
+                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                    ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
+                    ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
+                    ->where($where)->paginate(10);
+
+                return view('set_menu.admin.list', [
+                    'hotel_items' => $hotel_items,
+                    'restaurant_items' => $restaurant_items,
+                    'menu_items' => $menu_items,
+                    'language_items' => $language_items,
+                    'set_menus' => $set_menus
+                ]);
             }
+
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -177,47 +171,45 @@ class SetMenusController extends Controller
             $menu_items = SetMenu::select('id', 'menu_name')->orderBy('menu_name', 'ASC')->get();
             $language_items = Language::orderBy('id', 'ASC')->get();
 
-            $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
+            $check_rows = User::find(Auth::id());
             $restaurants = array();
 
-            foreach ($check_rows as $check_row) {
-                //Editor User
-                if ($check_row->user_role == 2) {
-                    $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                    if (count($restaurant_id) == 0) {
-                        return view('error.index')->with('error', 'You never match with restaurant');
-                    } else {
-                        foreach ($restaurant_id as $id) {
-                            $arrays = explode(',', $id->restaurant_id, -1);
-                            foreach ($arrays as $array) {
-                                $where = ['id' => $array];
-                                array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
-                            }
-
-                            return view('set_menu.editor.editor_info', [
-                                'restaurants' => $restaurants,
-                            ]);
-                        }
-                    }
-
+            //Editor User
+            if ($check_rows->user_role == 2) {
+                $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
+                if (count($restaurant_id) == 0) {
+                    return view('error.index')->with('error', 'You never match with restaurant');
                 } else {
+                    foreach ($restaurant_id as $id) {
+                        $arrays = explode(',', $id->restaurant_id, -1);
+                        foreach ($arrays as $array) {
+                            $where = ['id' => $array];
+                            array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
+                        }
 
-                    $set_menus = DB::table('set_menus')
-                        ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                            'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
-                            'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
-                            'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
-                        ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
-                        ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
-                        ->orderBy('set_menus.id', 'asc')->paginate(10);
-                    return view('set_menu.admin.list', [
-                        'hotel_items' => $hotel_items,
-                        'restaurant_items' => $restaurant_items,
-                        'menu_items' => $menu_items,
-                        'language_items' => $language_items,
-                        'set_menus' => $set_menus
-                    ]);
+                        return view('set_menu.editor.editor_info', [
+                            'restaurants' => $restaurants,
+                        ]);
+                    }
                 }
+
+            } else {
+
+                $set_menus = DB::table('set_menus')
+                    ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
+                        'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                        'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
+                        'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                    ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
+                    ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
+                    ->orderBy('set_menus.id', 'asc')->paginate(10);
+                return view('set_menu.admin.list', [
+                    'hotel_items' => $hotel_items,
+                    'restaurant_items' => $restaurant_items,
+                    'menu_items' => $menu_items,
+                    'language_items' => $language_items,
+                    'set_menus' => $set_menus
+                ]);
             }
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
@@ -295,7 +287,7 @@ class SetMenusController extends Controller
     function edit($id)
     {
         try {
-            $check_rows = DB::table('users')->select('user_role')->where('id', Auth::id())->get();
+
             $restaurants = array();
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
@@ -319,69 +311,70 @@ class SetMenusController extends Controller
             return view('error.index')->with('error', $e);
         }
 
-        foreach ($check_rows as $check_row) {
-            //User editor
-            if ($check_row->user_role == 2) {
-                $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                foreach ($restaurant_id as $res_id) {
-                }
-                $arrays = explode(',', $res_id->restaurant_id, -1);
-                foreach ($arrays as $array) {
+        $check_rows = User::find(Auth::id());
 
-                    $where = ['id' => $array];
-                    array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
-
-                }
-                foreach ($arrays as $array) {
-                    if ($set_menu->restaurant_id == $array) {
-                        return view('set_menu.editor.edit', [
-                            'set_menu_id' => $set_menu->id,
-                            'hotel_name' => $set_menu->hotel_name,
-                            'restaurant_id' => $set_menu->restaurant_id,
-                            'restaurant_name' => $set_menu->restaurant_name,
-                            'menu_name' => $set_menu->menu_name,
-                            'old_image' => $set_menu->image,
-                            'menu_date_start' => $date_start_format,
-                            'menu_date_end' => $date_end_format,
-                            'menu_date_select' => $set_menu->menu_date_select,
-                            'menu_time_lunch_start' => $set_menu->menu_time_lunch_start,
-                            'menu_time_lunch_end' => $set_menu->menu_time_lunch_end,
-                            'menu_time_dinner_start' => $set_menu->menu_time_dinner_start,
-                            'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
-                            'menu_price' => $set_menu->menu_price,
-                            'menu_guest' => $set_menu->menu_guest,
-                            'menu_comment' => $set_menu->menu_comment
-                        ])
-                            ->with('restaurants', $restaurants)
-                            ->with('time_lunchs', $time_lunchs)
-                            ->with('time_dinners', $time_dinners);
-                    }
-                }
-            } else {
-                //Administrator role
-                $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
-                return view('set_menu.admin.edit', [
-                    'set_menu_id' => $set_menu->id,
-                    'hotel_name' => $set_menu->hotel_name,
-                    'restaurant_id' => $set_menu->restaurant_id,
-                    'restaurant_name' => $set_menu->restaurant_name,
-                    'menu_name' => $set_menu->menu_name,
-                    'old_image' => $set_menu->image,
-                    'menu_date_start' => $date_start_format,
-                    'menu_date_end' => $date_end_format,
-                    'menu_date_select' => $set_menu->menu_date_select,
-                    'menu_time_lunch_start' => $set_menu->menu_time_lunch_start,
-                    'menu_time_lunch_end' => $set_menu->menu_time_lunch_end,
-                    'menu_time_dinner_start' => $set_menu->menu_time_dinner_start,
-                    'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
-                    'menu_price' => $set_menu->menu_price,
-                    'menu_guest' => $set_menu->menu_guest,
-                    'menu_comment' => $set_menu->menu_comment
-                ])
-                    ->with('restaurants', $restaurants)
-                    ->with('time_lunchs', $time_lunchs)
-                    ->with('time_dinners', $time_dinners);
+        //User editor
+        if ($check_rows->user_role == 2) {
+            $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
+            foreach ($restaurant_id as $res_id) {
             }
+            $arrays = explode(',', $res_id->restaurant_id, -1);
+            foreach ($arrays as $array) {
+
+                $where = ['id' => $array];
+                array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
+
+            }
+            foreach ($arrays as $array) {
+                if ($set_menu->restaurant_id == $array) {
+                    //Editor user role
+                    return view('set_menu.editor.edit', [
+                        'set_menu_id' => $set_menu->id,
+                        'hotel_name' => $set_menu->hotel_name,
+                        'restaurant_id' => $set_menu->restaurant_id,
+                        'restaurant_name' => $set_menu->restaurant_name,
+                        'menu_name' => $set_menu->menu_name,
+                        'old_image' => $set_menu->image,
+                        'menu_date_start' => $date_start_format,
+                        'menu_date_end' => $date_end_format,
+                        'menu_date_select' => $set_menu->menu_date_select,
+                        'menu_time_lunch_start' => $set_menu->menu_time_lunch_start,
+                        'menu_time_lunch_end' => $set_menu->menu_time_lunch_end,
+                        'menu_time_dinner_start' => $set_menu->menu_time_dinner_start,
+                        'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
+                        'menu_price' => $set_menu->menu_price,
+                        'menu_guest' => $set_menu->menu_guest,
+                        'menu_comment' => $set_menu->menu_comment
+                    ])
+                        ->with('restaurants', $restaurants)
+                        ->with('time_lunchs', $time_lunchs)
+                        ->with('time_dinners', $time_dinners);
+                }
+            }
+        } else {
+            //Administrator role
+            $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
+            return view('set_menu.admin.edit', [
+                'set_menu_id' => $set_menu->id,
+                'hotel_name' => $set_menu->hotel_name,
+                'restaurant_id' => $set_menu->restaurant_id,
+                'restaurant_name' => $set_menu->restaurant_name,
+                'menu_name' => $set_menu->menu_name,
+                'old_image' => $set_menu->image,
+                'menu_date_start' => $date_start_format,
+                'menu_date_end' => $date_end_format,
+                'menu_date_select' => $set_menu->menu_date_select,
+                'menu_time_lunch_start' => $set_menu->menu_time_lunch_start,
+                'menu_time_lunch_end' => $set_menu->menu_time_lunch_end,
+                'menu_time_dinner_start' => $set_menu->menu_time_dinner_start,
+                'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
+                'menu_price' => $set_menu->menu_price,
+                'menu_guest' => $set_menu->menu_guest,
+                'menu_comment' => $set_menu->menu_comment
+            ])
+                ->with('restaurants', $restaurants)
+                ->with('time_lunchs', $time_lunchs)
+                ->with('time_dinners', $time_dinners);
         }
     }
 
