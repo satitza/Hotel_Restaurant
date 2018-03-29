@@ -36,10 +36,6 @@
                                     <td>{{ Form::text('restaurant_email', null, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_restaurant_pdf', 'PDF File') }}</td>
-                                    <td>{{ Form::file('pdf') }}</td>
-                                </tr>
-                                <tr>
                                     <td>{{ Form::label('lb_hotel', 'Hotel') }}</td>
                                     <td>
                                         <div class="form-group">                     

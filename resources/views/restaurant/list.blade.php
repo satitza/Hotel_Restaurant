@@ -53,8 +53,6 @@
                                 <th scope="col">E-Mail</th>
                                 <th scope="col">Active</th>
                                 <th scope="col">Restaurant Comment</th>
-                                <th scope="col">PDF Name</th>
-                                <th scope="col">View PDF</th>
                                 <th scope="col1">Edit Restaurant</th>
                                 <th scope="col1">Delete</th>
                             </tr>
@@ -67,14 +65,6 @@
                                     <td>{{ $restaurant->restaurant_email }}</td>
                                     <td>{{ $restaurant->active }}</td>
                                     <td>{{ $restaurant->restaurant_comment }}</td>
-                                    <td>{{ $restaurant->pdf_name }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-dark">
-                                            <a href="{{ url('restaurant/'.$restaurant->id) }}">
-                                                View PDF File
-                                            </a>
-                                        </button>
-                                    </td>
                                     <td>
                                         <?php /*
                                   {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}

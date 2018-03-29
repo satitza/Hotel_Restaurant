@@ -61,7 +61,7 @@ class RestaurantsController extends Controller
             $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
 
             $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'restaurants.pdf_name', 'actives.active', 'restaurant_comment')
+                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('restaurants.id', 'asc')->paginate(10);
@@ -83,29 +83,16 @@ class RestaurantsController extends Controller
      */
     public function store(RestaurantsRequest $request)
     {
-        $filename = null;
-
-        if (Input::hasFile('pdf')) {
-            $filename = time() . '.' . $request->file('pdf')->getClientOriginalExtension();
-            $destinationPath = public_path('/pdf');
-            $request->file('pdf')->move($destinationPath, $filename);
-        } else {
-            $filename = null;
-        }
-
         DB::beginTransaction();
         try {
-
             $restaurants = new Restaurants;
             $restaurants->restaurant_name = $request->restaurant_name;
             $restaurants->restaurant_email = $request->restaurant_email;
-            $restaurants->pdf_name = $filename;
             $restaurants->hotel_id = $request->hotel_id;
             $restaurants->active_id = $request->active_id;
             $restaurants->restaurant_comment = $request->restaurant_comment;
             $restaurants->save();
             DB::commit();
-
             return redirect()->action('RestaurantsController@create');
         } catch (Exception $e) {
             DB::rollback();
@@ -127,7 +114,7 @@ class RestaurantsController extends Controller
             }
 
             $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'restaurants.pdf_name', 'actives.active', 'restaurant_comment')
+                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->where($where)->paginate(10);
@@ -149,7 +136,7 @@ class RestaurantsController extends Controller
      */
     public function show($id)
     {
-        try {
+        /*try {
             $restaurants = Restaurants::find($id);
             if ($restaurants->pdf_name != null) {
                 return response()->file(public_path('pdf/' . $restaurants->pdf_name));
@@ -158,7 +145,7 @@ class RestaurantsController extends Controller
             }
         } catch (FileException $e) {
             return view('error.index')->with('error', $e);
-        }
+        }*/
     }
 
     /**
@@ -171,7 +158,7 @@ class RestaurantsController extends Controller
     {
         try {
             $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurants.pdf_name', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
+                ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->get();
@@ -186,7 +173,6 @@ class RestaurantsController extends Controller
                 'id' => $restaurant->id,
                 'restaurant_name' => $restaurant->restaurant_name,
                 'restaurant_email' => $restaurant->restaurant_email,
-                'old_pdf' => $restaurant->pdf_name,
                 'hotel_id' => $restaurant->hotel_id,
                 'hotel_name' => $restaurant->hotel_name,
                 'active_id' => $restaurant->active_id,
@@ -207,15 +193,6 @@ class RestaurantsController extends Controller
      */
     public function update(RestaurantsRequest $request, $id)
     {
-        if (Input::hasFile('pdf')) {
-            $filename = time() . '.' . $request->file('pdf')->getClientOriginalExtension();
-            $destinationPath = public_path('/pdf');
-            $request->file('pdf')->move($destinationPath, $filename);
-            $this->DeletePDF($id);
-        } else {
-            $filename = $request->old_pdf;
-        }
-
         DB::beginTransaction();
         try {
             DB::table('restaurants')
@@ -223,7 +200,6 @@ class RestaurantsController extends Controller
                 ->update([
                     'restaurant_name' => $request->restaurant_name,
                     'restaurant_email' => $request->restaurant_email,
-                    'pdf_name' => $filename,
                     'hotel_id' => $request->hotel_id,
                     'active_id' => $request->active_id,
                     'restaurant_comment' => $request->restaurant_comment
@@ -256,7 +232,6 @@ class RestaurantsController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->DeletePDF($id);
             DB::table('restaurants')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('RestaurantsController@create');
@@ -266,7 +241,7 @@ class RestaurantsController extends Controller
         }
     }
 
-    public function DeletePDF($id)
+    /*public function DeletePDF($id)
     {
         try {
             $get_old_pdf = Restaurants::find($id);
@@ -274,6 +249,6 @@ class RestaurantsController extends Controller
         } catch (FileException $e) {
             return view('error.index')->with('error', $e);
         }
-    }
+    }*/
 
 }

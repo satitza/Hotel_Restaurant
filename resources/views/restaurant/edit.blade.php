@@ -36,14 +36,6 @@
                                     <td>{{ Form::text('restaurant_email', $restaurant_email, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_old_pdf', 'Old PDF') }}</td>
-                                    <td>{{ Form::text('old_pdf', $old_pdf, ['class' => 'form-control', 'placeholder' => 'Restaurant Name', 'readonly']) }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ Form::label('lb_restaurant_pdf', 'PDF File') }}</td>
-                                    <td>{{ Form::file('pdf') }}</td>
-                                </tr>
-                                <tr>
                                     <td>{{ Form::label('lb_hotel_id', 'Hotel') }}</td>
                                     <td>
                                         <div style="display: none">
