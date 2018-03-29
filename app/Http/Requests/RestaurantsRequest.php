@@ -24,7 +24,6 @@ class RestaurantsRequest extends FormRequest {
         return [
             'restaurant_name' => 'required',
             'restaurant_email' => 'required|email',
-            'pdf' => 'mimes:pdf|max:10240',
             'hotel_id' => 'required',
             'active_id' => 'required',
         ];
@@ -35,9 +34,6 @@ class RestaurantsRequest extends FormRequest {
             'restaurant_name.required' => 'Please insert restaurant name',
             'restaurant_email.required' => 'Please insert email address',
             'restaurant_email.email' => 'Invalid email address format',
-            'pdf.mimes' => 'Invalid image type please choose type pdf',
-            'pdf.max' => 'Maximum size 10 MB',
-            //'pdf.regex' => 'Invalid PDF name, file name must be a-z and A-Z',
             'hotel_id.required' => 'Please select hotel',
             'active_id.required' => 'Please select restaurant status',
         ];

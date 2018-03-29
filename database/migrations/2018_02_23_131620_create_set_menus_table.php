@@ -29,7 +29,9 @@ class CreateSetMenusTable extends Migration {
             $table->integer('language_id')->unsigned();
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
 
-            $table->string('menu_name', 100);
+            $table->string('menu_name_th', 100)->nullable();
+            $table->string('menu_name_en', 100)->nullable();
+            $table->string('menu_name_cn', 100)->nullable();
             $table->string('image', 100);
 
             $table->date('menu_date_start')->nullable();
@@ -46,7 +48,9 @@ class CreateSetMenusTable extends Migration {
             $table->double('menu_price', 8, 2)->nullable();
             $table->integer('menu_guest')->nullable();
 
-            $table->text('menu_comment')->nullable();
+            $table->text('menu_comment_th')->nullable();
+            $table->text('menu_comment_en')->nullable();
+            $table->text('menu_comment_cn')->nullable();
             $table->timestamps();
         });
     }
