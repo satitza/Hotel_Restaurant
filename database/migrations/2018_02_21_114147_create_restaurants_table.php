@@ -21,6 +21,7 @@ class CreateRestaurantsTable extends Migration {
             $table->increments('id');
             $table->string('restaurant_name', 100);
             $table->string('restaurant_email', 100)->nullable();
+            $table->string('pdf_name', 100)->nullable();
             $table->integer('hotel_id')->unsigned();
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->integer('active_id')->unsigned();

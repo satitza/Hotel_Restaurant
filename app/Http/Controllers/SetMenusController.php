@@ -225,44 +225,46 @@ class SetMenusController extends Controller
     public
     function store(SetMenusRequest $request)
     {
+        $filename = null;
         if ($request->input('date_check_box') == null) {
             return view('error.index')->with('error', 'You never set date select');
         } elseif (Input::hasFile('image')) {
-            DB::beginTransaction();
-            try {
-                $get_hotel_id = Restaurants::find($request->restaurant_id);
-
-                $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
-                $destinationPath = public_path('/images');
-
-                $set_menu = new SetMenu;
-                $set_menu->hotel_id = $get_hotel_id->hotel_id;
-                $set_menu->restaurant_id = $request->restaurant_id;
-                $set_menu->language_id = (int)$request->language_id;
-                $set_menu->menu_name = $request->menu_name;
-                $set_menu->image = $filename;
-                $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
-                $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));
-                //$set_menu->menu_date_select = json_encode($request->input('date_check_box'));
-                $set_menu->menu_date_select = implode(", ", $request->input('date_check_box')) . ",";
-                $set_menu->menu_time_lunch_start = $request->menu_time_lunch_start;
-                $set_menu->menu_time_lunch_end = $request->menu_time_lunch_end;
-                $set_menu->menu_time_dinner_start = $request->menu_time_dinner_start;
-                $set_menu->menu_time_dinner_end = $request->menu_time_dinner_end;
-                $set_menu->menu_price = $request->menu_price;
-                $set_menu->menu_guest = $request->menu_guest;
-                $set_menu->menu_comment = $request->set_menu_comment;
-                $set_menu->save();
-                DB::commit();
-                $request->file('image')->move($destinationPath, $filename);
-                return redirect()->action('SetMenusController@create');
-            } catch (Exception $e) {
-                DB::rollback();
-                return view('error.index')->with('error', $e);
-            }
+            $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $request->file('image')->move($destinationPath, $filename);
         } else {
-            return view('error.index')->with('error', 'Images is not upload');
+            $filename = "default.png";
         }
+
+        DB::beginTransaction();
+        try {
+            $get_hotel_id = Restaurants::find($request->restaurant_id);
+
+            $set_menu = new SetMenu;
+            $set_menu->hotel_id = $get_hotel_id->hotel_id;
+            $set_menu->restaurant_id = $request->restaurant_id;
+            $set_menu->language_id = (int)$request->language_id;
+            $set_menu->menu_name = $request->menu_name;
+            $set_menu->image = $filename;
+            $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
+            $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));
+            //$set_menu->menu_date_select = json_encode($request->input('date_check_box'));
+            $set_menu->menu_date_select = implode(", ", $request->input('date_check_box')) . ",";
+            $set_menu->menu_time_lunch_start = $request->menu_time_lunch_start;
+            $set_menu->menu_time_lunch_end = $request->menu_time_lunch_end;
+            $set_menu->menu_time_dinner_start = $request->menu_time_dinner_start;
+            $set_menu->menu_time_dinner_end = $request->menu_time_dinner_end;
+            $set_menu->menu_price = $request->menu_price;
+            $set_menu->menu_guest = $request->menu_guest;
+            $set_menu->menu_comment = $request->set_menu_comment;
+            $set_menu->save();
+            DB::commit();
+            return redirect()->action('SetMenusController@create');
+        } catch (Exception $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        }
+
     }
 
     /**
@@ -464,7 +466,8 @@ class SetMenusController extends Controller
         }
     }
 
-    public function DeleteImage($id)
+    public
+    function DeleteImage($id)
     {
         try {
             $get_old_image = SetMenu::find($id);

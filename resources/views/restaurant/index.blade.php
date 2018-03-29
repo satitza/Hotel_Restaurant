@@ -18,8 +18,7 @@
 
                 <div class="panel-body">
                     <div class="form-group">
-                        {!! Form::open(['url' => 'restaurant', 'files' => false]) !!}
-                        <!-- {{ Form::open(array('url' => 'hotel/create', 'method' => 'get')) }} -->
+                        {!! Form::open(['url' => 'restaurant', 'files' => true]) !!}
                         <table class="table table-striped table-hover ">
                             <thead>
                                 <tr class="">
@@ -35,6 +34,10 @@
                                 <tr>
                                     <td>{{ Form::label('lb_restaurant_email', 'Email Address') }}</td>
                                     <td>{{ Form::text('restaurant_email', null, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ Form::label('lb_restaurant_pdf', 'PDF File') }}</td>
+                                    <td>{{ Form::file('pdf') }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_hotel', 'Hotel') }}</td>
