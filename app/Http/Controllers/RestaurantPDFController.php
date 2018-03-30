@@ -137,7 +137,7 @@ class RestaurantPDFController extends Controller
                         'restaurants' => $restaurants
                     ]);
                 }
-                
+
             } else {
 
                 $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
