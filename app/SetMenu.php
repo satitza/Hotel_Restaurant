@@ -20,10 +20,6 @@ class SetMenu extends Model {
         return $this->belongsTo(Restaurants::class, 'restaurant_id');
     }
 
-    public function Language() {
-        return $this->belongsTo(Language::class, 'language_id');
-    }
-
     public function BookCheckBalance(){
         return $this->hasMany(BookCheckBalance::class);
     }
