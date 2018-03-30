@@ -28,7 +28,6 @@
             });
         });
     </script>
-
 </head>
 <body>
 <div id="app">
@@ -97,6 +96,21 @@
                                 </li>
                                 <li>
                                     <a href="{{ url('restaurant/create') }}">List Restaurant</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">
+                                PDF File <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ url('restaurant_pdf') }}">Upload PDF</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('restaurant_pdf/create') }}">List PDF File</a>
                                 </li>
                             </ul>
                         </li>

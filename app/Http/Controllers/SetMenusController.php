@@ -160,9 +160,6 @@ class SetMenusController extends Controller
     {
         try {
 
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
-
             $check_rows = User::find(Auth::id());
             $restaurants = array();
 
@@ -186,6 +183,9 @@ class SetMenusController extends Controller
                 }
 
             } else {
+
+                $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+                $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
 
                 $set_menus = DB::table('set_menus')
                     ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
@@ -289,7 +289,7 @@ class SetMenusController extends Controller
             $set_menus = DB::table('set_menus')
                 ->select('set_menus.id', 'hotels.hotel_name',
                     'set_menus.restaurant_id', 'restaurants.restaurant_name',
-                    'menu_name_th', 'menu_name_en', 'menu_name_cn','image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_name_th', 'menu_name_en', 'menu_name_cn', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                     'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
                     'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment_th', 'menu_comment_en', 'menu_comment_cn')
                 ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')

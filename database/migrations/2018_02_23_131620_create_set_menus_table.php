@@ -29,11 +29,11 @@ class CreateSetMenusTable extends Migration {
             //$table->integer('language_id')->unsigned();
             //$table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
 
-            $table->string('image', 100);
+            $table->string('image', 100)->nullable();
 
-            $table->string('menu_name_th', 100);
-            $table->string('menu_name_en', 100);
-            $table->string('menu_name_cn', 100);
+            $table->string('menu_name_th', 100)->nullable();
+            $table->string('menu_name_en', 100)->nullable();
+            $table->string('menu_name_cn', 100)->nullable();
 
             $table->date('menu_date_start')->nullable();
             $table->date('menu_date_end')->nullable();
