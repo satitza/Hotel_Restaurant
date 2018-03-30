@@ -249,6 +249,7 @@ class RestaurantPDFController extends Controller
                 if ($restaurant_pdf->restaurant_id == $array) {
                     return view('pdf.editor.edit', [
                         'restaurant_pdf_id' => $restaurant_pdf->id,
+                        'restaurant_id' => $restaurant_pdf->restaurant_id,
                         'restaurant_name' => $restaurant_pdf->restaurant_name,
                         'pdf_file_name' => $restaurant_pdf->pdf_file_name,
                         'pdf_title_th' => $restaurant_pdf->pdf_title_th,
