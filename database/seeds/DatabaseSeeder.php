@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UserRolesSeeder::class);
         $this->call(ActivesTableSeeder::class);
         $this->call(CreateAdministratorAccountSeeder::class);
-        //$this->call(HotelsListSeeder::class);
-        //$this->call(RestaurantListSeeder::class);
+        $this->call(HotelsListSeeder::class);
+        $this->call(RestaurantListSeeder::class);
         $this->call(TimeLunchsSeeder::class);
         $this->call(TimeDinnersSeeder::class);
         //$this->call(SetMenuListSeeder::class);

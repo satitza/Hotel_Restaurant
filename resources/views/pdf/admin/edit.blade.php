@@ -32,7 +32,7 @@
                                     <td>
                                         <div class="form-group">
                                             <select class="form-control" name="restaurant_id">
-                                                <option value="{{ $restaurant_pdf_id }}">{{ $restaurant_name }}</option>
+                                                <option value="{{ $restaurant_id }}">{{ $restaurant_name }}</option>
                                                 @foreach($restaurants as $restaurant)
                                                     <option value="{{ $restaurant->id }}">{{ $restaurant->restaurant_name }}</option>
                                                 @endforeach

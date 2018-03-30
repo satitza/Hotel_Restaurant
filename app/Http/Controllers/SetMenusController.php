@@ -46,7 +46,7 @@ class SetMenusController extends Controller
     public function index()
     {
         try {
-            $languages = Language::orderBy('id', 'ASC')->get();
+
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
 
@@ -66,7 +66,6 @@ class SetMenusController extends Controller
                 return view('set_menu.editor.index', [
                     //'hotels' => $hotels,
                     'restaurants' => $restaurants,
-                    'languages' => $languages,
                     'time_lunchs' => $time_lunchs,
                     'time_dinners' => $time_dinners
                 ]);
@@ -75,7 +74,6 @@ class SetMenusController extends Controller
                 return view('set_menu.admin.index', [
                     //'hotels' => $hotels,
                     'restaurants' => $restaurants,
-                    'languages' => $languages,
                     'time_lunchs' => $time_lunchs,
                     'time_dinners' => $time_dinners
                 ]);

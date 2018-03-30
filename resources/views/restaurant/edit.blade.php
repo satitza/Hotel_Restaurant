@@ -41,12 +41,12 @@
                                         <div style="display: none">
                                             {{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'Hotel', 'readonly']) }}
                                         </div>
-
+                                    </td>
+                                    <td>
                                         <div class="form-group">
                                             <select class="form-control" name="hotel_id">
                                                 <option value="{{$hotel_id }}">{{ $hotel_name }}</option>
-                                            @foreach ($hotels as $hotel)
-                                                <!--   -->
+                                                @foreach ($hotels as $hotel)
                                                     <option value="{{ $hotel->id }}"> {{ $hotel->hotel_name }} </option>
                                                 @endforeach
                                             </select>

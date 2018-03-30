@@ -263,6 +263,7 @@ class RestaurantPDFController extends Controller
             $restaurants = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
             return view('pdf.admin.edit', [
                 'restaurant_pdf_id' => $restaurant_pdf->id,
+                'restaurant_id' => $restaurant_pdf->restaurant_id,
                 'restaurant_name' => $restaurant_pdf->restaurant_name,
                 'pdf_file_name' => $restaurant_pdf->pdf_file_name,
                 'pdf_title_th' => $restaurant_pdf->pdf_title_th,
@@ -295,7 +296,6 @@ class RestaurantPDFController extends Controller
         } else {
             $filename = $request->pdf_file_name;
         }
-
 
         DB::beginTransaction();
         try {
