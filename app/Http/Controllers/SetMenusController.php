@@ -91,19 +91,15 @@ class SetMenusController extends Controller
 
             $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
             $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
-            $menu_items = SetMenu::select('id', 'menu_name')->orderBy('menu_name', 'ASC')->get();
-            $language_items = Language::orderBy('id', 'ASC')->get();
+
             $where = null;
 
             if ($request->search_value == 'hotel') {
                 $where = ['set_menus.hotel_id' => $request->hotel_id];
             } elseif ($request->search_value == 'restaurant') {
                 $where = ['set_menus.restaurant_id' => $request->restaurant_id];
-            } elseif ($request->search_value == 'menu') {
-                $where = ['set_menus.id' => $request->menu_id];
-            } else {
-                $where = ['set_menus.language_id' => $request->language_id];
             }
+
 
             $check_rows = User::find(Auth::id());
             $restaurants = array();
@@ -121,9 +117,9 @@ class SetMenusController extends Controller
                 }
                 $set_menus = DB::table('set_menus')->
                 select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                    'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_name_en', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                     'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
-                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment_en')
                     ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
                     ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                     ->orderBy('set_menus.id', 'asc')->where('set_menus.restaurant_id', $request->restaurant_id)->paginate(10);
@@ -135,9 +131,9 @@ class SetMenusController extends Controller
             } else {
                 $set_menus = DB::table('set_menus')->
                 select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                    'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_name_en', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                     'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
-                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment_en')
                     ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
                     ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                     ->where($where)->paginate(10);
@@ -145,8 +141,6 @@ class SetMenusController extends Controller
                 return view('set_menu.admin.list', [
                     'hotel_items' => $hotel_items,
                     'restaurant_items' => $restaurant_items,
-                    'menu_items' => $menu_items,
-                    'language_items' => $language_items,
                     'set_menus' => $set_menus
                 ]);
             }
@@ -168,8 +162,6 @@ class SetMenusController extends Controller
 
             $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
             $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
-            $menu_items = SetMenu::select('id', 'menu_name')->orderBy('menu_name', 'ASC')->get();
-            $language_items = Language::orderBy('id', 'ASC')->get();
 
             $check_rows = User::find(Auth::id());
             $restaurants = array();
@@ -197,17 +189,15 @@ class SetMenusController extends Controller
 
                 $set_menus = DB::table('set_menus')
                     ->select('set_menus.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                        'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                        'menu_name_en', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                         'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
-                        'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                        'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment_en')
                     ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
                     ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                     ->orderBy('set_menus.id', 'asc')->paginate(10);
                 return view('set_menu.admin.list', [
                     'hotel_items' => $hotel_items,
                     'restaurant_items' => $restaurant_items,
-                    'menu_items' => $menu_items,
-                    'language_items' => $language_items,
                     'set_menus' => $set_menus
                 ]);
             }
@@ -243,8 +233,9 @@ class SetMenusController extends Controller
             $set_menu = new SetMenu;
             $set_menu->hotel_id = $get_hotel_id->hotel_id;
             $set_menu->restaurant_id = $request->restaurant_id;
-            $set_menu->language_id = (int)$request->language_id;
-            $set_menu->menu_name = $request->menu_name;
+            $set_menu->menu_name_th = $request->menu_name_th;
+            $set_menu->menu_name_en = $request->menu_name_en;
+            $set_menu->menu_name_cn = $request->menu_name_cn;
             $set_menu->image = $filename;
             $set_menu->menu_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-'))));
             $set_menu->menu_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-'))));
@@ -256,7 +247,9 @@ class SetMenusController extends Controller
             $set_menu->menu_time_dinner_end = $request->menu_time_dinner_end;
             $set_menu->menu_price = $request->menu_price;
             $set_menu->menu_guest = $request->menu_guest;
-            $set_menu->menu_comment = $request->set_menu_comment;
+            $set_menu->menu_comment_th = $request->set_menu_comment_th;
+            $set_menu->menu_comment_en = $request->set_menu_comment_en;
+            $set_menu->menu_comment_cn = $request->set_menu_comment_cn;
             $set_menu->save();
             DB::commit();
             return redirect()->action('SetMenusController@create');
@@ -296,9 +289,9 @@ class SetMenusController extends Controller
             $set_menus = DB::table('set_menus')
                 ->select('set_menus.id', 'hotels.hotel_name',
                     'set_menus.restaurant_id', 'restaurants.restaurant_name',
-                    'menu_name', 'image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
+                    'menu_name_th', 'menu_name_en', 'menu_name_cn','image', 'menu_date_start', 'menu_date_end', 'menu_date_select',
                     'menu_time_lunch_start', 'menu_time_lunch_end', 'menu_time_dinner_start',
-                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment')
+                    'menu_time_dinner_end', 'menu_price', 'menu_guest', 'menu_comment_th', 'menu_comment_en', 'menu_comment_cn')
                 ->join('hotels', 'set_menus.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'set_menus.restaurant_id', '=', 'restaurants.id')
                 ->where('set_menus.id', $id)->get();
@@ -335,7 +328,9 @@ class SetMenusController extends Controller
                         'hotel_name' => $set_menu->hotel_name,
                         'restaurant_id' => $set_menu->restaurant_id,
                         'restaurant_name' => $set_menu->restaurant_name,
-                        'menu_name' => $set_menu->menu_name,
+                        'menu_name_th' => $set_menu->menu_name_th,
+                        'menu_name_en' => $set_menu->menu_name_en,
+                        'menu_name_cn' => $set_menu->menu_name_cn,
                         'old_image' => $set_menu->image,
                         'menu_date_start' => $date_start_format,
                         'menu_date_end' => $date_end_format,
@@ -346,7 +341,9 @@ class SetMenusController extends Controller
                         'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
                         'menu_price' => $set_menu->menu_price,
                         'menu_guest' => $set_menu->menu_guest,
-                        'menu_comment' => $set_menu->menu_comment
+                        'menu_comment_th' => $set_menu->menu_comment_th,
+                        'menu_comment_en' => $set_menu->menu_comment_en,
+                        'menu_comment_cn' => $set_menu->menu_comment_cn
                     ])
                         ->with('restaurants', $restaurants)
                         ->with('time_lunchs', $time_lunchs)
@@ -361,7 +358,9 @@ class SetMenusController extends Controller
                 'hotel_name' => $set_menu->hotel_name,
                 'restaurant_id' => $set_menu->restaurant_id,
                 'restaurant_name' => $set_menu->restaurant_name,
-                'menu_name' => $set_menu->menu_name,
+                'menu_name_th' => $set_menu->menu_name_th,
+                'menu_name_en' => $set_menu->menu_name_en,
+                'menu_name_cn' => $set_menu->menu_name_cn,
                 'old_image' => $set_menu->image,
                 'menu_date_start' => $date_start_format,
                 'menu_date_end' => $date_end_format,
@@ -372,7 +371,9 @@ class SetMenusController extends Controller
                 'menu_time_dinner_end' => $set_menu->menu_time_dinner_end,
                 'menu_price' => $set_menu->menu_price,
                 'menu_guest' => $set_menu->menu_guest,
-                'menu_comment' => $set_menu->menu_comment
+                'menu_comment_th' => $set_menu->menu_comment_th,
+                'menu_comment_en' => $set_menu->menu_comment_en,
+                'menu_comment_cn' => $set_menu->menu_comment_cn
             ])
                 ->with('restaurants', $restaurants)
                 ->with('time_lunchs', $time_lunchs)
@@ -424,7 +425,9 @@ class SetMenusController extends Controller
                 ->update([
                     'hotel_id' => $get_hotel_id->hotel_id,
                     'restaurant_id' => $request->restaurant_id,
-                    'menu_name' => $request->menu_name,
+                    'menu_name_th' => $request->menu_name_th,
+                    'menu_name_en' => $request->menu_name_en,
+                    'menu_name_cn' => $request->menu_name_cn,
                     'image' => $filename,
                     'menu_date_start' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_start, '/', '-')))),
                     'menu_date_end' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->menu_date_end, '/', '-')))),
@@ -435,7 +438,9 @@ class SetMenusController extends Controller
                     'menu_time_dinner_end' => $request->menu_time_dinner_end,
                     'menu_price' => $request->menu_price,
                     'menu_guest' => $request->menu_guest,
-                    'menu_comment' => $request->menu_comment
+                    'menu_comment_th' => $request->menu_comment_th,
+                    'menu_comment_en' => $request->menu_comment_en,
+                    'menu_comment_cn' => $request->menu_comment_cn
                 ]);
             DB::commit();
             return redirect()->action('SetMenusController@create');

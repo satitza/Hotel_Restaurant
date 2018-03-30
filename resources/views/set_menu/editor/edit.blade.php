@@ -38,7 +38,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>{{ Form::label('lb_menu_image', 'Image') }}</td>
+                                <td>{{ Form::label('lb_menu_old_image', 'Image') }}</td>
                                 <td><img class="d-block w-50" src="{{ asset('images/'.$old_image ) }}" alt="First slide" height="200"></td>
                             </tr>
                             <tr>
@@ -60,8 +60,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_name', 'Menu Name') }}</td>
-                                <td>{{ Form::text('menu_name', $menu_name, ['class' => 'form-control', 'placeholder' => 'Menu Name']) }}</td>
+                                <td>{{ Form::label('lb_menu_name_th', 'ชื่อเมนู') }}</td>
+                                <td>{{ Form::text('menu_name_th', $menu_name_th, ['class' => 'form-control', 'placeholder' => 'ชื่อเมนู']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_menu_name_en', 'Menu Name') }}</td>
+                                <td>{{ Form::text('menu_name_en', $menu_name_en, ['class' => 'form-control', 'placeholder' => 'Menu Name']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_menu_name_cn', '菜單標題') }}</td>
+                                <td>{{ Form::text('menu_name_cn', $menu_name_cn, ['class' => 'form-control', 'placeholder' => '菜單標題']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_menu_date_start', 'Date start') }}</td>
@@ -145,8 +153,16 @@
                                 <td>{{ Form::text('menu_guest', $menu_guest, ['class' => 'form-control', 'placeholder' => 'Max guest']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_set_menu_comment', 'Comment') }}</td>
-                                <td>{{ Form::textarea('menu_comment', $menu_comment, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
+                                <td>{{ Form::label('lb_set_menu_comment_th', 'รายละเอียด') }}</td>
+                                <td>{{ Form::textarea('menu_comment_th', $menu_comment_th, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_set_menu_comment_en', 'Comment') }}</td>
+                                <td>{{ Form::textarea('menu_comment_en', $menu_comment_en, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_set_menu_comment_cn', '細節') }}</td>
+                                <td>{{ Form::textarea('menu_comment_cn', $menu_comment_cn, ['class' => 'form-control', 'placeholder' => '細節']) }}</td>
                             </tr>
                             </tbody>
                         </table>

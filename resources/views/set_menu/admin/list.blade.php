@@ -12,8 +12,6 @@
                         <!--option value="" disabled selected>please_selected</option-->
                         <option value="hotel">Hotel</option>
                         <option value="restaurant">Restaurant</option>
-                        <option value="menu">Menu Name</option>
-                        <option value="language">Language</option>
                     </select>
                     <label>Hotel</label>
                     <select class="form-control" name="hotel_id">
@@ -27,20 +25,6 @@
                         <!--option value="" disabled selected>please_selected</option-->
                         @foreach($restaurant_items as $item)
                             <option value="{{ $item->id }}">{{ $item->restaurant_name }}</option>
-                        @endforeach
-                    </select>
-                    <label>Menu</label>
-                    <select class="form-control" name="menu_id">
-                        <!--option value="" disabled selected>please_selected</option-->
-                        @foreach($menu_items as $item)
-                            <option value="{{ $item->id }}">{{ $item->menu_name }}</option>
-                        @endforeach
-                    </select>
-                    <label>Languages</label>
-                    <select class="form-control" name="language_id">
-                        <!--option value="" disabled selected>please_selected</option-->
-                        @foreach($language_items as $item)
-                            <option value="{{ $item->id }}">{{ $item->language }}</option>
                         @endforeach
                     </select>
                     <br>
@@ -87,7 +71,7 @@
                                 <td><img class="d-block w-50" src="{{ asset('/images/'.$set_menu->image) }}" alt="First slide" height="120"></td>
                                 <td>{{ $set_menu->hotel_name }}</td>
                                 <td>{{ $set_menu->restaurant_name }}</td>
-                                <td>{{ $set_menu->menu_name }}</td>
+                                <td>{{ $set_menu->menu_name_en }}</td>
                                 <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_start)) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_end)) }}</td>
                                 <!--td>{{ $set_menu->menu_date_select }}</td-->
@@ -97,7 +81,7 @@
                                 <!--td>{{ $set_menu->menu_time_dinner_end }}</td-->
                                 <td>{{ $set_menu->menu_price }}</td>
                                 <td>{{ $set_menu->menu_guest }}</td>
-                                <td>{{ $set_menu->menu_comment }}</td>
+                                <td>{{ $set_menu->menu_comment_en }}</td>
                                 <td>
                                     <button type="button" class="btn btn-info">
                                         <a href="{{ url('set_menu/'.$set_menu->id.'/edit') }}">

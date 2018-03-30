@@ -24,7 +24,7 @@ class SetMenusRequest extends FormRequest
     public function rules()
     {
         return [
-            'menu_name' => 'required',
+            //'menu_name' => 'required',
             'image' => 'mimes:jpeg,png,jpg,gif|max:2048',
             'menu_date_start' => 'required',
             'menu_date_end' => 'required',
@@ -35,7 +35,7 @@ class SetMenusRequest extends FormRequest
 
     public function messages() {
         return [
-            'menu_name.required' => 'Please insert menu name',
+            //'menu_name.required' => 'Please insert menu name',
             //'image.required' => 'Image is not upload',
             'image.mimes' => 'Invalid image type please choose type jpeg, png, jpg, gif',
             'image.max' => 'Maximum size 2 MB',

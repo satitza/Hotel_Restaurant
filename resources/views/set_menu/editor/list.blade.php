@@ -56,11 +56,10 @@
                         <tbody>
                         @foreach($set_menus as $set_menu)
                             <tr>
-                                <td><img class="d-block w-50" src="{{ asset('/images/'.$set_menu->image) }}"
-                                         alt="First slide" height="120"></td>
+                                <td><img class="d-block w-50" src="{{ asset('/images/'.$set_menu->image) }}" alt="First slide" height="120"></td>
                                 <td>{{ $set_menu->hotel_name }}</td>
                                 <td>{{ $set_menu->restaurant_name }}</td>
-                                <td>{{ $set_menu->menu_name }}</td>
+                                <td>{{ $set_menu->menu_name_en }}</td>
                                 <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_start)) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($set_menu->menu_date_end)) }}</td>
                             <!--td>{{ $set_menu->menu_date_select }}</td-->
@@ -70,7 +69,7 @@
                             <!--td>{{ $set_menu->menu_time_dinner_end }}</td-->
                                 <td>{{ $set_menu->menu_price }}</td>
                                 <td>{{ $set_menu->menu_guest }}</td>
-                                <td>{{ $set_menu->menu_comment }}</td>
+                                <td>{{ $set_menu->menu_comment_en }}</td>
                                 <td>
                                     <button type="button" class="btn btn-info">
                                         <a href="{{ url('set_menu/'.$set_menu->id.'/edit') }}">

@@ -10,7 +10,7 @@
             });
         });
 
-        $(function () {
+        /*$(function () {
             $('#language_option').change(function () {
                 var language = $('#language_option').find(":selected").text();
                 if (language == "TH") {
@@ -60,7 +60,7 @@
                     $('.lb_comment').text("細節");
                 }
             });
-        });
+        });*/
 
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
@@ -90,21 +90,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>{{ Form::label('lb_restaurant_language', 'เลือกภาษา', array('class' => 'lb_language')) }}</td>
+                            <!--tr>
+                                <td></td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="language_id" id="language_option">
-                                            <!--option value="" disabled selected>please_selected</option-->
-                                            @foreach($languages as  $language)
-                                                <option value="{{ $language->id }}">{{ $language->language }}</option>
-                                            @endforeach
+
+
+                                                <option value=""></option>
+
                                         </select>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr-->
                             <tr>
-                                <td>{{ Form::label('lb_restaurant_name', 'ชื่อโรงแรม', array('class' => 'lb_restaurant_name')) }}</td>
+                                <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="restaurant_id">
@@ -117,23 +117,31 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_name', 'ชื่อเมนู', array('class' => 'lb_menu_name')) }}</td>
-                                <td>{{ Form::text('menu_name', null, ['class' => 'form-control', 'placeholder' => 'Menu Name']) }}</td>
+                                <td>{{ Form::label('lb_menu_name_th', 'ชื่อเมนู') }}</td>
+                                <td>{{ Form::text('menu_name_th', null, ['class' => 'form-control', 'placeholder' => 'ชื่อเมนู']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_image', 'รูปภาพ', array('class' => 'lb_menu_image')) }}</td>
+                                <td>{{ Form::label('lb_menu_name_en', 'Menu Name') }}</td>
+                                <td>{{ Form::text('menu_name_en', null, ['class' => 'form-control', 'placeholder' => 'Menu Name']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_menu_name_cn', '菜單標題') }}</td>
+                                <td>{{ Form::text('menu_name_cn', null, ['class' => 'form-control', 'placeholder' => '菜單標題']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_menu_image', 'Images') }}</td>
                                 <td>{{ Form::file('image', array('class' => 'image')) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_date_start', 'วันที่เริ่ม', array('class' => 'lb_date_start')) }}</td>
+                                <td>{{ Form::label('lb_date_start', 'Date start') }}</td>
                                 <td>{{ Form::text('menu_date_start', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_date_end', 'วันที่สิ้นสุด', array('class' => 'lb_date_end')) }}</td>
+                                <td>{{ Form::label('lb_date_end', 'Date end') }}</td>
                                 <td>{{ Form::text('menu_date_end', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_date_select', 'เลือกวัน', array('class' => 'lb_date_select')) }}</td>
+                                <td>{{ Form::label('lb_date_select', 'Date select') }}</td>
                                 <td>
                                     <div class="checkbox">
                                         <label>
@@ -173,7 +181,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_time_lunch_start', 'เวลาเริ่มช่วงกลางวัน', array('class' => 'lb_time_lunch_start')) }}</td>
+                                <td>{{ Form::label('lb_time_lunch_start', 'Time lunch start') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="menu_time_lunch_start">
@@ -186,7 +194,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_time_lunch_end', 'เวลาสิ้นสุดช่วงกลางวัน', array('class' => 'lb_time_lunch_end')) }}</td>
+                                <td>{{ Form::label('lb_time_lunch_end', 'Time lunch end') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="menu_time_lunch_end">
@@ -199,7 +207,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_time_dinner_start', 'เวลาเริ่มช่วงกลางคืน', array('class' => 'lb_time_dinner_start')) }}</td>
+                                <td>{{ Form::label('lb_time_dinner_start', 'Time dinner start') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="menu_time_dinner_start">
@@ -212,7 +220,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_time_dinner_end', 'เวลาสิ้นสุดช่วงกลางคืน', array('class' => 'lb_time_dinner_end')) }}</td>
+                                <td>{{ Form::label('lb_time_dinner_end', 'Time dinner end') }}</td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" name="menu_time_dinner_end">
@@ -225,16 +233,24 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_price', 'ราคาต่อคน', array('class' => 'lb_price')) }}</td>
+                                <td>{{ Form::label('lb_price', 'Price per person') }}</td>
                                 <td>{{ Form::text('menu_price', null, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_guest', 'จำนวนคนที่รองรับสูงสุด', array('class' => 'lb_guest')) }}</td>
+                                <td>{{ Form::label('lb_guest', 'Max guest') }}</td>
                                 <td>{{ Form::text('menu_guest', null, ['class' => 'form-control', 'placeholder' => 'Max Guest']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_comment', 'รายละเอียด', array('class' => 'lb_comment')) }}</td>
-                                <td>{{ Form::textarea('set_menu_comment', null, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
+                                <td>{{ Form::label('lb_comment_th', 'รายละเอียด') }}</td>
+                                <td>{{ Form::textarea('set_menu_comment_th', null, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_comment_en', 'Comment') }}</td>
+                                <td>{{ Form::textarea('set_menu_comment_en', null, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ Form::label('lb_comment_cn', '細節') }}</td>
+                                <td>{{ Form::textarea('set_menu_comment_cn', null, ['class' => 'form-control', 'placeholder' => '細節']) }}</td>
                             </tr>
                             </tbody>
                         </table>
