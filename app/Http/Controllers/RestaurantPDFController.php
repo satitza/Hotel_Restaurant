@@ -227,8 +227,7 @@ class RestaurantPDFController extends Controller
                 ->where('restaurant_pdfs.id', $id)->get();
             foreach ($restaurant_pdfs as $restaurant_pdf) {
             }
-
-
+            
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
