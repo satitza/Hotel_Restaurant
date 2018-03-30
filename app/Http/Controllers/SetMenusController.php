@@ -56,19 +56,23 @@ class SetMenusController extends Controller
             //User Editor
             if ($check_rows->user_role == 2) {
                 $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                foreach ($restaurant_id as $id) {
-                    $arrays = explode(',', $id->restaurant_id, -1);
-                    foreach ($arrays as $array) {
-                        $where = ['id' => $array];
-                        array_push($restaurants, Restaurants::where($where)->get());
+                if (count($restaurant_id) == 0) {
+                    return view('error.index')->with('error', 'You never match with restaurant');
+                } else {
+                    foreach ($restaurant_id as $id) {
+                        $arrays = explode(',', $id->restaurant_id, -1);
+                        foreach ($arrays as $array) {
+                            $where = ['id' => $array];
+                            array_push($restaurants, Restaurants::where($where)->get());
+                        }
                     }
+                    return view('set_menu.editor.index', [
+                        //'hotels' => $hotels,
+                        'restaurants' => $restaurants,
+                        'time_lunchs' => $time_lunchs,
+                        'time_dinners' => $time_dinners
+                    ]);
                 }
-                return view('set_menu.editor.index', [
-                    //'hotels' => $hotels,
-                    'restaurants' => $restaurants,
-                    'time_lunchs' => $time_lunchs,
-                    'time_dinners' => $time_dinners
-                ]);
             } else {
                 $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
                 return view('set_menu.admin.index', [

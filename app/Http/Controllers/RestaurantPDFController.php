@@ -39,18 +39,21 @@ class RestaurantPDFController extends Controller
             if ($check_rows->user_role == 2) {
                 //echo "Editor User";
                 $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                foreach ($restaurant_id as $id) {
-                    $arrays = explode(',', $id->restaurant_id, -1);
-                    foreach ($arrays as $array) {
-                        $where = ['id' => $array];
-                        array_push($restaurants, Restaurants::where($where)->get());
+                if (count($restaurant_id) == 0) {
+                    return view('error.index')->with('error', 'You never match with restaurant');
+                } else {
+                    foreach ($restaurant_id as $id) {
+                        $arrays = explode(',', $id->restaurant_id, -1);
+                        foreach ($arrays as $array) {
+                            $where = ['id' => $array];
+                            array_push($restaurants, Restaurants::where($where)->get());
+                        }
                     }
+
+                    return view('pdf.editor.index', [
+                        'restaurants' => $restaurants
+                    ]);
                 }
-
-                return view('pdf.editor.index', [
-                    'restaurants' => $restaurants
-                ]);
-
             } else {
                 $restaurants = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
                 return view('pdf.admin.index', [
@@ -119,18 +122,22 @@ class RestaurantPDFController extends Controller
 
             if ($check_rows->user_role == 2) {
                 $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                foreach ($restaurant_id as $id) {
-                    $arrays = explode(',', $id->restaurant_id, -1);
-                    foreach ($arrays as $array) {
-                        $where = ['id' => $array];
-                        array_push($restaurants, Restaurants::where($where)->get());
+                if (count($restaurant_id) == 0) {
+                    return view('error.index')->with('error', 'You never match with restaurant');
+                } else {
+                    foreach ($restaurant_id as $id) {
+                        $arrays = explode(',', $id->restaurant_id, -1);
+                        foreach ($arrays as $array) {
+                            $where = ['id' => $array];
+                            array_push($restaurants, Restaurants::where($where)->get());
+                        }
                     }
+
+                    return view('pdf.editor.editor_info', [
+                        'restaurants' => $restaurants
+                    ]);
                 }
-
-                return view('pdf.editor.editor_info', [
-                    'restaurants' => $restaurants
-                ]);
-
+                
             } else {
 
                 $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
