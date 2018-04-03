@@ -6,6 +6,7 @@ use App\UserReport;
 use DB;
 use App\User;
 use App\Hotels;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -39,6 +40,8 @@ class ReportUsersController extends Controller
                 'report_users' => $report_users,
                 'hotels' => $hotels
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -60,6 +63,8 @@ class ReportUsersController extends Controller
             return view('setting.report_user.list_user', [
                 'user_reports' => $user_ports
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -85,8 +90,10 @@ class ReportUsersController extends Controller
             $user_report->save();
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -132,6 +139,8 @@ class ReportUsersController extends Controller
                 'report_users' => $report_users,
                 'hotels' => $hotels
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -156,8 +165,10 @@ class ReportUsersController extends Controller
                 ]);
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -175,8 +186,10 @@ class ReportUsersController extends Controller
             DB::table('user_reports')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }

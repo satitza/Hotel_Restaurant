@@ -43,6 +43,8 @@ class RestaurantsController extends Controller
                 'hotels' => $hotels,
                 'actives' => $actives
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -70,6 +72,8 @@ class RestaurantsController extends Controller
                 'restaurant_items' => $restaurant_items,
                 'restaurants' => $restaurants
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -94,8 +98,10 @@ class RestaurantsController extends Controller
             $restaurants->save();
             DB::commit();
             return redirect()->action('RestaurantsController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -123,6 +129,8 @@ class RestaurantsController extends Controller
                 'restaurant_items' => $restaurant_items,
                 'restaurants' => $restaurants
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -179,6 +187,9 @@ class RestaurantsController extends Controller
                 'active' => $restaurant->active,
                 'restaurant_comment' => $restaurant->restaurant_comment
             ])->with('actives', $actives)->with('hotels', $hotels);
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -216,8 +227,10 @@ class RestaurantsController extends Controller
             } else {
                 return redirect()->action('RestaurantsController@create');
             }
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -235,8 +248,10 @@ class RestaurantsController extends Controller
             DB::table('restaurants')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('RestaurantsController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }

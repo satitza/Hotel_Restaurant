@@ -6,6 +6,7 @@ use DB;
 use App\User;
 use App\Restaurants;
 use App\UserEditor;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -43,6 +44,8 @@ class EditorUsersController extends Controller
                 'editor_users' => $editor_users,
                 'restaurants' => $restaurants
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -71,6 +74,8 @@ class EditorUsersController extends Controller
                 'user_editors' => $user_editors,
                 'restaurants' => $collect
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -111,8 +116,10 @@ class EditorUsersController extends Controller
             $user_editor->save();
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -134,6 +141,8 @@ class EditorUsersController extends Controller
                 'user_id' => $user_editor->user_id,
                 'user_name' => $user_editor->name
             ])->with('restaurants', $restaurants);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -163,8 +172,10 @@ class EditorUsersController extends Controller
 
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -212,6 +223,8 @@ class EditorUsersController extends Controller
                 'old_restaurants' => $old_restaurants,
                 'old_restaurants_id' => $old_restaurants_id
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -239,8 +252,10 @@ class EditorUsersController extends Controller
                 ]);
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -259,8 +274,10 @@ class EditorUsersController extends Controller
             DB::table('user_editors')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }

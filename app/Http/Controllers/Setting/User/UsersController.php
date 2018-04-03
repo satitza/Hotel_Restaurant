@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Setting\User;
 use DB;
 use App\User;
 use App\UserRole;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
 use App\Http\Controllers\Controller;
@@ -36,6 +37,8 @@ class UsersController extends Controller
         try {
             $roles = UserRole::orderBy('id', 'ASC')->get();
             return view('setting.user.add_user')->with('roles', $roles);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -55,6 +58,8 @@ class UsersController extends Controller
                 //->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('users.id', 'asc')->paginate(10);
             return view('setting.user.list_user')->with('users', $users);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -81,8 +86,10 @@ class UsersController extends Controller
             $users->save();
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -96,15 +103,14 @@ class UsersController extends Controller
     public function show($id)
     {
         try {
-            $old_pass = DB::table('users')->where('id', '=', $id)->get();
-            foreach ($old_pass as $password) {
-
-            }
+            $passwords = User::find($id);
             return view('setting.user.reset_password', [
-                'user_id' => $password->id,
-                'user_name' => $password->name,
-                'password' => $password->password
+                'user_id' => $passwords->id,
+                'user_name' => $passwords->name,
+                'password' => $passwords->password
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -124,8 +130,10 @@ class UsersController extends Controller
                 ]);
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -153,6 +161,8 @@ class UsersController extends Controller
                 'user_role_id' => $user->user_role,
                 'user_role' => $user->role
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -178,8 +188,11 @@ class UsersController extends Controller
                 ]);
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
+
             return view('error.index')->with('error', $e);
         }
     }
@@ -197,8 +210,10 @@ class UsersController extends Controller
             DB::table('users')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }

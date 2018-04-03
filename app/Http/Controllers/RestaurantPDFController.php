@@ -6,6 +6,7 @@ use App\User;
 use DB;
 use File;
 use App\Restaurants;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -60,6 +61,8 @@ class RestaurantPDFController extends Controller
                     'restaurants' => $restaurants
                 ]);
             }
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -103,6 +106,8 @@ class RestaurantPDFController extends Controller
                     'restaurant_pdfs' => $restaurant_pdfs
                 ]);
             }
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -152,6 +157,8 @@ class RestaurantPDFController extends Controller
                     'restaurant_pdfs' => $restaurant_pdfs
                 ]);
             }
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -192,8 +199,10 @@ class RestaurantPDFController extends Controller
             DB::commit();
             return redirect()->action('RestaurantPDFController@create');
 
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Requests\HotelsRequest;
 use App\Hotels;
@@ -57,6 +58,8 @@ class HotelController extends Controller
                 'hotel_items' => $hotel_items,
                 'hotels' => $hotels
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -77,8 +80,10 @@ class HotelController extends Controller
             $hotel->save();
             DB::commit();
             return redirect()->action('HotelController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -95,6 +100,8 @@ class HotelController extends Controller
                 'hotel_items' => $hotel_items,
                 'hotels' => $hotels
             ]);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -133,6 +140,8 @@ class HotelController extends Controller
                 'hotel_active' => $hotel->active,
                 'hotel_comment' => $hotel->hotel_comment
             ])->with('actives', $actives);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
         } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
@@ -143,7 +152,6 @@ class HotelController extends Controller
      */
     public function update(HotelsRequest $request, $id)
     {
-
         DB::beginTransaction();
         try {
             DB::table('hotels')
@@ -155,8 +163,10 @@ class HotelController extends Controller
                 ]);
             DB::commit();
             return redirect()->action('HotelController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
@@ -172,8 +182,10 @@ class HotelController extends Controller
             DB::table('hotels')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('HotelController@create');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e);
         }
     }
