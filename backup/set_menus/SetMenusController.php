@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Language;
-use App\UserEditor;
 use Carbon\Carbon;
 use DB;
 use File;

@@ -23,12 +23,12 @@
                     </div>
                 @endif
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit Menu</div>
+                    <div class="panel-heading">Edit Offer</div>
 
                     <div class="panel-body">
 
                         <?php /* {!! Form::open(['url' => 'edit_set_menu', 'files' => false]) !!} --> */ ?>
-                        {{ Form::open(array('url' => 'set_menu/'.$set_menu_id, 'method' => 'put', 'files' => true)) }}
+                        {{ Form::open(array('url' => 'offer/'.$offer_id, 'method' => 'put', 'files' => true)) }}
                         <table class="table table-striped table-hover ">
                             <thead>
                             <tr class="">
@@ -38,11 +38,11 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>{{ Form::label('lb_menu_old_image', 'Image') }}</td>
+                                <td>{{ Form::label('lb_offer_old_image', 'Image') }}</td>
                                 <td><img class="d-block w-50" src="{{ asset('images/'.$old_image ) }}" alt="First slide" height="200"></td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_image', 'New Image', array('class' => 'lb_menu_image')) }}</td>
+                                <td>{{ Form::label('lb_offer_image', 'New Image', array('class' => 'lb_offer_image')) }}</td>
                                 <td>{{ Form::file('image', array('class' => 'image')) }}</td>
                             </tr>
                             <tr>
@@ -60,28 +60,28 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_name_th', 'ชื่อเมนู') }}</td>
-                                <td>{{ Form::text('menu_name_th', $menu_name_th, ['class' => 'form-control', 'placeholder' => 'ชื่อเมนู']) }}</td>
+                                <td>{{ Form::label('lb_offer_name_th', 'ชื่อเมนู') }}</td>
+                                <td>{{ Form::text('offer_name_th', $offer_name_th, ['class' => 'form-control', 'placeholder' => 'ชื่อเมนู']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_name_en', 'Menu Name') }}</td>
-                                <td>{{ Form::text('menu_name_en', $menu_name_en, ['class' => 'form-control', 'placeholder' => 'Menu Name']) }}</td>
+                                <td>{{ Form::label('lb_offer_name_en', 'Offer Name') }}</td>
+                                <td>{{ Form::text('offer_name_en', $offer_name_en, ['class' => 'form-control', 'placeholder' => 'Offer Name']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_name_cn', '菜單標題') }}</td>
-                                <td>{{ Form::text('menu_name_cn', $menu_name_cn, ['class' => 'form-control', 'placeholder' => '菜單標題']) }}</td>
+                                <td>{{ Form::label('lb_offer_name_cn', '提供名稱') }}</td>
+                                <td>{{ Form::text('offer_name_cn', $offer_name_cn, ['class' => 'form-control', 'placeholder' => '提供名稱']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_date_start', 'Date start') }}</td>
-                                <td>{{ Form::text('menu_date_start', $menu_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
+                                <td>{{ Form::label('lb_offer_date_start', 'Date start') }}</td>
+                                <td>{{ Form::text('offer_date_start', $offer_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_date_end', 'Date end') }}</td>
-                                <td>{{ Form::text('menu_date_end', $menu_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
+                                <td>{{ Form::label('lb_offer_date_end', 'Date end') }}</td>
+                                <td>{{ Form::text('offer_date_end', $offer_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_date_select', 'Select date') }}</td>
-                                <td>{{ Form::text('old_date_select', $menu_date_select, ['class' => 'form-control', 'placeholder' => 'Select date', 'readonly']) }}</td>
+                                <td>{{ Form::label('lb_offer_day_select', 'Day Select') }}</td>
+                                <td>{{ Form::text('old_day_select', $offer_day_select, ['class' => 'form-control', 'placeholder' => 'Select Day', 'readonly']) }}</td>
                                 <td>
                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                             data-target="#myModal">Edit
@@ -89,11 +89,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_time_lunch_start', 'Time lunch start') }}</td>
+                                <td>{{ Form::label('lb_offer_time_lunch_start', 'Time lunch start') }}</td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="menu_time_lunch_start">
-                                            <option value="{{ $menu_time_lunch_start }}">{{ $menu_time_lunch_start }}</option>
+                                        <select class="form-control" name="offer_time_lunch_start">
+                                            <option value="{{ $offer_time_lunch_start }}">{{ $offer_time_lunch_start }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_lunchs as $time_lunch)
                                                 <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
@@ -103,11 +103,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_time_lunch_end', 'Time lunch end') }}</td>
+                                <td>{{ Form::label('lb_offer_time_lunch_end', 'Time lunch end') }}</td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="menu_time_lunch_end">
-                                            <option value="{{ $menu_time_lunch_end }}">{{ $menu_time_lunch_end }}</option>
+                                        <select class="form-control" name="offer_time_lunch_end">
+                                            <option value="{{ $offer_time_lunch_end }}">{{ $offer_time_lunch_end }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_lunchs as $time_lunch)
                                                 <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
@@ -117,11 +117,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_time_dinner_start', 'Time dinner start') }}</td>
+                                <td>{{ Form::label('lb_offer_time_dinner_start', 'Time dinner start') }}</td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="menu_time_dinner_start">
-                                            <option value="{{ $menu_time_dinner_start }}">{{ $menu_time_dinner_start }}</option>
+                                        <select class="form-control" name="offer_time_dinner_start">
+                                            <option value="{{ $offer_time_dinner_start }}">{{ $offer_time_dinner_start }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_dinners as $time_dinner)
                                                 <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
@@ -131,11 +131,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_menu_time_dinner_end', 'Time dinner end') }}</td>
+                                <td>{{ Form::label('lb_offer_time_dinner_end', 'Time dinner end') }}</td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="menu_time_dinner_end">
-                                            <option value="{{ $menu_time_dinner_end }}">{{ $menu_time_dinner_end }}</option>
+                                        <select class="form-control" name="offer_time_dinner_end">
+                                            <option value="{{ $offer_time_dinner_end }}">{{ $offer_time_dinner_end }}</option>
                                             <!--option value="" disabled selected>please_selected</option-->
                                             @foreach($time_dinners as $time_dinner)
                                                 <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
@@ -146,28 +146,28 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_price', 'Price per person') }}</td>
-                                <td>{{ Form::text('menu_price', $menu_price, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
+                                <td>{{ Form::text('offer_price', $offer_price, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_guest', 'Max guest') }}</td>
-                                <td>{{ Form::text('menu_guest', $menu_guest, ['class' => 'form-control', 'placeholder' => 'Max guest']) }}</td>
+                                <td>{{ Form::text('offer_guest', $offer_guest, ['class' => 'form-control', 'placeholder' => 'Max guest']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_set_menu_comment_th', 'รายละเอียด') }}</td>
-                                <td>{{ Form::textarea('menu_comment_th', $menu_comment_th, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
+                                <td>{{ Form::label('lb_offer_comment_th', 'รายละเอียด') }}</td>
+                                <td>{{ Form::textarea('menu_comment_th', $offer_comment_th, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_set_menu_comment_en', 'Comment') }}</td>
-                                <td>{{ Form::textarea('menu_comment_en', $menu_comment_en, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
+                                <td>{{ Form::label('lb_offer_comment_en', 'Comment') }}</td>
+                                <td>{{ Form::textarea('menu_comment_en', $offer_comment_en, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_set_menu_comment_cn', '細節') }}</td>
-                                <td>{{ Form::textarea('menu_comment_cn', $menu_comment_cn, ['class' => 'form-control', 'placeholder' => '細節']) }}</td>
+                                <td>{{ Form::label('lb_offer_comment_cn', '細節') }}</td>
+                                <td>{{ Form::textarea('menu_comment_cn', $offer_comment_cn, ['class' => 'form-control', 'placeholder' => '細節']) }}</td>
                             </tr>
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Update Menu', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Update Offer', ['class' => 'btn btn-primary']) }}
                         </center>
                         {{ csrf_field() }}
 
@@ -188,43 +188,43 @@
                                                 <div class="col-lg-10">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="date_check_box[]" value="sun">
+                                                            <input type="checkbox" name="day_check_box[]" value="sun">
                                                             Sun.
                                                         </label>
                                                     </div>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="date_check_box[]" value="mon">
+                                                            <input type="checkbox" name="day_check_box[]" value="mon">
                                                             Mon.
                                                         </label>
                                                     </div>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="date_check_box[]" value="tues">
+                                                            <input type="checkbox" name="day_check_box[]" value="tues">
                                                             Tues.
                                                         </label>
                                                     </div>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="date_check_box[]" value="wed">
+                                                            <input type="checkbox" name="day_check_box[]" value="wed">
                                                             Wed.
                                                         </label>
                                                     </div>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="date_check_box[]"
+                                                            <input type="checkbox" name="day_check_box[]"
                                                                    value="thurs"> Thurs.
                                                         </label>
                                                     </div>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="date_check_box[]" value="fri">
+                                                            <input type="checkbox" name="day_check_box[]" value="fri">
                                                             Fri.
                                                         </label>
                                                     </div>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="date_check_box[]" value="sat">
+                                                            <input type="checkbox" name="day_check_box[]" value="sat">
                                                             Sat.
                                                         </label>
                                                     </div>

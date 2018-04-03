@@ -12,8 +12,8 @@ class Restaurants extends Model
         return $this->hasMany(RestaurantPdf::class);
     }
     
-    public function SetMenu() {
-        return $this->hasMany(SetMenu::class);
+    public function Offers() {
+        return $this->hasMany(Offers::class);
     }
 
     public function Hotels(){

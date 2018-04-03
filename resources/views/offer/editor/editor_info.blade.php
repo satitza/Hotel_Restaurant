@@ -6,7 +6,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Search Option</div>
                 <div class="panel-body">
-                    {{ Form::open(array('url' => 'search_menu', 'method' => 'post')) }}
+                    {{ Form::open(array('url' => 'search_offer', 'method' => 'post')) }}
                     <label>Restaurants</label>
                     <div class="form-group">
                         <select class="form-control" name="restaurant_id">
@@ -18,7 +18,7 @@
                     </div>
                     {{ Form::submit('Search', ['class' => 'btn btn-primary']) }}
                     <button type="submit" class="btn btn-success">
-                        <a href="{{ action('SetMenusController@create') }}">
+                        <a href="{{ action('OffersController@create') }}">
                             Clear
                         </a>
                     </button>

@@ -8,8 +8,8 @@ class BookCheckBalance extends Model
 {
     protected $table = 'book_check_balances';
 
-    public function SetMenu(){
-        return $this->belongsTo(SetMenu::class, 'book_menu_id');
+    public function Offers(){
+        return $this->belongsTo(Offers::class, 'book_offer_id');
     }
 
     public function Actives(){

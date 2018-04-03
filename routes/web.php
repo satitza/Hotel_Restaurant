@@ -31,9 +31,13 @@ Route::resource('restaurant_pdf', 'RestaurantPDFController');
 Route::post('search_pdf', 'RestaurantPDFController@SearchPDF');
 Route::get('delete_restaurant_pdf/{id}', 'RestaurantPDFController@destroy');
 
-Route::resource('set_menu', 'SetMenusController');
+Route::resource('offer', 'OffersController');
+Route::post('search_offer', 'OffersController@SearchOffer');
+Route::get('delete_offer/{id}', 'OffersController@destroy');
+
+/*Route::resource('set_menu', 'SetMenusController');
 Route::post('search_menu', 'SetMenusController@SearchMenu');
-Route::get('delete_set_menu/{id}', 'SetMenusController@destroy');
+Route::get('delete_set_menu/{id}', 'SetMenusController@destroy');*/
 
 Route::resource('report', 'ReportsController');
 

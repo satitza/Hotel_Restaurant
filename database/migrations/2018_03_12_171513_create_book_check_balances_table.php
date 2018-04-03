@@ -16,7 +16,7 @@ class CreateBookCheckBalancesTable extends Migration
         Schema::create('book_check_balances', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('book_menu_id')->unsigned();
-            $table->foreign('book_menu_id')->references('id')->on('set_menus')->onDelete('cascade');
+            $table->foreign('book_menu_id')->references('id')->on('offers')->onDelete('cascade');
             $table->date('book_menu_date')->nullable();
             $table->integer('book_menu_guest')->nullable();
             $table->integer('book_menu_balance')->nullable();
