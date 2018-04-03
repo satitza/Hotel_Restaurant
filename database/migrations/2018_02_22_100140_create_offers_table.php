@@ -26,10 +26,7 @@ class CreateOffersTable extends Migration
             $table->integer('restaurant_id')->unsigned();
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
 
-            //$table->integer('language_id')->unsigned();
-            //$table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
-
-            $table->string('image', 100)->nullable();
+            //$table->string('image', 100)->nullable();
             $table->string('pdf', 100)->nullable();
 
             $table->string('offer_name_th', 100)->nullable();
@@ -51,10 +48,6 @@ class CreateOffersTable extends Migration
             $table->string('offer_time_dinner_end', 50)->nullable();
             $table->double('offer_dinner_price', 8, 2)->unsigned();
             $table->integer('offer_dinner_guest')->unsigned();
-
-
-            $table->double('offer_price', 8, 2)->nullable();
-            $table->integer('offer_guest')->nullable();
 
             $table->text('offer_comment_th')->nullable();
             $table->text('offer_comment_en')->nullable();

@@ -129,8 +129,8 @@
                                 <td>{{ Form::text('offer_name_cn', null, ['class' => 'form-control', 'placeholder' => '提供名稱']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_offer_image', 'Images') }}</td>
-                                <td>{{ Form::file('image', array('class' => 'image')) }}</td>
+                                <td>{{ Form::label('lb_offer_pdf', 'PDF') }}</td>
+                                <td>{{ Form::file('pdf', array('class' => 'image')) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_date_start', 'Date start') }}</td>
@@ -180,7 +180,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="background: #259d6d">
                                 <td>{{ Form::label('lb_time_lunch_start', 'Lunch time start') }}</td>
                                 <td>
                                     <div class="form-group">
@@ -193,7 +193,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="background: #259d6d">
                                 <td>{{ Form::label('lb_time_lunch_end', 'Lunch time end') }}</td>
                                 <td>
                                     <div class="form-group">
@@ -206,7 +206,15 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="background: #259d6d">
+                                <td>{{ Form::label('lb_lunch_price', 'Lunch Price per person') }}</td>
+                                <td>{{ Form::text('offer_lunch_price', null, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
+                            </tr>
+                            <tr style="background: #259d6d">
+                                <td>{{ Form::label('lb_lunch_guest', 'Lunch Max guest') }}</td>
+                                <td>{{ Form::text('offer_lunch_guest', null, ['class' => 'form-control', 'placeholder' => 'Max Guest']) }}</td>
+                            </tr>
+                            <tr style="background: #9BA2AB">
                                 <td>{{ Form::label('lb_time_dinner_start', 'Dinner time start') }}</td>
                                 <td>
                                     <div class="form-group">
@@ -218,8 +226,8 @@
                                         </select>
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
+                            </tr >
+                            <tr style="background: #9BA2AB">
                                 <td>{{ Form::label('lb_time_dinner_end', 'Dinner time end') }}</td>
                                 <td>
                                     <div class="form-group">
@@ -232,13 +240,13 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>{{ Form::label('lb_price', 'Price per person') }}</td>
-                                <td>{{ Form::text('offer_price', null, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
+                            <tr style="background: #9BA2AB">
+                                <td>{{ Form::label('lb_price', 'Dinner Price per person') }}</td>
+                                <td>{{ Form::text('offer_dinner_price', null, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
                             </tr>
-                            <tr>
-                                <td>{{ Form::label('lb_guest', 'Max guest') }}</td>
-                                <td>{{ Form::text('offer_guest', null, ['class' => 'form-control', 'placeholder' => 'Max Guest']) }}</td>
+                            <tr style="background: #9BA2AB">
+                                <td>{{ Form::label('lb_guest', 'Dinner Max guest') }}</td>
+                                <td>{{ Form::text('offer_dinner_guest', null, ['class' => 'form-control', 'placeholder' => 'Max Guest']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_comment_th', 'รายละเอียด') }}</td>

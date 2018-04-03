@@ -130,9 +130,7 @@ class OffersController extends Controller
             }
             $offers = DB::table('offers')->
             select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                'offer_name_en', 'image', 'offer_date_start', 'offer_date_end', 'offer_day_select',
-                'offer_time_lunch_start', 'offer_time_lunch_end', 'offer_time_dinner_start',
-                'offer_time_dinner_end', 'offer_price', 'offer_guest', 'offer_comment_en')
+                'offer_name_en', 'pdf', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
                 ->where($where)->paginate(10);
@@ -166,9 +164,7 @@ class OffersController extends Controller
 
             $offers = DB::table('offers')
                 ->select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                    'offer_name_en', 'image', 'offer_date_start', 'offer_date_end', 'offer_day_select',
-                    'offer_time_lunch_start', 'offer_time_lunch_end', 'offer_time_dinner_start',
-                    'offer_time_dinner_end', 'offer_price', 'offer_guest', 'offer_comment_en')
+                    'offer_name_en', 'pdf', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
                 ->orderBy('offers.id', 'asc')->paginate(10);
@@ -215,12 +211,12 @@ class OffersController extends Controller
         $filename = null;
         if ($request->input('day_check_box') == null) {
             return view('error.index')->with('error', 'You never set date select');
-        } elseif (Input::hasFile('image')) {
-            $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $destinationPath = public_path('/images');
-            $request->file('image')->move($destinationPath, $filename);
+        } elseif (Input::hasFile('pdf')) {
+            $filename = time() . '.' . $request->file('pdf')->getClientOriginalExtension();
+            $destinationPath = public_path('/pdf');
+            $request->file('pdf')->move($destinationPath, $filename);
         } else {
-            $filename = "default.png";
+            $filename = null;
         }
 
         DB::beginTransaction();
@@ -233,17 +229,23 @@ class OffersController extends Controller
             $offers->offer_name_th = $request->offer_name_th;
             $offers->offer_name_en = $request->offer_name_en;
             $offers->offer_name_cn = $request->offer_name_cn;
-            $offers->image = $filename;
+            $offers->pdf = $filename;
             $offers->offer_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_start, '/', '-'))));
             $offers->offer_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_end, '/', '-'))));
             //$set_menu->menu_date_select = json_encode($request->input('date_check_box'));
             $offers->offer_day_select = implode(", ", $request->input('day_check_box')) . ",";
             $offers->offer_time_lunch_start = $request->offer_time_lunch_start;
             $offers->offer_time_lunch_end = $request->offer_time_lunch_end;
+            $offers->offer_lunch_price = $request->offer_lunch_price;
+            $offers->offer_lunch_guest = $request->offer_lunch_guest;
+
             $offers->offer_time_dinner_start = $request->offer_time_dinner_start;
             $offers->offer_time_dinner_end = $request->offer_time_dinner_end;
-            $offers->offer_price = $request->offer_price;
-            $offers->offer_guest = $request->offer_guest;
+            $offers->offer_dinner_price = $request->offer_dinner_price;
+            $offers->offer_dinner_guest = $request->offer_dinner_guest;
+
+            //$offers->offer_price = $request->offer_price;
+            //$offers->offer_guest = $request->offer_guest;
             $offers->offer_comment_th = $request->offer_comment_th;
             $offers->offer_comment_en = $request->offer_comment_en;
             $offers->offer_comment_cn = $request->offer_comment_cn;
@@ -287,9 +289,9 @@ class OffersController extends Controller
             $offers = DB::table('offers')
                 ->select('offers.id', 'hotels.hotel_name',
                     'offers.restaurant_id', 'restaurants.restaurant_name',
-                    'offer_name_th', 'offer_name_en', 'offer_name_cn', 'image', 'offer_date_start', 'offer_date_end', 'offer_day_select',
-                    'offer_time_lunch_start', 'offer_time_lunch_end', 'offer_time_dinner_start',
-                    'offer_time_dinner_end', 'offer_price', 'offer_guest', 'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
+                    'offer_name_th', 'offer_name_en', 'offer_name_cn', 'pdf', 'offer_date_start', 'offer_date_end', 'offer_day_select',
+                    'offer_time_lunch_start', 'offer_time_lunch_end', 'offer_lunch_price', 'offer_lunch_guest', 'offer_time_dinner_start',
+                    'offer_time_dinner_end', 'offer_dinner_price', 'offer_dinner_guest', 'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
                 ->where('offers.id', $id)->get();
@@ -330,16 +332,18 @@ class OffersController extends Controller
                     'offer_name_th' => $offer->offer_name_th,
                     'offer_name_en' => $offer->offer_name_en,
                     'offer_name_cn' => $offer->offer_name_cn,
-                    'old_image' => $offer->image,
+                    'old_pdf' => $offer->pdf,
                     'offer_date_start' => $date_start_format,
                     'offer_date_end' => $date_end_format,
                     'offer_day_select' => $offer->offer_day_select,
                     'offer_time_lunch_start' => $offer->offer_time_lunch_start,
                     'offer_time_lunch_end' => $offer->offer_time_lunch_end,
+                    'offer_lunch_price' => $offer->offer_lunch_price,
+                    'offer_lunch_guest' => $offer->offer_lunch_guest,
                     'offer_time_dinner_start' => $offer->offer_time_dinner_start,
                     'offer_time_dinner_end' => $offer->offer_time_dinner_end,
-                    'offer_price' => $offer->offer_price,
-                    'offer_guest' => $offer->offer_guest,
+                    'offer_dinner_price' => $offer->offer_dinner_price,
+                    'offer_dinner_guest' => $offer->offer_dinner_guest,
                     'offer_comment_th' => $offer->offer_comment_th,
                     'offer_comment_en' => $offer->offer_comment_en,
                     'offer_comment_cn' => $offer->offer_comment_cn
@@ -381,16 +385,15 @@ class OffersController extends Controller
 
         try {
 
-            if (Input::hasFile('image')) {
+            if (Input::hasFile('pdf')) {
                 //update and upload new file
-                $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
-                $destinationPath = public_path('/images');
-                $request->file('image')->move($destinationPath, $filename);
-                $this->DeleteImage($id);
+                $filename = time() . '.' . $request->file('pdf')->getClientOriginalExtension();
+                $destinationPath = public_path('/pdf');
+                $request->file('pdf')->move($destinationPath, $filename);
+                $this->DeletePDF($id);
             } else {
                 //no update image
-                $filename_obj = $get_old_image = Offers::find($id);
-                $filename = $filename_obj->image;
+                $filename = $request->old_pdf;
             }
 
             DB::beginTransaction();
@@ -403,16 +406,18 @@ class OffersController extends Controller
                     'offer_name_th' => $request->offer_name_th,
                     'offer_name_en' => $request->offer_name_en,
                     'offer_name_cn' => $request->offer_name_cn,
-                    'image' => $filename,
+                    'pdf' => $filename,
                     'offer_date_start' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_start, '/', '-')))),
                     'offer_date_end' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_end, '/', '-')))),
                     'offer_day_select' => $day_insert,
                     'offer_time_lunch_start' => $request->offer_time_lunch_start,
                     'offer_time_lunch_end' => $request->offer_time_lunch_end,
+                    'offer_lunch_price' => $request->offer_lunch_price,
+                    'offer_lunch_guest' => $request->offer_lunch_guest,
                     'offer_time_dinner_start' => $request->offer_time_dinner_start,
                     'offer_time_dinner_end' => $request->offer_time_dinner_end,
-                    'offer_price' => $request->offer_price,
-                    'offer_guest' => $request->offer_guest,
+                    'offer_dinner_price' => $request->offer_dinner_price,
+                    'offer_dinner_guest' => $request->offer_dinner_guest,
                     'offer_comment_th' => $request->offer_comment_th,
                     'offer_comment_en' => $request->offer_comment_en,
                     'offer_comment_cn' => $request->offer_comment_cn
@@ -437,7 +442,7 @@ class OffersController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->DeleteImage($id);
+            $this->DeletePDF($id);
             DB::table('offers')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('OffersController@create');
@@ -450,11 +455,11 @@ class OffersController extends Controller
     }
 
     public
-    function DeleteImage($id)
+    function DeletePDF($id)
     {
         try {
-            $get_old_image = Offers::find($id);
-            return File::delete(public_path('images\\' . $get_old_image->image));
+            $get_old_pdf = Offers::find($id);
+            return File::delete(public_path('pdf\\' . $get_old_pdf->pdf));
         } catch (FileException $e) {
             return view('error.index')->with('error', $e);
         } catch (Exception $e) {

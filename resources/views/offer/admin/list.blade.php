@@ -47,20 +47,14 @@
                     <table class="table">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Image</th>
                             <th scope="col">Hotel Name</th>
                             <th scope="col">Restaurant Name</th>
                             <th scope="col">Offer Name</th>
+                            <th scope="col">PDF</th>
                             <th scope="col">Date Start</th>
                             <th scope="col">Date End</th>
-                            <!--th scope="col">Date Select</th-->
-                            <!--th scope="col">Time Lunch Start</th-->
-                            <!--th scope="col">Time Lunch End</th-->
-                            <!--th scope="col">Time Dinner Start</th-->
-                            <!--th scope="col">Time Dinner End</th-->
-                            <th scope="col">Price</th>
-                            <th scope="col">Guest</th>
                             <th scope="col">Comment</th>
+                            <th scope="col">View PDF</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
@@ -68,20 +62,20 @@
                         <tbody>
                         @foreach($offers as $offer)
                             <tr>
-                                <td><img class="d-block w-50" src="{{ asset('/images/'.$offer->image) }}" alt="First slide" height="120"></td>
                                 <td>{{ $offer->hotel_name }}</td>
                                 <td>{{ $offer->restaurant_name }}</td>
                                 <td>{{ $offer->offer_name_en }}</td>
+                                <td>{{ $offer->pdf }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_start)) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_end)) }}</td>
-                                <!--td>{{ $offer->offer_day_select }}</td-->
-                                <!--td>{{ $offer->offer_time_lunch_start }}</td-->
-                                <!--td>{{ $offer->offer_time_lunch_end }}</td-->
-                                <!--td>{{ $offer->offer_time_dinner_start }}</td-->
-                                <!--td>{{ $offer->offer_time_dinner_end }}</td-->
-                                <td>{{ $offer->offer_price }}</td>
-                                <td>{{ $offer->offer_guest }}</td>
                                 <td>{{ $offer->offer_comment_en }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-dark">
+                                        <a href="{{ url('#') }}">
+                                            View PDF
+                                        </a>
+                                    </button>
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-info">
                                         <a href="{{ url('offer/'.$offer->id.'/edit') }}">
