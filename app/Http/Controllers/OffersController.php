@@ -268,7 +268,16 @@ class OffersController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $pdf = Offers::find($id);
+            if (isset($pdf->pdf)) {
+                return response()->file(public_path('pdf/' . $pdf->pdf));
+            } else {
+                return view('error.index')->with('error', 'File PDF not found');
+            }
+        } catch (FileException $e) {
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**

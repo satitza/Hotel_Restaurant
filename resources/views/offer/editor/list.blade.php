@@ -59,7 +59,7 @@
                                 <td>{{ $offer->offer_comment_en }}</td>
                                 <td>
                                     <button type="button" class="btn btn-dark">
-                                        <a href="{{ url('#') }}">
+                                        <a href="{{ url('offer/'.$offer->id) }}">
                                             View PDF
                                         </a>
                                     </button>
