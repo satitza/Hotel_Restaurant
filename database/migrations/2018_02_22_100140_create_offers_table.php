@@ -30,6 +30,7 @@ class CreateOffersTable extends Migration
             //$table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
 
             $table->string('image', 100)->nullable();
+            $table->string('pdf', 100)->nullable();
 
             $table->string('offer_name_th', 100)->nullable();
             $table->string('offer_name_en', 100)->nullable();
@@ -42,9 +43,15 @@ class CreateOffersTable extends Migration
 
             $table->string('offer_time_lunch_start', 50)->nullable();
             $table->string('offer_time_lunch_end', 50)->nullable();
+            $table->double('offer_lunch_price', 8, 2)->unsigned();
+            $table->integer('offer_lunch_guest')->unsigned();
+
 
             $table->string('offer_time_dinner_start', 50)->nullable();
             $table->string('offer_time_dinner_end', 50)->nullable();
+            $table->double('offer_dinner_price', 8, 2)->unsigned();
+            $table->integer('offer_dinner_guest')->unsigned();
+
 
             $table->double('offer_price', 8, 2)->nullable();
             $table->integer('offer_guest')->nullable();

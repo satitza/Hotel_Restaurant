@@ -8,9 +8,9 @@ class Restaurants extends Model
 {
     protected $table = 'restaurants';
 
-    public function RestaurantPdf() {
+    /*public function RestaurantPdf() {
         return $this->hasMany(RestaurantPdf::class);
-    }
+    }*/
     
     public function Offers() {
         return $this->hasMany(Offers::class);

@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Offers;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use App\Language;
 use Carbon\Carbon;
 use DB;
 use File;
+use App\Library\FileUploadManage;
 use App\Http\Requests\OffersRequest;
 use Illuminate\Support\Facades\Input;
 use App\User;
@@ -23,7 +23,10 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class OffersController extends Controller
 {
-    public function __construct()
+
+    //protected $file_upload;
+
+    public function __construct(FileUploadManage $file_upload)
     {
         $this->middleware('auth');
         $this->middleware('admin', ['only' => [
@@ -37,6 +40,7 @@ class OffersController extends Controller
             'DeleteImage'
         ]]);
         $this->middleware('editor');
+        //$this->file_upload = $file_upload;
     }
 
     /**
@@ -94,6 +98,8 @@ class OffersController extends Controller
 
             $where = null;
             $view = null;
+            $hotel_items = null;
+            $restaurant_items = array();
 
             if ($request->search_value == 'hotel') {
                 $where = ['offers.hotel_id' => $request->hotel_id];
@@ -102,8 +108,6 @@ class OffersController extends Controller
             }
 
             $check_rows = User::find(Auth::id());
-            $restaurant_items = array();
-            $hotel_items = null;
 
             if ($check_rows->user_role == 2) {
 

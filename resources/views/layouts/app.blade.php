@@ -100,7 +100,7 @@
                             </ul>
                         </li>
 
-                        <li class="dropdown">
+                    <!--li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">
                                 PDF File <span class="caret"></span>
@@ -113,7 +113,7 @@
                                     <a href="{{ url('restaurant_pdf/create') }}">List PDF File</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li-->
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"

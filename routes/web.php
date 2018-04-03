@@ -27,9 +27,9 @@ Route::resource('restaurant', 'RestaurantsController');
 Route::post('search_restaurant', 'RestaurantsController@searchRestaurant');
 Route::get('delete_restaurant/{id}', 'RestaurantsController@destroy');
 
-Route::resource('restaurant_pdf', 'RestaurantPDFController');
+/*Route::resource('restaurant_pdf', 'RestaurantPDFController');
 Route::post('search_pdf', 'RestaurantPDFController@SearchPDF');
-Route::get('delete_restaurant_pdf/{id}', 'RestaurantPDFController@destroy');
+Route::get('delete_restaurant_pdf/{id}', 'RestaurantPDFController@destroy');*/
 
 Route::resource('offer', 'OffersController');
 Route::post('search_offer', 'OffersController@SearchOffer');
