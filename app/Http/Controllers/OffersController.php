@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\DescriptionException;
 use App\Offers;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
 use File;
-use App\Library\FileUploadManage;
 use App\Http\Requests\OffersRequest;
 use Illuminate\Support\Facades\Input;
 use App\User;
@@ -24,9 +24,8 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class OffersController extends Controller
 {
 
-    //protected $file_upload;
 
-    public function __construct(FileUploadManage $file_upload)
+    public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('admin', ['only' => [
@@ -40,7 +39,7 @@ class OffersController extends Controller
             'DeleteImage'
         ]]);
         $this->middleware('editor');
-        //$this->file_upload = $file_upload;
+
     }
 
     /**
@@ -209,18 +208,24 @@ class OffersController extends Controller
     public function store(OffersRequest $request)
     {
         $filename = null;
+
         if ($request->input('day_check_box') == null) {
             return view('error.index')->with('error', 'You never set date select');
-        } elseif (Input::hasFile('pdf')) {
-            $filename = time() . '.' . $request->file('pdf')->getClientOriginalExtension();
-            $destinationPath = public_path('/pdf');
-            $request->file('pdf')->move($destinationPath, $filename);
-        } else {
-            $filename = null;
+        } elseif ($request->offer_comment_en == "<p>&nbsp;</p>") {
+            return view('error.index')->with('error', 'Please insert default offer description');
         }
 
         DB::beginTransaction();
         try {
+
+            if (Input::hasFile('pdf')) {
+                $filename = time() . '.' . $request->file('pdf')->getClientOriginalExtension();
+                $destinationPath = public_path('/pdf');
+                $request->file('pdf')->move($destinationPath, $filename);
+            } else {
+                $filename = null;
+            }
+
             $get_hotel_id = Restaurants::find($request->restaurant_id);
 
             $offers = new Offers;
@@ -238,14 +243,10 @@ class OffersController extends Controller
             $offers->offer_time_lunch_end = $request->offer_time_lunch_end;
             $offers->offer_lunch_price = $request->offer_lunch_price;
             $offers->offer_lunch_guest = $request->offer_lunch_guest;
-
             $offers->offer_time_dinner_start = $request->offer_time_dinner_start;
             $offers->offer_time_dinner_end = $request->offer_time_dinner_end;
             $offers->offer_dinner_price = $request->offer_dinner_price;
             $offers->offer_dinner_guest = $request->offer_dinner_guest;
-
-            //$offers->offer_price = $request->offer_price;
-            //$offers->offer_guest = $request->offer_guest;
             $offers->offer_comment_th = $request->offer_comment_th;
             $offers->offer_comment_en = $request->offer_comment_en;
             $offers->offer_comment_cn = $request->offer_comment_cn;
@@ -292,6 +293,13 @@ class OffersController extends Controller
 
             $restaurants = array();
             $view = null;
+
+            $offer_name_th = null;
+            $offer_name_en = null;
+
+            $offer_comment_th = null;
+            $offer_comment_cn = null;
+
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
 
@@ -309,8 +317,32 @@ class OffersController extends Controller
                 foreach ($offers as $offer) {
                     $date_start_format = date('d/m/Y', strtotime($offer->offer_date_start));
                     $date_end_format = date('d/m/Y', strtotime($offer->offer_date_end));
-                }
 
+                    if (!isset($offer->offer_name_th)) {
+                        $offer_name_th = $offer->offer_name_en;
+                    } else {
+                        $offer_name_th = $offer->offer_name_th;
+                    }
+
+                    if (!isset($offer->offer_name_cn)) {
+                        $offer_name_cn = $offer->offer_name_en;
+                    } else {
+                        $offer_name_cn = $offer->offer_name_cn;
+                    }
+
+                    if ($offer->offer_comment_th == "<p>&nbsp;</p>") {
+                        $offer_comment_th = $offer->offer_comment_en;
+                    } else {
+                        $offer_comment_th = $offer->offer_comment_th;
+                    }
+
+                    if ($offer->offer_comment_cn == "<p>&nbsp;</p>") {
+                        $offer_comment_cn = $offer->offer_comment_en;
+                    } else {
+                        $offer_comment_cn = $offer->offer_comment_cn;
+                    }
+                }
+                
                 $check_rows = User::find(Auth::id());
                 //User editor
                 if ($check_rows->user_role == 2) {
@@ -338,9 +370,9 @@ class OffersController extends Controller
                     'hotel_name' => $offer->hotel_name,
                     'restaurant_id' => $offer->restaurant_id,
                     'restaurant_name' => $offer->restaurant_name,
-                    'offer_name_th' => $offer->offer_name_th,
+                    'offer_name_th' => $offer_name_th,
                     'offer_name_en' => $offer->offer_name_en,
-                    'offer_name_cn' => $offer->offer_name_cn,
+                    'offer_name_cn' => $offer_name_cn,
                     'old_pdf' => $offer->pdf,
                     'offer_date_start' => $date_start_format,
                     'offer_date_end' => $date_end_format,
@@ -353,9 +385,9 @@ class OffersController extends Controller
                     'offer_time_dinner_end' => $offer->offer_time_dinner_end,
                     'offer_dinner_price' => $offer->offer_dinner_price,
                     'offer_dinner_guest' => $offer->offer_dinner_guest,
-                    'offer_comment_th' => $offer->offer_comment_th,
+                    'offer_comment_th' => $offer_comment_th,
                     'offer_comment_en' => $offer->offer_comment_en,
-                    'offer_comment_cn' => $offer->offer_comment_cn
+                    'offer_comment_cn' => $offer_comment_cn
                 ])
                     ->with('restaurants', $restaurants)
                     ->with('time_lunchs', $time_lunchs)
@@ -381,10 +413,13 @@ class OffersController extends Controller
     {
         $day_insert = null;
         $filename = null;
+
         $new_day_select = ($request->input('day_check_box'));
         $get_hotel_id = Restaurants::find($request->restaurant_id);
 
-        if (!isset($new_day_select)) {
+        if ($request->offer_comment_en == "<p>&nbsp;</p>") {
+            return view('error.index')->with('error', 'Please insert default offer description');
+        } elseif (!isset($new_day_select)) {
             //Check box is null insert old date select
             $day_insert = $request->old_day_select;
         } else {

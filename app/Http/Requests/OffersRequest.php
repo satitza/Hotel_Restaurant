@@ -24,24 +24,25 @@ class OffersRequest extends FormRequest
     public function rules()
     {
         return [
-            //'menu_name' => 'required',
-            'image' => 'mimes:jpeg,png,jpg,gif|max:2048',
+            'offer_name_en' => 'required',
+            'pdf' => 'mimes:jpeg,png,jpg,gif,pdf|max:2048',
             'offer_date_start' => 'required',
             'offer_date_end' => 'required',
             'offer_lunch_price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/|between:1,100000',
             'offer_lunch_guest' => 'required|integer|between:1,10000',
             'offer_dinner_price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/|between:1,100000',
             'offer_dinner_guest' => 'required|integer|between:1,10000',
+            'offer_comment_en' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            //'menu_name.required' => 'Please insert menu name',
+            'offer_name_en.required' => 'Please insert default offer name',
             //'image.required' => 'Image is not upload',
-            'image.mimes' => 'Invalid image type please choose type jpeg, png, jpg, gif',
-            'image.max' => 'Maximum size 2 MB',
+            'pdf.mimes' => 'Invalid image type please choose type jpeg, png, jpg, gif',
+            'pdf.max' => 'Maximum size 2 MB',
             'offer_date_start.required' => 'Please select date start',
             'offer_date_end.required' => 'Please select date end',
             'offer_lunch_price.required' => 'Please insert price',
@@ -56,6 +57,7 @@ class OffersRequest extends FormRequest
             'offer_dinner_guest.required' => 'Please insert max guest',
             'offer_dinner_guest.integer' => 'Please insert max guest is integer',
             'offer_dinner_guest.between' => 'Please insert integer  1 to 10000',
+            'offer_comment_en.required' => 'Please insert default offer description',
         ];
     }
 }

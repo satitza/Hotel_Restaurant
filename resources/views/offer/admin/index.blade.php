@@ -72,19 +72,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!--tr>
-                                <td></td>
-                                <td>
-                                    <div class="form-group">
-                                        <select class="form-control" name="language_id" id="language_option">
-
-
-                                                <option value=""></option>
-
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr-->
                             <tr>
                                 <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
                                 <td>
