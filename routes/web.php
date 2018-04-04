@@ -27,17 +27,14 @@ Route::resource('restaurant', 'RestaurantsController');
 Route::post('search_restaurant', 'RestaurantsController@searchRestaurant');
 Route::get('delete_restaurant/{id}', 'RestaurantsController@destroy');
 
-/*Route::resource('restaurant_pdf', 'RestaurantPDFController');
-Route::post('search_pdf', 'RestaurantPDFController@SearchPDF');
-Route::get('delete_restaurant_pdf/{id}', 'RestaurantPDFController@destroy');*/
-
 Route::resource('offer', 'OffersController');
 Route::post('search_offer', 'OffersController@SearchOffer');
 Route::get('delete_offer/{id}', 'OffersController@destroy');
 
-/*Route::resource('set_menu', 'SetMenusController');
-Route::post('search_menu', 'SetMenusController@SearchMenu');
-Route::get('delete_set_menu/{id}', 'SetMenusController@destroy');*/
+Route::resource('image', 'ImagesController');
+//Route::get('upload', 'ImagesController@store');
+//Route::post('search_offer', 'OffersController@SearchOffer');
+//Route::get('delete_offer/{id}', 'OffersController@destroy');
 
 Route::resource('report', 'ReportsController');
 

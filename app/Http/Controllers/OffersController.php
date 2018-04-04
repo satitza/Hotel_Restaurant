@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class OffersController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth');
