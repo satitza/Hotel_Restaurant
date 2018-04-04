@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Offers;
 use App\SetMenu;
 use DB;
 use File;
@@ -216,9 +217,9 @@ class RestaurantsController extends Controller
                     'restaurant_comment' => $request->restaurant_comment
                 ]);
             DB::commit();
-            if (SetMenu::select('hotel_id')->where('restaurant_id', $id)->exists()) {
+            if (Offers::select('hotel_id')->where('restaurant_id', $id)->exists()) {
                 //Found hotel_id  in  set_menus
-                DB::table('set_menus')->where('restaurant_id', $id)
+                DB::table('offers')->where('restaurant_id', $id)
                     ->update([
                         'hotel_id' => $request->hotel_id
                     ]);

@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create( document.querySelector( '#editor' ) )
+                .then( editor => {
+                console.log( editor );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
+        });
+    </script>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -63,7 +75,7 @@
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_restaurant_comment', 'Comment') }}</td>
-                                    <td>{{ Form::textarea('restaurant_comment', null, ['class' => 'form-control', 'placeholder' => 'comment']) }}</td>
+                                    <td>{{ Form::textarea('restaurant_comment', null, ['id' => 'editor', 'placeholder' => 'comment']) }}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -19,6 +19,7 @@
     <script src="{{ asset('js/jquery-ui.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/popper.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/ckeditor.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $('.dropdown-submenu a.submenu').on("click", function (e) {

@@ -9,6 +9,39 @@
                 changeYear: true,
             });
         });
+
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create( document.querySelector( '#editor_th' ) )
+                .then( editor => {
+                console.log( editor );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
+        });
+
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create( document.querySelector( '#editor_en' ) )
+                .then( editor => {
+                console.log( editor );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
+        });
+
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create( document.querySelector( '#editor_cn' ) )
+                .then( editor => {
+                console.log( editor );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
+        });
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
@@ -162,15 +195,15 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_offer_comment_th', 'รายละเอียด') }}</td>
-                                <td>{{ Form::textarea('menu_comment_th', $offer_comment_th, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
+                                <td>{{ Form::textarea('offer_comment_th', $offer_comment_th, ['id' => 'editor_th', 'placeholder' => 'รายละเอียด']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_offer_comment_en', 'Comment') }}</td>
-                                <td>{{ Form::textarea('menu_comment_en', $offer_comment_en, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
+                                <td>{{ Form::textarea('offer_comment_en', $offer_comment_en, ['id' => 'editor_en', 'placeholder' => 'Comment']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_offer_comment_cn', '細節') }}</td>
-                                <td>{{ Form::textarea('menu_comment_cn', $offer_comment_cn, ['class' => 'form-control', 'placeholder' => '細節']) }}</td>
+                                <td>{{ Form::textarea('offer_comment_cn', $offer_comment_cn, ['id' => 'editor_cn', 'placeholder' => '細節']) }}</td>
                             </tr>
                             </tbody>
                         </table>

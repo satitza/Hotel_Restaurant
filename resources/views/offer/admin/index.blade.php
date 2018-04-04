@@ -10,57 +10,39 @@
             });
         });
 
-        /*$(function () {
-            $('#language_option').change(function () {
-                var language = $('#language_option').find(":selected").text();
-                if (language == "TH") {
-                    $('.lb_language').text("เลือกภาษา");
-                    $('.lb_restaurant_name').text("ชื่อโรงแรม");
-                    $('.lb_menu_name').text("ชื่อเมนู");
-                    $('.lb_menu_image').text("รูปภาพ");
-                    $('.lb_date_start').text("วันที่เริ่ม");
-                    $('.lb_date_end').text("วันที่สิ้นสุด");
-                    $('.lb_date_select').text("เลือกวัน");
-                    $('.lb_time_lunch_start').text("เวลาเริ่มช่วงกลางวัน");
-                    $('.lb_time_lunch_end').text("เวลาเสิ้นสุดช่วงกลางวัน");
-                    $('.lb_time_dinner_start').text("เวลาเริ่มช่วงกลางคืน");
-                    $('.lb_time_dinner_end').text("เวลาสิ้นสุดช่วงกลางคืน");
-                    $('.lb_price').text("ราคาต่อคน");
-                    $('.lb_guest').text("จำนวนคนที่รองรับสูงสุด");
-                    $('.lb_comment').text("รายละเอียด");
-                } else if (language == "EN") {
-                    $('.lb_language').text("Choose Language");
-                    $('.lb_restaurant_name').text("Restaurant Name");
-                    $('.lb_menu_name').text("Menu Name");
-                    $('.lb_menu_image').text("Menu Image");
-                    $('.lb_date_start').text("Date Start");
-                    $('.lb_date_end').text("Date End");
-                    $('.lb_date_select').text("Date Select");
-                    $('.lb_time_lunch_start').text("Time Lunch Start");
-                    $('.lb_time_lunch_end').text("Time Lunch End");
-                    $('.lb_time_dinner_start').text("Time Dinner Start");
-                    $('.lb_time_dinner_end').text("Time Dinner End");
-                    $('.lb_price').text("Price per person");
-                    $('.lb_guest').text("Max guest");
-                    $('.lb_comment').text("Comment");
-                } else if (language == "CN") {
-                    $('.lb_language').text("選擇語言");
-                    $('.lb_restaurant_name').text("酒店名稱");
-                    $('.lb_menu_name').text("菜單標題");
-                    $('.lb_menu_image').text("圖片");
-                    $('.lb_date_start').text("開始日期");
-                    $('.lb_date_end').text("結束日期");
-                    $('.lb_date_select').text("選擇一天");
-                    $('.lb_time_lunch_start').text("白天開始");
-                    $('.lb_time_lunch_end').text("一天結束");
-                    $('.lb_time_dinner_start').text("夜間時間");
-                    $('.lb_time_dinner_end').text("夜間時間");
-                    $('.lb_price').text("每人價格");
-                    $('.lb_guest').text("支持的最大人數");
-                    $('.lb_comment').text("細節");
-                }
-            });
-        });*/
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create( document.querySelector( '#editor_th' ) )
+                .then( editor => {
+                console.log( editor );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
+        });
+
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create( document.querySelector( '#editor_en' ) )
+                .then( editor => {
+                console.log( editor );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
+        });
+
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create( document.querySelector( '#editor_cn' ) )
+                .then( editor => {
+                console.log( editor );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
+        });
+
 
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
@@ -250,15 +232,15 @@
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_comment_th', 'รายละเอียด') }}</td>
-                                <td>{{ Form::textarea('offer_comment_th', null, ['class' => 'form-control', 'placeholder' => 'รายละเอียด']) }}</td>
+                                <td>{{ Form::textarea('offer_comment_th', null, ['id' => 'editor_th', 'placeholder' => 'รายละเอียด']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_comment_en', 'Comment') }}</td>
-                                <td>{{ Form::textarea('offer_comment_en', null, ['class' => 'form-control', 'placeholder' => 'Comment']) }}</td>
+                                <td>{{ Form::textarea('offer_comment_en', null, ['id' => 'editor_en', 'placeholder' => 'Comment']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_comment_cn', '細節') }}</td>
-                                <td>{{ Form::textarea('offer_comment_cn', null, ['class' => 'form-control', 'placeholder' => '細節']) }}</td>
+                                <td>{{ Form::textarea('offer_comment_cn', null, ['id' => 'editor_cn', 'placeholder' => '細節']) }}</td>
                             </tr>
                             </tbody>
                         </table>
