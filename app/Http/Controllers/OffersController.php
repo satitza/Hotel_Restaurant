@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\DescriptionException;
 use App\Offers;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -23,8 +22,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class OffersController extends Controller
 {
-
-
+    
     public function __construct()
     {
         $this->middleware('auth');
@@ -342,7 +340,7 @@ class OffersController extends Controller
                         $offer_comment_cn = $offer->offer_comment_cn;
                     }
                 }
-                
+
                 $check_rows = User::find(Auth::id());
                 //User editor
                 if ($check_rows->user_role == 2) {
