@@ -60,31 +60,42 @@ class ImagesController extends Controller
      */
     public function store(Request $request)
     {
-
         if (Input::hasFile('images')) {
 
             $images = array();
             $collect = array();
+
+            if (Image::where('offer_id', '=', $request->offer_id)->exists()) {
+                $old_images = Image::select('image')->where('offer_id', $request->offer_id)->get();
+                foreach ($old_images as $old_image) {
+                    array_push($collect, $old_image->image);
+                }
+            }
+
+            $str_array = substr(implode( ", ", $collect ), 0, -1);
+            $arrays = explode(',', $str_array);
 
             if ($files = $request->file('images')) {
                 try {
                     foreach ($files as $file) {
                         $name = rand() . "." . $file->getClientOriginalExtension();
                         $destinationPath = public_path('/images');
-                        $file->move($destinationPath, $name);
+                        //$file->move($destinationPath, $name);
                         $images[] = $name;
-                        array_push($collect, $name);
+                        array_push($arrays, $name);
+
                     }
                 } catch (FileException $e) {
                     return view('error.index')->with('error', $e);
                 }
             }
 
-            //$img = implode(",", $collect) . ",";
-            //dd($img);
+            dd(implode(', ' ,$arrays));
+            //echo explode(', ' ,$collect);
+            //dd($collect);
 
 
-            DB::beginTransaction();
+            /*DB::beginTransaction();
             try {
                 $images = new Image;
                 $images->offer_id = $request->offer_id;
@@ -97,7 +108,7 @@ class ImagesController extends Controller
                 return view('error.index')->with('error', $e);
             } catch (Exception $e) {
                 return view('error.index')->with('error', $e);
-            }
+            }*/
 
         } else {
 

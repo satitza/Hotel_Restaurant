@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.add_more').click(function (e) {
+                e.preventDefault();
+                $(this).before("<input type='file' name='images[]' />");
+            });
+        });
+
+    </script>
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -13,9 +24,9 @@
                         <div class="panel-body">
 
                             <div class="form-group">
-                               <!--  {!! Form::open(['url' => 'image', 'files' => true]) !!} -->
+                            <!--  {!! Form::open(['url' => 'image', 'files' => true]) !!} -->
                                 <form class="form-horizontal" enctype="multipart/form-data" method="post"
-                                      action="image">
+                                      action="image" class="createAlbumFileUpload">
                                     <table class="table table-striped table-hover ">
                                         <thead>
                                         <tr class="">
@@ -38,9 +49,11 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <!--required-->
                                             <td>{{ Form::label('lb_image', 'Offer Images') }}</td>
-                                            <td><input required type="file" class="form-control" name="images[]" placeholder="address" multiple></td>
-                                            <!-- td><input type="file" name="images[]" multiple/></td -->
+                                            <td><input  type="file" name="images[]">
+                                                <button class="add_more" class="btn btn-primary" >Add More Files</button>
+                                            </td>
                                         </tr>
 
                                         </tbody>
