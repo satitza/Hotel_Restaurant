@@ -62,27 +62,28 @@ class ImagesController extends Controller
     {
         if (Input::hasFile('images')) {
 
-            $images = array();
             $collect = array();
 
+            //Get old images from table images
             if (Image::where('offer_id', '=', $request->offer_id)->exists()) {
+
                 $old_images = Image::select('image')->where('offer_id', $request->offer_id)->get();
                 foreach ($old_images as $old_image) {
                     array_push($collect, $old_image->image);
                 }
+                $str_array = substr(implode(", ", $collect), 0, -1);
+                //collect hav old images value
+                $collect = explode(',', $str_array);
             }
-
-            $str_array = substr(implode( ", ", $collect ), 0, -1);
-            $arrays = explode(',', $str_array);
 
             if ($files = $request->file('images')) {
                 try {
                     foreach ($files as $file) {
                         $name = rand() . "." . $file->getClientOriginalExtension();
                         $destinationPath = public_path('/images');
-                        //$file->move($destinationPath, $name);
+                        $file->move($destinationPath, $name);
                         $images[] = $name;
-                        array_push($arrays, $name);
+                        array_push($collect, $name);
 
                     }
                 } catch (FileException $e) {
@@ -90,28 +91,33 @@ class ImagesController extends Controller
                 }
             }
 
-            dd(implode(', ' ,$arrays));
-            //echo explode(', ' ,$collect);
-            //dd($collect);
-
-
-            /*DB::beginTransaction();
+            DB::beginTransaction();
             try {
-                $images = new Image;
-                $images->offer_id = $request->offer_id;
-                $images->image = implode(",", $collect) . ",";
-                $images->save();
-                DB::commit();
-                return redirect()->action('ImagesController@create');
+                if (Image::where('offer_id', '=', $request->offer_id)->exists()) {
+
+                    DB::table('images')
+                        ->where('offer_id', $request->offer_id)
+                        ->update([
+                            'image' => implode(',', $collect) . ","
+                        ]);
+                    DB::commit();
+                    return redirect()->action('ImagesController@create');
+                } else {
+                    $images = new Image;
+                    $images->offer_id = $request->offer_id;
+                    $images->image = implode(",", $collect) . ",";
+                    $images->save();
+                    DB::commit();
+                    return redirect()->action('ImagesController@create');
+                }
             } catch (QueryException $e) {
                 DB::rollback();
                 return view('error.index')->with('error', $e);
             } catch (Exception $e) {
                 return view('error.index')->with('error', $e);
-            }*/
-
-        } else {
-
+            }
+        }else{
+            return view('error.index')->with('error', 'Image upload not found');
         }
     }
 
