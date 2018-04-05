@@ -164,6 +164,7 @@ class ImagesController extends Controller
     function edit($id)
     {
         try {
+
             $photos = array();
 
             $images = DB::table('images')
@@ -197,8 +198,38 @@ class ImagesController extends Controller
     public
     function update(Request $request, $id)
     {
-        $input = $request->input('images');
+        try {
+            $old_images = Image::find($id);
+
+            $old_images_array = explode(',', $old_images->image, -1);
+
+            foreach ($array as $elementKey => $element) {
+                foreach ($element as $valueKey => $value) {
+                    if ($valueKey == 'id' && $value == 'searched_value') {
+                        //delete this particular object from the $array
+                        unset($array[$elementKey]);
+                    }
+                }
+            }
+
+            //dd($old_images_array);
+            //dd($request->input('images'));
+
+
+        } catch (FileException $e) {
+            return view('error.index')->with('error', $e);
+        }
+
+
+        /*$input = $request->input('images');
         dd($input);
+        DB::table('images')
+            ->where('offer_id', $request->offer_id)
+            ->update([
+                'image' => implode(',', $collect) . ","
+            ]);
+        DB::commit();
+        return redirect()->action('ImagesController@create');*/
     }
 
     /**

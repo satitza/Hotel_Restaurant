@@ -39,16 +39,18 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="images[]"
-                                                           value="{{ $photo }}" checked>{{ $photo }}
+                                                           value="{{ $photo }}" >{{ $photo }}
                                                 </label>
                                             </div>
+                                            <img class="d-block w-50" src="{{ asset('/images/'.$photo) }}" alt="{{ $photo }}"  height="150px;">
+                                            <hr>
                                         @endforeach
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Update Images', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Remove', ['class' => 'btn btn-danger']) }}
                             </center>
                             {{ csrf_field() }}
                             {{ Form::close() }}
@@ -58,9 +60,5 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        @foreach($photos as $photo)
-            <img class="d-block w-50" src="{{ asset('/images/'.$photo) }}" alt="First slide" height="120">
-        @endforeach
-    </div>
+
 @endsection
