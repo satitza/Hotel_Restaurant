@@ -49,7 +49,28 @@ class ImagesController extends Controller
      */
     public function create()
     {
-        echo "create";
+        try{
+
+            $offer_items = Offers::select('id', 'offer_name_en')->orderBy('id', 'ASC')->get();
+
+            $images = DB::table('images')
+                ->select('images.id', 'offer_name_en', 'image', 'hotels.hotel_name', 'restaurants.restaurant_name')
+                ->join('offers', 'offers.id', '=', 'images.offer_id')
+                ->join('hotels', 'hotels.id', '=', 'offers.hotel_id')
+                ->join('restaurants', 'restaurants.id', '=', 'offers.restaurant_id')
+                ->orderBy('images.id', 'asc')->paginate(10);
+
+            foreach ($images as $image){
+
+            }
+
+            return view('image.list',[
+                'offer_items' => $offer_items,
+                'images' => $images
+            ]);
+        }catch (Exception $e){
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
