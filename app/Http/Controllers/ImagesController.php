@@ -95,12 +95,10 @@ class ImagesController extends Controller
 
                 $old_images = Image::select('image')->where('offer_id', $request->offer_id)->get();
                 foreach ($old_images as $old_image) {
-                    array_push($collect, $old_image->image);
+                    if ($old_image->image != "") {
+                        array_push($collect, $old_image->image);
+                    }
                 }
-
-                //$str_array = substr(implode(", ", $collect), 0, -1);
-                //collect hav old images value
-                //$collect = explode(',', $str_array);
             }
 
             if ($files = $request->file('images')) {
@@ -122,7 +120,6 @@ class ImagesController extends Controller
                 }
             }
 
-
             DB::beginTransaction();
             try {
                 if (Image::where('offer_id', '=', $request->offer_id)->exists()) {
@@ -131,6 +128,7 @@ class ImagesController extends Controller
                         ->where('offer_id', $request->offer_id)
                         ->update([
                             'image' => implode(',', $collect)
+                            //'image' => substr(implode(','))
                         ]);
                     DB::commit();
                     return redirect()->action('ImagesController@create');
@@ -185,8 +183,13 @@ class ImagesController extends Controller
 
             foreach ($images as $image) {
                 // ตัดข้อความจากตัวแรก a ไปจนถึง ตัว e โดยตัดข้อความที่นับจากหลังมา 1 ตัวออกไป
-                $sub_str = substr($image->image, 1);  // returns "cde"
-                $photos = explode(',', $sub_str);
+                //$sub_str = substr($image->image, 1);  // returns "cde"
+                if ($image->image == "") {
+                    return view('error.index')->with('error', 'Don`t have images to show');
+                } else {
+                    $photos = explode(',', $image->image);
+                }
+
             }
 
             return view('image.edit', [
@@ -207,7 +210,7 @@ class ImagesController extends Controller
     {
         try {
             $old_images = Image::find($id);
-            $old_images_array = explode(',', $old_images->image, -1);
+            $old_images_array = explode(',', $old_images->image);
             reset($old_images_array);
 
             foreach ($items as $item) {
@@ -238,6 +241,7 @@ class ImagesController extends Controller
     public
     function update(Request $request, $id)
     {
+
         $new_images = null;
 
         if ($request->input('images') == null) {
@@ -298,7 +302,7 @@ class ImagesController extends Controller
     {
         try {
             $old_images = Image::find($id);
-            $old_images_array = explode(',', $old_images->image, -1);
+            $old_images_array = explode(',', $old_images->image);
             reset($old_images_array);
 
             foreach ($old_images_array as $item) {
