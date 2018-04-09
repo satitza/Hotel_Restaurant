@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\UserEditor;
 use DB;
 use App\Images;
 use App\Offers;
 use File;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use League\Flysystem\Exception;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -33,10 +36,34 @@ class ImagesController extends Controller
     public function index()
     {
         try {
-            $offer_items = Offers::select('id', 'offer_name_en')->orderBy('id', 'ASC')->get();
-            return view('image.index', [
+
+            $offer_items = array();
+            $check_rows = User::find(Auth::id());
+            $view = null;
+
+            if ($check_rows->user_role == 2) {
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->get();
+                foreach ($user_editors as $user_editor) {
+                    $restaurants_id = explode(',', $user_editor->restaurant_id);
+                    foreach ($restaurants_id as $id) {
+                        if (Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->exists()) {
+                            array_push($offer_items, Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->get());
+                        }
+
+                    }
+                }
+
+                $view = 'image.editor.index';
+
+            } else {
+                $offer_items = Offers::select('id', 'offer_name_en')->orderBy('id', 'ASC')->get();
+                $view = 'image.admin.index';
+            }
+
+            return view($view, [
                 'offer_items' => $offer_items
             ]);
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e);
         } catch (Exception $e) {
@@ -68,7 +95,7 @@ class ImagesController extends Controller
 
             reset($images);
 
-            return view('image.list', [
+            return view('image.admin.list', [
                 'offer_items' => $offer_items,
                 'images' => $images
             ]);
@@ -175,38 +202,41 @@ class ImagesController extends Controller
     public
     function edit($id)
     {
-        try {
+        if (Images::where('id', '=', $id)->exists()) {
+            try {
 
-            $photos = array();
+                $photos = array();
 
-            $images = DB::table('images')
-                ->select('images.id', 'images.offer_id', 'offer_name_en', 'image')
-                ->join('offers', 'offers.id', '=', 'images.offer_id')
-                ->where('images.id', $id)->get();
+                $images = DB::table('images')
+                    ->select('images.id', 'images.offer_id', 'offer_name_en', 'image')
+                    ->join('offers', 'offers.id', '=', 'images.offer_id')
+                    ->where('images.id', $id)->get();
 
-            foreach ($images as $image) {
-                // ตัดข้อความจากตัวแรก a ไปจนถึง ตัว e โดยตัดข้อความที่นับจากหลังมา 1 ตัวออกไป
-                //$sub_str = substr($image->image, 1);  // returns "cde"
-                if ($image->image == "") {
-                    return view('error.index')->with('error', 'Don`t have images to show');
-                } else {
-                    $photos = explode(',', $image->image);
+                foreach ($images as $image) {
+                    // ตัดข้อความจากตัวแรก a ไปจนถึง ตัว e โดยตัดข้อความที่นับจากหลังมา 1 ตัวออกไป
+                    //$sub_str = substr($image->image, 1);  // returns "cde"
+                    if ($image->image == "") {
+                        return view('error.index')->with('error', 'Don`t have images to show');
+                    } else {
+                        $photos = explode(',', $image->image);
+                    }
+
                 }
 
+                return view('image.admin.edit', [
+                    'id' => $image->id,
+                    'offer_id' => $image->offer_id,
+                    'offer_name' => $image->offer_name_en,
+                    'photos' => $photos
+                ]);
+
+            } catch (Exception $e) {
+                return view('error.index')->with('error', $e);
             }
-
-            return view('image.edit', [
-                'id' => $image->id,
-                'offer_id' => $image->offer_id,
-                'offer_name' => $image->offer_name_en,
-                'photos' => $photos
-            ]);
-
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+        } else {
+            return view('error.index')->with('error', 'Search not found');
         }
     }
-
 
     //Unset Array Item
     public function UnsetItem($id, array $items)
