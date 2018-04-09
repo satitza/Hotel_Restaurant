@@ -42,7 +42,7 @@
                                                            value="{{ $photo }}" >{{ $photo }}
                                                 </label>
                                             </div>
-                                            <img class="d-block w-50" src="{{ asset('/images/'.$photo) }}" alt="{{ $photo }}"  height="150px;">
+                                            <img class="d-block w-50" src="{{ asset('/images/'.$photo) }}" alt="{{ $photo }}">
                                             <hr>
                                         @endforeach
                                     </td>
