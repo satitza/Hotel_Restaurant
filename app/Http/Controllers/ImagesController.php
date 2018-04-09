@@ -188,6 +188,31 @@ class ImagesController extends Controller
         }
     }
 
+    public function UnsetItem($id, array $items)
+    {
+        try {
+            $old_images = Image::find($id);
+            $old_images_array = explode(',', $old_images->image, -1);
+            reset($old_images_array);
+
+            foreach ($items as $item) {
+                foreach ($old_images_array as $i => $row) {
+                    if ($row == $item) {
+                        unset($old_images_array[$i]);
+                    }
+                }
+            }
+
+            return $old_images_array;
+
+        } catch (QueryException $e) {
+            throw new  QueryException($e);
+        } catch (Exception $e) {
+            throw  new Exception("Unset array item exception");
+        }
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -198,38 +223,25 @@ class ImagesController extends Controller
     public
     function update(Request $request, $id)
     {
-        try {
-            $old_images = Image::find($id);
+        $new_images = null;
 
-            $old_images_array = explode(',', $old_images->image, -1);
-
-            foreach ($array as $elementKey => $element) {
-                foreach ($element as $valueKey => $value) {
-                    if ($valueKey == 'id' && $value == 'searched_value') {
-                        //delete this particular object from the $array
-                        unset($array[$elementKey]);
-                    }
-                }
-            }
-
-            //dd($old_images_array);
-            //dd($request->input('images'));
-
-
-        } catch (FileException $e) {
-            return view('error.index')->with('error', $e);
+        if ($request->input('images') == null) {
+            $images = Image::find($id);
+            $new_images = $images->image;
+        } else {
+            $result = $this->UnsetItem($id, $request->input('images'));
+            $reset_index = array_values($result);
+            $new_images = implode(',', $reset_index).",";
         }
 
 
-        /*$input = $request->input('images');
-        dd($input);
         DB::table('images')
             ->where('offer_id', $request->offer_id)
             ->update([
-                'image' => implode(',', $collect) . ","
+                'image' => $new_images
             ]);
         DB::commit();
-        return redirect()->action('ImagesController@create');*/
+        return redirect()->action('ImagesController@create');
     }
 
     /**
