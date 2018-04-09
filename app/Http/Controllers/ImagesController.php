@@ -267,6 +267,33 @@ class ImagesController extends Controller
     public
     function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $this->DeleteImage($id);
+            DB::table('images')->where('id', $id)->delete();
+            DB::commit();
+            return redirect()->action('ImagesController@create');
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
+    }
+
+    public function DeleteImage($id)
+    {
+        try {
+            $old_images = Image::find($id);
+            $old_images_array = explode(',', $old_images->image, -1);
+            reset($old_images_array);
+
+            foreach ($old_images_array as $item) {
+                File::delete(public_path('images\\' . $item));
+            }
+
+        } catch (FileException $e) {
+            throw new FileException("File delete exception");
+        }
     }
 }

@@ -64,7 +64,7 @@
                                     </td>
                                     <td>
                                         <button type="submit" class="btn btn-danger">
-                                            <a href="{{ url('delete_hotel/') }}"
+                                            <a href="{{ url('delete_image/'.$image->id) }}"
                                                onclick="return confirm('Confrim Delete ?')">
                                                 Delete
                                             </a>
