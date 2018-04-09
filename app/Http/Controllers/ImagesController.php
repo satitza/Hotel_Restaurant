@@ -10,6 +10,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use League\Flysystem\Exception;
+//use Intervention\Image\ImageManagerStatic as Image;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ImagesController extends Controller
@@ -18,7 +19,8 @@ class ImagesController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('admin', ['only' => [
-            'destroy'
+            'destroy',
+            'DeleteAllImage'
         ]]);
         $this->middleware('editor');
     }
@@ -64,6 +66,9 @@ class ImagesController extends Controller
 
             }
 
+
+            reset($images);
+
             return view('image.list', [
                 'offer_items' => $offer_items,
                 'images' => $images
@@ -92,9 +97,10 @@ class ImagesController extends Controller
                 foreach ($old_images as $old_image) {
                     array_push($collect, $old_image->image);
                 }
-                $str_array = substr(implode(", ", $collect), 0, -1);
+
+                //$str_array = substr(implode(", ", $collect), 0, -1);
                 //collect hav old images value
-                $collect = explode(',', $str_array);
+                //$collect = explode(',', $str_array);
             }
 
             if ($files = $request->file('images')) {
@@ -102,6 +108,10 @@ class ImagesController extends Controller
                     foreach ($files as $file) {
                         $name = rand() . "." . $file->getClientOriginalExtension();
                         $destinationPath = public_path('/images');
+
+                        //$image_resize = Image::make($name->getRealPath());
+                        //$image_resize->resize(400, 800);
+                        //$image_resize->save($destinationPath, $name);
                         $file->move($destinationPath, $name);
                         $images[] = $name;
                         array_push($collect, $name);
@@ -112,6 +122,7 @@ class ImagesController extends Controller
                 }
             }
 
+
             DB::beginTransaction();
             try {
                 if (Image::where('offer_id', '=', $request->offer_id)->exists()) {
@@ -119,14 +130,14 @@ class ImagesController extends Controller
                     DB::table('images')
                         ->where('offer_id', $request->offer_id)
                         ->update([
-                            'image' => implode(',', $collect) . ","
+                            'image' => implode(',', $collect)
                         ]);
                     DB::commit();
                     return redirect()->action('ImagesController@create');
                 } else {
                     $images = new Image;
                     $images->offer_id = $request->offer_id;
-                    $images->image = implode(",", $collect) . ",";
+                    $images->image = implode(",", $collect);
                     $images->save();
                     DB::commit();
                     return redirect()->action('ImagesController@create');
@@ -173,7 +184,9 @@ class ImagesController extends Controller
                 ->where('images.id', $id)->get();
 
             foreach ($images as $image) {
-                $photos = explode(',', $image->image, -1);
+                // ตัดข้อความจากตัวแรก a ไปจนถึง ตัว e โดยตัดข้อความที่นับจากหลังมา 1 ตัวออกไป
+                $sub_str = substr($image->image, 1);  // returns "cde"
+                $photos = explode(',', $sub_str);
             }
 
             return view('image.edit', [
@@ -233,7 +246,7 @@ class ImagesController extends Controller
         } else {
             $result = $this->UnsetItem($id, $request->input('images'));
             $reset_index = array_values($result);
-            $new_images = implode(',', $reset_index) . ",";
+            $new_images = implode(',', $reset_index);
 
             try {
                 foreach ($request->input('images') as $image) {
@@ -269,7 +282,7 @@ class ImagesController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->DeleteImage($id);
+            $this->DeleteAllImage($id);
             DB::table('images')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('ImagesController@create');
@@ -281,7 +294,7 @@ class ImagesController extends Controller
         }
     }
 
-    public function DeleteImage($id)
+    public function DeleteAllImage($id)
     {
         try {
             $old_images = Image::find($id);
