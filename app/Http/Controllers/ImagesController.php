@@ -188,6 +188,8 @@ class ImagesController extends Controller
         }
     }
 
+
+    //Unset Array Item
     public function UnsetItem($id, array $items)
     {
         try {
@@ -231,17 +233,29 @@ class ImagesController extends Controller
         } else {
             $result = $this->UnsetItem($id, $request->input('images'));
             $reset_index = array_values($result);
-            $new_images = implode(',', $reset_index).",";
+            $new_images = implode(',', $reset_index) . ",";
+
+            try {
+                foreach ($request->input('images') as $image) {
+                    File::delete(public_path('images\\' . $image));
+                }
+            } catch (FileException $e) {
+                return view('error.index')->with('error', $e);
+            }
         }
 
-
-        DB::table('images')
-            ->where('offer_id', $request->offer_id)
-            ->update([
-                'image' => $new_images
-            ]);
-        DB::commit();
-        return redirect()->action('ImagesController@create');
+        DB::beginTransaction();
+        try {
+            DB::table('images')
+                ->where('id', $id)
+                ->update([
+                    'image' => $new_images
+                ]);
+            DB::commit();
+            return redirect()->action('ImagesController@create');
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
+        }
     }
 
     /**
