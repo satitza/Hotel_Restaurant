@@ -80,6 +80,61 @@ class ImagesController extends Controller
     {
         try {
 
+            $offer_items = array();
+            $check_rows = User::find(Auth::id());
+
+            if ($check_rows->user_role == 2) {
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->get();
+                if (count($user_editors) == 0) {
+                    return view('error.index')->with('error', 'You never match with restaurant');
+                } else {
+                    foreach ($user_editors as $user_editor) {
+                        $restaurants_id = explode(',', $user_editor->restaurant_id);
+                        foreach ($restaurants_id as $id) {
+                            if (Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->exists()) {
+                                array_push($offer_items, Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->get());
+                            }
+                        }
+                    }
+                    return view('image.editor.editor_info', [
+                        'offer_items' => $offer_items
+                    ]);
+                }
+            } else {
+
+                $offer_items = Offers::select('id', 'offer_name_en')->orderBy('id', 'ASC')->get();
+                $images = DB::table('images')
+                    ->select('images.id', 'offer_name_en', 'image', 'hotels.hotel_name', 'restaurants.restaurant_name')
+                    ->join('offers', 'offers.id', '=', 'images.offer_id')
+                    ->join('hotels', 'hotels.id', '=', 'offers.hotel_id')
+                    ->join('restaurants', 'restaurants.id', '=', 'offers.restaurant_id')
+                    ->orderBy('images.id', 'asc')->paginate(10);
+
+                foreach ($images as $image) {
+
+                }
+
+                reset($images);
+
+                return view('image.admin.list', [
+                    'offer_items' => $offer_items,
+                    'images' => $images
+                ]);
+            }
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e);
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
+        }
+    }
+
+    public function SearchImage(Request $request)
+    {
+        try {
+
+
+            $check_rows = User::find(Auth::id());
+
             $offer_items = Offers::select('id', 'offer_name_en')->orderBy('id', 'ASC')->get();
 
             $images = DB::table('images')
@@ -87,7 +142,7 @@ class ImagesController extends Controller
                 ->join('offers', 'offers.id', '=', 'images.offer_id')
                 ->join('hotels', 'hotels.id', '=', 'offers.hotel_id')
                 ->join('restaurants', 'restaurants.id', '=', 'offers.restaurant_id')
-                ->orderBy('images.id', 'asc')->paginate(10);
+                ->where('offer_id', '=', $request->offer_id)->paginate(10);
 
             foreach ($images as $image) {
 
@@ -99,8 +154,12 @@ class ImagesController extends Controller
                 'offer_items' => $offer_items,
                 'images' => $images
             ]);
+
+
+        } catch (QueryException $e) {
+
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+
         }
     }
 
