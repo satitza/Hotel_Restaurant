@@ -8,7 +8,8 @@ class Offers extends Model
 {
     protected $table = 'offers';
 
-    public function Image() {
+    public function Image()
+    {
         return $this->hasMany(Image::class);
     }
 
@@ -25,5 +26,10 @@ class Offers extends Model
     public function BookCheckBalance()
     {
         return $this->hasMany(BookCheckBalance::class);
+    }
+
+    public function Report()
+    {
+        return $this->hasMany(Report::class);
     }
 }

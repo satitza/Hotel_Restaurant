@@ -23,4 +23,9 @@ class Restaurants extends Model
     public function Actives(){
         return $this->belongsTo(Actives::class, 'active_id');
     }
+
+    public function Report()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

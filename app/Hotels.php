@@ -23,5 +23,10 @@ class Hotels extends Model {
     public function Offers() {
         return $this->hasMany(Offers::class);
     }
+
+    public function Report()
+    {
+        return $this->hasMany(Report::class);
+    }
    
 }
