@@ -11,7 +11,7 @@
                         <label>Offer Name</label>
                         <select class="form-control" name="offer_id">
                             @foreach($offer_items as $item)
-                                <option value="{{ $item->id }}">{{ $item->offer_name_en }}</option>
+                                <option value="{{ $item[0]->id }}">{{ $item[0]->offer_name_en }}</option>
                             @endforeach
                         </select>
                         <br>
@@ -55,11 +55,11 @@
                                         <?php /*
                                       {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
                                      */ ?>
-                                            <button type="submit" class="btn btn-dark">
-                                                <a href="{{ url('image/'.$image->id.'/edit') }}" >
-                                                    Edit Images
-                                                </a>
-                                            </button>
+                                        <button type="submit" class="btn btn-dark">
+                                            <a href="{{ url('image/'.$image->id.'/edit') }}">
+                                                Edit Images
+                                            </a>
+                                        </button>
 
                                     </td>
                                     <td>
@@ -74,7 +74,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                       {!! $images->render() !!}
+                    {!! $images->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>

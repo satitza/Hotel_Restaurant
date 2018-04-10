@@ -132,17 +132,40 @@ class ImagesController extends Controller
     {
         try {
 
+            $offer_items = array();
+            $view = null;
+            $where = null;
 
             $check_rows = User::find(Auth::id());
 
-            $offer_items = Offers::select('id', 'offer_name_en')->orderBy('id', 'ASC')->get();
+            if ($check_rows->user_role == 2) {
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->get();
+                if (count($user_editors) == 0) {
+                    return view('error.index')->with('error', 'You never match with restaurant');
+                } else {
+                    foreach ($user_editors as $user_editor) {
+                        $restaurants_id = explode(',', $user_editor->restaurant_id);
+                        foreach ($restaurants_id as $id) {
+                            if (Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->exists()) {
+                                array_push($offer_items, Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->get());
+                            }
+                        }
+                    }
+                    $where = ['images.offer_id' => $request->offer_id];
+                    $view = 'image.editor.list';
+                }
+            } else {
+                $offer_items = Offers::select('id', 'offer_name_en')->orderBy('id', 'ASC')->get();
+                $where = ['images.offer_id' => $request->offer_id];
+                $view = 'image.admin.list';
+            }
 
             $images = DB::table('images')
                 ->select('images.id', 'offer_name_en', 'image', 'hotels.hotel_name', 'restaurants.restaurant_name')
                 ->join('offers', 'offers.id', '=', 'images.offer_id')
                 ->join('hotels', 'hotels.id', '=', 'offers.hotel_id')
                 ->join('restaurants', 'restaurants.id', '=', 'offers.restaurant_id')
-                ->where('offer_id', '=', $request->offer_id)->paginate(10);
+                ->where($where)->paginate(10);
 
             foreach ($images as $image) {
 
@@ -150,13 +173,13 @@ class ImagesController extends Controller
 
             reset($images);
 
-            return view('image.admin.list', [
+            return view($view, [
                 'offer_items' => $offer_items,
                 'images' => $images
             ]);
 
-
-        } catch (QueryException $e) {
+        } catch
+        (QueryException $e) {
 
         } catch (Exception $e) {
 
@@ -265,6 +288,8 @@ class ImagesController extends Controller
             try {
 
                 $photos = array();
+                $offers_id = array();
+                $view = null;
 
                 $images = DB::table('images')
                     ->select('images.id', 'images.offer_id', 'offer_name_en', 'image')
@@ -279,17 +304,36 @@ class ImagesController extends Controller
                     } else {
                         $photos = explode(',', $image->image);
                     }
-
                 }
 
-                return view('image.admin.edit', [
+                $check_rows = User::find(Auth::id());
+                if ($check_rows->user_role == 2) {
+                    $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->get();
+                    foreach ($user_editors as $user_editor) {
+                        $restaurants_id = explode(',', $user_editor->restaurant_id);
+                        foreach ($restaurants_id as $restaurant_id) {
+                            $where = ['id' => $image->offer_id, 'restaurant_id' => $restaurant_id];
+                            if (Offers::where($where)->exists()) {
+                                $view = 'image.editor.edit';
+                            }
+                        }
+                        if (!isset($view)) {
+                            return view('error.index')->with('error', 'You don`t have permission');
+                        }
+                    }
+                } else {
+                    $view = 'image.admin.edit';
+                }
+
+                return view($view, [
                     'id' => $image->id,
                     'offer_id' => $image->offer_id,
                     'offer_name' => $image->offer_name_en,
                     'photos' => $photos
                 ]);
 
-            } catch (Exception $e) {
+            } catch
+            (Exception $e) {
                 return view('error.index')->with('error', $e);
             }
         } else {
@@ -298,7 +342,8 @@ class ImagesController extends Controller
     }
 
     //Unset Array Item
-    public function UnsetItem($id, array $items)
+    public
+    function UnsetItem($id, array $items)
     {
         try {
             $old_images = Images::find($id);
@@ -390,7 +435,8 @@ class ImagesController extends Controller
         }
     }
 
-    public function DeleteAllImage($id)
+    public
+    function DeleteAllImage($id)
     {
         try {
             $old_images = Images::find($id);
