@@ -464,6 +464,15 @@ class OffersController extends Controller
                     'offer_comment_en' => $request->offer_comment_en,
                     'offer_comment_cn' => $request->offer_comment_cn
                 ]);
+
+            if (DB::table('reports')->where('booking_offer_id', '=', $id)->exists()) {
+                DB::table('reports')->where('booking_offer_id', '=', $id)
+                    ->update([
+                        'booking_hotel_id' => $get_hotel_id->hotel_id,
+                        'booking_restaurant_id' => $request->restaurant_id
+                    ]);
+            }
+
             DB::commit();
             return redirect()->action('OffersController@create');
         } catch (QueryException $e) {
