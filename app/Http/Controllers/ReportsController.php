@@ -13,7 +13,8 @@ class ReportsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('report',['only' => [
+        $this->middleware('admin');
+        /*$this->middleware('report',['only' => [
             'index',
             'create',
             'store',
@@ -21,7 +22,7 @@ class ReportsController extends Controller
             'edit',
             'update',
             'destroy'
-        ]]);
+        ]]);*/
     }
 
     /**
@@ -31,21 +32,10 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        if (DB::table('user_reports')->where('user_id', '=', Auth::id())->exists()) {
-
-            try {
-                $users = DB::table('user_reports')->where('user_id', '=', Auth::id())->get();
-                foreach ($users as $user) {
-                }
-                $hotels = Hotels::where('id', $user->hotel_id)->get();
-                return response()->json([
-                    'hotel' => $hotels
-                ], 200);
-            } catch (Exception $e) {
-                return view('error.index')->with('error', $e);
-            }
-        } else {
-            return view('error.index')->with('error', 'You don`t have permission');
+        try {
+            return view('report.index');
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e);
         }
     }
 
