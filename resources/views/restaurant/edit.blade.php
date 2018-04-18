@@ -90,7 +90,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Update Restaurant', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Update Restaurant', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ csrf_field() }}
                             {{ Form::close() }}

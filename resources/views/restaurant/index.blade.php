@@ -41,11 +41,11 @@
                             <tbody>
                                 <tr>
                                     <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
-                                    <td>{{ Form::text('restaurant_name', null, ['class' => 'form-control', 'placeholder' => 'Restaurant Name']) }}</td>
+                                    <td>{{ Form::text('restaurant_name', null, ['class' => 'form-control', 'placeholder' => 'Restaurant Name', 'required']) }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_restaurant_email', 'Email Address') }}</td>
-                                    <td>{{ Form::text('restaurant_email', null, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
+                                    <td>{{ Form::text('restaurant_email', null, ['class' => 'form-control', 'placeholder' => 'Email Address', 'required']) }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_hotel', 'Hotel') }}</td>
@@ -80,7 +80,7 @@
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Add Restaurant', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Add Restaurant', ['class' => 'btn btn-success']) }}
                         </center>
                         {{ csrf_field() }}
                         {!! Form::close() !!}

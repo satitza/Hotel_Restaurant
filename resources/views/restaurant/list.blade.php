@@ -26,8 +26,8 @@
                             @endforeach
                         </select>
                         <br>
-                        {{ Form::submit('Search', ['class' => 'btn btn-primary']) }}
-                        <button type="submit" class="btn btn-success">
+                        {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
+                        <button type="submit" class="btn btn-dark">
                             <a href="{{ action('RestaurantsController@create') }}">
                                 Clear
                             </a>
@@ -69,14 +69,14 @@
                                         <?php /*
                                   {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
                                  */ ?>
-                                        <button type="button" class="btn btn-info">
+                                        <button type="button" class="btn btn-success">
                                             <a href="{{ url('restaurant/'.$restaurant->id.'/edit') }}">
                                                 Edit Restaurant
                                             </a>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="btn btn-dark">
                                             <a href="{{ url('delete_restaurant/'.$restaurant->id ) }}"
                                                onclick="return confirm('Confrim Delete ?')">
                                                 Delete Restaurant

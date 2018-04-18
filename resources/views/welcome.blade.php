@@ -1,4 +1,3 @@
-@extends('layouts.app')
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
@@ -81,7 +80,8 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Hotel Restaurant
+                    <img class="d-block w-50" src="{{ asset('/images/banner/logo-compass.png') }}" alt="" width="150px"><br>
+                    Laravel
                 </div>
 
                 <!--div class="links">

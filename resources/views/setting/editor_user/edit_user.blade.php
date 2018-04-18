@@ -48,7 +48,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Update Match', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Update Match', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ csrf_field() }}
                             {!! Form::close() !!}

@@ -48,7 +48,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Add Restaurant', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Add Restaurant', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ csrf_field() }}
                             {!! Form::close() !!}

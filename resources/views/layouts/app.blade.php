@@ -8,10 +8,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Hotel Restaurant') }}</title>
+    <title>Compass Hospitality Laravel </title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
+<!-- link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" -->
+    <link href="{{ asset('css/bootstrap.3.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Script -->
@@ -37,17 +38,20 @@
             <div class="navbar-header">
 
                 <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                <!--button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                         data-target="#app-navbar-collapse" aria-expanded="false">
                     <span class="sr-only">Toggle Navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button-->
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="{{ url('#') }}">
+                <!-- {{ config('app.name', 'Laravel') }} -->
+                    <div class="title m-b-md">
+                        <img class="d-block w-50" src="{{ asset('/images/banner/logo-compass.png') }}" alt="" width="135px">
+                    </div>
                 </a>
             </div>
 
@@ -150,7 +154,10 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ url('report') }}">Get Report</a>
+                                    <a href="{{ url('report') }}">Booking</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('report/create') }}">Get Report</a>
                                 </li>
                             </ul>
                         </li>

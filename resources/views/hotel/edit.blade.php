@@ -42,7 +42,7 @@
                             <tbody>
                                 <tr>
                                     <td>{{ Form::label('lb_hotel_name', 'Hotel Name') }}</td>
-                                    <td>{{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'Hotel Name']) }}</td>
+                                    <td>{{ Form::text('hotel_name', $hotel_name, ['class' => 'form-control', 'placeholder' => 'Hotel Name', 'required']) }}</td>
                                 </tr>                           
                                 <tr>
                                     <td>{{ Form::label('lb_active', 'Status') }}</td>
@@ -88,7 +88,7 @@
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Update Hotel', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Update Hotel', ['class' => 'btn btn-success']) }}
                         </center>
                         {{ csrf_field() }}
                         {{ Form::close() }}

@@ -38,21 +38,21 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->role }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-info">
+                                    <button type="button" class="btn btn-success">
                                         <a href="{{ url('setting/users/'.$user->id.'/edit') }}">
                                             Edit User
                                         </a>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-warning">
+                                    <button type="button" class="btn btn-info">
                                         <a href="{{ url('setting/users/'.$user->id) }}">
                                             Reset Password
                                         </a>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="submit" class="btn btn-danger">
+                                    <button type="submit" class="btn btn-dark">
                                         <a href="{{ url('setting/delete_users/'.$user->id) }}"
                                            onclick="return confirm('Confrim Delete ?')">
                                             Delete User

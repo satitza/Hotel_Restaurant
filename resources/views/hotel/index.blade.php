@@ -28,9 +28,7 @@
                 @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Add Hotel</div>
-
                     <div class="panel-body">
-
                         <div class="form-group">
                         {!! Form::open(['url' => 'hotel', 'files' => false]) !!}
                         <!-- {{ Form::open(array('url' => 'hotel/create', 'method' => 'get')) }} -->
@@ -44,7 +42,7 @@
                                 <tbody>
                                 <tr>
                                     <td>{{ Form::label('lb_hotel_name', 'Hotel Name') }}</td>
-                                    <td>{{ Form::text('hotel_name', null, ['class' => 'form-control', 'placeholder' => 'Hotel Name']) }}</td>
+                                    <td>{{ Form::text('hotel_name', null, ['class' => 'form-control', 'placeholder' => 'Hotel Name', 'required']) }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_active', 'Status') }}</td>
@@ -66,7 +64,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Add Hotel', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Add Hotel', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ csrf_field() }}
                             {!! Form::close() !!}

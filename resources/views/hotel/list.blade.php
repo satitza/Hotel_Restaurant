@@ -15,8 +15,8 @@
                             @endforeach
                         </select>
                         <br>
-                    {{ Form::submit('Search', ['class' => 'btn btn-primary']) }}
-                        <button type="submit" class="btn btn-success">
+                    {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
+                        <button type="submit" class="btn btn-dark">
                             <a href="{{ action('HotelController@create') }}">
                                 Clear
                             </a>
@@ -57,7 +57,7 @@
                                         <?php /*
                                       {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
                                      */ ?>
-                                        <button type="button" class="btn btn-info">
+                                        <button type="button" class="btn btn-success">
                                             <a href="{{ url('hotel/'.$hotel->id .'/edit') }}">
                                                 Edit Hotel
                                             </a>
@@ -65,7 +65,7 @@
 
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="btn btn-dark">
                                             <a href="{{ url('delete_hotel/'.$hotel->id) }}"
                                                onclick="return confirm('Confrim Delete ?')">
                                                 Delete Hotel

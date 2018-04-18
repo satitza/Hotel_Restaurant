@@ -48,7 +48,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Update Password', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Update Password', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ Form::hidden('user_id', $user_id) }}
                             {{ Form::hidden('user_email', 'email@email.com') }}

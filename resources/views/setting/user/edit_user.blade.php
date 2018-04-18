@@ -49,7 +49,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Update User', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Update User', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ Form::hidden('user_password', 'secreted') }}
                             {{ csrf_field() }}

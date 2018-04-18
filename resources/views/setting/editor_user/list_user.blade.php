@@ -37,21 +37,21 @@
                                     <td>{{ $user_editor->name }}</td>
                                     <td>{{ $restaurants[$indexKey] }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-info">
+                                        <button type="button" class="btn btn-success">
                                             <a href="{{ url('setting/editor/users_editor/'.$user_editor->id.'/add') }}">
                                                 Add  Restaurant
                                             </a>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-warning">
+                                        <button type="button" class="btn btn-info">
                                             <a href="{{ url('setting/editor/users/'.$user_editor->id.'/edit') }}">
                                                 Remove  Restaurant
                                             </a>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="btn btn-dark">
                                             <a href="{{ url('setting/editor/delete_editor_users/'.$user_editor->id) }}"
                                                onclick="return confirm('Confrim Delete ?')">
                                                 Delete User

@@ -232,7 +232,7 @@
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Add Offer', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Add Offer', ['class' => 'btn btn-success']) }}
                         </center>
                         {{ csrf_field() }}
                         {!! Form::close() !!}

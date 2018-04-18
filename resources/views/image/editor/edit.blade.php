@@ -50,7 +50,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Remove', ['class' => 'btn btn-danger']) }}
+                                {{ Form::submit('Remove', ['class' => 'btn btn-dark']) }}
                             </center>
                             {{ csrf_field() }}
                             {{ Form::close() }}

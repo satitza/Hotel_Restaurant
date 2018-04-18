@@ -116,7 +116,7 @@
                                 <td>{{ Form::label('lb_offer_day_select', 'Day Select') }}</td>
                                 <td>{{ Form::text('old_day_select', $offer_day_select, ['class' => 'form-control', 'placeholder' => 'Select Day', 'readonly']) }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-info" data-toggle="modal"
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
                                             data-target="#myModal">Edit
                                     </button>
                                 </td>
@@ -208,7 +208,7 @@
                             </tbody>
                         </table>
                         <center>
-                            {{ Form::submit('Update Offer', ['class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Update Offer', ['class' => 'btn btn-success']) }}
                         </center>
                         {{ csrf_field() }}
 
@@ -275,7 +275,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-info" data-dismiss="modal"
+                                        <button type="button" class="btn btn-success" data-dismiss="modal"
                                                 id="modal-close">Close
                                         </button>
                                     </div>

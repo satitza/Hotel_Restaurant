@@ -35,14 +35,14 @@
                                     <th>{{ $user_report->name }}</th>
                                     <td>{{ $user_report->hotel_name }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-info">
+                                        <button type="button" class="btn btn-success">
                                             <a href="{{ url('setting/report/users/'.$user_report->id.'/edit') }}">
                                                 Edit User
                                             </a>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="btn btn-dark">
                                             <a href="{{ url('setting/report/delete_report_users/'.$user_report->id) }}"
                                                onclick="return confirm('Confrim Delete ?')">
                                                 Delete User

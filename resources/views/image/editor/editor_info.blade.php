@@ -16,8 +16,8 @@
                             @endforeach
                         </select>
                     </div>
-                    {{ Form::submit('Search', ['class' => 'btn btn-primary']) }}
-                    <button type="submit" class="btn btn-success">
+                    {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
+                    <button type="submit" class="btn btn-dark">
                         <a href="{{ action('ImagesController@create') }}">
                             Clear
                         </a>

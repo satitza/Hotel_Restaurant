@@ -51,7 +51,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Match User', ['class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Match User', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ csrf_field() }}
                             {!! Form::close() !!}

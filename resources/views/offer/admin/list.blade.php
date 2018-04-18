@@ -28,8 +28,8 @@
                         @endforeach
                     </select>
                     <br>
-                    {{ Form::submit('Search', ['class' => 'btn btn-primary']) }}
-                    <button type="submit" class="btn btn-success">
+                    {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
+                    <button type="submit" class="btn btn-dark">
                         <a href="{{ action('OffersController@create') }}">
                             Clear
                         </a>
@@ -70,21 +70,21 @@
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_end)) }}</td>
                                 <td>{{ $offer->offer_comment_en }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-dark">
+                                    <button type="button" class="btn btn-info">
                                         <a href="{{ url('offer/'.$offer->id) }}">
                                             View PDF
                                         </a>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-info">
+                                    <button type="button" class="btn btn-success">
                                         <a href="{{ url('offer/'.$offer->id.'/edit') }}">
                                             Edit Offer
                                         </a>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="submit" class="btn btn-danger">
+                                    <button type="submit" class="btn btn-dark">
                                         <a href="{{ url('delete_offer/'.$offer->id) }}"
                                            onclick="return confirm('Confrim Delete ?')">
                                             Delete Offer
