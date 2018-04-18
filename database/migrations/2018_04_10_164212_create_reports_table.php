@@ -36,6 +36,7 @@ class CreateReportsTable extends Migration
             $table->string('booking_contact_email', 100);
             $table->string('booking_contact_phone', 100);
             $table->string('booking_contact_request', 100);
+            $table->string('booking_time_type', 100);
 
             $table->integer('booking_status')->unsigned();
             $table->foreign('booking_status')->references('id')->on('booking_statuses')->onDelete('cascade');

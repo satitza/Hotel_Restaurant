@@ -17,6 +17,7 @@ class CreateBookCheckBalancesTable extends Migration
             $table->increments('id');
             $table->integer('book_offer_id')->unsigned();
             $table->foreign('book_offer_id')->references('id')->on('offers')->onDelete('cascade');
+            $table->string('booking_time_type', 100);
             $table->date('book_offer_date')->nullable();
             $table->integer('book_offer_guest')->nullable();
             $table->integer('book_offer_balance')->nullable();
