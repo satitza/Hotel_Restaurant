@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Http\Requests\ImagesRequest;
 use App\UserEditor;
 use DB;
 use App\Images;
@@ -212,12 +213,18 @@ class ImagesController extends Controller
             if ($files = $request->file('images')) {
                 try {
                     foreach ($files as $file) {
+                        $type = $file->getClientOriginalExtension();
+                        if ($type != 'jpg' || $type != 'png') {
+                            return view('error.index')->with('error', 'Invalid of file type : ' . $file->getClientOriginalName());
+                        }
+                    }
+
+                    foreach ($files as $file) {
 
                         $name = rand() . "." . $file->getClientOriginalExtension();
                         $new_file_name = rand() . "." . $file->getClientOriginalExtension();
 
                         $destinationPath = public_path('/images');
-
                         $file->move($destinationPath, $name);
 
                         Image::make($destinationPath . '/' . $name)->resize(800, 400)->save($destinationPath . '/' . $new_file_name);
@@ -226,7 +233,8 @@ class ImagesController extends Controller
                         $images[] = $new_file_name;
                         array_push($collect, $new_file_name);
                     }
-                } catch (FileException $e) {
+                } catch
+                (FileException $e) {
                     return view('error.index')->with('error', $e);
                 }
             }
@@ -341,7 +349,7 @@ class ImagesController extends Controller
         }
     }
 
-    //Unset Array Item
+//Unset Array Item
     public
     function UnsetItem($id, array $items)
     {
