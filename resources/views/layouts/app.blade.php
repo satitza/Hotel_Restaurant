@@ -47,7 +47,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('#') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                 <!-- {{ config('app.name', 'Laravel') }} -->
                     <div class="title m-b-md">
                         <img class="d-block w-50" src="{{ asset('/images/banner/logo-compass.png') }}" alt="" width="135px">
