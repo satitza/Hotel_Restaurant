@@ -135,7 +135,7 @@
                             </ul>
                         </li>
 
-                        <li class="dropdown">
+                        <!--li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">
                                 Book Check Balance <span class="caret"></span>
@@ -145,7 +145,7 @@
                                     <a href="#">List</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li-->
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -154,10 +154,10 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ url('report') }}">Booking</a>
+                                    <a href="{{ url('list_request') }}">List All Booking Request</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('report/create') }}">Get Report</a>
+                                    <a href="#">List All Booking Complete</a>
                                 </li>
                             </ul>
                         </li>

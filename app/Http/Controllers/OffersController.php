@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Hotels;
+use App\Http\Requests\OffersRequest;
+use App\Images;
 use App\Offers;
-use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
+use App\Restaurants;
+use App\TimeDinner;
+use App\TimeLunch;
+use App\User;
 use Carbon\Carbon;
 use DB;
 use File;
-use App\Http\Requests\OffersRequest;
-use Illuminate\Support\Facades\Input;
-use App\User;
-use App\Hotels;
-use App\Images;
-use App\Restaurants;
-use App\TimeLunch;
-use App\TimeDinner;
-
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use League\Flysystem\Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -77,16 +76,13 @@ class OffersController extends Controller
             }
 
             return view($view, [
-                //'hotels' => $hotels,
                 'restaurants' => $restaurants,
                 'time_lunchs' => $time_lunchs,
                 'time_dinners' => $time_dinners
             ]);
 
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -109,15 +105,13 @@ class OffersController extends Controller
 
             if ($check_rows->user_role == 2) {
 
-                $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                foreach ($restaurant_id as $id) {
-                    //echo $id->restaurant_id."<br>";
-                    $arrays = explode(',', $id->restaurant_id, -1);
-                    foreach ($arrays as $array) {
-                        $where = ['id' => $array];
-                        array_push($restaurant_items, Restaurants::where($where)->get());
-                    }
+                $restaurants_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->first();
+                $arrays = explode(',', $restaurants_id->restaurant_id, -1);
+                foreach ($arrays as $array) {
+                    $where = ['id' => $array];
+                    array_push($restaurant_items, Restaurants::where($where)->get());
                 }
+
                 $view = 'offer.editor.list';
                 $where = ['offers.restaurant_id' => $request->restaurant_id];
 
@@ -140,9 +134,7 @@ class OffersController extends Controller
             ]);
 
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -192,9 +184,7 @@ class OffersController extends Controller
                 ]);
             }
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -206,9 +196,6 @@ class OffersController extends Controller
      */
     public function store(OffersRequest $request)
     {
-
-        //dd($request->offer_time_lunch_start);
-
         $filename = null;
 
         $lunch_price = 0;
@@ -233,7 +220,6 @@ class OffersController extends Controller
             $dinner_guest = $request->offer_dinner_guest;
         }
 
-
         DB::beginTransaction();
         try {
 
@@ -256,7 +242,6 @@ class OffersController extends Controller
             $offers->pdf = $filename;
             $offers->offer_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_start, '/', '-'))));
             $offers->offer_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_end, '/', '-'))));
-            //$set_menu->menu_date_select = json_encode($request->input('date_check_box'));
             $offers->offer_day_select = implode(", ", $request->input('day_check_box')) . ",";
             $offers->offer_time_lunch_start = $request->offer_time_lunch_start;
             $offers->offer_time_lunch_end = $request->offer_time_lunch_end;
@@ -274,9 +259,7 @@ class OffersController extends Controller
             return redirect()->action('OffersController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -296,7 +279,7 @@ class OffersController extends Controller
                 return view('error.index')->with('error', 'File PDF not found');
             }
         } catch (FileException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -365,10 +348,8 @@ class OffersController extends Controller
                 $check_rows = User::find(Auth::id());
                 //User editor
                 if ($check_rows->user_role == 2) {
-                    $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
-                    foreach ($restaurant_id as $res_id) {
-                    }
-                    $arrays = explode(',', $res_id->restaurant_id, -1);
+                    $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->first();
+                    $arrays = explode(',', $restaurant_id->restaurant_id, -1);
                     foreach ($arrays as $array) {
                         if ($offer->restaurant_id == $array) {
                             $view = 'offer.editor.edit';
@@ -415,9 +396,7 @@ class OffersController extends Controller
                 return view('error.index')->with('error', 'Search not found');
             }
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -514,9 +493,7 @@ class OffersController extends Controller
             return redirect()->action('OffersController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -537,8 +514,6 @@ class OffersController extends Controller
             return redirect()->action('OffersController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e->getMessage());
-        } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
     }
@@ -567,9 +542,7 @@ class OffersController extends Controller
             $get_old_pdf = Offers::find($id);
             return File::delete(public_path('pdf\\' . $get_old_pdf->pdf));
         } catch (FileException $e) {
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 }

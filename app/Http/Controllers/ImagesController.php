@@ -43,14 +43,11 @@ class ImagesController extends Controller
             $view = null;
 
             if ($check_rows->user_role == 2) {
-                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->get();
-                foreach ($user_editors as $user_editor) {
-                    $restaurants_id = explode(',', $user_editor->restaurant_id);
-                    foreach ($restaurants_id as $id) {
-                        if (Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->exists()) {
-                            array_push($offer_items, Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->get());
-                        }
-
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
+                $restaurants_id = explode(',', $user_editors->restaurant_id);
+                foreach ($restaurants_id as $id) {
+                    if (Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->exists()) {
+                        array_push($offer_items, Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->get());
                     }
                 }
 
@@ -66,9 +63,7 @@ class ImagesController extends Controller
             ]);
 
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -111,10 +106,6 @@ class ImagesController extends Controller
                     ->join('restaurants', 'restaurants.id', '=', 'offers.restaurant_id')
                     ->orderBy('images.id', 'asc')->paginate(10);
 
-                foreach ($images as $image) {
-
-                }
-
                 reset($images);
 
                 return view('image.admin.list', [
@@ -123,9 +114,7 @@ class ImagesController extends Controller
                 ]);
             }
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -168,10 +157,6 @@ class ImagesController extends Controller
                 ->join('restaurants', 'restaurants.id', '=', 'offers.restaurant_id')
                 ->where($where)->paginate(10);
 
-            foreach ($images as $image) {
-
-            }
-
             reset($images);
 
             return view($view, [
@@ -181,9 +166,7 @@ class ImagesController extends Controller
 
         } catch
         (QueryException $e) {
-
-        } catch (Exception $e) {
-
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -202,11 +185,9 @@ class ImagesController extends Controller
             //Get old images from table images
             if (Images::where('offer_id', '=', $request->offer_id)->exists()) {
 
-                $old_images = Images::select('image')->where('offer_id', $request->offer_id)->get();
-                foreach ($old_images as $old_image) {
-                    if ($old_image->image != "") {
-                        array_push($collect, $old_image->image);
-                    }
+                $old_images = Images::select('image')->where('offer_id', $request->offer_id)->first();
+                if ($old_images->image != "") {
+                    array_push($collect, $old_images->image);
                 }
             }
 
@@ -234,7 +215,7 @@ class ImagesController extends Controller
                     }
                 } catch
                 (FileException $e) {
-                    return view('error.index')->with('error', $e);
+                    return view('error.index')->with('error', $e->getMessage());
                 }
             }
 
@@ -246,7 +227,6 @@ class ImagesController extends Controller
                         ->where('offer_id', $request->offer_id)
                         ->update([
                             'image' => implode(',', $collect)
-                            //'image' => substr(implode(','))
                         ]);
                     DB::commit();
                     return redirect()->action('ImagesController@create');
@@ -260,9 +240,7 @@ class ImagesController extends Controller
                 }
             } catch (QueryException $e) {
                 DB::rollback();
-                return view('error.index')->with('error', $e);
-            } catch (Exception $e) {
-                return view('error.index')->with('error', $e);
+                return view('error.index')->with('error', $e->getMessage());
             }
         } else {
             return view('error.index')->with('error', 'Image upload not found');
@@ -293,54 +271,46 @@ class ImagesController extends Controller
         if (Images::where('id', '=', $id)->exists()) {
             try {
 
-                $photos = array();
-                $offers_id = array();
                 $view = null;
 
                 $images = DB::table('images')
                     ->select('images.id', 'images.offer_id', 'offer_name_en', 'image')
                     ->join('offers', 'offers.id', '=', 'images.offer_id')
-                    ->where('images.id', $id)->get();
+                    ->where('images.id', $id)->first();
 
-                foreach ($images as $image) {
-                    // ตัดข้อความจากตัวแรก a ไปจนถึง ตัว e โดยตัดข้อความที่นับจากหลังมา 1 ตัวออกไป
-                    //$sub_str = substr($image->image, 1);  // returns "cde"
-                    if ($image->image == "") {
-                        return view('error.index')->with('error', 'Don`t have images to show');
-                    } else {
-                        $photos = explode(',', $image->image);
-                    }
+                if ($images->image == "") {
+                    return view('error.index')->with('error', 'Don`t have images to show');
+                } else {
+                    $photos = explode(',', $images->image);
                 }
 
                 $check_rows = User::find(Auth::id());
                 if ($check_rows->user_role == 2) {
-                    $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->get();
-                    foreach ($user_editors as $user_editor) {
-                        $restaurants_id = explode(',', $user_editor->restaurant_id);
-                        foreach ($restaurants_id as $restaurant_id) {
-                            $where = ['id' => $image->offer_id, 'restaurant_id' => $restaurant_id];
-                            if (Offers::where($where)->exists()) {
-                                $view = 'image.editor.edit';
-                            }
-                        }
-                        if (!isset($view)) {
-                            return view('error.index')->with('error', 'You don`t have permission');
+                    $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
+                    $restaurants_id = explode(',', $user_editors->restaurant_id);
+                    foreach ($restaurants_id as $restaurant_id) {
+                        $where = ['id' => $images->offer_id, 'restaurant_id' => $restaurant_id];
+                        if (Offers::where($where)->exists()) {
+                            $view = 'image.editor.edit';
                         }
                     }
+                    if (!isset($view)) {
+                        return view('error.index')->with('error', 'You don`t have permission');
+                    }
+
                 } else {
                     $view = 'image.admin.edit';
                 }
 
                 return view($view, [
-                    'id' => $image->id,
-                    'offer_id' => $image->offer_id,
-                    'offer_name' => $image->offer_name_en,
+                    'id' => $images->id,
+                    'offer_id' => $images->offer_id,
+                    'offer_name' => $images->offer_name_en,
                     'photos' => $photos
                 ]);
 
-            } catch
-            (Exception $e) {
-                return view('error.index')->with('error', $e);
+            } catch (QueryException $e) {
+                return view('error.index')->with('error', $e->getMessage());
             }
         } else {
             return view('error.index')->with('error', 'Search not found');
@@ -367,11 +337,8 @@ class ImagesController extends Controller
             return $old_images_array;
 
         } catch (QueryException $e) {
-            throw new  QueryException($e);
-        } catch (Exception $e) {
-            throw  new Exception("Unset array item exception");
+            throw new  QueryException("Unset item array exception");
         }
-
     }
 
     /**
@@ -400,7 +367,7 @@ class ImagesController extends Controller
                     File::delete(public_path('images\\' . $image));
                 }
             } catch (FileException $e) {
-                return view('error.index')->with('error', $e);
+                return view('error.index')->with('error', $e->getMessage());
             }
         }
 
@@ -414,7 +381,7 @@ class ImagesController extends Controller
             DB::commit();
             return redirect()->action('ImagesController@create');
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -435,9 +402,7 @@ class ImagesController extends Controller
             return redirect()->action('ImagesController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 

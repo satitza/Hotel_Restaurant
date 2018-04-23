@@ -36,7 +36,11 @@ Route::resource('image', 'ImagesController');
 Route::post('search_image', 'ImagesController@SearchImage');
 Route::get('delete_image/{id}', 'ImagesController@destroy');
 
-Route::resource('report', 'ReportsController');
+Route::get('list_request', 'ReportsController@');
+
+
+
+
 
 Route::group(['prefix' => 'setting'], function (){
 

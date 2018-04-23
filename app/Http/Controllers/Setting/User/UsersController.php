@@ -38,9 +38,9 @@ class UsersController extends Controller
             $roles = UserRole::orderBy('id', 'ASC')->get();
             return view('setting.user.add_user')->with('roles', $roles);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -59,9 +59,9 @@ class UsersController extends Controller
                 ->orderBy('users.id', 'asc')->paginate(10);
             return view('setting.user.list_user')->with('users', $users);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -88,9 +88,9 @@ class UsersController extends Controller
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -110,9 +110,9 @@ class UsersController extends Controller
                 'password' => $passwords->password
             ]);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -132,9 +132,9 @@ class UsersController extends Controller
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -150,21 +150,19 @@ class UsersController extends Controller
             $users = DB::table('users')
                 ->select('users.id', 'name', 'email', 'users.user_role', 'user_roles.role')
                 ->join('user_roles', 'users.user_role', '=', 'user_roles.id')
-                ->where('users.id', $id)->get();
-            foreach ($users as $user) {
-            }
+                ->where('users.id', $id)->first();
 
             return view('setting.user.edit_user', [
-                'user_id' => $user->id,
-                'user_name' => $user->name,
-                'user_email' => $user->email,
-                'user_role_id' => $user->user_role,
-                'user_role' => $user->role
+                'user_id' => $users->id,
+                'user_name' => $users->name,
+                'user_email' => $users->email,
+                'user_role_id' => $users->user_role,
+                'user_role' => $users->role
             ]);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -190,10 +188,10 @@ class UsersController extends Controller
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
 
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -212,9 +210,9 @@ class UsersController extends Controller
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 }

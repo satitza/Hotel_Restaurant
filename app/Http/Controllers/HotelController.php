@@ -38,7 +38,7 @@ class HotelController extends Controller
                 'actives' => $actives,
             ]);
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -59,9 +59,9 @@ class HotelController extends Controller
                 'hotels' => $hotels
             ]);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -82,9 +82,9 @@ class HotelController extends Controller
             return redirect()->action('HotelController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -101,9 +101,9 @@ class HotelController extends Controller
                 'hotels' => $hotels
             ]);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -128,22 +128,20 @@ class HotelController extends Controller
             $hotels = DB::table('hotels')
                 ->select('hotels.id', 'hotel_name', 'hotels.active_id', 'actives.active', 'hotel_comment')
                 ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->get();
-            foreach ($hotels as $hotel) {
+                ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->first();
 
-            }
             $actives = Actives::orderBy('id', 'ASC')->get();
             return view('hotel.edit', [
-                'hotel_id' => $hotel->id,
-                'hotel_name' => $hotel->hotel_name,
-                'hotel_active_id' => $hotel->active_id,
-                'hotel_active' => $hotel->active,
-                'hotel_comment' => $hotel->hotel_comment
+                'hotel_id' => $hotels->id,
+                'hotel_name' => $hotels->hotel_name,
+                'hotel_active_id' => $hotels->active_id,
+                'hotel_active' => $hotels->active,
+                'hotel_comment' => $hotels->hotel_comment
             ])->with('actives', $actives);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -165,9 +163,9 @@ class HotelController extends Controller
             return redirect()->action('HotelController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -184,9 +182,9 @@ class HotelController extends Controller
             return redirect()->action('HotelController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 

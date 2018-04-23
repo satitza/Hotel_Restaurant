@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Hotels;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
 
 class ReportsController extends Controller
 {
@@ -25,6 +27,17 @@ class ReportsController extends Controller
         ]]);*/
     }
 
+    public function ListRequest()
+    {
+        try {
+
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -32,11 +45,7 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        try {
-            return view('report.index');
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
-        }
+        //
     }
 
     /**

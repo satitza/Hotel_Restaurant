@@ -45,9 +45,9 @@ class RestaurantsController extends Controller
                 'actives' => $actives
             ]);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -74,9 +74,9 @@ class RestaurantsController extends Controller
                 'restaurants' => $restaurants
             ]);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -101,9 +101,9 @@ class RestaurantsController extends Controller
             return redirect()->action('RestaurantsController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -131,9 +131,9 @@ class RestaurantsController extends Controller
                 'restaurants' => $restaurants
             ]);
         } catch (QueryException $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -170,29 +170,27 @@ class RestaurantsController extends Controller
                 ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
-                ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->get();
-            foreach ($restaurants as $restaurant) {
-
-            }
+                ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->first();
 
             $actives = Actives::orderBy('id', 'ASC')->get();
             $hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
 
             return view('restaurant.edit', [
-                'id' => $restaurant->id,
-                'restaurant_name' => $restaurant->restaurant_name,
-                'restaurant_email' => $restaurant->restaurant_email,
-                'hotel_id' => $restaurant->hotel_id,
-                'hotel_name' => $restaurant->hotel_name,
-                'active_id' => $restaurant->active_id,
-                'active' => $restaurant->active,
-                'restaurant_comment' => $restaurant->restaurant_comment
+                'id' => $restaurants->id,
+                'restaurant_name' => $restaurants->restaurant_name,
+                'restaurant_email' => $restaurants->restaurant_email,
+                'hotel_id' => $restaurants->hotel_id,
+                'hotel_name' => $restaurants->hotel_name,
+                'active_id' => $restaurants->active_id,
+                'active' => $restaurants->active,
+                'restaurant_comment' => $restaurants->restaurant_comment
             ])->with('actives', $actives)->with('hotels', $hotels);
+
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -230,9 +228,9 @@ class RestaurantsController extends Controller
             }
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -251,20 +249,9 @@ class RestaurantsController extends Controller
             return redirect()->action('RestaurantsController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
-
-    /*public function DeletePDF($id)
-    {
-        try {
-            $get_old_pdf = Restaurants::find($id);
-            return File::delete(public_path('pdf\\' . $get_old_pdf->pdf_name));
-        } catch (FileException $e) {
-            return view('error.index')->with('error', $e);
-        }
-    }*/
-
 }
