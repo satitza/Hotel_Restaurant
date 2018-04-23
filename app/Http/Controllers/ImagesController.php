@@ -212,26 +212,25 @@ class ImagesController extends Controller
 
             if ($files = $request->file('images')) {
                 try {
+                    $arrays = ['jpg', 'jpeg', 'png', 'gif'];
                     foreach ($files as $file) {
                         $type = $file->getClientOriginalExtension();
-                        if ($type != 'jpg' || $type != 'png') {
-                            return view('error.index')->with('error', 'Invalid of file type : ' . $file->getClientOriginalName());
+                        foreach ($arrays as $array) {
+                            if ($type == $array) {
+
+                                $name = rand() . "." . $file->getClientOriginalExtension();
+                                $new_file_name = rand() . "." . $file->getClientOriginalExtension();
+
+                                $destinationPath = public_path('/images');
+                                $file->move($destinationPath, $name);
+
+                                Image::make($destinationPath . '/' . $name)->resize(800, 400)->save($destinationPath . '/' . $new_file_name);
+                                File::delete(public_path('images\\' . $name));
+
+                                $images[] = $new_file_name;
+                                array_push($collect, $new_file_name);
+                            }
                         }
-                    }
-
-                    foreach ($files as $file) {
-
-                        $name = rand() . "." . $file->getClientOriginalExtension();
-                        $new_file_name = rand() . "." . $file->getClientOriginalExtension();
-
-                        $destinationPath = public_path('/images');
-                        $file->move($destinationPath, $name);
-
-                        Image::make($destinationPath . '/' . $name)->resize(800, 400)->save($destinationPath . '/' . $new_file_name);
-                        File::delete(public_path('images\\' . $name));
-
-                        $images[] = $new_file_name;
-                        array_push($collect, $new_file_name);
                     }
                 } catch
                 (FileException $e) {
@@ -240,6 +239,7 @@ class ImagesController extends Controller
             }
 
 
+            //insert :
             DB::beginTransaction();
             try {
                 if (Images::where('offer_id', '=', $request->offer_id)->exists()) {
