@@ -238,8 +238,6 @@ class ImagesController extends Controller
                 }
             }
 
-
-            //insert :
             DB::beginTransaction();
             try {
                 if (Images::where('offer_id', '=', $request->offer_id)->exists()) {

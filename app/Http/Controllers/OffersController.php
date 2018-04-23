@@ -12,6 +12,7 @@ use App\Http\Requests\OffersRequest;
 use Illuminate\Support\Facades\Input;
 use App\User;
 use App\Hotels;
+use App\Images;
 use App\Restaurants;
 use App\TimeLunch;
 use App\TimeDinner;
@@ -530,14 +531,32 @@ class OffersController extends Controller
         DB::beginTransaction();
         try {
             $this->DeletePDF($id);
+            $this->DeleteAllImage($id);
             DB::table('offers')->where('id', $id)->delete();
             DB::commit();
             return redirect()->action('OffersController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
-            return view('error.index')->with('error', $e);
+            return view('error.index')->with('error', $e->getMessage());
+        }
+    }
+
+    public
+    function DeleteAllImage($offer_id)
+    {
+        try {
+            $old_images = Images::where('offer_id', '=', $offer_id)->first();;
+            $old_images_array = explode(',', $old_images->image);
+            reset($old_images_array);
+
+            foreach ($old_images_array as $item) {
+                File::delete(public_path('images\\' . $item));
+            }
+
+        } catch (FileException $e) {
+            throw new FileException("File delete exception");
         }
     }
 
