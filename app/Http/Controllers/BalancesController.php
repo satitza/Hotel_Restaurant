@@ -71,12 +71,37 @@ class BalancesController extends Controller
 
     public function SearchBalance(Request $request)
     {
-        if (!isset($request->offer_date)) {
+
+        //echo $request->input('search_offer_id') . "<br>";
+        //echo $request->input('search_offer_date') . "<br>";
+        //echo $request->input('search_time_type') . "<br>";
+
+        /*if ($request->input('search_offer_id') == 'option_1' && $request->input('search_offer_date') == null && $request->input('search_time_type') == null) {
+            echo "offer_id";
+        } else if ($request->input('search_offer_id') == null && $request->input('search_offer_date') == 'option_2' && $request->input('search_time_type') == null) {
+            echo "offer_date";
+        } else if ($request->input('search_offer_id') == null && $request->input('search_offer_date') == null && $request->input('search_time_type') == 'option_3') {
+            echo "time_type";
+        } else if ($request->input('search_offer_id') == 'option_1' && $request->input('search_offer_date') == 'option_2' && $request->input('search_time_type') == null) {
+            echo "offer_id + offer_date";
+        } else if ($request->input('search_offer_id') == 'option_1' && $request->input('search_offer_date') == null && $request->input('search_time_type') == 'option_3') {
+            echo "offer_id + time_type";
+        } else if ($request->input('search_offer_id') == 'option_1' && $request->input('search_offer_date') == 'option_2' && $request->input('search_time_type') == 'option_3') {
+            echo "offer_id + offer_date + time_type";
+        }else if ($request->input('search_offer_id') == null && $request->input('search_offer_date') == 'option_2' && $request->input('search_time_type') == 'option_3'){
+
+        }*/
+
+
+        echo $request->offer_id . "<br>";
+        //echo $request->offer_date . "<br>";
+        //echo $request->time_type . "<br>";
+
+
+        /*if (!isset($request->offer_date)) {
             return view('error.index')->with('error', 'You never select offer date for search');
         } else {
             try {
-
-                //echo Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date, '/', '-'))));
 
                 $where = ['book_offer_id' => $request->offer_id, 'book_time_type' => $request->time_type];
                 $offer_items = DB::table('offers')->select('id', 'offer_name_en')->get();
@@ -97,7 +122,7 @@ class BalancesController extends Controller
             } catch (Exception $e) {
                 return view('error.index')->with('error', $e->getMessage());
             }
-        }
+        }*/
     }
 
     /**
