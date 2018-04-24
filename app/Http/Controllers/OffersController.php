@@ -17,7 +17,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use League\Flysystem\Exception;
+use Mockery\Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class OffersController extends Controller
@@ -83,6 +83,8 @@ class OffersController extends Controller
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -135,6 +137,8 @@ class OffersController extends Controller
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -184,6 +188,8 @@ class OffersController extends Controller
                 ]);
             }
         } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
     }
@@ -260,6 +266,8 @@ class OffersController extends Controller
         } catch (QueryException $e) {
             DB::rollback();
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -279,6 +287,8 @@ class OffersController extends Controller
                 return view('error.index')->with('error', 'File PDF not found');
             }
         } catch (FileException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
     }
@@ -397,6 +407,8 @@ class OffersController extends Controller
             }
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -494,6 +506,8 @@ class OffersController extends Controller
         } catch (QueryException $e) {
             DB::rollback();
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -515,6 +529,8 @@ class OffersController extends Controller
         } catch (QueryException $e) {
             DB::rollback();
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -522,16 +538,19 @@ class OffersController extends Controller
     function DeleteAllImage($offer_id)
     {
         try {
-            $old_images = Images::where('offer_id', '=', $offer_id)->first();;
-            $old_images_array = explode(',', $old_images->image);
-            reset($old_images_array);
 
-            foreach ($old_images_array as $item) {
-                File::delete(public_path('images\\' . $item));
+            if (Images::where('offer_id', '=', $offer_id)->exists()) {
+                $old_images = Images::where('offer_id', '=', $offer_id)->first();
+                $old_images_array = explode(',', $old_images->image);
+
+                foreach ($old_images_array as $item) {
+                    File::delete(public_path('images\\' . $item));
+                }
             }
-
         } catch (FileException $e) {
             throw new FileException("File delete exception");
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -542,6 +561,8 @@ class OffersController extends Controller
             $get_old_pdf = Offers::find($id);
             return File::delete(public_path('pdf\\' . $get_old_pdf->pdf));
         } catch (FileException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
     }

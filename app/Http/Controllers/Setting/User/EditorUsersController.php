@@ -67,7 +67,7 @@ class EditorUsersController extends Controller
             $collect = array();
             foreach ($user_editors as $user_editor) {
                 $arrays = explode(',', $user_editor->restaurant_id, -1);
-                array_push($collect, DB::table('restaurants')->select('restaurant_name')->whereIn('id', $arrays)->get());
+                array_push($collect, DB::table('restaurants')->select('id', 'restaurant_name')->whereIn('id', $arrays)->get());
             }
 
             return view('setting.editor_user.list_user', [

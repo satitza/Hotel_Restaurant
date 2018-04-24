@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Http\Requests\ImagesRequest;
 use App\UserEditor;
 use DB;
 use App\Images;
@@ -13,8 +12,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use League\Flysystem\Exception;
 use Intervention\Image\ImageManagerStatic as Image;
+use Mockery\Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ImagesController extends Controller
@@ -63,6 +62,8 @@ class ImagesController extends Controller
             ]);
 
         } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
     }
@@ -115,6 +116,8 @@ class ImagesController extends Controller
             }
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -166,6 +169,8 @@ class ImagesController extends Controller
 
         } catch
         (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
     }
@@ -241,6 +246,8 @@ class ImagesController extends Controller
             } catch (QueryException $e) {
                 DB::rollback();
                 return view('error.index')->with('error', $e->getMessage());
+            } catch (Exception $e) {
+                return view('error.index')->with('error', $e->getMessage());
             }
         } else {
             return view('error.index')->with('error', 'Image upload not found');
@@ -311,6 +318,8 @@ class ImagesController extends Controller
 
             } catch (QueryException $e) {
                 return view('error.index')->with('error', $e->getMessage());
+            } catch (Exception $e) {
+                return view('error.index')->with('error', $e->getMessage());
             }
         } else {
             return view('error.index')->with('error', 'Search not found');
@@ -338,6 +347,8 @@ class ImagesController extends Controller
 
         } catch (QueryException $e) {
             throw new  QueryException("Unset item array exception");
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -382,6 +393,8 @@ class ImagesController extends Controller
             return redirect()->action('ImagesController@create');
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -403,6 +416,8 @@ class ImagesController extends Controller
         } catch (QueryException $e) {
             DB::rollback();
             return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 
@@ -420,6 +435,8 @@ class ImagesController extends Controller
 
         } catch (FileException $e) {
             throw new FileException("File delete exception");
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
     }
 }
