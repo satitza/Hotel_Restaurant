@@ -36,24 +36,26 @@ Route::resource('image', 'ImagesController');
 Route::post('search_image', 'ImagesController@SearchImage');
 Route::get('delete_image/{id}', 'ImagesController@destroy');
 
+
+Route::resource('balance', 'BalancesController');
+Route::post('search_balance', 'BalancesController@SearchBalance');
+Route::get('delete_balance/{id}', 'BalancesController@destroy');
+
 Route::get('list_request', 'ReportsController@');
 
 
-
-
-
-Route::group(['prefix' => 'setting'], function (){
+Route::group(['prefix' => 'setting'], function () {
 
     Route::resource('users', '\App\Http\Controllers\Setting\User\UsersController');
     Route::get('delete_users/{id}', '\App\Http\Controllers\Setting\User\UsersController@destroy');
     Route::post('users_update_password', '\App\Http\Controllers\Setting\User\UsersController@update_password');
 
-    Route::group(['prefix' => 'report'], function(){
+    Route::group(['prefix' => 'report'], function () {
         Route::resource('users', '\App\Http\Controllers\Setting\User\ReportUsersController');
         Route::get('delete_report_users/{id}', '\App\Http\Controllers\Setting\User\ReportUsersController@destroy');
     });
 
-    Route::group(['prefix' => 'editor'], function(){
+    Route::group(['prefix' => 'editor'], function () {
         Route::resource('users', '\App\Http\Controllers\Setting\User\EditorUsersController');
         Route::get('users_editor/{id}/add', '\App\Http\Controllers\Setting\User\EditorUsersController@AddRestaurant');
         Route::post('users_add_restaurant/{id}', '\App\Http\Controllers\Setting\User\EditorUsersController@UpdateAddRestaurant');
@@ -70,7 +72,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('test', function(){
+Route::get('test', function () {
     return view('test.index');
 });
 

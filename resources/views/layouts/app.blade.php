@@ -50,7 +50,8 @@
                 <a class="navbar-brand" href="{{ url('/home') }}">
                 <!-- {{ config('app.name', 'Laravel') }} -->
                     <div class="title m-b-md">
-                        <img class="d-block w-50" src="{{ asset('/images/banner/logo-compass.png') }}" alt="" width="135px">
+                        <img class="d-block w-50" src="{{ asset('/images/banner/logo-compass.png') }}" alt=""
+                             width="135px">
                     </div>
                 </a>
             </div>
@@ -135,17 +136,16 @@
                             </ul>
                         </li>
 
-                        <!--li class="dropdown">
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
-                                Book Check Balance <span class="caret"></span>
+                               aria-expanded="false"> Balance <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="#">List</a>
+                                    <a href="{{ url('balance/create') }}">List Balance</a>
                                 </li>
                             </ul>
-                        </li-->
+                        </li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
