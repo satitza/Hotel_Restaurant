@@ -198,7 +198,7 @@ class ImagesController extends Controller
 
             if ($files = $request->file('images')) {
                 try {
-                    $arrays = ['jpg', 'jpeg', 'png', 'gif'];
+                    $arrays = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF'];
                     foreach ($files as $file) {
                         $type = $file->getClientOriginalExtension();
                         foreach ($arrays as $array) {

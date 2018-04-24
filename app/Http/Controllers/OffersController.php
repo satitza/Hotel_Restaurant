@@ -34,7 +34,8 @@ class OffersController extends Controller
             //'edit',
             //'update',
             'destroy',
-            'DeleteImage'
+            'DeletePDF',
+            'DeleteAllImage'
         ]]);
         $this->middleware('editor');
 
