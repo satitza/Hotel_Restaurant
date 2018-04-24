@@ -41,7 +41,7 @@ Route::resource('balance', 'BalancesController');
 Route::post('search_balance', 'BalancesController@SearchBalance');
 Route::get('delete_balance/{id}', 'BalancesController@destroy');
 
-Route::get('list_request', 'ReportsController@');
+Route::resource('report', 'ReportsController');
 
 
 Route::group(['prefix' => 'setting'], function () {

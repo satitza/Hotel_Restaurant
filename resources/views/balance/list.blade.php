@@ -21,12 +21,12 @@
                         {{ Form::open(array('url' => 'search_balance', 'method' => 'post')) }}
                         <label>Offer Name</label>
                         <select class="form-control" name="offer_id">
-
-                            <option value=""></option>
-
+                            @foreach($offer_items as $item)
+                                <option value="{{ $item->id }}">{{ $item->offer_name_en }}</option>
+                            @endforeach
                         </select>
                         <label>Offer Date</label>
-                        {{ Form::text('offer_date_start', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}
+                        {{ Form::text('offer_date', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}
                         <label>Time Type</label>
                         <select class="form-control" name="time_type">
                             <option value="lunch">Lunch</option>
