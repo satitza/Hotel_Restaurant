@@ -71,58 +71,50 @@ class BalancesController extends Controller
 
     public function SearchBalance(Request $request)
     {
+        $offer_id = null;
+        $offer_date = null;
+        $time_type = null;
 
-        //echo $request->input('search_offer_id') . "<br>";
-        //echo $request->input('search_offer_date') . "<br>";
-        //echo $request->input('search_time_type') . "<br>";
-
-        /*if ($request->input('search_offer_id') == 'option_1' && $request->input('search_offer_date') == null && $request->input('search_time_type') == null) {
-            echo "offer_id";
-        } else if ($request->input('search_offer_id') == null && $request->input('search_offer_date') == 'option_2' && $request->input('search_time_type') == null) {
-            echo "offer_date";
-        } else if ($request->input('search_offer_id') == null && $request->input('search_offer_date') == null && $request->input('search_time_type') == 'option_3') {
-            echo "time_type";
-        } else if ($request->input('search_offer_id') == 'option_1' && $request->input('search_offer_date') == 'option_2' && $request->input('search_time_type') == null) {
-            echo "offer_id + offer_date";
-        } else if ($request->input('search_offer_id') == 'option_1' && $request->input('search_offer_date') == null && $request->input('search_time_type') == 'option_3') {
-            echo "offer_id + time_type";
-        } else if ($request->input('search_offer_id') == 'option_1' && $request->input('search_offer_date') == 'option_2' && $request->input('search_time_type') == 'option_3') {
-            echo "offer_id + offer_date + time_type";
-        }else if ($request->input('search_offer_id') == null && $request->input('search_offer_date') == 'option_2' && $request->input('search_time_type') == 'option_3'){
-
-        }*/
-
-
-        echo $request->offer_id . "<br>";
-        //echo $request->offer_date . "<br>";
-        //echo $request->time_type . "<br>";
-
-
-        /*if (!isset($request->offer_date)) {
-            return view('error.index')->with('error', 'You never select offer date for search');
+        if (!isset($request->offer_id)) {
+            $offer_id = '';
         } else {
-            try {
+            $offer_id = $request->offer_id;
+        }
 
-                $where = ['book_offer_id' => $request->offer_id, 'book_time_type' => $request->time_type];
-                $offer_items = DB::table('offers')->select('id', 'offer_name_en')->get();
-                $balances = $balances = DB::table('book_check_balances')
-                    ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
-                        'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
-                    ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
-                    ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
-                    ->where($where)->whereDate('book_offer_date', '=', Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date, '/', '-')))))->orderBy('book_check_balances.id', 'asc')->paginate(10);
+        if (!isset($request->offer_date)) {
+            $offer_date = '';
+        } else {
+            $offer_date = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date, '/', '-'))))->toDateString();
+        }
 
-                return view('balance.list', [
-                    'balances' => $balances,
-                    'offer_items' => $offer_items
-                ]);
+        if (!isset($request->time_type)) {
+            $time_type = '';
+        } else {
+            $time_type = $request->time_type;
+        }
 
-            } catch (QueryException $e) {
-                return view('error.index')->with('error', $e->getMessage());
-            } catch (Exception $e) {
-                return view('error.index')->with('error', $e->getMessage());
-            }
-        }*/
+        try {
+            $offer_items = DB::table('offers')->select('id', 'offer_name_en')->get();
+            $balances = $balances = DB::table('book_check_balances')
+                ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
+                    'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
+                ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
+                ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
+                ->where('book_offer_id', 'like', '%' . $offer_id . '%')
+                ->where('book_offer_date', 'like', '%' . $offer_date . '%')
+                ->where('book_time_type', 'like', '%' . $time_type . '%')
+                ->orderBy('book_check_balances.id', 'asc')->paginate(10);
+
+            return view('balance.list', [
+                'balances' => $balances,
+                'offer_items' => $offer_items
+            ]);
+
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     /**

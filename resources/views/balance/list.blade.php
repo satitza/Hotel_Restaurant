@@ -17,8 +17,7 @@
                 if ($(this).is(":checked")) {
                     $("#offer_id").show();
                 } else {
-                    $("#offer_id").hide();
-                    $("#55").detach();
+                    $("#offer_id").remove();
                 }
             });
         });
@@ -28,7 +27,7 @@
                 if ($(this).is(":checked")) {
                     $("#offer_date").show();
                 } else {
-                    $("#offer_date").hide();
+                    $("#offer_date").remove();
                 }
             });
         });
@@ -38,7 +37,7 @@
                 if ($(this).is(":checked")) {
                     $("#time_type").show();
                 } else {
-                    $("#time_type").hide();
+                    $("#time_type").remove();
                 }
             });
         });
@@ -54,17 +53,18 @@
 
 
                         <label for="search">
-                            <input type="checkbox" id="search_offer_id" name="search_offer_id" value="option_1"/> Offer
-                            Name <br>
-                            <input type="checkbox" id="search_offer_date" name="search_offer_date" value="option_2"/>
+                            <input type="checkbox" id="search_offer_id"/>
+                            Offer Name <br>
+                            <input type="checkbox" id="search_offer_date"/>
                             Offer Date <br>
-                            <input type="checkbox" id="search_time_type" name="search_time_type" value="option_3"/>
+                            <input type="checkbox" id="search_time_type"/>
                             Offer Time Type <br>
                         </label>
                         <hr>
                         <div id="offer_id" style="display: none;">
                             <label>Offer Name</label>
-                            <select class="form-control" name="offer_id" id="55">
+                            <select class="form-control" name="offer_id">
+                                <option value="">please_selected</option>
                                 @foreach($offer_items as $item)
                                     <option value="{{ $item->id }}">{{ $item->offer_name_en }}</option>
                                 @endforeach
@@ -79,6 +79,7 @@
                         <div id="time_type" style="display: none;">
                             <label>Time Type</label>
                             <select class="form-control" name="time_type">
+                                <option value="">please_selected</option>
                                 <option value="lunch">Lunch</option>
                                 <option value="dinner">Dinner</option>
                             </select>
