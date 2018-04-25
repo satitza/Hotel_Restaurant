@@ -36,6 +36,9 @@ class CreateReportsTable extends Migration
             $table->string('booking_contact_email', 100);
             $table->string('booking_contact_phone', 100);
             $table->string('booking_contact_request', 100);
+
+            $table->float('booking_price', 8, 2)->unsigned();
+
             $table->string('booking_time_type', 100);
 
             $table->integer('booking_status')->unsigned();
