@@ -59,7 +59,7 @@ class ReportsController extends Controller
      */
     public function create()
     {
-        echo "create";
+        return view('report.admin.list');
     }
 
     /**
@@ -118,7 +118,7 @@ class ReportsController extends Controller
         //
     }
 
-    public function CheckBill($book_id)
+    public function CheckBill($id, $book_id)
     {
         if (DB::table('reports')->where('booking_id', $book_id)->exists()) {
 

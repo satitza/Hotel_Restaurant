@@ -88,7 +88,7 @@
                         <br>
                         {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
                         <button type="submit" class="btn btn-dark">
-                            <a href="{{ action('BalancesController@create') }}">
+                            <a href="{{ action('ReportsController@ListBookingPending') }}">
                                 Clear
                             </a>
                         </button>
@@ -108,13 +108,13 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Booking ID</th>
-                                <th scope="col">Time Type</th>
+                                <th scope="col">Offer Name</th>
                                 <th scope="col">Offer Date</th>
-                                <th scope="col">Last Guest</th>
-                                <th scope="col">Balance</th>
-                                <th scope="col">Status</th>
-                                <th scope="col1">Edit</th>
-                                <th scope="col1">Delete</th>
+                                <th scope="col">Guest Name</th>
+                                <th scope="col">Guest Email</th>
+                                <th scope="col">Guest Phone</th>
+                                <th scope="col1">Number Guest</th>
+                                <th scope="col1">Check Bill</th>
                             </tr>
                             </thead>
 
@@ -125,21 +125,12 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>
-                                    <?php /*
-                                  {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
-                                 */ ?>
-                                    <button type="button" class="btn btn-success">
-                                        <a href="{{ url('balance//edit') }}">
-                                            Edit Balance
-                                        </a>
-                                    </button>
-                                </td>
+                                <td></td>
                                 <td>
                                     <button type="submit" class="btn btn-dark">
                                         <a href="{{ url('delete_balance/' ) }}"
                                            onclick="return confirm('Confrim Delete ?')">
-                                            Delete Balance
+                                            Check Bill
                                         </a>
                                     </button>
                                 </td>
