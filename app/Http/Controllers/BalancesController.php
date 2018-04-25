@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Actives;
 use App\BookCheckBalance;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
@@ -95,7 +96,7 @@ class BalancesController extends Controller
 
         try {
             $offer_items = DB::table('offers')->select('id', 'offer_name_en')->get();
-            $balances = $balances = DB::table('book_check_balances')
+            $balances = DB::table('book_check_balances')
                 ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
                     'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
                 ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
@@ -149,6 +150,18 @@ class BalancesController extends Controller
     {
         try {
 
+            $actives = Actives::orderBy('id', 'ASC')->get();
+            $balances = DB::table('book_check_balances')
+                ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
+                    'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active_id', 'active')
+                ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
+                ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
+                ->where('book_check_balances.id', $id)->first();
+
+            return view('balance.edit', [
+                'balances' => $balances,
+                'actives' => $actives
+            ]);
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -166,7 +179,21 @@ class BalancesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('book_check_balances')
+                ->where('id', $id)
+                ->update([
+                    'active_id' => $request->active_id,
+                ]);
+            DB::commit();
+            return redirect()->action('BalancesController@create');
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
