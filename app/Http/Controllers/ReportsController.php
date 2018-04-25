@@ -15,21 +15,25 @@ class ReportsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin');
-        /*$this->middleware('report',['only' => [
-            'index',
-            'create',
-            'store',
-            'show',
-            'edit',
-            'update',
-            'destroy'
-        ]]);*/
+
+        $this->middleware('admin', ['only' => [
+            'ListBookingPending',
+            //'index',
+            //'create',
+            //'store',
+            //'show',
+            //'edit',
+            //'update',
+            //'destroy'
+        ]]);
+        $this->middleware('report');
     }
 
-    public function ListRequest()
+    public function ListBookingPending()
     {
         try {
+
+            return view('report.admin.list_pending');
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -45,7 +49,7 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        //
+        echo "index";
     }
 
     /**
@@ -112,5 +116,29 @@ class ReportsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function CheckBill($book_id)
+    {
+        if (DB::table('reports')->where('booking_id', $book_id)->exists()) {
+
+            $booking = DB::table('reports')->where('booking_id', $book_id)->first();
+
+            echo "booking id : " . $booking->booking_id;
+
+
+        } else {
+            throw  new Exception("Booking id not found");
+        }
+
+
+        try {
+
+
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 }

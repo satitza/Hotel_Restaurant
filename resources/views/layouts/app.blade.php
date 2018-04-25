@@ -154,10 +154,10 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="#">List All Booking Request</a>
+                                    <a href="{{ url('booking_pending') }}">List All Booking Pending</a>
                                 </li>
                                 <li>
-                                    <a href="#">List All Booking Complete</a>
+                                    <a href="{{ url('report') }}">List All Booking Complete</a>
                                 </li>
                             </ul>
                         </li>

@@ -42,6 +42,7 @@ Route::post('search_balance', 'BalancesController@SearchBalance');
 Route::get('delete_balance/{id}', 'BalancesController@destroy');
 
 Route::resource('report', 'ReportsController');
+Route::get('booking_pending', 'ReportsController@ListBookingPending');
 
 
 Route::group(['prefix' => 'setting'], function () {
