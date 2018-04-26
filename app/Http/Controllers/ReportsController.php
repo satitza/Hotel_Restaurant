@@ -57,7 +57,13 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        echo "index";
+        try {
+
+            return view('report.admin.index');
+
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -67,7 +73,7 @@ class ReportsController extends Controller
      */
     public function create()
     {
-        return view('report.admin.list');
+
     }
 
     /**
@@ -123,7 +129,17 @@ class ReportsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('reports')->where('id', $id)->delete();
+            DB::commit();
+            return redirect()->action('ReportsController@ListBookingPending');
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     public function CheckBill($id, $booking_id)

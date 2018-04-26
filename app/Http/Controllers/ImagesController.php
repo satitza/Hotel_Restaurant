@@ -362,11 +362,10 @@ class ImagesController extends Controller
     public
     function update(Request $request, $id)
     {
-
         $new_images = null;
 
         if ($request->input('images') == null) {
-            $images = Image::find($id);
+            $images = Images::find($id);
             $new_images = $images->image;
         } else {
             $result = $this->UnsetItem($id, $request->input('images'));

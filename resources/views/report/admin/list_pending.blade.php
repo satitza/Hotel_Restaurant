@@ -43,8 +43,8 @@
         });
     </script>
 
-    <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
-        <div class="row">
+    <div class="container-fluid" style="margin-left: 10px; margin-right: 10px;">
+        <div class="row" style="display: none;">
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">Search Option</div>
@@ -112,7 +112,7 @@
                                 <th scope="col">Guest Email</th>
                                 <th scope="col">Guest Phone</th>
                                 <th scope="col1">Number Guest</th>
-                                <th scope="col1">Check Bill</th>
+                                <th scope="col1">Delete</th>
                             </tr>
                             </thead>
                             @foreach($reports as $report)
@@ -125,10 +125,10 @@
                                     <td>{{ $report->booking_contact_phone }}</td>
                                     <td>{{ $report->booking_guest }}</td>
                                     <td>
-                                        <a href="{{ url('check_bill/'.$report->id.'/booking_id/'.$report->booking_id ) }}"
-                                           class="button-link-success"
-                                           onclick="return confirm('Confrim Check Bill ?')">
-                                            Check Bill
+                                        <a href="{{ url('delete_report/'.$report->id ) }}"
+                                           class="button-link-dark"
+                                           onclick="return confirm('Confrim Delete ?')">
+                                            Delete
                                         </a>
                                     </td>
                                 </tr>
