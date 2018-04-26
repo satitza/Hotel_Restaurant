@@ -30,27 +30,25 @@
                             </tr>
                             </thead>
                             <tbody>
-                         @foreach($user_reports as $user_report)
+                            @foreach($user_reports as $user_report)
                                 <tr>
                                     <th>{{ $user_report->name }}</th>
                                     <td>{{ $user_report->hotel_name }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success">
-                                            <a href="{{ url('setting/report/users/'.$user_report->id.'/edit') }}">
-                                                Edit User
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('setting/report/users/'.$user_report->id.'/edit') }}"
+                                           class="button-link-success">
+                                            Edit User
+                                        </a>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-dark">
-                                            <a href="{{ url('setting/report/delete_report_users/'.$user_report->id) }}"
-                                               onclick="return confirm('Confrim Delete ?')">
-                                                Delete User
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('setting/report/delete_report_users/'.$user_report->id) }}"
+                                           class="button-link-dark"
+                                           onclick="return confirm('Confrim Delete ?')">
+                                            Delete User
+                                        </a>
                                     </td>
                                 </tr>
-                         @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     {!! $user_reports->render() !!}

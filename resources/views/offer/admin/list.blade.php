@@ -29,11 +29,9 @@
                     </select>
                     <br>
                     {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
-                    <button type="submit" class="btn btn-dark">
-                        <a href="{{ action('OffersController@create') }}">
-                            Clear
-                        </a>
-                    </button>
+                    <a href="{{ action('OffersController@create') }}" class="button-link-dark">
+                        Clear
+                    </a>
                 <!--{{ csrf_field() }}
                 {!! Form::close() !!} -->
                 </div>
@@ -73,22 +71,17 @@
                                     <a href="{{ url('offer/'.$offer->id) }}" class="button-link-info">
                                         View PDF
                                     </a>
-
                                 </td>
                                 <td>
-
                                     <a href="{{ url('offer/'.$offer->id.'/edit') }}" class="button-link-success">
                                         Edit Offer
                                     </a>
-
                                 </td>
                                 <td>
-
                                     <a href="{{ url('delete_offer/'.$offer->id) }}" class="button-link-dark"
                                        onclick="return confirm('Confrim Delete ?')">
                                         Delete Offer
                                     </a>
-
                                 </td>
                             </tr>
                         @endforeach

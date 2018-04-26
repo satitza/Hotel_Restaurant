@@ -27,11 +27,9 @@
                         </select>
                         <br>
                         {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
-                        <button type="submit" class="btn btn-dark">
-                            <a href="{{ action('RestaurantsController@create') }}">
-                                Clear
-                            </a>
-                        </button>
+                        <a href="{{ action('RestaurantsController@create') }}" class="button-link-dark">
+                            Clear
+                        </a>
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>
@@ -72,7 +70,8 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ url('delete_restaurant/'.$restaurant->id ) }}" class="button-link-dark"
+                                        <a href="{{ url('delete_restaurant/'.$restaurant->id ) }}"
+                                           class="button-link-dark"
                                            onclick="return confirm('Confrim Delete ?')">
                                             Delete Restaurant
                                         </a>

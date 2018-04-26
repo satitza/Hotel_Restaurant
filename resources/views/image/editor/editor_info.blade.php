@@ -17,11 +17,9 @@
                         </select>
                     </div>
                     {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
-                    <button type="submit" class="btn btn-dark">
-                        <a href="{{ action('ImagesController@create') }}">
-                            Clear
-                        </a>
-                    </button>
+                    <a href="{{ action('ImagesController@create') }}" class="button-link-dark">
+                        Clear
+                    </a>
                 <!--{{ csrf_field() }}
                 {!! Form::close() !!} -->
                 </div>

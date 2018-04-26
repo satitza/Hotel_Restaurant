@@ -33,37 +33,32 @@
                             </thead>
                             <tbody>
                             @foreach($users as $user)
-                            <tr>
-                                <th>{{ $user->name }}</th>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->role }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-success">
-                                        <a href="{{ url('setting/users/'.$user->id.'/edit') }}">
+                                <tr>
+                                    <th>{{ $user->name }}</th>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->role }}</td>
+                                    <td>
+                                        <a href="{{ url('setting/users/'.$user->id.'/edit') }}"
+                                           class="button-link-success">
                                             Edit User
                                         </a>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-info">
-                                        <a href="{{ url('setting/users/'.$user->id) }}">
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('setting/users/'.$user->id) }}" class="button-link-info">
                                             Reset Password
                                         </a>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="submit" class="btn btn-dark">
-                                        <a href="{{ url('setting/delete_users/'.$user->id) }}"
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('setting/delete_users/'.$user->id) }}" class="button-link-dark"
                                            onclick="return confirm('Confrim Delete ?')">
                                             Delete User
                                         </a>
-                                    </button>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             @endforeach
                             </tbody>
                         </table>
-                     {!! $users->render() !!}
+                    {!! $users->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>

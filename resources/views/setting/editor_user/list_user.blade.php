@@ -37,26 +37,23 @@
                                     <td>{{ $user_editor->name }}</td>
                                     <td>{{ $restaurants[$indexKey] }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success">
-                                            <a href="{{ url('setting/editor/users_editor/'.$user_editor->id.'/add') }}">
-                                                Add  Restaurant
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('setting/editor/users_editor/'.$user_editor->id.'/add') }}"
+                                           class="button-link-success">
+                                            Add Restaurant
+                                        </a>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-info">
-                                            <a href="{{ url('setting/editor/users/'.$user_editor->id.'/edit') }}">
-                                                Remove  Restaurant
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('setting/editor/users/'.$user_editor->id.'/edit') }}"
+                                           class="button-link-info">
+                                            Remove Restaurant
+                                        </a>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-dark">
-                                            <a href="{{ url('setting/editor/delete_editor_users/'.$user_editor->id) }}"
-                                               onclick="return confirm('Confrim Delete ?')">
-                                                Delete User
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('setting/editor/delete_editor_users/'.$user_editor->id) }}"
+                                           class="button-link-dark"
+                                           onclick="return confirm('Confrim Delete ?')">
+                                            Delete User
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

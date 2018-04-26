@@ -87,11 +87,9 @@
 
                         <br>
                         {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
-                        <button type="submit" class="btn btn-dark">
-                            <a href="{{ action('ReportsController@ListBookingPending') }}">
-                                Clear
-                            </a>
-                        </button>
+                        <a href="{{ action('ReportsController@ListBookingPending') }}" class="button-link-dark">
+                            Clear
+                        </a>
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>
