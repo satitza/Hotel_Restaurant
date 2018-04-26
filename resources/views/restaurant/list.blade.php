@@ -66,22 +66,16 @@
                                     <td>{{ $restaurant->active }}</td>
                                     <td>{{ $restaurant->restaurant_comment }}</td>
                                     <td>
-                                        <?php /*
-                                  {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
-                                 */ ?>
-                                        <button type="button" class="btn btn-success">
-                                            <a href="{{ url('restaurant/'.$restaurant->id.'/edit') }}">
-                                                Edit Restaurant
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('restaurant/'.$restaurant->id.'/edit') }}"
+                                           class="button-link-success">
+                                            Edit Restaurant
+                                        </a>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-dark">
-                                            <a href="{{ url('delete_restaurant/'.$restaurant->id ) }}"
-                                               onclick="return confirm('Confrim Delete ?')">
-                                                Delete Restaurant
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('delete_restaurant/'.$restaurant->id ) }}" class="button-link-dark"
+                                           onclick="return confirm('Confrim Delete ?')">
+                                            Delete Restaurant
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

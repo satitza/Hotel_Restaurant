@@ -52,29 +52,21 @@
                                     <td>{{ $image->restaurant_name }}</td>
                                     <td>{{ $image->offer_name_en }}</td>
                                     <td>
-                                        <?php /*
-                                      {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
-                                     */ ?>
-                                            <button type="submit" class="btn btn-success">
-                                                <a href="{{ url('image/'.$image->id.'/edit') }}" >
-                                                    Edit Images
-                                                </a>
-                                            </button>
-
+                                        <a href="{{ url('image/'.$image->id.'/edit') }}" class="button-link-success">
+                                            Edit Images
+                                        </a>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-dark">
-                                            <a href="{{ url('delete_image/'.$image->id) }}"
-                                               onclick="return confirm('Confrim Delete ?')">
-                                                Delete
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('delete_image/'.$image->id) }}" class="button-link-dark"
+                                           onclick="return confirm('Confrim Delete ?')">
+                                            Delete
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-                       {!! $images->render() !!}
+                    {!! $images->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>

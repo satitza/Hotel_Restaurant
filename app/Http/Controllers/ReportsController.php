@@ -33,7 +33,15 @@ class ReportsController extends Controller
     {
         try {
 
-            return view('report.admin.list_pending');
+            $reports = DB::table('reports')
+                ->select('reports.id', 'booking_id', 'booking_offer_id', 'offer_name_en', 'booking_date', 'booking_guest',
+                    'booking_contact_firstname', 'booking_contact_lastname', 'booking_contact_email', 'booking_contact_phone')
+                ->join('offers', 'reports.booking_offer_id', '=', 'offers.id')
+                ->orderBy('reports.id', 'asc')->where('booking_status', 1)->paginate(10);
+
+            return view('report.admin.list_pending', [
+                'reports' => $reports
+            ]);
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -118,9 +126,13 @@ class ReportsController extends Controller
         //
     }
 
-    public function CheckBill($id, $book_id)
+    public function CheckBill($id, $booking_id)
     {
-        if (DB::table('reports')->where('booking_id', $book_id)->exists()) {
+
+        echo $id . "<br>";
+        echo $booking_id . "<br>";
+
+        /*if (DB::table('reports')->where('booking_id', $book_id)->exists()) {
 
             $booking = DB::table('reports')->where('booking_id', $book_id)->first();
 
@@ -139,6 +151,6 @@ class ReportsController extends Controller
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
-        }
+        }*/
     }
 }

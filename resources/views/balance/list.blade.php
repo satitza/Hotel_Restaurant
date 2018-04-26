@@ -126,22 +126,16 @@
                                     <td>{{ $balance->book_offer_balance }}</td>
                                     <td>{{ $balance->active }}</td>
                                     <td>
-                                        <?php /*
-                                  {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
-                                 */ ?>
-                                        <button type="button" class="btn btn-success">
-                                            <a href="{{ url('balance/'.$balance->id.'/edit') }}">
-                                                Edit Balance
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('balance/'.$balance->id.'/edit') }}"
+                                           class="button-link-success">
+                                            Edit Balance
+                                        </a>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-dark">
-                                            <a href="{{ url('delete_balance/'.$balance->id ) }}"
-                                               onclick="return confirm('Confrim Delete ?')">
-                                                Delete Balance
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('delete_balance/'.$balance->id ) }}" class="button-link-dark"
+                                           onclick="return confirm('Confrim Delete ?')">
+                                            Delete Balance
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

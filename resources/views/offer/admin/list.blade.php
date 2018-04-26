@@ -70,26 +70,25 @@
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_end)) }}</td>
                                 <td>{{ $offer->offer_comment_en }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-info">
-                                        <a href="{{ url('offer/'.$offer->id) }}">
-                                            View PDF
-                                        </a>
-                                    </button>
+                                    <a href="{{ url('offer/'.$offer->id) }}" class="button-link-info">
+                                        View PDF
+                                    </a>
+
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-success">
-                                        <a href="{{ url('offer/'.$offer->id.'/edit') }}">
-                                            Edit Offer
-                                        </a>
-                                    </button>
+
+                                    <a href="{{ url('offer/'.$offer->id.'/edit') }}" class="button-link-success">
+                                        Edit Offer
+                                    </a>
+
                                 </td>
                                 <td>
-                                    <button type="submit" class="btn btn-dark">
-                                        <a href="{{ url('delete_offer/'.$offer->id) }}"
-                                           onclick="return confirm('Confrim Delete ?')">
-                                            Delete Offer
-                                        </a>
-                                    </button>
+
+                                    <a href="{{ url('delete_offer/'.$offer->id) }}" class="button-link-dark"
+                                       onclick="return confirm('Confrim Delete ?')">
+                                        Delete Offer
+                                    </a>
+
                                 </td>
                             </tr>
                         @endforeach

@@ -15,12 +15,12 @@
                             @endforeach
                         </select>
                         <br>
-                    {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
-                        <button type="submit" class="btn btn-dark">
-                            <a href="{{ action('HotelController@create') }}">
-                                Clear
-                            </a>
-                        </button>
+                        {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
+
+                        <a href="{{ action('HotelController@create') }}" class="button-link-dark">
+                            Clear
+                        </a>
+
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>
@@ -34,7 +34,7 @@
                     <div class="panel-heading">List Hotel</div>
 
                     <div class="panel-body">
-                    <!--{!! Form::open(['url' => 'edit_hotel', 'files' => false]) !!} -->
+                    <!--{!! Form::open(['url' => '#', 'files' => false]) !!} -->
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
@@ -54,23 +54,15 @@
                                     <td>{{ $hotel->active }}</td>
                                     <td>{{ $hotel->hotel_comment }}</td>
                                     <td>
-                                        <?php /*
-                                      {{ Form::submit('แก้ใข', ['class' => 'btn btn-primary']) }}
-                                     */ ?>
-                                        <button type="button" class="btn btn-success">
-                                            <a href="{{ url('hotel/'.$hotel->id .'/edit') }}">
-                                                Edit Hotel
-                                            </a>
-                                        </button>
-
+                                        <a href="{{ url('hotel/'.$hotel->id .'/edit') }}" class="button-link-success">
+                                            Edit Hotel
+                                        </a>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-dark">
-                                            <a href="{{ url('delete_hotel/'.$hotel->id) }}"
-                                               onclick="return confirm('Confrim Delete ?')">
-                                                Delete Hotel
-                                            </a>
-                                        </button>
+                                        <a href="{{ url('delete_hotel/'.$hotel->id) }}" class="button-link-dark"
+                                           onclick="return confirm('Confrim Delete ?')">
+                                            Delete Hotel
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

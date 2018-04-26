@@ -43,6 +43,7 @@ Route::get('delete_balance/{id}', 'BalancesController@destroy');
 
 Route::resource('report', 'ReportsController');
 Route::get('booking_pending', 'ReportsController@ListBookingPending');
+Route::get('check_bill/{id}/booking_id/{booking_id}', 'ReportsController@CheckBill');
 
 
 Route::group(['prefix' => 'setting'], function () {

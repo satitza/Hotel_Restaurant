@@ -68,18 +68,6 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <!--td>
-                                        <script>
-                                            $(document).ready(function () {
-                                                $("#select-active").hide();
-                                                //console.log("ready!");
-                                                $("#button-edit").click(function () {
-                                                    $("#select-active").show();
-                                                });
-                                            });
-                                        </script>
-                                        <input type="button" value="edit" id="button-edit" class="btn btn-info"/>
-                                    </td-->
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_hotel_comment', 'Comment') }}</td>

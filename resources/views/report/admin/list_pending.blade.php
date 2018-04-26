@@ -49,7 +49,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Search Option</div>
                     <div class="panel-body">
-                        {{ Form::open(array('url' => 'search_balance', 'method' => 'post')) }}
+                        {{ Form::open(array('url' => '#', 'method' => 'post')) }}
 
 
                         <label for="search">
@@ -103,7 +103,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">List Booking Pending</div>
                     <div class="panel-body">
-                    <!--{!! Form::open(['url' => 'edit_hotel', 'files' => false]) !!} -->
+                    <!--{!! Form::open(['url' => '#', 'files' => false]) !!} -->
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
@@ -117,28 +117,27 @@
                                 <th scope="col1">Check Bill</th>
                             </tr>
                             </thead>
-
-                            <tr>
-                                <th></th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <button type="submit" class="btn btn-dark">
-                                        <a href="{{ url('delete_balance/' ) }}"
-                                           onclick="return confirm('Confrim Delete ?')">
+                            @foreach($reports as $report)
+                                <tr>
+                                    <th>{{ $report->booking_id }}</th>
+                                    <td>{{ $report->offer_name_en }}</td>
+                                    <td>{{ $report->booking_date }}</td>
+                                    <td>{{ $report->booking_contact_firstname."&nbsp;&nbsp;".$report->booking_contact_lastname  }}</td>
+                                    <td>{{ $report->booking_contact_email }}</td>
+                                    <td>{{ $report->booking_contact_phone }}</td>
+                                    <td>{{ $report->booking_guest }}</td>
+                                    <td>
+                                        <a href="{{ url('check_bill/'.$report->id.'/booking_id/'.$report->booking_id ) }}"
+                                           class="button-link-success"
+                                           onclick="return confirm('Confrim Check Bill ?')">
                                             Check Bill
                                         </a>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            </tbody>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
                         </table>
-
+                    {!! $reports->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>
