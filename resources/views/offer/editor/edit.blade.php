@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <script>
+    <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            $('.datepicker').datepicker({
+            $(".datepicker").datepicker({
                 dateFormat: 'dd/mm/yy',
                 changeMonth: true,
                 changeYear: true,
@@ -42,6 +42,8 @@
                 console.error( error );
         } );
         });
+
+
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
@@ -151,8 +153,8 @@
                             </tr>
                             <tr style="background: #ffffcc">
                                 <td>{{ Form::label('lb_lunch_price', 'Lunch Price per person') }}</td>
-                                <td>{{ Form::text('offer_lunch_price', $offer_lunch_price, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
-                            </tr >
+                                <td>{{ Form::text('offer_lunch_price', $offer_lunch_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}</td>
+                            </tr>
                             <tr style="background: #ffffcc">
                                 <td>{{ Form::label('lb_lunch_guest', 'Lunch Max guest') }}</td>
                                 <td>{{ Form::text('offer_lunch_guest', $offer_lunch_guest, ['class' => 'form-control', 'placeholder' => 'Max guest']) }}</td>
@@ -187,8 +189,8 @@
                             </tr>
                             <tr style="background: #e0e0d1">
                                 <td>{{ Form::label('lb_dinner_price', 'Dinner Price per person') }}</td>
-                                <td>{{ Form::text('offer_dinner_price', $offer_dinner_price, ['class' => 'form-control', 'placeholder' => '00.00']) }}</td>
-                            </tr >
+                                <td>{{ Form::text('offer_dinner_price', $offer_dinner_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}</td>
+                            </tr>
                             <tr style="background: #e0e0d1">
                                 <td>{{ Form::label('lb_dinner_guest', 'Dinner Max guest') }}</td>
                                 <td>{{ Form::text('offer_dinner_guest', $offer_dinner_guest, ['class' => 'form-control', 'placeholder' => 'Max guest']) }}</td>
