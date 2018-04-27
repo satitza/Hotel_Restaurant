@@ -149,6 +149,14 @@
             </div>
         </div>
     </div>
+
+    <div class="container-fluid">
+        <button type="button" class="btn btn-primary">Booking <span class="badge">{{ $count }}</span></button>
+        <button type="button" class="btn btn-success">Guest <span class="badge">{{ $guest }}</span></button>
+        <button type="button" class="btn btn-dark">Price <span class="badge">{{ $price }}</span></button>
+    </div>
+    <br>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -172,7 +180,7 @@
                                     <td>{{ $report->booking_contact_firstname."&nbsp;&nbsp;".$report->booking_contact_lastname  }}</td>
                                     <td>{{ $report->booking_guest }}</td>
                                     <td>{{ $report->booking_price }}</td>
-                                    <!--td>
+                                <!--td>
                                         <a href="{{ url('report/'.$report->id.'/edit') }}"
                                            class="button-link-success">
                                             Edit Report

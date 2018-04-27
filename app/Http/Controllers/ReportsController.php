@@ -134,6 +134,11 @@ class ReportsController extends Controller
 
         $view = null;
         $items = null;
+
+        $count = 0;
+        $guest = 0;
+        $price = 0;
+
         $check_rows = User::find(Auth::id());
 
         if ($check_rows->user_role == 3) {
@@ -158,9 +163,19 @@ class ReportsController extends Controller
                 ->where('booking_status', '=', 2)
                 ->orderBy('reports.id', 'asc')->paginate(10);
 
+            foreach ($reports as $report) {
+                $guest = (int)$guest + (int)$report->booking_guest;
+                $price = (double)$price + (double)$report->booking_price;
+                $count = $count + 1;
+            }
+
             return view($view, [
-                'reports' => $reports,
-                'items' => $items
+                'items' => $items,
+                'count' => $count,
+                'guest' => $guest,
+                'price' => $price,
+                'reports' => $reports
+
             ]);
 
         } catch (QueryException $e) {
