@@ -73,12 +73,15 @@ class ReportsController extends Controller
             $check_rows = User::find(Auth::id());
 
             if ($check_rows->user_role == 3) {
-
-                //get hotel id where user report id
-                $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
-                $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
-                $view = 'report.user.index';
-
+                $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->get();
+                if (count($get_hotel_id) == 0) {
+                    return view('error.index')->with('error', 'You never match hotel with this user');
+                } else {
+                    foreach ($get_hotel_id as $get_id) {
+                        $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_id->hotel_id)->orderBy('id', 'ASC')->get();
+                    }
+                    $view = 'report.user.index';
+                }
             } else {
                 $items = Hotels::select('id', 'hotel_name')->orderBy('id', 'ASC')->get();
                 $view = 'report.admin.index';
