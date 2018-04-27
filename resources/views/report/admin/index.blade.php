@@ -9,9 +9,7 @@
                 changeMonth: true,
                 changeYear: true,
             });
-        });
-        /*-----------------------------------------------------------------------------------------*/
-        jQuery(document).ready(function ($) {
+
             $("#search_hotel_id").click(function () {
                 if ($(this).is(":checked")) {
                     $("#hotel_id").show();
@@ -22,9 +20,7 @@
                     $("#offer_date").remove();
                 }
             });
-        });
 
-        jQuery(document).ready(function ($) {
             $("#search_restaurant_id").click(function () {
                 if ($(this).is(":checked")) {
                     $("#restaurant_id").show();
@@ -34,9 +30,7 @@
                     $("#offer_date").remove();
                 }
             });
-        });
 
-        jQuery(document).ready(function ($) {
             $("#search_offer_id").click(function () {
                 if ($(this).is(":checked")) {
                     $("#offer_id").show();
@@ -45,9 +39,7 @@
                     $("#offer_date").remove();
                 }
             });
-        });
 
-        jQuery(document).ready(function ($) {
             $("#search_date").click(function () {
                 if ($(this).is(":checked")) {
                     $("#offer_date").show();
@@ -55,17 +47,14 @@
                     $("#offer_date").remove();
                 }
             });
-        });
 
-        /*-----------------------------------------------------------------------------------------------*/
-
-        jQuery(document).ready(function ($) {
             $("#hotel_id_select").change(function () {
                 var hotel_id = $("#hotel_id_select").val();
+                $('#text_date').val('');
                 $.ajax({
                     url: 'get_restaurant',
                     type: 'GET',
-                    data: {id: hotel_id},
+                    data: {hotel_id: hotel_id},
                     success: function (response) {
                         $('#restaurant_id_select').find('option').remove().end()
                         $("#restaurant_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
@@ -80,16 +69,15 @@
                     }
                 });
             });
-        });
 
-        jQuery(document).ready(function ($) {
             $("#restaurant_id_select").change(function () {
+                var hotel_id = $("#hotel_id_select").val();
                 var restaurant_id = $("#restaurant_id_select").val();
                 $('#text_date').val('');
                 $.ajax({
                     url: 'get_offer',
                     type: 'GET',
-                    data: {id: restaurant_id},
+                    data: {hotel_id: hotel_id, restaurant_id: restaurant_id},
                     success: function (response) {
                         $('#offer_id_select').find('option').remove().end()
                         $("#offer_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
@@ -102,12 +90,11 @@
                     }
                 });
             });
-        });
 
-        jQuery(document).ready(function ($) {
             $("#offer_id_select").change(function () {
                 $('#text_date').val('');
             });
+
         });
 
     </script>

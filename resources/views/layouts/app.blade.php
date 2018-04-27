@@ -12,7 +12,7 @@
 
     <!-- Styles -->
 <!-- link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" -->
-    <link href="{{ asset('css/bootstrap.3.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/bootstrap.3.3.7.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Script -->
@@ -72,8 +72,6 @@
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <!--Register-->
                     <!--li><a href="{{ route('register') }}">Register</a></li-->
-
-
                         <!--Loged-->
                     @else
                         <li class="dropdown">
@@ -220,7 +218,7 @@
                                     <li>
                                         <a href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
-    document.getElementById('logout-form').submit();">
+                                           document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 

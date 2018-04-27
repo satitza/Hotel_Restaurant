@@ -77,10 +77,23 @@ class ReportsController extends Controller
 
     public function SearchReports(Request $request)
     {
-        echo $request->hotel_id . "<br>";
+        /*echo $request->hotel_id . "<br>";
         echo $request->restaurant_id . "<br>";
         echo $request->offer_id . "<br>";
-        echo $request->offer_date . "<br>";
+        echo $request->offer_date . "<br>";*/
+
+        $hotel_id = null;
+        $restaurant_id = null;
+        $offer_id = null;
+        $offer_date = null;
+
+        if (!isset($request->hotel_id)) {
+            $hotel_id = '';
+        } else {
+            $hotel_id = $request->hotel_id;
+        }
+
+
     }
 
     /**
@@ -167,7 +180,7 @@ class ReportsController extends Controller
     public function GetRestaurants()
     {
         try {
-            $id = $_GET['id'];
+            $id = $_GET['hotel_id'];
             $restaurants = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $id)->orderBy('id', 'ASC')->get();
             return Response()->json($restaurants);
         } catch (QueryException $e) {
@@ -180,8 +193,10 @@ class ReportsController extends Controller
     public function GetOffers()
     {
         try {
-            $id = $_GET['id'];
-            $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $id)->orderBy('id', 'ASC')->get();
+            $hotel_id = $_GET['hotel_id'];
+            $restaurant_id = $_GET['restaurant_id'];
+            $where = ['hotel_id' => $hotel_id, 'restaurant_id' => $restaurant_id];
+            $offers = Offers::select('id', 'offer_name_en')->where($where)->orderBy('id', 'ASC')->get();
             return Response()->json($offers);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
