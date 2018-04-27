@@ -212,7 +212,7 @@ class ReportsController extends Controller
      */
     public function edit($id)
     {
-        echo $id;
+        //echo $id;
     }
 
     /**
