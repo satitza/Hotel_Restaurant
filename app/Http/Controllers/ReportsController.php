@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\User;
+use App\UserReport;
 use App\Offers;
 use App\Restaurants;
 use App\Hotels;
@@ -21,16 +23,16 @@ class ReportsController extends Controller
 
         $this->middleware('admin', ['only' => [
             'ListBookingPending',
-            'index',
-            'SearchReports',
+            //'index',
+            //'SearchReports',
             //'create',
             //'store',
             //'show',
-            'edit',
+            //'edit',
             //'update',
             'destroy',
-            'GetRestaurants',
-            'GetOffers'
+            //'GetRestaurants',
+            //'GetOffers'
         ]]);
         $this->middleware('report');
     }
@@ -65,9 +67,25 @@ class ReportsController extends Controller
     {
         try {
 
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            return view('report.admin.index', [
-                'hotel_items' => $hotel_items
+            $items = null;
+            $view = null;
+
+            $check_rows = User::find(Auth::id());
+
+            if ($check_rows->user_role == 3) {
+
+                //get hotel id where user report id
+                $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
+                $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
+                $view = 'report.user.index';
+
+            } else {
+                $items = Hotels::select('id', 'hotel_name')->orderBy('id', 'ASC')->get();
+                $view = 'report.admin.index';
+            }
+
+            return view($view, [
+                'items' => $items
             ]);
 
         } catch (QueryException $e) {
@@ -79,6 +97,7 @@ class ReportsController extends Controller
 
     public function SearchReports(Request $request)
     {
+
         $hotel_id = null;
         $restaurant_id = null;
         $offer_id = null;
@@ -108,8 +127,24 @@ class ReportsController extends Controller
             $offer_date = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date, '/', '-'))))->toDateString();
         }
 
+        /*--------------------------------------------------------------------------------------------------------------------------------*/
+
+        $view = null;
+        $items = null;
+        $check_rows = User::find(Auth::id());
+
+        if ($check_rows->user_role == 3) {
+            $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
+            $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
+            $hotel_id = $get_hotel_id->hotel_id;
+            $view = 'report.user.list';
+        } else {
+            $items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            $view = 'report.admin.list';
+        }
+
         try {
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+
             $reports = DB::table('reports')
                 ->select('reports.id', 'booking_id', 'booking_guest', 'booking_contact_firstname',
                     'booking_contact_lastname', 'booking_price')
@@ -120,11 +155,9 @@ class ReportsController extends Controller
                 ->where('booking_status', '=', 2)
                 ->orderBy('reports.id', 'asc')->paginate(10);
 
-            //dd($resports);
-
-            return view('report.admin.list', [
+            return view($view, [
                 'reports' => $reports,
-                'hotel_items' => $hotel_items
+                'items' => $items
             ]);
 
         } catch (QueryException $e) {
@@ -220,7 +253,7 @@ class ReportsController extends Controller
     public function GetRestaurants()
     {
         try {
-            $id = $_GET['hotel_id'];
+            $id = $_GET['id'];
             $restaurants = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $id)->orderBy('id', 'ASC')->get();
             return Response()->json($restaurants);
         } catch (QueryException $e) {
@@ -233,10 +266,8 @@ class ReportsController extends Controller
     public function GetOffers()
     {
         try {
-            $hotel_id = $_GET['hotel_id'];
-            $restaurant_id = $_GET['restaurant_id'];
-            $where = ['hotel_id' => $hotel_id, 'restaurant_id' => $restaurant_id];
-            $offers = Offers::select('id', 'offer_name_en')->where($where)->orderBy('id', 'ASC')->get();
+            $restaurant_id = $_GET['id'];
+            $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $restaurant_id)->orderBy('id', 'ASC')->get();
             return Response()->json($offers);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());

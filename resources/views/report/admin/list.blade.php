@@ -54,7 +54,7 @@
                 $.ajax({
                     url: 'get_restaurant',
                     type: 'GET',
-                    data: {hotel_id: hotel_id},
+                    data: {id: hotel_id},
                     success: function (response) {
                         $('#restaurant_id_select').find('option').remove().end()
                         $("#restaurant_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
@@ -71,13 +71,12 @@
             });
 
             $("#restaurant_id_select").change(function () {
-                var hotel_id = $("#hotel_id_select").val();
                 var restaurant_id = $("#restaurant_id_select").val();
                 $('#text_date').val('');
                 $.ajax({
                     url: 'get_offer',
                     type: 'GET',
-                    data: {hotel_id: hotel_id, restaurant_id: restaurant_id},
+                    data: {id: restaurant_id},
                     success: function (response) {
                         $('#offer_id_select').find('option').remove().end()
                         $("#offer_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
@@ -121,7 +120,7 @@
                             <label>Hotel Name</label>
                             <select class="form-control" name="hotel_id" id="hotel_id_select">
                                 <option value="">please_selected</option>
-                                @foreach($hotel_items as $item)
+                                @foreach($items as $item)
                                     <option value="{{ $item->id }}">{{ $item->hotel_name }}</option>
                                 @endforeach
                             </select>

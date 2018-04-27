@@ -10,17 +10,6 @@
                 changeYear: true,
             });
 
-            $("#search_hotel_id").click(function () {
-                if ($(this).is(":checked")) {
-                    $("#hotel_id").show();
-                } else {
-                    $("#hotel_id").remove();
-                    $("#restaurant_id").remove();
-                    $("#offer_id").remove();
-                    $("#offer_date").remove();
-                }
-            });
-
             $("#search_restaurant_id").click(function () {
                 if ($(this).is(":checked")) {
                     $("#restaurant_id").show();
@@ -48,13 +37,13 @@
                 }
             });
 
-            $("#hotel_id_select").change(function () {
+            /*$("#hotel_id_select").change(function () {
                 var hotel_id = $("#hotel_id_select").val();
                 $('#text_date').val('');
                 $.ajax({
                     url: 'get_restaurant',
                     type: 'GET',
-                    data: {id: hotel_id},
+                    data: {hotel_id: hotel_id},
                     success: function (response) {
                         $('#restaurant_id_select').find('option').remove().end()
                         $("#restaurant_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
@@ -68,9 +57,10 @@
                         })
                     }
                 });
-            });
+            });*/
 
             $("#restaurant_id_select").change(function () {
+                var hotel_id = $("#hotel_id_select").val();
                 var restaurant_id = $("#restaurant_id_select").val();
                 $('#text_date').val('');
                 $.ajax({
@@ -106,10 +96,7 @@
                     <div class="panel-body">
                         {{ Form::open(array('url' => 'search_report', 'method' => 'post')) }}
 
-
                         <label for="search">
-                            <input type="checkbox" id="search_hotel_id"/>
-                            Hotel<br>
                             <input type="checkbox" id="search_restaurant_id"/>
                             Restaurant<br>
                             <input type="checkbox" id="search_offer_id"/>
@@ -118,20 +105,14 @@
                             Date <br>
                         </label>
                         <hr>
-                        <div id="hotel_id" style="display: none;">
-                            <label>Hotel Name</label>
-                            <select class="form-control" name="hotel_id" id="hotel_id_select">
-                                <option value="">please_selected</option>
-                                @foreach($items as $item)
-                                    <option value="{{ $item->id }}">{{ $item->hotel_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
 
                         <div id="restaurant_id" style="display: none;">
                             <label>Restaurant Name</label>
                             <select class="form-control" name="restaurant_id" id="restaurant_id_select">
                                 <option value="">please_selected</option>
+                                @foreach($items as $item)
+                                    <option value="{{ $item->id }}">{{ $item->restaurant_name }}</option>
+                                @endforeach
                             </select>
                         </div>
 
