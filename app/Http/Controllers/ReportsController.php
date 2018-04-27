@@ -6,6 +6,7 @@ use DB;
 use App\Offers;
 use App\Restaurants;
 use App\Hotels;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +21,14 @@ class ReportsController extends Controller
 
         $this->middleware('admin', ['only' => [
             'ListBookingPending',
-            //'index',
+            'index',
+            'SearchReports',
             //'create',
             //'store',
             //'show',
-            //'edit',
+            'edit',
             //'update',
-            //'destroy',
+            'destroy',
             'GetRestaurants',
             'GetOffers'
         ]]);
@@ -77,11 +79,6 @@ class ReportsController extends Controller
 
     public function SearchReports(Request $request)
     {
-        /*echo $request->hotel_id . "<br>";
-        echo $request->restaurant_id . "<br>";
-        echo $request->offer_id . "<br>";
-        echo $request->offer_date . "<br>";*/
-
         $hotel_id = null;
         $restaurant_id = null;
         $offer_id = null;
@@ -91,6 +88,49 @@ class ReportsController extends Controller
             $hotel_id = '';
         } else {
             $hotel_id = $request->hotel_id;
+        }
+
+        if (!isset($request->restaurant_id)) {
+            $restaurant_id = '';
+        } else {
+            $restaurant_id = $request->restaurant_id;
+        }
+
+        if (!isset($request->offer_id)) {
+            $offer_id = '';
+        } else {
+            $offer_id = $request->offer_id;
+        }
+
+        if (!isset($request->offer_date)) {
+            $offer_date = '';
+        } else {
+            $offer_date = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date, '/', '-'))))->toDateString();
+        }
+
+        try {
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            $reports = DB::table('reports')
+                ->select('reports.id', 'booking_id', 'booking_guest', 'booking_contact_firstname',
+                    'booking_contact_lastname', 'booking_price')
+                ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                ->where('booking_date', 'like', '%' . $offer_date . '%')
+                ->where('booking_status', '=', 2)
+                ->orderBy('reports.id', 'asc')->paginate(10);
+
+            //dd($resports);
+
+            return view('report.admin.list', [
+                'reports' => $reports,
+                'hotel_items' => $hotel_items
+            ]);
+
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
         }
 
 
@@ -136,7 +176,7 @@ class ReportsController extends Controller
      */
     public function edit($id)
     {
-        //
+        echo $id;
     }
 
     /**

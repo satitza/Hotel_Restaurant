@@ -9,10 +9,7 @@
                 changeMonth: true,
                 changeYear: true,
             });
-        });
 
-
-        jQuery(document).ready(function ($) {
             $("#search_offer_id").click(function () {
                 if ($(this).is(":checked")) {
                     $("#offer_id").show();
@@ -20,9 +17,7 @@
                     $("#offer_id").remove();
                 }
             });
-        });
 
-        jQuery(document).ready(function ($) {
             $("#search_offer_date").click(function () {
                 if ($(this).is(":checked")) {
                     $("#offer_date").show();
@@ -30,9 +25,7 @@
                     $("#offer_date").remove();
                 }
             });
-        });
 
-        jQuery(document).ready(function ($) {
             $("#search_time_type").click(function () {
                 if ($(this).is(":checked")) {
                     $("#time_type").show();
@@ -40,6 +33,7 @@
                     $("#time_type").remove();
                 }
             });
+
         });
     </script>
 

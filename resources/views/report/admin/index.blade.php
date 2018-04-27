@@ -122,7 +122,6 @@
                         <div id="hotel_id" style="display: none;">
                             <label>Hotel Name</label>
                             <select class="form-control" name="hotel_id" id="hotel_id_select">
-                                <div id="restaurant_id"></div>
                                 <option value="">please_selected</option>
                                 @foreach($hotel_items as $item)
                                     <option value="{{ $item->id }}">{{ $item->hotel_name }}</option>
@@ -161,4 +160,5 @@
             </div>
         </div>
     </div>
+
 @endsection
