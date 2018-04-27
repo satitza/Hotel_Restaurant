@@ -10,13 +10,28 @@
                 changeYear: true,
             });
         });
-
+        /*-----------------------------------------------------------------------------------------*/
         jQuery(document).ready(function ($) {
             $("#search_hotel_id").click(function () {
                 if ($(this).is(":checked")) {
                     $("#hotel_id").show();
                 } else {
                     $("#hotel_id").remove();
+                    $("#restaurant_id").remove();
+                    $("#offer_id").remove();
+                    $("#offer_date").remove();
+                }
+            });
+        });
+
+        jQuery(document).ready(function ($) {
+            $("#search_restaurant_id").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#restaurant_id").show();
+                } else {
+                    $("#restaurant_id").remove();
+                    $("#offer_id").remove();
+                    $("#offer_date").remove();
                 }
             });
         });
@@ -27,12 +42,13 @@
                     $("#offer_id").show();
                 } else {
                     $("#offer_id").remove();
+                    $("#offer_date").remove();
                 }
             });
         });
 
         jQuery(document).ready(function ($) {
-            $("#search_offer_date").click(function () {
+            $("#search_date").click(function () {
                 if ($(this).is(":checked")) {
                     $("#offer_date").show();
                 } else {
@@ -41,15 +57,48 @@
             });
         });
 
+        /*-----------------------------------------------------------------------------------------------*/
+
         jQuery(document).ready(function ($) {
-            $("#search_time_type").click(function () {
-                if ($(this).is(":checked")) {
-                    $("#time_type").show();
-                } else {
-                    $("#time_type").remove();
-                }
+            $("#hotel_id_select").change(function () {
+                var hotel_id = $("#hotel_id_select").val();
+                $.ajax({
+                    url: 'get_restaurant',
+                    type: 'GET',
+                    data: {id: hotel_id},
+                    success: function (response) {
+                        $('#restaurant_id_select').find('option').remove().end()
+                        $.each(response, function (index, value) {
+                            $('#restaurant_id_select')
+                                .append($("<option></option>")
+                                    .attr("value", value.id)
+                                    .text(value.restaurant_name));
+                        })
+                    }
+                });
             });
         });
+
+        jQuery(document).ready(function ($) {
+            $("#restaurant_id_select").change(function () {
+                var restaurant_id = $("#restaurant_id_select").val();
+                $.ajax({
+                    url: 'get_offer',
+                    type: 'GET',
+                    data: {id: restaurant_id},
+                    success: function (response) {
+                        $('#offer_id_select').find('option').remove().end()
+                        $.each(response, function (index, value) {
+                            $('#offer_id_select')
+                                .append($("<option></option>")
+                                    .attr("value", value.id)
+                                    .text(value.offer_name_en));
+                        })
+                    }
+                });
+            });
+        });
+
     </script>
 
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px;">
@@ -58,7 +107,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Search Option</div>
                     <div class="panel-body">
-                        {{ Form::open(array('url' => '#', 'method' => 'post')) }}
+                        {{ Form::open(array('url' => 'search_report', 'method' => 'post')) }}
 
 
                         <label for="search">
@@ -74,31 +123,24 @@
                         <hr>
                         <div id="hotel_id" style="display: none;">
                             <label>Hotel Name</label>
-                            <select class="form-control" name="hotel_id">
+                            <select class="form-control" name="hotel_id" id="hotel_id_select">
+                                <div id="restaurant_id"></div>
                                 <option value="">please_selected</option>
+                                @foreach($hotel_items as $item)
+                                    <option value="{{ $item->id }}">{{ $item->hotel_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                                <option value=""></option>
-
+                        <div id="restaurant_id" style="display: none;">
+                            <label>Restaurant Name</label>
+                            <select class="form-control" name="restaurant_id" id="restaurant_id_select">
                             </select>
                         </div>
 
                         <div id="offer_id" style="display: none;">
                             <label>Offer Name</label>
-                            <select class="form-control" name="offer_id">
-                                <option value="">please_selected</option>
-
-                                <option value=""></option>
-
-                            </select>
-                        </div>
-
-                        <div id="offer_id" style="display: none;">
-                            <label>Offer Name</label>
-                            <select class="form-control" name="offer_id">
-                                <option value="">please_selected</option>
-
-                                <option value=""></option>
-
+                            <select class="form-control" name="offer_id" id="offer_id_select">
                             </select>
                         </div>
 

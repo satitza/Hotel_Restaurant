@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Offers;
+use App\Restaurants;
 use App\Hotels;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -24,7 +26,8 @@ class ReportsController extends Controller
             //'show',
             //'edit',
             //'update',
-            //'destroy'
+            //'destroy',
+            'GetRestaurant'
         ]]);
         $this->middleware('report');
     }
@@ -59,11 +62,23 @@ class ReportsController extends Controller
     {
         try {
 
-            return view('report.admin.index');
+            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            //$restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
 
+            return view('report.admin.index', [
+                'hotel_items' => $hotel_items
+            ]);
+
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    public function SearchReports(Request $request)
+    {
+        echo "search report";
     }
 
     /**
@@ -145,28 +160,20 @@ class ReportsController extends Controller
     public function CheckBill($id, $booking_id)
     {
 
-        echo $id . "<br>";
-        echo $booking_id . "<br>";
-
-        /*if (DB::table('reports')->where('booking_id', $book_id)->exists()) {
-
-            $booking = DB::table('reports')->where('booking_id', $book_id)->first();
-
-            echo "booking id : " . $booking->booking_id;
-
-
-        } else {
-            throw  new Exception("Booking id not found");
-        }
-
-
-        try {
-
-
-        } catch (QueryException $e) {
-            return view('error.index')->with('error', $e->getMessage());
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e->getMessage());
-        }*/
     }
+
+    public function GetRestaurants()
+    {
+        $id = $_GET['id'];
+        $restaurants = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $id)->orderBy('id', 'ASC')->get();
+        return Response()->json($restaurants);
+    }
+
+    public function GetOffers()
+    {
+        $id = $_GET['id'];
+        $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $id)->orderBy('id', 'ASC')->get();
+        return Response()->json($offers);
+    }
+
 }

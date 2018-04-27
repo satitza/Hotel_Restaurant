@@ -41,9 +41,17 @@ Route::resource('balance', 'BalancesController');
 Route::post('search_balance', 'BalancesController@SearchBalance');
 Route::get('delete_balance/{id}', 'BalancesController@destroy');
 
+/*--------------------------------------------------------------------------------------------------*/
 Route::resource('report', 'ReportsController');
+
+Route::post('search_report', 'ReportsController@SearchReports');
 Route::get('booking_pending', 'ReportsController@ListBookingPending');
 Route::get('delete_report/{id}', 'ReportsController@destroy');
+
+Route::get('get_restaurant', 'ReportsController@GetRestaurants');
+Route::get('get_offer', 'ReportsController@GetOffers');
+
+/*----------------------------------------------------------------------------------------------------*/
 
 
 Route::group(['prefix' => 'setting'], function () {
