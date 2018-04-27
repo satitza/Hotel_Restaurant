@@ -27,7 +27,8 @@ class ReportsController extends Controller
             //'edit',
             //'update',
             //'destroy',
-            'GetRestaurant'
+            'GetRestaurants',
+            'GetOffers'
         ]]);
         $this->middleware('report');
     }
@@ -63,8 +64,6 @@ class ReportsController extends Controller
         try {
 
             $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            //$restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
-
             return view('report.admin.index', [
                 'hotel_items' => $hotel_items
             ]);
@@ -78,7 +77,10 @@ class ReportsController extends Controller
 
     public function SearchReports(Request $request)
     {
-        echo "search report";
+        echo $request->hotel_id . "<br>";
+        echo $request->restaurant_id . "<br>";
+        echo $request->offer_id . "<br>";
+        echo $request->offer_date . "<br>";
     }
 
     /**
@@ -164,16 +166,28 @@ class ReportsController extends Controller
 
     public function GetRestaurants()
     {
-        $id = $_GET['id'];
-        $restaurants = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $id)->orderBy('id', 'ASC')->get();
-        return Response()->json($restaurants);
+        try {
+            $id = $_GET['id'];
+            $restaurants = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $id)->orderBy('id', 'ASC')->get();
+            return Response()->json($restaurants);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     public function GetOffers()
     {
-        $id = $_GET['id'];
-        $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $id)->orderBy('id', 'ASC')->get();
-        return Response()->json($offers);
+        try {
+            $id = $_GET['id'];
+            $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $id)->orderBy('id', 'ASC')->get();
+            return Response()->json($offers);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
 }

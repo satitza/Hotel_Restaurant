@@ -68,6 +68,9 @@
                     data: {id: hotel_id},
                     success: function (response) {
                         $('#restaurant_id_select').find('option').remove().end()
+                        $("#restaurant_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
+                        $('#offer_id_select').find('option').remove().end()
+                        $("#offer_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
                         $.each(response, function (index, value) {
                             $('#restaurant_id_select')
                                 .append($("<option></option>")
@@ -82,12 +85,14 @@
         jQuery(document).ready(function ($) {
             $("#restaurant_id_select").change(function () {
                 var restaurant_id = $("#restaurant_id_select").val();
+                $('#text_date').val('');
                 $.ajax({
                     url: 'get_offer',
                     type: 'GET',
                     data: {id: restaurant_id},
                     success: function (response) {
                         $('#offer_id_select').find('option').remove().end()
+                        $("#offer_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
                         $.each(response, function (index, value) {
                             $('#offer_id_select')
                                 .append($("<option></option>")
@@ -96,6 +101,12 @@
                         })
                     }
                 });
+            });
+        });
+
+        jQuery(document).ready(function ($) {
+            $("#offer_id_select").change(function () {
+                $('#text_date').val('');
             });
         });
 
@@ -135,18 +146,20 @@
                         <div id="restaurant_id" style="display: none;">
                             <label>Restaurant Name</label>
                             <select class="form-control" name="restaurant_id" id="restaurant_id_select">
+                                <option value="">please_selected</option>
                             </select>
                         </div>
 
                         <div id="offer_id" style="display: none;">
                             <label>Offer Name</label>
                             <select class="form-control" name="offer_id" id="offer_id_select">
+                                <option value="">please_selected</option>
                             </select>
                         </div>
 
                         <div id="offer_date" style="display: none;">
                             <label>Offer Date</label>
-                            {{ Form::text('offer_date', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}
+                            {{ Form::text('offer_date', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date', 'id' => 'text_date']) }}
                         </div>
 
                         <br>
