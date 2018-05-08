@@ -83,7 +83,7 @@ class ReportsController extends Controller
                     $view = 'report.user.index';
                 }
             } else {
-                $items = Hotels::select('id', 'hotel_name')->orderBy('id', 'ASC')->get();
+                $items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
                 $view = 'report.admin.index';
             }
 
@@ -154,13 +154,15 @@ class ReportsController extends Controller
         try {
 
             $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'booking_guest', 'booking_contact_firstname',
+                ->select('reports.id', 'booking_id', 'hotel_name', 'restaurant_name', 'booking_date','booking_guest', 'booking_contact_firstname',
                     'booking_contact_lastname', 'booking_price')
                 ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                 ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                 ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
                 ->where('booking_date', 'like', '%' . $offer_date . '%')
                 ->where('booking_status', '=', 2)
+                ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
+                ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
                 ->orderBy('reports.id', 'asc')->paginate(10);
 
             foreach ($reports as $report) {
@@ -272,7 +274,7 @@ class ReportsController extends Controller
     {
         try {
             $id = $_GET['id'];
-            $restaurants = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $id)->orderBy('id', 'ASC')->get();
+            $restaurants = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $id)->orderBy('restaurant_name', 'ASC')->get();
             return Response()->json($restaurants);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -285,7 +287,7 @@ class ReportsController extends Controller
     {
         try {
             $restaurant_id = $_GET['id'];
-            $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $restaurant_id)->orderBy('id', 'ASC')->get();
+            $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $restaurant_id)->orderBy('offer_name_en', 'ASC')->get();
             return Response()->json($offers);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());

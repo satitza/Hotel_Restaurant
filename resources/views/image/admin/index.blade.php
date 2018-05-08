@@ -32,7 +32,7 @@
                         <div class="panel-body">
 
                             <div class="form-group">
-                            <!--  {!! Form::open(['url' => 'image', 'files' => true]) !!} -->
+                            <!--  {!! Form::open(['url' => 'upload', 'files' => true]) !!} -->
                                 <form class="form-horizontal" enctype="multipart/form-data" method="post"
                                       action="image" class="createAlbumFileUpload">
                                     <table class="table table-striped table-hover ">

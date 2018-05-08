@@ -168,6 +168,9 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Booking ID</th>
+                                <th scope="col">Hotel Name</th>
+                                <th scope="col">Restaurant Name</th>
+                                <th scope="col">Booking Date</th>
                                 <th scope="col">Guest Name</th>
                                 <th scope="col">Guest Number</th>
                                 <th scope="col">Total Price</th>
@@ -177,6 +180,9 @@
                             @foreach($reports as $report)
                                 <tr>
                                     <th>{{ $report->booking_id }}</th>
+                                    <th>{{ $report->hotel_name }}</th>
+                                    <th>{{ $report->restaurant_name }}</th>
+                                    <th>{{ $report->booking_date }}</th>
                                     <td>{{ $report->booking_contact_firstname."&nbsp;&nbsp;".$report->booking_contact_lastname  }}</td>
                                     <td>{{ $report->booking_guest }}</td>
                                     <td>{{ $report->booking_price }}</td>

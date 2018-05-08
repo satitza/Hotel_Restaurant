@@ -32,10 +32,10 @@ Route::post('search_offer', 'OffersController@SearchOffer');
 Route::get('delete_offer/{id}', 'OffersController@destroy');
 
 Route::resource('image', 'ImagesController');
-//Route::get('upload', 'ImagesController@store');
-Route::post('search_image', 'ImagesController@SearchImage');
-Route::get('delete_image/{id}', 'ImagesController@destroy');
-
+Route::get('upload/{offer_id}', 'ImagesController@UploadImage');
+//Route::get('delete_image/{id}', 'ImagesController@destroy');
+Route::post('upload/image', 'ImagesController@store');
+//Route::post('search_image', 'ImagesController@SearchImage');
 
 Route::resource('balance', 'BalancesController');
 Route::post('search_balance', 'BalancesController@SearchBalance');

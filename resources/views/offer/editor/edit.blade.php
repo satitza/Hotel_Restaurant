@@ -209,9 +209,17 @@
                             </tr>
                             </tbody>
                         </table>
-                        <center>
-                            {{ Form::submit('Update Offer', ['class' => 'btn btn-success']) }}
-                        </center>
+                            <center>
+                                <div class="container-fluid">
+                                    {{ Form::submit('Update Offer', ['class' => 'btn btn-success']) }}
+                                    <a href="{{ url('upload/'.$offer_id) }}" class="button-link-info">
+                                        Upload Images
+                                    </a>
+                                    <a href="{{ url('image/'.$offer_id.'/edit') }}" class="button-link-dark">
+                                        View Images
+                                    </a>
+                                </div>
+                            </center>
                         {{ csrf_field() }}
 
                     <!--Modal-->

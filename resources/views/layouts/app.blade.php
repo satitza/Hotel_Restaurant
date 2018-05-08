@@ -119,20 +119,20 @@
                             </ul>
                         </li>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
-                                Images <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ url('image') }}">Upload Images</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('image/create') }}">List Images</a>
-                                </li>
-                            </ul>
-                        </li>
+                        {{--<li class="dropdown">--}}
+                            {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"--}}
+                               {{--aria-expanded="false">--}}
+                                {{--Images <span class="caret"></span>--}}
+                            {{--</a>--}}
+                            {{--<ul class="dropdown-menu" role="menu">--}}
+                                {{--<li>--}}
+                                    {{--<a href="{{ url('image') }}">Upload Images</a>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<a href="{{ url('image/create') }}">List Images</a>--}}
+                                {{--</li>--}}
+                            {{--</ul>--}}
+                        {{--</li>--}}
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
