@@ -73,12 +73,12 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>{{ Form::label('lb_offer_old_pdf', 'PDF') }}</td>
-                                <td>{{ Form::text('old_pdf', $old_pdf, ['class' => 'form-control', 'placeholder' => '', 'readonly']) }}</td>
+                                <td>{{ Form::label('lb_offer_old_attachments', 'Attachments') }}</td>
+                                <td>{{ Form::text('old_attachments', $old_attachments, ['class' => 'form-control', 'placeholder' => '', 'readonly']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_offer_pdf', 'New PDF', array('class' => 'lb_offer_image')) }}</td>
-                                <td>{{ Form::file('pdf', array('class' => 'image')) }}</td>
+                                <td>{{ Form::label('lb_offer_attachments', 'New Attachments', array('class' => 'lb_offer_image')) }}</td>
+                                <td>{{ Form::file('attachments', array('class' => 'image')) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_restaurant_name', 'Restaurant Name') }}</td>
@@ -95,8 +95,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_offer_name_th', 'ชื่อเมนู') }}</td>
-                                <td>{{ Form::text('offer_name_th', $offer_name_th, ['class' => 'form-control', 'placeholder' => 'ชื่อเมนู']) }}</td>
+                                <td>{{ Form::label('lb_offer_name_th', 'ชื่ออ๊อฟเฟอร์') }}</td>
+                                <td>{{ Form::text('offer_name_th', $offer_name_th, ['class' => 'form-control', 'placeholder' => 'ชื่ออ๊อฟเฟอร์']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_offer_name_en', 'Offer Name') }}</td>

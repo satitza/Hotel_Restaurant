@@ -48,11 +48,11 @@
                             <th scope="col">Hotel Name</th>
                             <th scope="col">Restaurant Name</th>
                             <th scope="col">Offer Name</th>
-                            <th scope="col">PDF</th>
+                            <th scope="col">Attachments</th>
                             <th scope="col">Date Start</th>
                             <th scope="col">Date End</th>
-                            <th scope="col">Comment</th>
-                            <th scope="col">View PDF</th>
+                            <!--th scope="col">Comment</th-->
+                            <th scope="col">View Attachments</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
@@ -63,13 +63,13 @@
                                 <td>{{ $offer->hotel_name }}</td>
                                 <td>{{ $offer->restaurant_name }}</td>
                                 <td>{{ $offer->offer_name_en }}</td>
-                                <td>{{ $offer->pdf }}</td>
+                                <td>{{ $offer->attachments }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_start)) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_end)) }}</td>
-                                <td>{{ $offer->offer_comment_en }}</td>
+                                <!--td>{{ $offer->offer_comment_en }}</td-->
                                 <td>
                                     <a href="{{ url('offer/'.$offer->id) }}" class="button-link-info">
-                                        View PDF
+                                        View Attachments
                                     </a>
                                 </td>
                                 <td>

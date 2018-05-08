@@ -86,8 +86,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_offer_name_th', 'ชื่อเมนู') }}</td>
-                                <td>{{ Form::text('offer_name_th', null, ['class' => 'form-control', 'placeholder' => 'ชื่อเมนู']) }}</td>
+                                <td>{{ Form::label('lb_offer_name_th', 'ชื่ออ๊อฟเฟอร์') }}</td>
+                                <td>{{ Form::text('offer_name_th', null, ['class' => 'form-control', 'placeholder' => 'ชื่ออ๊อฟเฟอร์']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_offer_name_en', 'Offer Name') }}</td>
@@ -98,8 +98,8 @@
                                 <td>{{ Form::text('offer_name_cn', null, ['class' => 'form-control', 'placeholder' => '提供名稱']) }}</td>
                             </tr>
                             <tr>
-                                <td>{{ Form::label('lb_offer_pdf', 'PDF') }}</td>
-                                <td>{{ Form::file('pdf', array('class' => 'image')) }}</td>
+                                <td>{{ Form::label('lb_attachments', 'Attachments') }}</td>
+                                <td>{{ Form::file('attachments', array('class' => 'image')) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_date_start', 'Date start') }}</td>

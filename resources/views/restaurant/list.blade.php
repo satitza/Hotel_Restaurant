@@ -49,8 +49,8 @@
                                 <th scope="col">Restaurant Name</th>
                                 <th scope="col">Hotel Name</th>
                                 <th scope="col">E-Mail</th>
-                                <th scope="col">Active</th>
-                                <th scope="col">Restaurant Comment</th>
+                                <th scope="col">Status</th>
+                                <!--th scope="col">Restaurant Comment</th-->
                                 <th scope="col1">Edit Restaurant</th>
                                 <th scope="col1">Delete</th>
                             </tr>
@@ -62,7 +62,7 @@
                                     <td>{{ $restaurant->hotel_name }}</td>
                                     <td>{{ $restaurant->restaurant_email }}</td>
                                     <td>{{ $restaurant->active }}</td>
-                                    <td>{{ $restaurant->restaurant_comment }}</td>
+                                    <!--td>{{ $restaurant->restaurant_comment }}</td-->
                                     <td>
                                         <a href="{{ url('restaurant/'.$restaurant->id.'/edit') }}"
                                            class="button-link-success">

@@ -25,7 +25,7 @@ class OffersRequest extends FormRequest
     {
         return [
             'offer_name_en' => 'required',
-            'pdf' => 'mimes:jpeg,png,jpg,gif,pdf|max:2048',
+            'attachments' => 'mimes:jpeg,png,jpg,gif,pdf|max:2048',
             'offer_date_start' => 'required',
             'offer_date_end' => 'required',
             /*'offer_lunch_price' => 'integer',
@@ -41,8 +41,8 @@ class OffersRequest extends FormRequest
         return [
             'offer_name_en.required' => 'Please insert default offer name',
             //'image.required' => 'Image is not upload',
-            'pdf.mimes' => 'Invalid image type please choose type jpeg, png, jpg, gif, pdf',
-            'pdf.max' => 'Maximum size 2 MB',
+            'attachments.mimes' => 'Invalid image type please choose type jpeg, png, jpg, gif, pdf',
+            'attachments.max' => 'Maximum size 2 MB',
             'offer_date_start.required' => 'Please select date start',
             'offer_date_end.required' => 'Please select date end',
             /*'offer_lunch_price.between' => 'Please insert integer  0 to 1000000',

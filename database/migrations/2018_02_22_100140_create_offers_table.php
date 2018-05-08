@@ -27,7 +27,7 @@ class CreateOffersTable extends Migration
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
 
             //$table->string('image', 100)->nullable();
-            $table->string('pdf', 100)->nullable();
+            $table->string('attachments', 100)->nullable();
 
             $table->string('offer_name_th', 100)->nullable();
             $table->string('offer_name_en', 100)->nullable();
