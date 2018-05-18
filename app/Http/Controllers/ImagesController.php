@@ -320,8 +320,8 @@ class ImagesController extends Controller
                     ->select('images.id', 'images.offer_id', 'offer_name_en', 'image')
                     ->join('offers', 'offers.id', '=', 'images.offer_id')
                     ->where('images.offer_id', $id)->first();
-
-                if ($images->image == "") {
+                
+                if (!isset($images)) {
                     return view('error.index')->with('error', 'Don`t have images to show');
                 } else {
                     $photos = explode(',', $images->image);
