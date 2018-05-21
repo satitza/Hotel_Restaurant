@@ -141,4 +141,52 @@
         </div>
     </div>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">List Balance</div>
+                    <div class="panel-body">
+                    <!--{!! Form::open(['url' => '#', 'files' => false]) !!} -->
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Booking ID</th>
+                                <th scope="col">Hotel Name</th>
+                                <th scope="col">Restaurant Name</th>
+                                <th scope="col">Booking Date</th>
+                                <th scope="col">Guest Name</th>
+                                <th scope="col">Guest Number</th>
+                                <th scope="col">Total Price</th>
+                                <!--th scope="col1">Edit</th-->
+                            </tr>
+                            </thead>
+                            @foreach($reports as $report)
+                                <tr>
+                                    <th>{{ $report->booking_id }}</th>
+                                    <th>{{ $report->hotel_name }}</th>
+                                    <th>{{ $report->restaurant_name }}</th>
+                                    <th>{{ $report->booking_date }}</th>
+                                    <td>{{ $report->booking_contact_firstname."&nbsp;&nbsp;".$report->booking_contact_lastname  }}</td>
+                                    <td>{{ $report->booking_guest }}</td>
+                                    <td>{{ $report->booking_price }}</td>
+                                <!--td>
+                                        <a href="{{ url('report/'.$report->id.'/edit') }}"
+                                           class="button-link-success">
+                                            Edit Report
+                                        </a>
+                                    </td-->
+                                </tr>
+                                @endforeach
+                                </tbody>
+                        </table>
+                    {!! $reports->render() !!}
+                    <!--{{ csrf_field() }}
+                    {!! Form::close() !!} -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection

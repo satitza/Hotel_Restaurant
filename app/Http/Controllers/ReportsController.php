@@ -69,6 +69,7 @@ class ReportsController extends Controller
 
             $items = null;
             $view = null;
+            $where = null;
 
             $check_rows = User::find(Auth::id());
 
@@ -79,16 +80,28 @@ class ReportsController extends Controller
                 } else {
                     foreach ($get_hotel_id as $get_id) {
                         $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_id->hotel_id)->orderBy('id', 'ASC')->get();
+                        $where = ['booking_status' => 2, 'booking_hotel_id' => $get_id->hotel_id];
                     }
                     $view = 'report.user.index';
                 }
             } else {
+
                 $items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+                $where = ['booking_status' => 2];
                 $view = 'report.admin.index';
             }
 
+            $reports = DB::table('reports')
+                ->select('reports.id', 'booking_id', 'hotel_name', 'restaurant_name', 'booking_date','booking_guest', 'booking_contact_firstname',
+                    'booking_contact_lastname', 'booking_price')
+                ->where($where)
+                ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
+                ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
+                ->orderBy('reports.id', 'asc')->paginate(10);
+
             return view($view, [
-                'items' => $items
+                'items' => $items,
+                'reports' => $reports
             ]);
 
         } catch (QueryException $e) {
@@ -135,10 +148,6 @@ class ReportsController extends Controller
         $view = null;
         $items = null;
 
-        $count = 0;
-        $guest = 0;
-        $price = 0;
-
         $check_rows = User::find(Auth::id());
 
         if ($check_rows->user_role == 3) {
@@ -163,19 +172,10 @@ class ReportsController extends Controller
                 ->where('booking_status', '=', 2)
                 ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                 ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
-                ->orderBy('reports.id', 'asc')->paginate(10);
-
-            foreach ($reports as $report) {
-                $guest = (int)$guest + (int)$report->booking_guest;
-                $price = (double)$price + (double)$report->booking_price;
-                $count = $count + 1;
-            }
+                ->orderBy('reports.id', 'asc')->get();
 
             return view($view, [
                 'items' => $items,
-                'count' => $count,
-                'guest' => $guest,
-                'price' => $price,
                 'reports' => $reports
 
             ]);

@@ -150,12 +150,12 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        <button type="button" class="btn btn-primary">Booking <span class="badge">{{ $count }}</span></button>
-        <button type="button" class="btn btn-success">Guest <span class="badge">{{ $guest }}</span></button>
-        <button type="button" class="btn btn-dark">Price <span class="badge">{{ $price }}</span></button>
-    </div>
-    <br>
+    {{--<div class="container-fluid">--}}
+        {{--<button type="button" class="btn btn-primary">Booking <span class="badge">{{ $count }}</span></button>--}}
+        {{--<button type="button" class="btn btn-success">Guest <span class="badge">{{ $guest }}</span></button>--}}
+        {{--<button type="button" class="btn btn-dark">Price <span class="badge">{{ $price }}</span></button>--}}
+    {{--</div>--}}
+    {{--<br>--}}
 
     <div class="container-fluid">
         <div class="row">
@@ -196,7 +196,6 @@
                                 @endforeach
                                 </tbody>
                         </table>
-                    {!! $reports->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>
