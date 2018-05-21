@@ -83,7 +83,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('test', function () {
-    return view('test.index');
+    //return view('test.index');
 });
 
 

@@ -76,12 +76,16 @@
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
+                               aria-expanded="false"
+                                    {{ Request::route()->getName() == 'hotel.index' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'hotel.create' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'hotel.edit' ? "style=color:green" : "" }}
+                            >
                                 Hotel <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ url('hotel') }}">Add Hotel</a>
+                                    <a  href="{{ url('hotel') }}">Add Hotel</a>
                                 </li>
                                 <li>
                                     <a href="{{ url('hotel/create') }}">List Hotel</a>
@@ -91,7 +95,11 @@
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
+                               aria-expanded="false"
+                                    {{ Request::route()->getName() == 'restaurant.index' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'restaurant.create' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'restaurant.edit' ? "style=color:green" : "" }}
+                            >
                                 Restaurant <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
@@ -106,7 +114,13 @@
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
+                               aria-expanded="false"
+                                    {{ Request::route()->getName() == 'offer.index' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'offer.create' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'offer.edit' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'image.upload' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'image.edit' ? "style=color:green" : "" }}
+                            >
                                 Offers <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
@@ -136,7 +150,11 @@
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false"> Balance <span class="caret"></span>
+                               aria-expanded="false"
+                                    {{ Request::route()->getName() == 'balance.index' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'balance.create' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'balance.edit' ? "style=color:green" : "" }}
+                            > Balance <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
@@ -147,7 +165,11 @@
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
+                               aria-expanded="false"
+                                    {{ Request::route()->getName() == 'report.index' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'report.list' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'report.edit' ? "style=color:green" : "" }}
+                            >
                                 Report <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
@@ -162,7 +184,11 @@
                         <!----------------------------------------------------------------------------------------------------------------->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">Setting <span class="caret"></span></a>
+                               aria-expanded="false"
+                                    {{ Request::route()->getName() == 'users.index' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'users.create' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'users.edit' ? "style=color:green" : "" }}
+                            >Setting <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-submenu">
                                     <a class="submenu" tabindex="-1" href="#">User Manage<span class="caret"></span></a>
@@ -210,24 +236,22 @@
                             </ul>
                         </li>
                     <!--li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                             {{ Auth::user()->name }} <span class="caret"></span>
+                         </a>
+                         <ul class="dropdown-menu">
+                             <li>
+                                <a href="{{ route('logout') }}"
+                                     onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                                     Logout
                                 </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
-                                           document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
-                            </form>
-                        </li>
-                    </ul>
-                </li-->
+                                </form>
+                              </li>
+                         </ul>
+                     </li-->
                     @endguest
                 </ul>
             </div>
@@ -235,6 +259,7 @@
     </nav>
 
     @yield('content')
+    @include('layouts.footer')
 </div>
 
 <!-- Scripts -->
