@@ -80,6 +80,7 @@
                                     {{ Request::route()->getName() == 'hotel.index' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'hotel.create' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'hotel.edit' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'search_hotel' ? "style=color:green" : "" }}
                             >
                                 Hotel <span class="caret"></span>
                             </a>
@@ -99,6 +100,7 @@
                                     {{ Request::route()->getName() == 'restaurant.index' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'restaurant.create' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'restaurant.edit' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'search_restaurant' ? "style=color:green" : "" }}
                             >
                                 Restaurant <span class="caret"></span>
                             </a>
@@ -118,8 +120,10 @@
                                     {{ Request::route()->getName() == 'offer.index' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'offer.create' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'offer.edit' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'search_offer' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'image.upload' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'image.edit' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'upload_image' ? "style=color:green" : "" }}
                             >
                                 Offers <span class="caret"></span>
                             </a>
@@ -154,6 +158,7 @@
                                     {{ Request::route()->getName() == 'balance.index' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'balance.create' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'balance.edit' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'search_balance' ? "style=color:green" : "" }}
                             > Balance <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
@@ -166,9 +171,11 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false"
+                                    {{ Request::route()->getName() == 'list_pending' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'report.index' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'report.list' ? "style=color:green" : "" }}
                                     {{ Request::route()->getName() == 'report.edit' ? "style=color:green" : "" }}
+                                    {{ Request::route()->getName() == 'search_report' ? "style=color:green" : "" }}
                             >
                                 Report <span class="caret"></span>
                             </a>

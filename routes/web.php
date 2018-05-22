@@ -20,32 +20,32 @@
   }
  *  */
 Route::resource('hotel', 'HotelController');
-Route::post('search_hotel', 'HotelController@searchHotel');
+Route::post('search_hotel', 'HotelController@searchHotel')->name('search_hotel');
 Route::get('delete_hotel/{id}', 'HotelController@destroy');
 
 Route::resource('restaurant', 'RestaurantsController');
-Route::post('search_restaurant', 'RestaurantsController@searchRestaurant');
+Route::post('search_restaurant', 'RestaurantsController@searchRestaurant')->name('search_restaurant');
 Route::get('delete_restaurant/{id}', 'RestaurantsController@destroy');
 
 Route::resource('offer', 'OffersController');
-Route::post('search_offer', 'OffersController@SearchOffer');
+Route::post('search_offer', 'OffersController@SearchOffer')->name('search_offer');
 Route::get('delete_offer/{id}', 'OffersController@destroy');
 
 Route::resource('image', 'ImagesController');
-Route::get('upload/{offer_id}', 'ImagesController@UploadImage');
+Route::get('upload/{offer_id}', 'ImagesController@UploadImage')->name('upload_image');
 //Route::get('delete_image/{id}', 'ImagesController@destroy');
 Route::post('upload/image', 'ImagesController@store');
 //Route::post('search_image', 'ImagesController@SearchImage');
 
 Route::resource('balance', 'BalancesController');
-Route::post('search_balance', 'BalancesController@SearchBalance');
+Route::post('search_balance', 'BalancesController@SearchBalance')->name('search_balance');
 Route::get('delete_balance/{id}', 'BalancesController@destroy');
 
 /*--------------------------------------------------------------------------------------------------*/
 Route::resource('report', 'ReportsController');
 
-Route::post('search_report', 'ReportsController@SearchReports');
-Route::get('booking_pending', 'ReportsController@ListBookingPending');
+Route::post('search_report', 'ReportsController@SearchReports')->name('search_report');
+Route::get('booking_pending', 'ReportsController@ListBookingPending')->name('list_pending');
 Route::get('delete_report/{id}', 'ReportsController@destroy');
 
 Route::get('get_restaurant', 'ReportsController@GetRestaurants');

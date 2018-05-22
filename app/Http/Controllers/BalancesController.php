@@ -104,9 +104,9 @@ class BalancesController extends Controller
                 ->where('book_offer_id', 'like', '%' . $offer_id . '%')
                 ->where('book_offer_date', 'like', '%' . $offer_date . '%')
                 ->where('book_time_type', 'like', '%' . $time_type . '%')
-                ->orderBy('book_check_balances.id', 'asc')->paginate(10);
+                ->orderBy('book_check_balances.id', 'asc')->get();
 
-            return view('balance.list', [
+            return view('balance.search', [
                 'balances' => $balances,
                 'offer_items' => $offer_items
             ]);

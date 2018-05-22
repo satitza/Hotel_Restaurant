@@ -38,7 +38,7 @@ class EditorUsersController extends Controller
     {
         try {
             $editor_users = User::where('user_role', 2)->orderBy('id', 'ASC')->get();
-            $restaurants = Restaurants::where('active_id', 1)->orderBy('id', 'ASC')->get();
+            $restaurants = Restaurants::where('active_id', 1)->orderBy('restaurant_name', 'ASC')->get();
 
             return view('setting.editor_user.add_user', [
                 'editor_users' => $editor_users,

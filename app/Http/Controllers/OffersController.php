@@ -73,7 +73,7 @@ class OffersController extends Controller
                 }
             } else {
                 $view = 'offer.admin.index';
-                $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
+                $restaurants = Restaurants::orderBy('restaurant_name', 'ASC')->where('active_id', '1')->get();
             }
 
             return view($view, [
@@ -115,13 +115,13 @@ class OffersController extends Controller
                     array_push($restaurant_items, Restaurants::where($where)->get());
                 }
 
-                $view = 'offer.editor.list';
+                $view = 'offer.editor.search';
                 $where = ['offers.restaurant_id' => $request->restaurant_id];
 
             } else {
                 $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-                $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
-                $view = 'offer.admin.list';
+                $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
+                $view = 'offer.admin.search';
             }
             $offers = DB::table('offers')->
             select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
@@ -154,7 +154,7 @@ class OffersController extends Controller
 
             $check_rows = User::find(Auth::id());
             $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
+            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
             $restaurants = array();
 
             $offers = DB::table('offers')
@@ -374,7 +374,7 @@ class OffersController extends Controller
                         return view('error.index')->with('error', 'You don`t have permission');
                     }
                 } else {
-                    $restaurants = Restaurants::orderBy('id', 'ASC')->where('active_id', '1')->get();
+                    $restaurants = Restaurants::orderBy('restaurant_name', 'ASC')->where('active_id', '1')->get();
                     $view = 'offer.admin.edit';
                 }
                 //Administrator role

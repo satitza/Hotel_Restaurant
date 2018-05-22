@@ -61,7 +61,7 @@ class RestaurantsController extends Controller
         try {
 
             $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
+            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
 
             $restaurants = DB::table('restaurants')
                 ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
@@ -111,7 +111,7 @@ class RestaurantsController extends Controller
     {
         try {
             $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name')->get();
+            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
             $where = null;
 
             if ($request->search_value == 'hotel') {
@@ -124,8 +124,8 @@ class RestaurantsController extends Controller
                 ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
-                ->where($where)->paginate(10);
-            return view('restaurant.list', [
+                ->where($where)->get();
+            return view('restaurant.search', [
                 'hotel_items' => $hotel_items,
                 'restaurant_items' => $restaurant_items,
                 'restaurants' => $restaurants
@@ -173,7 +173,7 @@ class RestaurantsController extends Controller
                 ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->first();
 
             $actives = Actives::orderBy('id', 'ASC')->get();
-            $hotels = Hotels::orderBy('id', 'ASC')->where('active_id', '1')->get();
+            $hotels = Hotels::orderBy('hotel_name', 'ASC')->where('active_id', '1')->get();
 
             return view('restaurant.edit', [
                 'id' => $restaurants->id,

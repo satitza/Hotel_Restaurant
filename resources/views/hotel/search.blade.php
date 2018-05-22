@@ -69,7 +69,6 @@
                             @endforeach
                             </tbody>
                         </table>
-                    {!! $hotels->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>

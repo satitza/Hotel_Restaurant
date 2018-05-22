@@ -34,7 +34,7 @@ class ReportUsersController extends Controller
     {
         try {
             $report_users = User::where('user_role', 3)->orderBy('id', 'ASC')->get();
-            $hotels = Hotels::where('active_id', 1)->orderBy('id', 'ASC')->get();
+            $hotels = Hotels::where('active_id', 1)->orderBy('hotel_name', 'ASC')->get();
 
             return view('setting.report_user.add_user', [
                 'report_users' => $report_users,

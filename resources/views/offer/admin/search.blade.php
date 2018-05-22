@@ -66,7 +66,7 @@
                                 <td>{{ $offer->attachments }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_start)) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_end)) }}</td>
-                                <!--td>{{ $offer->offer_comment_en }}</td-->
+                            <!--td>{{ $offer->offer_comment_en }}</td-->
                                 <td>
                                     <a href="{{ url('offer/'.$offer->id) }}" class="button-link-info">
                                         View Attachments
@@ -87,7 +87,6 @@
                         @endforeach
                         </tbody>
                     </table>
-                {{ $offers->render() }}
                 <!--{{ csrf_field() }}
                 {!! Form::close() !!} -->
                 </div>

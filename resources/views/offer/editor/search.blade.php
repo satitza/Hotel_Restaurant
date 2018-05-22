@@ -7,27 +7,15 @@
                 <div class="panel-heading">Search Option</div>
                 <div class="panel-body">
                     {{ Form::open(array('url' => 'search_offer', 'method' => 'post')) }}
-                    <label>Search By</label>
-                    <select class="form-control" name="search_value">
-                        <!--option value="" disabled selected>please_selected</option-->
-                        <option value="hotel">Hotel</option>
-                        <option value="restaurant">Restaurant</option>
-                    </select>
-                    <label>Hotel</label>
-                    <select class="form-control" name="hotel_id">
-                        <!--option value="" disabled selected>please_selected</option-->
-                        @foreach($hotel_items as $item)
-                            <option value="{{ $item->id }}">{{ $item->hotel_name }}</option>
-                        @endforeach
-                    </select>
-                    <label>Restaurant</label>
-                    <select class="form-control" name="restaurant_id">
-                        <!--option value="" disabled selected>please_selected</option-->
-                        @foreach($restaurant_items as $item)
-                            <option value="{{ $item->id }}">{{ $item->restaurant_name }}</option>
-                        @endforeach
-                    </select>
-                    <br>
+                    <label>Restaurants</label>
+                    <div class="form-group">
+                        <select class="form-control" name="restaurant_id">
+                            <!--option value="" disabled selected>please_selected</option-->
+                            @foreach($restaurant_items as $restaurant)
+                                <option value="{{ $restaurant[0]->id }}">{{ $restaurant[0]->restaurant_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
                     <a href="{{ action('OffersController@create') }}" class="button-link-dark">
                         Clear
@@ -39,7 +27,7 @@
         </div>
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">List Offer</div>
+                <div class="panel-heading">List Menu</div>
                 <div class="panel-body">
                 <!--{!! Form::open(['url' => '#', 'files' => false]) !!} -->
                     <table class="table">
@@ -66,7 +54,7 @@
                                 <td>{{ $offer->attachments }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_start)) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_end)) }}</td>
-                                <!--td>{{ $offer->offer_comment_en }}</td-->
+                            <!--td>{{ $offer->offer_comment_en }}</td-->
                                 <td>
                                     <a href="{{ url('offer/'.$offer->id) }}" class="button-link-info">
                                         View Attachments
@@ -87,7 +75,6 @@
                         @endforeach
                         </tbody>
                     </table>
-                {{ $offers->render() }}
                 <!--{{ csrf_field() }}
                 {!! Form::close() !!} -->
                 </div>
