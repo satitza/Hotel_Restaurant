@@ -131,12 +131,12 @@
                             <tr>
                                 <h2>Offer Time Setting</h2>
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#home">Lunch Time</a></li>
-                                    <li><a data-toggle="tab" href="#menu1">Dinner Time</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#lunch_time">Lunch Time</a></li>
+                                    <li><a data-toggle="tab" href="#dinner_time">Dinner Time</a></li>
                                 </ul>
 
                                 <div class="tab-content">
-                                    <div id="home" class="tab-pane fade in active">
+                                    <div id="lunch_time" class="tab-pane fade in active">
                                         <div class="form-group">
                                             <br>
                                             {{ Form::label('lb_time_lunch_start', 'Lunch time start') }}
@@ -159,7 +159,7 @@
                                             {{ Form::text('offer_lunch_guest', $offer_lunch_guest, ['class' => 'form-control', 'placeholder' => 'Max Guest', 'readonly']) }}
                                         </div>
                                     </div>
-                                    <div id="menu1" class="tab-pane fade">
+                                    <div id="dinner_time" class="tab-pane fade">
                                         <br>
                                         {{ Form::label('lb_time_dinner_start', 'Dinner time start') }}
                                         <div class="form-group">
@@ -188,78 +188,7 @@
                             </tr>
                         </table>
                             <hr>
-                        {{--<tr style="background: #ffffcc">--}}
-                        {{--<td>{{ Form::label('lb_offer_time_lunch_start', 'Time lunch start') }}</td>--}}
-                        {{--<td>--}}
-                        {{--<div class="form-group">--}}
-                        {{--<select class="form-control" name="offer_time_lunch_start">--}}
-                        {{--<option value="{{ $offer_time_lunch_start }}">{{ $offer_time_lunch_start }}</option>--}}
-                        {{--<!--option value="" disabled selected>please_selected</option-->--}}
-                        {{--@foreach($time_lunchs as $time_lunch)--}}
-                        {{--<option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>--}}
-                        {{--@endforeach--}}
-                        {{--</select>--}}
-                        {{--</div>--}}
-                        {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr style="background: #ffffcc">--}}
-                        {{--<td>{{ Form::label('lb_offer_time_lunch_end', 'Time lunch end') }}</td>--}}
-                        {{--<td>--}}
-                        {{--<div class="form-group">--}}
-                        {{--<select class="form-control" name="offer_time_lunch_end">--}}
-                        {{--<option value="{{ $offer_time_lunch_end }}">{{ $offer_time_lunch_end }}</option>--}}
-                        {{--<!--option value="" disabled selected>please_selected</option-->--}}
-                        {{--@foreach($time_lunchs as $time_lunch)--}}
-                        {{--<option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>--}}
-                        {{--@endforeach--}}
-                        {{--</select>--}}
-                        {{--</div>--}}
-                        {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr style="background: #ffffcc">--}}
-                        {{--<td>{{ Form::label('lb_lunch_price', 'Lunch Price per person') }}</td>--}}
-                        {{--<td>{{ Form::text('offer_lunch_price', $offer_lunch_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr style="background: #ffffcc">--}}
-                        {{--<td>{{ Form::label('lb_lunch_guest', 'Lunch Max guest') }}</td>--}}
-                        {{--<td>{{ Form::text('offer_lunch_guest', $offer_lunch_guest, ['class' => 'form-control', 'placeholder' => 'Max guest']) }}</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr style="background: #e0e0d1">--}}
-                        {{--<td>{{ Form::label('lb_offer_time_dinner_start', 'Time dinner start') }}</td>--}}
-                        {{--<td>--}}
-                        {{--<div class="form-group">--}}
-                        {{--<select class="form-control" name="offer_time_dinner_start">--}}
-                        {{--<option value="{{ $offer_time_dinner_start }}">{{ $offer_time_dinner_start }}</option>--}}
-                        {{--<!--option value="" disabled selected>please_selected</option-->--}}
-                        {{--@foreach($time_dinners as $time_dinner)--}}
-                        {{--<option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>--}}
-                        {{--@endforeach--}}
-                        {{--</select>--}}
-                        {{--</div>--}}
-                        {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr style="background: #e0e0d1">--}}
-                        {{--<td>{{ Form::label('lb_offer_time_dinner_end', 'Time dinner end') }}</td>--}}
-                        {{--<td>--}}
-                        {{--<div class="form-group">--}}
-                        {{--<select class="form-control" name="offer_time_dinner_end">--}}
-                        {{--<option value="{{ $offer_time_dinner_end }}">{{ $offer_time_dinner_end }}</option>--}}
-                        {{--<!--option value="" disabled selected>please_selected</option-->--}}
-                        {{--@foreach($time_dinners as $time_dinner)--}}
-                        {{--<option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>--}}
-                        {{--@endforeach--}}
-                        {{--</select>--}}
-                        {{--</div>--}}
-                        {{--</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr style="background: #e0e0d1">--}}
-                        {{--<td>{{ Form::label('lb_dinner_price', 'Dinner Price per person') }}</td>--}}
-                        {{--<td>{{ Form::text('offer_dinner_price', $offer_dinner_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}</td>--}}
-                        {{--</tr>--}}
-                        {{--<tr style="background: #e0e0d1">--}}
-                        {{--<td>{{ Form::label('lb_dinner_guest', 'Dinner Max guest') }}</td>--}}
-                        {{--<td>{{ Form::text('offer_dinner_guest', $offer_dinner_guest, ['class' => 'form-control', 'placeholder' => 'Max guest']) }}</td>--}}
-                        {{--</tr>--}}
+
                         <table class="table table-striped table-hover ">
                             <tr>
                                 <td>{{ Form::label('lb_offer_comment_th', 'รายละเอียด') }}</td>
