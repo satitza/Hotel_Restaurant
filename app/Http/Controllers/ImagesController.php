@@ -80,13 +80,18 @@ class ImagesController extends Controller
                 $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
                 $restaurants_id = explode(',', $user_editors->restaurant_id);
                 foreach ($restaurants_id as $id) {
-                    if (Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->exists()) {
-                        array_push($offer_items, Offers::select('id', 'offer_name_en')->where('restaurant_id', '=', $id)->get());
+                    $where = ['id' => $offer_id, 'restaurant_id' => $id];
+                    if (Offers::select('id', 'offer_name_en')->where($where)->exists()) {
+                        //array_push($offer_items, Offers::select('id', 'offer_name_en')->where($where)->get());
+                        $offer_items = Offers::select('id', 'offer_name_en')->where($where)->orderBy('id', 'ASC')->get();
                     }
                 }
 
-                $view = 'image.editor.index';
-
+                if($offer_items == null){
+                    return view('error.index')->with('error', 'Restaurant ID Not Found');
+                }else{
+                    $view = 'image.editor.index';
+                }
             } else {
                 $offer_items = Offers::select('id', 'offer_name_en')->where('id', $offer_id)->orderBy('id', 'ASC')->get();
                 $view = 'image.admin.index';
@@ -219,6 +224,7 @@ class ImagesController extends Controller
      */
     public function store(Request $request)
     {
+        //echo $request->offer_id;
         if (Input::hasFile('images')) {
 
             $collect = array();

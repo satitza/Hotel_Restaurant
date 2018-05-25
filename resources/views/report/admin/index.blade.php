@@ -215,12 +215,4 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        <center>
-            <a href="#" class="button-link-success">
-                Load PDF
-            </a>
-        </center>
-    </div>
-
 @endsection

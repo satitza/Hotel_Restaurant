@@ -11,6 +11,7 @@
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
+        "muhamadrezaar/highcharts": "^1.0",
         "niklasravnsborg/laravel-pdf": "^2.0"
     },
     "require-dev": {

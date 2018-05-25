@@ -50,7 +50,7 @@
                                                     <select class="form-control" name="offer_id">
                                                         <!--option value="" disabled selected>please_selected</option-->
                                                         @foreach($offer_items as $item)
-                                                            <option value="{{ $item[0]->id }}">{{ $item[0]->offer_name_en }}</option>
+                                                            <option value="{{ $item->id }}">{{ $item->offer_name_en }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

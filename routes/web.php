@@ -53,6 +53,9 @@ Route::get('get_offer', 'ReportsController@GetOffers');
 
 /*----------------------------------------------------------------------------------------------------*/
 
+//Route::get('get_pdf', 'ReportPDFController@test')->name('get_pdf');
+
+/*-----------------------------------------------------------------------------------------------------*/
 
 Route::group(['prefix' => 'setting'], function () {
 
