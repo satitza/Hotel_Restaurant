@@ -32,6 +32,7 @@ class OffersRequest extends FormRequest
             'offer_lunch_guest' => 'integer|between:0,10000',
             'offer_dinner_price' => 'integer',
             'offer_dinner_guest' => 'integer|between:0,10000',*/
+            'offer_short_en' => 'required',
             'offer_comment_en' => 'required',
         ];
     }
@@ -51,6 +52,7 @@ class OffersRequest extends FormRequest
             'offer_dinner_price.between' => 'Please insert integer  0 to 1000000',
             'offer_dinner_guest.integer' => 'Please insert max guest is integer',
             'offer_dinner_guest.between' => 'Please insert integer  0 to 10000',*/
+            'offer_short_en.required' => 'Please insert default offer short description',
             'offer_comment_en.required' => 'Please insert default offer description',
         ];
     }

@@ -12,102 +12,156 @@
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#short_en' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#short_en'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#short_th' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#short_th'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#short_cn' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#short_cn'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#editor_th' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#editor_th'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#editor_en' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#editor_en'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#editor_cn' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#editor_cn'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#term_en' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#term_en'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#term_th' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#term_th'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
 
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#term_cn' ) )
-                .then( editor => {
-                console.log( editor );
+                .create(document.querySelector('#term_cn'))
+                .then(editor => {
+                console.log(editor);
         } )
-        .catch( error => {
-                console.error( error );
-        } );
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
         });
+
+        // $(document).ready(function () {
+        //     $('.add_more_th').click(function (e) {
+        //         e.preventDefault();
+        //         $(this).before("<br>\n" +
+        //             "<input type=\"text\" name=\"term_header_th[]\" class=\"form-control\"\n" +
+        //             "placeholder=\"หัวข้อเงือนไข\">\n" +
+        //             "<br>\n" +
+        //             "<textarea name=\"term_content_th[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"รายละเอียดเงือนไข\"></textarea>\n" +
+        //             "<br>");
+        //     });
+        // });
+        //
+        // $(document).ready(function () {
+        //     $('.add_more_en').click(function (e) {
+        //         e.preventDefault();
+        //         $(this).before("<br>\n" +
+        //             "<input type=\"text\" name=\"term_header_en[]\" class=\"form-control\"\n" +
+        //             "placeholder=\"Terms Conditions Header\">\n" +
+        //             "<br>\n" +
+        //             "<textarea name=\"term_content_en[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"Terms Conditions Content\"></textarea>\n" +
+        //             "<br>");
+        //     });
+        // });
+        //
+        // $(document).ready(function () {
+        //     $('.add_more_cn').click(function (e) {
+        //         e.preventDefault();
+        //         $(this).before("<br>\n" +
+        //             "<input type=\"text\" name=\"term_header_cn[]\" class=\"form-control\"\n" +
+        //             "placeholder=\"條款條件標題\">\n" +
+        //             "<br>\n" +
+        //             "<textarea name=\"term_content_en[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"條款條件內容\"></textarea>\n" +
+        //             "<br>");
+        //     });
+        // });
 
 
     </script>
@@ -288,9 +342,9 @@
                                 <td>
                                     <h3>Short Description</h3>
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a data-toggle="tab" href="#tab_short_en">Short Description</a>
+                                        <li class="active"><a data-toggle="tab" href="#tab_short_th">คำอธิบายสั้น</a>
                                         </li>
-                                        <li><a data-toggle="tab" href="#tab_short_th">คำอธิบายสั้น</a></li>
+                                        <li><a data-toggle="tab" href="#tab_short_en">Short Description</a></li>
                                         <li><a data-toggle="tab" href="#tab_short_cn">簡短的介紹</a></li>
 
                                     </ul>
@@ -299,11 +353,11 @@
                             <tr>
                                 <td>
                                     <div class="tab-content">
-                                        <div id="tab_short_en" class="tab-pane fade in active">
-                                            {{ Form::textarea('offer_short_en', null, ['id' => 'short_en']) }}
-                                        </div>
-                                        <div id="tab_short_th" class="tab-pane fade">
+                                        <div id="tab_short_th" class="tab-pane fade in active">
                                             {{ Form::textarea('offer_short_th', null, ['id' => 'short_th']) }}
+                                        </div>
+                                        <div id="tab_short_en" class="tab-pane fade">
+                                            {{ Form::textarea('offer_short_en', null, ['id' => 'short_en']) }}
                                         </div>
                                         <div id="tab_short_cn" class="tab-pane fade">
                                             {{ Form::textarea('offer_short_cn', null, ['id' => 'short_cn']) }}
@@ -318,9 +372,9 @@
                                 <td>
                                     <h3>Long Description</h3>
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a data-toggle="tab" href="#tab_long_en">Long Description</a>
+                                        <li class="active"><a data-toggle="tab" href="#tab_long_th">รายละเอียด</a>
                                         </li>
-                                        <li><a data-toggle="tab" href="#tab_long_th">รายละเอียด</a></li>
+                                        <li><a data-toggle="tab" href="#tab_long_en">Long Description</a></li>
                                         <li><a data-toggle="tab" href="#tab_long_cn">細節</a></li>
 
                                     </ul>
@@ -329,63 +383,92 @@
                             <tr>
                                 <td>
                                     <div class="tab-content">
-                                        <div id="tab_long_en" class="tab-pane fade in active">
-                                            {{ Form::textarea('offer_comment_th', null, ['id' => 'editor_en']) }}
-                                        </div>
-                                        <div id="tab_long_th" class="tab-pane fade">
+                                        <div id="tab_long_th" class="tab-pane fade in active">
                                             {{ Form::textarea('offer_comment_th', null, ['id' => 'editor_th']) }}
                                         </div>
+                                        <div id="tab_long_en" class="tab-pane fade">
+                                            {{ Form::textarea('offer_comment_en', null, ['id' => 'editor_en']) }}
+                                        </div>
                                         <div id="tab_long_cn" class="tab-pane fade">
-                                            {{ Form::textarea('offer_comment_th', null, ['id' => 'editor_cn']) }}
+                                            {{ Form::textarea('offer_comment_cn', null, ['id' => 'editor_cn']) }}
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                         </table>
                         <hr>
-                        <table class="table table-striped table-hover">
-                            <tr>
-                                <td>
-                                    <h3>Term Description</h3>
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a data-toggle="tab" href="#tab_term_en">Term Description</a>
-                                        </li>
-                                        <li><a data-toggle="tab" href="#tab_term_th">คำอธิบายเนื่องในวาระ</a></li>
-                                        <li><a data-toggle="tab" href="#tab_term_cn">在議程上</a></li>
 
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="tab-content">
-                                        <div id="tab_term_en" class="tab-pane fade in active">
-                                            {{ Form::textarea('offer_term_th', null, ['id' => 'term_en']) }}
-                                        </div>
-                                        <div id="tab_term_th" class="tab-pane fade">
-                                            {{ Form::textarea('offer_term_th', null, ['id' => 'term_th']) }}
-                                        </div>
-                                        <div id="tab_term_cn" class="tab-pane fade">
-                                            {{ Form::textarea('offer_term_th', null, ['id' => 'term_cn']) }}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+
+                        {{--<table class="table table-striped table-hover">--}}
+                            {{--<tr>--}}
+                                {{--<td>--}}
+                                    {{--<h3>Term Description</h3>--}}
+                                    {{--<ul class="nav nav-tabs">--}}
+                                        {{--<li class="active"><a data-toggle="tab"--}}
+                                                              {{--href="#tab_term_th">คำอธิบายเนื่องในวาระ</a>--}}
+                                        {{--</li>--}}
+                                        {{--<li><a data-toggle="tab" href="#tab_term_en">Term Description</a></li>--}}
+                                        {{--<li><a data-toggle="tab" href="#tab_term_cn">在議程上</a></li>--}}
+
+                                    {{--</ul>--}}
+                                {{--</td>--}}
+                            {{--</tr>--}}
+                            {{--<tr>--}}
+                                {{--<td>--}}
+                                    {{--<div class="tab-content">--}}
+                                        {{--<div id="tab_term_th" class="tab-pane fade in active">--}}
+                                            {{--<br>--}}
+                                            {{--<input type="text" name="term_header_th[]" class="form-control"--}}
+                                                   {{--placeholder="หัวข้อเงือนไข">--}}
+                                            {{--<br>--}}
+                                            {{--<textarea name="term_content_th[]"  class="form-control" cols="30" rows="5" placeholder="รายละเอียดเงือนไข"></textarea>--}}
+                                            {{--<br>--}}
+                                            {{--<center>--}}
+                                                {{--<button class="add_more_th">เพิ่มเงือนใขอีก</button>--}}
+                                            {{--</center>--}}
+                                        {{--</div>--}}
+                                        {{--<div id="tab_term_en" class="tab-pane fade">--}}
+                                            {{--<br>--}}
+                                            {{--<input type="text" name="term_header_en[]" class="form-control"--}}
+                                                   {{--placeholder="Terms Conditions Header">--}}
+                                            {{--<br>--}}
+                                            {{--<textarea name="term_content_en[]"  class="form-control" cols="30" rows="5" placeholder="Terms Conditions Content"></textarea>--}}
+                                            {{--<br>--}}
+                                            {{--<center>--}}
+                                                {{--<button class="add_more_en">Add More Conditions</button>--}}
+                                            {{--</center>--}}
+                                        {{--</div>--}}
+                                        {{--<div id="tab_term_cn" class="tab-pane fade">--}}
+                                            {{--<br>--}}
+                                            {{--<input type="text" name="term_header_cn[]" class="form-control"--}}
+                                                   {{--placeholder="條款條件標題">--}}
+                                            {{--<br>--}}
+                                            {{--<textarea name="term_content_cn[]"  class="form-control" cols="30" rows="5" placeholder="條款條件內容"></textarea>--}}
+                                            {{--<br>--}}
+                                            {{--<center>--}}
+                                                {{--<button class="add_more_cn">添加更多條件</button>--}}
+                                            {{--</center>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</td>--}}
+                            {{--</tr>--}}
+                        {{--</table>--}}
+
+
                         {{--<table class="table table-striped table-hover ">--}}
-                            {{--<tr>--}}
-                                {{--<td>{{ Form::label('lb_comment_th', 'รายละเอียด') }}</td>--}}
-                                {{--<td>{{ Form::textarea('offer_comment_th', null, ['id' => 'editor_th', 'placeholder' => 'รายละเอียด']) }}</td>--}}
-                            {{--</tr>--}}
-                            {{--<tr>--}}
-                                {{--<td>{{ Form::label('lb_comment_en', 'Comment') }}</td>--}}
-                                {{--<td>{{ Form::textarea('offer_comment_en', null, ['id' => 'editor_en', 'placeholder' => 'Comment']) }}</td>--}}
-                            {{--</tr>--}}
-                            {{--<tr>--}}
-                                {{--<td>{{ Form::label('lb_comment_cn', '細節') }}</td>--}}
-                                {{--<td>{{ Form::textarea('offer_comment_cn', null, ['id' => 'editor_cn', 'placeholder' => '細節']) }}</td>--}}
-                            {{--</tr>--}}
-                            {{--</tbody>--}}
+                        {{--<tr>--}}
+                        {{--<td>{{ Form::label('lb_comment_th', 'รายละเอียด') }}</td>--}}
+                        {{--<td>{{ Form::textarea('offer_comment_th', null, ['id' => 'editor_th', 'placeholder' => 'รายละเอียด']) }}</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                        {{--<td>{{ Form::label('lb_comment_en', 'Comment') }}</td>--}}
+                        {{--<td>{{ Form::textarea('offer_comment_en', null, ['id' => 'editor_en', 'placeholder' => 'Comment']) }}</td>--}}
+                        {{--</tr>--}}
+                        {{--<tr>--}}
+                        {{--<td>{{ Form::label('lb_comment_cn', '細節') }}</td>--}}
+                        {{--<td>{{ Form::textarea('offer_comment_cn', null, ['id' => 'editor_cn', 'placeholder' => '細節']) }}</td>--}}
+                        {{--</tr>--}}
+                        {{--</tbody>--}}
                         {{--</table>--}}
                         <center>
                             {{ Form::submit('Add Offer', ['class' => 'btn btn-success']) }}

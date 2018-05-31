@@ -49,6 +49,10 @@ class CreateOffersTable extends Migration
             $table->double('offer_dinner_price', 8, 2)->unsigned();
             $table->integer('offer_dinner_guest')->unsigned();
 
+            $table->text('offer_short_th')->nullable();
+            $table->text('offer_short_en')->nullable();
+            $table->text('offer_short_cn')->nullable();
+
             $table->text('offer_comment_th')->nullable();
             $table->text('offer_comment_en')->nullable();
             $table->text('offer_comment_cn')->nullable();

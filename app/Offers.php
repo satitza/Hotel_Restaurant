@@ -32,4 +32,19 @@ class Offers extends Model
     {
         return $this->hasMany(Report::class);
     }
+
+    public function Termsth()
+    {
+        return $this->hasMany(Termsth::class);
+    }
+
+    public function Termsen()
+    {
+        return $this->hasMany(Termsen::class);
+    }
+
+    public function Termscn()
+    {
+        return $this->hasMany(Termscn::class);
+    }
 }

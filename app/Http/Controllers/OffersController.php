@@ -201,8 +201,10 @@ class OffersController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(OffersRequest $request)
     {
+
         $filename = null;
 
         $lunch_price = 0;
@@ -260,10 +262,15 @@ class OffersController extends Controller
             $offers->offer_time_dinner_end = $request->offer_time_dinner_end;
             $offers->offer_dinner_price = $dinner_price;
             $offers->offer_dinner_guest = $dinner_guest;
+            $offers->offer_short_th = $request->offer_short_th;
+            $offers->offer_short_en = $request->offer_short_en;
+            $offers->offer_short_cn = $request->offer_short_cn;
             $offers->offer_comment_th = $request->offer_comment_th;
             $offers->offer_comment_en = $request->offer_comment_en;
             $offers->offer_comment_cn = $request->offer_comment_cn;
             $offers->save();
+
+
             DB::commit();
             return redirect()->action('OffersController@create');
         } catch (QueryException $e) {
@@ -312,6 +319,9 @@ class OffersController extends Controller
             $offer_name_th = null;
             $offer_name_en = null;
 
+            $offer_short_th = null;
+            $offer_short_cn = null;
+
             $offer_comment_th = null;
             $offer_comment_cn = null;
 
@@ -323,10 +333,12 @@ class OffersController extends Controller
                     'offers.restaurant_id', 'restaurants.restaurant_name',
                     'offer_name_th', 'offer_name_en', 'offer_name_cn', 'attachments', 'offer_date_start', 'offer_date_end', 'offer_day_select',
                     'offer_time_lunch_start', 'offer_time_lunch_end', 'offer_lunch_price', 'offer_lunch_guest', 'offer_time_dinner_start',
-                    'offer_time_dinner_end', 'offer_dinner_price', 'offer_dinner_guest', 'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
+                    'offer_time_dinner_end', 'offer_dinner_price', 'offer_dinner_guest', 'offer_short_th', 'offer_short_en', 'offer_short_cn',
+                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
                 ->where('offers.id', $id)->get();
+
 
             if (Offers::where('id', '=', $id)->exists()) {
                 foreach ($offers as $offer) {
@@ -343,6 +355,18 @@ class OffersController extends Controller
                         $offer_name_cn = $offer->offer_name_en;
                     } else {
                         $offer_name_cn = $offer->offer_name_cn;
+                    }
+
+                    if ($offer->offer_short_th == "<p>&nbsp;</p>") {
+                        $offer_short_th = $offer->offer_short_en;
+                    } else {
+                        $offer_short_th = $offer->offer_short_th;
+                    }
+
+                    if ($offer->offer_short_cn == "<p>&nbsp;</p>") {
+                        $offer_short_cn = $offer->offer_short_en;
+                    } else {
+                        $offer_short_cn = $offer->offer_short_cn;
                     }
 
                     if ($offer->offer_comment_th == "<p>&nbsp;</p>") {
@@ -377,6 +401,8 @@ class OffersController extends Controller
                     $restaurants = Restaurants::orderBy('restaurant_name', 'ASC')->where('active_id', '1')->get();
                     $view = 'offer.admin.edit';
                 }
+
+
                 //Administrator role
                 return view($view, [
                     'offer_id' => $offer->id,
@@ -398,6 +424,9 @@ class OffersController extends Controller
                     'offer_time_dinner_end' => $offer->offer_time_dinner_end,
                     'offer_dinner_price' => $offer->offer_dinner_price,
                     'offer_dinner_guest' => $offer->offer_dinner_guest,
+                    'offer_short_th' => $offer_short_th,
+                    'offer_short_en' => $offer->offer_short_en,
+                    'offer_short_cn' => $offer_short_cn,
                     'offer_comment_th' => $offer_comment_th,
                     'offer_comment_en' => $offer->offer_comment_en,
                     'offer_comment_cn' => $offer_comment_cn
@@ -491,6 +520,9 @@ class OffersController extends Controller
                     'offer_time_dinner_end' => $request->offer_time_dinner_end,
                     'offer_dinner_price' => $dinner_price,
                     'offer_dinner_guest' => $dinner_guest,
+                    'offer_short_th' => $request->offer_short_th,
+                    'offer_short_en' => $request->offer_short_en,
+                    'offer_short_cn' => $request->offer_short_cn,
                     'offer_comment_th' => $request->offer_comment_th,
                     'offer_comment_en' => $request->offer_comment_en,
                     'offer_comment_cn' => $request->offer_comment_cn
@@ -503,6 +535,8 @@ class OffersController extends Controller
                         'booking_restaurant_id' => $request->restaurant_id
                     ]);
             }
+
+            //$this->InsertTermsTH($id, $request->)
 
             DB::commit();
             return redirect()->action('OffersController@create');
@@ -568,5 +602,20 @@ class OffersController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    public function InsertTermsTH($offer_id, $terms_header_th_array, $terms_content_th_array)
+    {
+
+    }
+
+    public function InsertTermsEN($offer_id, $terms_header_en_array, $terms_content_en_array)
+    {
+
+    }
+
+    public function InsertTermsCN($offer_id, $terms_header_cn_array, $terms_content_cn_array)
+    {
+
     }
 }

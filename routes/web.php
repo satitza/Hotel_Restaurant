@@ -31,6 +31,10 @@ Route::resource('offer', 'OffersController');
 Route::post('search_offer', 'OffersController@SearchOffer')->name('search_offer');
 Route::get('delete_offer/{id}', 'OffersController@destroy');
 
+Route::get('list_term/{id}', 'TermsController@create');
+Route::get('insert_term/{id}', 'TermsController@index');
+Route::post('store_term', 'TermsController@store');
+
 Route::resource('image', 'ImagesController');
 Route::get('upload/{offer_id}', 'ImagesController@UploadImage')->name('upload_image');
 //Route::get('delete_image/{id}', 'ImagesController@destroy');
