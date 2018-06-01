@@ -378,14 +378,14 @@
                         <center>
                             <div class="container-fluid">
                                 {{ Form::submit('Update Offer', ['class' => 'btn btn-success']) }}
-                                <a href="{{ url('insert_term/'.$offer_id) }}" class="button-link-info">
-                                    Add Terms & Conditions
+                                <a href="{{ url('list_term/'.$offer_id) }}" class="button-link-success">
+                                    Terms & Conditions
                                 </a>
+                                {{--<a href="{{ url('insert_term/'.$offer_id) }}" class="button-link-info">--}}
+                                    {{--Add Terms & Conditions--}}
+                                {{--</a>--}}
                                 <a href="{{ url('upload/'.$offer_id) }}" class="button-link-info">
                                     Upload Images
-                                </a>
-                                <a href="{{ url('list_term/'.$offer_id) }}" class="button-link-dark">
-                                    View Terms & Conditions
                                 </a>
                                 <a href="{{ url('image/'.$offer_id.'/edit') }}" class="button-link-dark">
                                     View Images
@@ -393,9 +393,6 @@
                             </div>
                         </center>
                         {{ csrf_field() }}
-
-
-
 
 
                     <!--Modal-->

@@ -31,9 +31,20 @@ Route::resource('offer', 'OffersController');
 Route::post('search_offer', 'OffersController@SearchOffer')->name('search_offer');
 Route::get('delete_offer/{id}', 'OffersController@destroy');
 
+/*-------------------------------------------------------------------------------------------------*/
 Route::get('list_term/{id}', 'TermsController@create');
 Route::get('insert_term/{id}', 'TermsController@index');
 Route::post('store_term', 'TermsController@store');
+
+Route::get('term_th/{id}/edit/offer/{offer_id}', 'TermsController@term_th_edit');
+Route::get('term_en/{id}/edit/offer/{offer_id}', 'TermsController@term_en_edit');
+Route::get('term_cn/{id}/edit/offer/{offer_id}', 'TermsController@term_cn_edit');
+
+Route::get('term_th_delete/{id}/offer/{offer_id}', 'TermsController@term_th_delete');
+Route::get('term_en_delete/{id}/offer/{offer_id}', 'TermsController@term_en_delete');
+Route::get('term_cn_delete/{id}/offer/{offer_id}', 'TermsController@term_cn_delete');
+
+/*--------------------------------------------------------------------------------------------------*/
 
 Route::resource('image', 'ImagesController');
 Route::get('upload/{offer_id}', 'ImagesController@UploadImage')->name('upload_image');

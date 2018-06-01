@@ -169,7 +169,7 @@ class HotelController extends Controller
         }
     }
 
-    /*
+    /**
       Delete hotel where id
      */
 

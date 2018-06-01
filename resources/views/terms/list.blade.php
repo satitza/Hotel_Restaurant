@@ -72,13 +72,13 @@
                                             <td>{{ $term_th->term_header_th }}</td>
                                             <td>{{ $term_th->term_content_th }}</td>
                                             <td>
-                                                <a href="{{ url('restaurant//edit') }}"
+                                                <a href="{{ url('term_th/'.$term_th->id.'/edit/offer/'.$term_th->offer_id) }}"
                                                    class="button-link-success">
                                                     แก้ใข
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="{{ url('delete_restaurant/' ) }}"
+                                                <a href="{{ url('term_th_delete/'.$term_th->id.'/offer/'.$term_th->offer_id ) }}"
                                                    class="button-link-dark"
                                                    onclick="return confirm('Confrim Delete ?')">
                                                     ลบ
@@ -111,13 +111,13 @@
                                             <td>{{ $term_en->term_header_en }}</td>
                                             <td>{{ $term_en->term_content_en }}</td>
                                             <td>
-                                                <a href="{{ url('restaurant//edit') }}"
+                                                <a href="{{ url('term_en/'.$term_en->id.'/edit/offer/'.$term_en->offer_id) }}"
                                                    class="button-link-success">
                                                     Edit
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="{{ url('delete_restaurant/' ) }}"
+                                                <a href="{{ url('term_en_delete/'.$term_en->id.'/offer/'.$term_en->offer_id ) }}"
                                                    class="button-link-dark"
                                                    onclick="return confirm('Confrim Delete ?')">
                                                     Delete
@@ -149,13 +149,13 @@
                                             <td>{{ $term_cn->term_header_cn }}</td>
                                             <td>{{ $term_cn->term_content_cn }}</td>
                                             <td>
-                                                <a href="{{ url('restaurant//edit') }}"
+                                                <a href="{{ url('term_cn/'.$term_cn->id.'/edit/offer/'.$term_cn->offer_id) }}"
                                                    class="button-link-success">
                                                     編輯
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="{{ url('delete_restaurant/' ) }}"
+                                                <a href="{{ url('term_cn_delete/'.$term_cn->id.'/offer/'.$term_cn->offer_id ) }}"
                                                    class="button-link-dark"
                                                    onclick="return confirm('Confrim Delete ?')">
                                                     刪除
