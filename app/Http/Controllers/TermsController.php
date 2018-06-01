@@ -111,18 +111,28 @@ class TermsController extends Controller
     public function term_th_edit($id, $offer_id)
     {
         try {
-            $where = ['termsths.id' => $id, 'offers.id' => $offer_id];
-            $terms_th = DB::table('termsths')->select('termsths.id', 'offers.offer_name_en', 'termsths.offer_id', 'termsths.term_header_th', 'termsths.term_content_th')
-                ->join('offers', 'termsths.offer_id', '=', 'offers.id')
-                ->where($where)->first();
 
-            return view('terms.edit', [
-                'term_id' => $terms_th->id,
-                'offer_id' => $terms_th->offer_id,
-                'offer_name' => $terms_th->offer_name_en,
-                'term_header' => $terms_th->term_header_th,
-                'term_content' => $terms_th->term_content_th,
-            ]);
+            $where = ['id' => $id, 'offer_id' => $offer_id];
+
+            if (Termsth::where($where)->exists()) {
+                $where = ['termsths.id' => $id, 'offers.id' => $offer_id];
+                $terms_th = DB::table('termsths')->select('termsths.id', 'offers.offer_name_en', 'termsths.offer_id', 'termsths.term_header_th', 'termsths.term_content_th')
+                    ->join('offers', 'termsths.offer_id', '=', 'offers.id')
+                    ->where($where)->first();
+
+                return view('terms.edit', [
+                    'term_id' => $terms_th->id,
+                    'offer_id' => $terms_th->offer_id,
+                    'offer_name' => $terms_th->offer_name_en,
+                    'term_header' => $terms_th->term_header_th,
+                    'term_content' => $terms_th->term_content_th,
+                    'table_name' => 'termsths'
+                ]);
+            } else {
+                return view('error.index')->with('error', 'Terms & Condition not found');
+            }
+
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -132,20 +142,104 @@ class TermsController extends Controller
 
     public function term_en_edit($id, $offer_id)
     {
-        echo $id."<br>";
-        echo $offer_id."<br>";
+        try {
+
+            $where = ['id' => $id, 'offer_id' => $offer_id];
+
+            if (Termsen::where($where)->exists()) {
+                $where = ['termsens.id' => $id, 'offers.id' => $offer_id];
+                $terms_en = DB::table('termsens')->select('termsens.id', 'offers.offer_name_en', 'termsens.offer_id', 'termsens.term_header_en', 'termsens.term_content_en')
+                    ->join('offers', 'termsens.offer_id', '=', 'offers.id')
+                    ->where($where)->first();
+
+                return view('terms.edit', [
+                    'term_id' => $terms_en->id,
+                    'offer_id' => $terms_en->offer_id,
+                    'offer_name' => $terms_en->offer_name_en,
+                    'term_header' => $terms_en->term_header_en,
+                    'term_content' => $terms_en->term_content_en,
+                    'table_name' => 'termsens'
+                ]);
+            } else {
+                return view('error.index')->with('error', 'Terms & Condition not found');
+            }
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     public function term_cn_edit($id, $offer_id)
     {
-        echo $id."<br>";
-        echo $offer_id."<br>";
+        try {
+
+            $where = ['id' => $id, 'offer_id' => $offer_id];
+
+            if (Termscn::where($where)->exists()) {
+                $where = ['termscns.id' => $id, 'offers.id' => $offer_id];
+                $terms_en = DB::table('termscns')->select('termscns.id', 'offers.offer_name_en', 'termscns.offer_id', 'termscns.term_header_cn', 'termscns.term_content_cn')
+                    ->join('offers', 'termscns.offer_id', '=', 'offers.id')
+                    ->where($where)->first();
+
+                return view('terms.edit', [
+                    'term_id' => $terms_en->id,
+                    'offer_id' => $terms_en->offer_id,
+                    'offer_name' => $terms_en->offer_name_en,
+                    'term_header' => $terms_en->term_header_cn,
+                    'term_content' => $terms_en->term_content_cn,
+                    'table_name' => 'termscns'
+                ]);
+            } else {
+                return view('error.index')->with('error', 'Terms & Condition not found');
+            }
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
 
     public function update(Request $request)
     {
+        DB::beginTransaction();
+        try {
 
+            $term_header = null;
+            $term_content = null;
+
+            if ($request->table_name == 'termsths') {
+                $term_header = 'term_header_th';
+                $term_content = 'term_content_th';
+            }
+
+            if ($request->table_name == 'termsens') {
+                $term_header = 'term_header_en';
+                $term_content = 'term_content_en';
+            }
+
+            if ($request->table_name == 'termscns') {
+                $term_header = 'term_header_cn';
+                $term_content = 'term_content_cn';
+            }
+
+            $where = ['id' => $request->term_id, 'offer_id' => $request->offer_id];
+            DB::table($request->table_name)
+                ->where($where)
+                ->update([
+                    $term_header => $request->term_header,
+                    $term_content => $request->term_content,
+                ]);
+            DB::commit();
+
+            return redirect()->action('TermsController@create', [$request->offer_id]);
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
 

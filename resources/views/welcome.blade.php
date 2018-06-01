@@ -9,6 +9,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/bootstrap.3.3.7.css') }}" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         <style>
@@ -45,6 +46,10 @@
                 text-align: center;
             }
 
+            .content a {
+                text-decoration: none;
+            }
+
             .title {
                 font-size: 84px;
             }
@@ -62,6 +67,18 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .btn-link-success {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 3px;
+            }
         </style>
     </head>
     <body>
@@ -72,7 +89,7 @@
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        {{--<a href="{{ route('login') }}">Login</a>--}}
                         <!--a href="{{ route('register') }}">Register</a-->
                     @endauth
                 </div>
@@ -82,7 +99,9 @@
                 <div class="title m-b-md">
                     <img class="d-block w-50" src="{{ asset('/images/banner/logo-compass.png') }}" alt="" width="150px"><br>
                     Laravel
+
                 </div>
+                <a href="{{ route('login') }}" class="btn-link-success">Login</a>
 
                 <!--div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>

@@ -35,6 +35,7 @@ Route::get('delete_offer/{id}', 'OffersController@destroy');
 Route::get('list_term/{id}', 'TermsController@create');
 Route::get('insert_term/{id}', 'TermsController@index');
 Route::post('store_term', 'TermsController@store');
+Route::post('update_term', 'TermsController@update');
 
 Route::get('term_th/{id}/edit/offer/{offer_id}', 'TermsController@term_th_edit');
 Route::get('term_en/{id}/edit/offer/{offer_id}', 'TermsController@term_en_edit');

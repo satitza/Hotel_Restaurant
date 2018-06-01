@@ -150,28 +150,28 @@ class HotelController extends Controller
      */
     public function update(HotelsRequest $request, $id)
     {
-        DB::beginTransaction();
-        try {
-            DB::table('hotels')
-                ->where('id', $id)
-                ->update([
-                    'hotel_name' => $request->hotel_name,
-                    'active_id' => $request->active_id,
-                    'hotel_comment' => $request->hotel_comment
-                ]);
-            DB::commit();
-            return redirect()->action('HotelController@create');
-        } catch (QueryException $e) {
-            DB::rollback();
-            return view('error.index')->with('error', $e->getMessage());
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e->getMessage());
-        }
+
     }
 
     /**
       Delete hotel where id
-     */
+     */ DB::beginTransaction();
+try {
+DB::table('hotels')
+->where('id', $id)
+->update([
+'hotel_name' => $request->hotel_name,
+'active_id' => $request->active_id,
+'hotel_comment' => $request->hotel_comment
+]);
+DB::commit();
+return redirect()->action('HotelController@create');
+} catch (QueryException $e) {
+    DB::rollback();
+    return view('error.index')->with('error', $e->getMessage());
+} catch (Exception $e) {
+    return view('error.index')->with('error', $e->getMessage());
+}
 
     public function destroy($id)
     {
