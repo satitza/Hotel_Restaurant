@@ -88,7 +88,6 @@
             ;
         });
 
-
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
@@ -120,7 +119,10 @@
                             <tbody>
                             <tr>
                                 <td>{{ Form::label('lb_offer_old_attachments', 'Attachments') }}</td>
-                                <td>{{ Form::text('old_attachments', $old_attachments, ['class' => 'form-control', 'placeholder' => '', 'readonly']) }}</td>
+                                <td>{{ Form::text('old_attachments', $old_attachments, ['class' => 'form-control', 'placeholder' => '', 'id' => 'text_attachments','readonly']) }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success" onclick="document.getElementById('text_attachments').value = ''">Delete</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_offer_attachments', 'New Attachments', array('class' => 'lb_offer_image')) }}</td>
@@ -232,73 +234,72 @@
                                 </div>
                             </tr>
                         </table>
-                            <hr>
+                        <hr>
 
 
+                        <table class="table table-striped table-hover">
+                            <tr>
+                                <td>
+                                    <h3>Short Description</h3>
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#tab_short_th">คำอธิบายสั้น</a>
+                                        </li>
+                                        <li><a data-toggle="tab" href="#tab_short_en">Short Description</a></li>
+                                        <li><a data-toggle="tab" href="#tab_short_cn">簡短的介紹</a></li>
 
-                            <table class="table table-striped table-hover">
-                                <tr>
-                                    <td>
-                                        <h3>Short Description</h3>
-                                        <ul class="nav nav-tabs">
-                                            <li class="active"><a data-toggle="tab" href="#tab_short_th">คำอธิบายสั้น</a>
-                                            </li>
-                                            <li><a data-toggle="tab" href="#tab_short_en">Short Description</a></li>
-                                            <li><a data-toggle="tab" href="#tab_short_cn">簡短的介紹</a></li>
-
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="tab-content">
-                                            <div id="tab_short_th" class="tab-pane fade in active">
-                                                {{ Form::textarea('offer_short_th', $offer_short_th, ['id' => 'short_th']) }}
-                                            </div>
-                                            <div id="tab_short_en" class="tab-pane fade">
-                                                {{ Form::textarea('offer_short_en', $offer_short_en, ['id' => 'short_en']) }}
-                                            </div>
-                                            <div id="tab_short_cn" class="tab-pane fade">
-                                                {{ Form::textarea('offer_short_cn', $offer_short_cn, ['id' => 'short_cn']) }}
-                                            </div>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="tab-content">
+                                        <div id="tab_short_th" class="tab-pane fade in active">
+                                            {{ Form::textarea('offer_short_th', $offer_short_th, ['id' => 'short_th']) }}
                                         </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <hr>
-                            <table class="table table-striped table-hover">
-                                <tr>
-                                    <td>
-                                        <h3>Long Description</h3>
-                                        <ul class="nav nav-tabs">
-                                            <li class="active"><a data-toggle="tab" href="#tab_long_th">รายละเอียด</a>
-                                            </li>
-                                            <li><a data-toggle="tab" href="#tab_long_en">Long Description</a></li>
-                                            <li><a data-toggle="tab" href="#tab_long_cn">細節</a></li>
-
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="tab-content">
-                                            <div id="tab_long_th" class="tab-pane fade in active">
-                                                {{ Form::textarea('offer_comment_th', $offer_comment_th , ['id' => 'editor_th']) }}
-                                            </div>
-                                            <div id="tab_long_en" class="tab-pane fade">
-                                                {{ Form::textarea('offer_comment_en', $offer_comment_en, ['id' => 'editor_en']) }}
-                                            </div>
-                                            <div id="tab_long_cn" class="tab-pane fade">
-                                                {{ Form::textarea('offer_comment_cn', $offer_comment_cn, ['id' => 'editor_cn']) }}
-                                            </div>
+                                        <div id="tab_short_en" class="tab-pane fade">
+                                            {{ Form::textarea('offer_short_en', $offer_short_en, ['id' => 'short_en']) }}
                                         </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <hr>
+                                        <div id="tab_short_cn" class="tab-pane fade">
+                                            {{ Form::textarea('offer_short_cn', $offer_short_cn, ['id' => 'short_cn']) }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
+                        <table class="table table-striped table-hover">
+                            <tr>
+                                <td>
+                                    <h3>Long Description</h3>
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#tab_long_th">รายละเอียด</a>
+                                        </li>
+                                        <li><a data-toggle="tab" href="#tab_long_en">Long Description</a></li>
+                                        <li><a data-toggle="tab" href="#tab_long_cn">細節</a></li>
+
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="tab-content">
+                                        <div id="tab_long_th" class="tab-pane fade in active">
+                                            {{ Form::textarea('offer_comment_th', $offer_comment_th , ['id' => 'editor_th']) }}
+                                        </div>
+                                        <div id="tab_long_en" class="tab-pane fade">
+                                            {{ Form::textarea('offer_comment_en', $offer_comment_en, ['id' => 'editor_en']) }}
+                                        </div>
+                                        <div id="tab_long_cn" class="tab-pane fade">
+                                            {{ Form::textarea('offer_comment_cn', $offer_comment_cn, ['id' => 'editor_cn']) }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
 
 
-                            <hr>
+                        <hr>
 
                         <center>
                             <div class="container-fluid">

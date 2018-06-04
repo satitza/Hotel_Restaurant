@@ -495,7 +495,12 @@ class OffersController extends Controller
                 $this->DeleteAttachments($id);
             } else {
                 //no update image
-                $filename = $request->old_attachments;
+                if ($request->old_attachments == '') {
+                    $filename = $request->old_attachments;
+                    $this->DeleteAttachments($id);
+                } else {
+                    $filename = $request->old_attachments;
+                }
             }
 
             DB::beginTransaction();
@@ -535,8 +540,6 @@ class OffersController extends Controller
                         'booking_restaurant_id' => $request->restaurant_id
                     ]);
             }
-
-            //$this->InsertTermsTH($id, $request->)
 
             DB::commit();
             return redirect()->action('OffersController@create');
@@ -604,18 +607,4 @@ class OffersController extends Controller
         }
     }
 
-    public function InsertTermsTH($offer_id, $terms_header_th_array, $terms_content_th_array)
-    {
-
-    }
-
-    public function InsertTermsEN($offer_id, $terms_header_en_array, $terms_content_en_array)
-    {
-
-    }
-
-    public function InsertTermsCN($offer_id, $terms_header_cn_array, $terms_content_cn_array)
-    {
-
-    }
 }

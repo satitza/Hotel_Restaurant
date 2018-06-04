@@ -120,7 +120,10 @@
                             <tbody>
                             <tr>
                                 <td>{{ Form::label('lb_offer_old_attachments', 'Attachments') }}</td>
-                                <td>{{ Form::text('old_attachments', $old_attachments, ['class' => 'form-control', 'placeholder' => '', 'readonly']) }}</td>
+                                <td>{{ Form::text('old_attachments', $old_attachments, ['class' => 'form-control', 'placeholder' => '', 'id' => 'text_attachments', 'readonly']) }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success" onclick="document.getElementById('text_attachments').value = ''">Delete</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_offer_attachments', 'New Attachments', array('class' => 'lb_offer_image')) }}</td>
