@@ -7,6 +7,9 @@ use App\Termscn;
 use App\Termsen;
 use App\Offers;
 use App\Termsth;
+use App\User;
+use App\UserEditor;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -15,18 +18,50 @@ class TermsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin');
+        $this->middleware('admin', ['only' => [
+            'term_th_delete',
+            'term_en_delete',
+            'term_cn_delete'
+        ]]);
+        $this->middleware('editor');
     }
 
-    public function index($id)
+    public function index($offer_id)
     {
         try {
 
-            $offers = Offers::select('id', 'offer_name_en')->where('id', '=', $id)->first();
+            $offers = null;
+            $offer_name_en = null;
+            $check_rows = User::find(Auth::id());
+
+            if ($check_rows->user_role == 2) {
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
+                $restaurants_id = explode(',', $user_editors->restaurant_id);
+                foreach ($restaurants_id as $id) {
+                    $where = ['id' => $offer_id, 'restaurant_id' => $id];
+                    if (Offers::select('id', 'offer_name_en')->where($where)->exists()) {
+                        //array_push($offer_items, Offers::select('id', 'offer_name_en')->where($where)->get());
+                        $offers = Offers::select('id', 'offer_name_en')->where($where)->orderBy('id', 'ASC')->first();
+                        $offer_name_en = $offers->offer_name_en;
+                    }
+                }
+
+                if ($offers == null) {
+                    return view('error.index')->with('error', 'Offer ID Not Found');
+                }
+
+            } else {
+                if (Offers::where('id', '=', $offer_id)->exists()) {
+                    $offers = Offers::select('id', 'offer_name_en')->where('id', '=', $offer_id)->first();
+                    $offer_name_en = $offers->offer_name_en;
+                } else {
+                    return view('error.index')->with('error', 'Offer ID Not Found');
+                }
+            }
 
             return view('terms.index', [
-                'offer_id' => $offers->id,
-                'offer_name' => $offers->offer_name_en
+                'offer_id' => $offer_id,
+                'offer_name' => $offer_name_en
             ]);
 
         } catch (QueryException $e) {
@@ -36,26 +71,51 @@ class TermsController extends Controller
         }
     }
 
-    public function create($id)
+    public function create($offer_id)
     {
         try {
 
-            if (Offers::where('id', '=', $id)->exists()) {
-                $offers = Offers::select('id', 'offer_name_en')->where('id', '=', $id)->first();
-                $terms_th = Termsth::where('offer_id', '=', $id)->paginate(10);
-                $terms_en = Termsen::where('offer_id', '=', $id)->paginate(10);
-                $terms_cn = Termscn::where('offer_id', '=', $id)->paginate(10);
+            $offers = null;
+            $offer_name_en = null;
+            $check_rows = User::find(Auth::id());
 
-                return view('terms.list', [
-                    'offer_id' => $offers->id,
-                    'offer_name' => $offers->offer_name_en,
-                    'terms_th' => $terms_th,
-                    'terms_en' => $terms_en,
-                    'terms_cn' => $terms_cn
-                ]);
+            if ($check_rows->user_role == 2) {
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
+                $restaurants_id = explode(',', $user_editors->restaurant_id);
+                foreach ($restaurants_id as $id) {
+                    $where = ['id' => $offer_id, 'restaurant_id' => $id];
+                    if (Offers::select('id', 'offer_name_en')->where($where)->exists()) {
+                        //array_push($offer_items, Offers::select('id', 'offer_name_en')->where($where)->get());
+                        $offers = Offers::select('id', 'offer_name_en')->where($where)->orderBy('id', 'ASC')->first();
+                        $offer_name_en = $offers->offer_name_en;
+                    }
+                }
+
+                if ($offers == null) {
+                    return view('error.index')->with('error', 'Offer ID Not Found');
+                }
+
             } else {
-                return view('error.index')->with('error', 'Offer id not found');
+                if (Offers::select('id', 'offer_name_en')->where('id', '=', $offer_id)->exists()) {
+                    $offers = Offers::select('id', 'offer_name_en')->where('id', '=', $offer_id)->first();
+                    $offer_name_en = $offers->offer_name_en;
+                } else {
+                    return view('error.index')->with('error', 'Offer id not found');
+                }
             }
+
+            $terms_th = Termsth::where('offer_id', '=', $offer_id)->paginate(10);
+            $terms_en = Termsen::where('offer_id', '=', $offer_id)->paginate(10);
+            $terms_cn = Termscn::where('offer_id', '=', $offer_id)->paginate(10);
+
+            return view('terms.list', [
+                'offer_id' => $offer_id,
+                'offer_name' => $offer_name_en,
+
+                'terms_th' => $terms_th,
+                'terms_en' => $terms_en,
+                'terms_cn' => $terms_cn
+            ]);
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -108,30 +168,50 @@ class TermsController extends Controller
      * Edit
      */
 
-    public function term_th_edit($id, $offer_id)
+    public function term_th_edit($term_id, $offer_id)
     {
         try {
 
-            $where = ['id' => $id, 'offer_id' => $offer_id];
+            $terms_th = null;
+            $check_rows = User::find(Auth::id());
 
-            if (Termsth::where($where)->exists()) {
-                $where = ['termsths.id' => $id, 'offers.id' => $offer_id];
-                $terms_th = DB::table('termsths')->select('termsths.id', 'offers.offer_name_en', 'termsths.offer_id', 'termsths.term_header_th', 'termsths.term_content_th')
-                    ->join('offers', 'termsths.offer_id', '=', 'offers.id')
-                    ->where($where)->first();
+            if ($check_rows->user_role == 2) {
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
+                $restaurants_id = explode(',', $user_editors->restaurant_id);
+                foreach ($restaurants_id as $id) {
+                    $where = ['id' => $offer_id, 'restaurant_id' => $id];
+                    if (Offers::select('id')->where($where)->exists()) {
+                        $where = ['termsths.id' => $term_id, 'offers.id' => $offer_id];
+                        $terms_th = DB::table('termsths')->select('termsths.id', 'offers.offer_name_en', 'termsths.offer_id', 'termsths.term_header_th', 'termsths.term_content_th')
+                            ->join('offers', 'termsths.offer_id', '=', 'offers.id')
+                            ->where($where)->first();
+                    }
 
-                return view('terms.edit', [
-                    'term_id' => $terms_th->id,
-                    'offer_id' => $terms_th->offer_id,
-                    'offer_name' => $terms_th->offer_name_en,
-                    'term_header' => $terms_th->term_header_th,
-                    'term_content' => $terms_th->term_content_th,
-                    'table_name' => 'termsths'
-                ]);
+                    if ($terms_th == null) {
+                        return view('error.index')->with('error', 'Terms & Condition not found');
+                    }
+                }
             } else {
-                return view('error.index')->with('error', 'Terms & Condition not found');
+
+                $where = ['id' => $term_id, 'offer_id' => $offer_id];
+                if (Termsth::where($where)->exists()) {
+                    $where = ['termsths.id' => $term_id, 'offers.id' => $offer_id];
+                    $terms_th = DB::table('termsths')->select('termsths.id', 'offers.offer_name_en', 'termsths.offer_id', 'termsths.term_header_th', 'termsths.term_content_th')
+                        ->join('offers', 'termsths.offer_id', '=', 'offers.id')
+                        ->where($where)->first();
+                } else {
+                    return view('error.index')->with('error', 'Terms & Condition not found');
+                }
             }
 
+            return view('terms.edit', [
+                'term_id' => $terms_th->id,
+                'offer_id' => $terms_th->offer_id,
+                'offer_name' => $terms_th->offer_name_en,
+                'term_header' => $terms_th->term_header_th,
+                'term_content' => $terms_th->term_content_th,
+                'table_name' => 'termsths'
+            ]);
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -140,29 +220,51 @@ class TermsController extends Controller
         }
     }
 
-    public function term_en_edit($id, $offer_id)
+    public function term_en_edit($term_id, $offer_id)
     {
         try {
 
-            $where = ['id' => $id, 'offer_id' => $offer_id];
+            $terms_en = null;
+            $check_rows = User::find(Auth::id());
 
-            if (Termsen::where($where)->exists()) {
-                $where = ['termsens.id' => $id, 'offers.id' => $offer_id];
-                $terms_en = DB::table('termsens')->select('termsens.id', 'offers.offer_name_en', 'termsens.offer_id', 'termsens.term_header_en', 'termsens.term_content_en')
-                    ->join('offers', 'termsens.offer_id', '=', 'offers.id')
-                    ->where($where)->first();
+            if ($check_rows->user_role == 2) {
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
+                $restaurants_id = explode(',', $user_editors->restaurant_id);
+                foreach ($restaurants_id as $id) {
+                    $where = ['id' => $offer_id, 'restaurant_id' => $id];
+                    if (Offers::select('id')->where($where)->exists()) {
+                        $where = ['termsens.id' => $term_id, 'offers.id' => $offer_id];
+                        $terms_en = DB::table('termsens')->select('termsens.id', 'offers.offer_name_en', 'termsens.offer_id', 'termsens.term_header_en', 'termsens.term_content_en')
+                            ->join('offers', 'termsens.offer_id', '=', 'offers.id')
+                            ->where($where)->first();
+                    }
 
-                return view('terms.edit', [
-                    'term_id' => $terms_en->id,
-                    'offer_id' => $terms_en->offer_id,
-                    'offer_name' => $terms_en->offer_name_en,
-                    'term_header' => $terms_en->term_header_en,
-                    'term_content' => $terms_en->term_content_en,
-                    'table_name' => 'termsens'
-                ]);
+                    if ($terms_en == null) {
+                        return view('error.index')->with('error', 'Terms & Condition not found');
+                    }
+                }
             } else {
-                return view('error.index')->with('error', 'Terms & Condition not found');
+
+                $where = ['id' => $term_id, 'offer_id' => $offer_id];
+                if (Termsen::where($where)->exists()) {
+                    $where = ['termsens.id' => $term_id, 'offers.id' => $offer_id];
+                    $terms_en = DB::table('termsens')->select('termsens.id', 'offers.offer_name_en', 'termsens.offer_id', 'termsens.term_header_en', 'termsens.term_content_en')
+                        ->join('offers', 'termsens.offer_id', '=', 'offers.id')
+                        ->where($where)->first();
+                } else {
+                    return view('error.index')->with('error', 'Terms & Condition not found');
+                }
             }
+
+            return view('terms.edit', [
+                'term_id' => $terms_en->id,
+                'offer_id' => $terms_en->offer_id,
+                'offer_name' => $terms_en->offer_name_en,
+                'term_header' => $terms_en->term_header_en,
+                'term_content' => $terms_en->term_content_en,
+                'table_name' => 'termsens'
+            ]);
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -170,29 +272,51 @@ class TermsController extends Controller
         }
     }
 
-    public function term_cn_edit($id, $offer_id)
+    public function term_cn_edit($term_id, $offer_id)
     {
         try {
 
-            $where = ['id' => $id, 'offer_id' => $offer_id];
+            $terms_cn = null;
+            $check_rows = User::find(Auth::id());
 
-            if (Termscn::where($where)->exists()) {
-                $where = ['termscns.id' => $id, 'offers.id' => $offer_id];
-                $terms_en = DB::table('termscns')->select('termscns.id', 'offers.offer_name_en', 'termscns.offer_id', 'termscns.term_header_cn', 'termscns.term_content_cn')
-                    ->join('offers', 'termscns.offer_id', '=', 'offers.id')
-                    ->where($where)->first();
+            if ($check_rows->user_role == 2) {
+                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
+                $restaurants_id = explode(',', $user_editors->restaurant_id);
+                foreach ($restaurants_id as $id) {
+                    $where = ['id' => $offer_id, 'restaurant_id' => $id];
+                    if (Offers::select('id')->where($where)->exists()) {
+                        $where = ['termscns.id' => $term_id, 'offers.id' => $offer_id];
+                        $terms_cn = DB::table('termscns')->select('termscns.id', 'offers.offer_name_en', 'termscns.offer_id', 'termscns.term_header_cn', 'termscns.term_content_cn')
+                            ->join('offers', 'termscns.offer_id', '=', 'offers.id')
+                            ->where($where)->first();
+                    }
 
-                return view('terms.edit', [
-                    'term_id' => $terms_en->id,
-                    'offer_id' => $terms_en->offer_id,
-                    'offer_name' => $terms_en->offer_name_en,
-                    'term_header' => $terms_en->term_header_cn,
-                    'term_content' => $terms_en->term_content_cn,
-                    'table_name' => 'termscns'
-                ]);
+                    if ($terms_cn == null) {
+                        return view('error.index')->with('error', 'Terms & Condition not found');
+                    }
+                }
             } else {
-                return view('error.index')->with('error', 'Terms & Condition not found');
+
+                $where = ['id' => $term_id, 'offer_id' => $offer_id];
+                if (Termscn::where($where)->exists()) {
+                    $where = ['termscns.id' => $term_id, 'offers.id' => $offer_id];
+                    $terms_cn = DB::table('termscns')->select('termscns.id', 'offers.offer_name_en', 'termscns.offer_id', 'termscns.term_header_cn', 'termscns.term_content_cn')
+                        ->join('offers', 'termscns.offer_id', '=', 'offers.id')
+                        ->where($where)->first();
+                } else {
+                    return view('error.index')->with('error', 'Terms & Condition not found');
+                }
             }
+
+            return view('terms.edit', [
+                'term_id' => $terms_cn->id,
+                'offer_id' => $terms_cn->offer_id,
+                'offer_name' => $terms_cn->offer_name_en,
+                'term_header' => $terms_cn->term_header_cn,
+                'term_content' => $terms_cn->term_content_cn,
+                'table_name' => 'termscns'
+            ]);
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {

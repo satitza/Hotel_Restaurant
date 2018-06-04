@@ -2,42 +2,46 @@
 
 @section('content')
     <script>
-        // $(document).ready(function () {
-        //     $('.add_more_th').click(function (e) {
-        //         e.preventDefault();
-        //         $(this).before("<br>\n" +
-        //             "<input type=\"text\" name=\"term_header_th[]\" class=\"form-control\"\n" +
-        //             "placeholder=\"หัวข้อเงือนไข\">\n" +
-        //             "<br>\n" +
-        //             "<textarea name=\"term_content_th[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"รายละเอียดเงือนไข\"></textarea>\n" +
-        //             "<br>");
-        //     });
-        // });
-        //
-        // $(document).ready(function () {
-        //     $('.add_more_en').click(function (e) {
-        //         e.preventDefault();
-        //         $(this).before("<br>\n" +
-        //             "<input type=\"text\" name=\"term_header_en[]\" class=\"form-control\"\n" +
-        //             "placeholder=\"Terms Conditions Header\">\n" +
-        //             "<br>\n" +
-        //             "<textarea name=\"term_content_en[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"Terms Conditions Content\"></textarea>\n" +
-        //             "<br>");
-        //     });
-        // });
-        //
-        // $(document).ready(function () {
-        //     $('.add_more_cn').click(function (e) {
-        //         e.preventDefault();
-        //         $(this).before("<br>\n" +
-        //             "<input type=\"text\" name=\"term_header_cn[]\" class=\"form-control\"\n" +
-        //             "placeholder=\"條款條件標題\">\n" +
-        //             "<br>\n" +
-        //             "<textarea name=\"term_content_en[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"條款條件內容\"></textarea>\n" +
-        //             "<br>");
-        //     });
-        // });
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create(document.querySelector('#term_th'))
+                .then(editor => {
+                console.log(editor);
+        } )
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
+        });
+
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create(document.querySelector('#term_en'))
+                .then(editor => {
+                console.log(editor);
+        } )
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
+        });
+
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create(document.querySelector('#term_cn'))
+                .then(editor => {
+                console.log(editor);
+        } )
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
+        });
     </script>
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -83,8 +87,7 @@
                                                     <input type="text" name="term_header_th" class="form-control"
                                                            placeholder="หัวข้อเงือนไข">
                                                     <br>
-                                                    <textarea name="term_content_th" class="form-control" cols="30"
-                                                              rows="5" placeholder="รายละเอียดเงือนไข"></textarea>
+                                                    {{ Form::textarea('term_content_th', null, ['id' => 'term_th']) }}
                                                     <br>
                                                     {{--<center>--}}
                                                         {{--<button class="add_more_th">เพิ่มเงือนใขอีก</button>--}}
@@ -96,8 +99,7 @@
                                                 <input type="text" name="term_header_en" class="form-control"
                                                        placeholder="Terms Conditions Header">
                                                 <br>
-                                                <textarea name="term_content_en" class="form-control" cols="30"
-                                                          rows="5" placeholder="Terms Conditions Content"></textarea>
+                                                {{ Form::textarea('term_content_en', null, ['id' => 'term_en']) }}
                                                 <br>
                                                 {{--<center>--}}
                                                     {{--<button class="add_more_en">Add More Conditions</button>--}}
@@ -108,8 +110,7 @@
                                                 <input type="text" name="term_header_cn" class="form-control"
                                                        placeholder="條款條件標題">
                                                 <br>
-                                                <textarea name="term_content_cn" class="form-control" cols="30"
-                                                          rows="5" placeholder="條款條件內容"></textarea>
+                                                {{ Form::textarea('term_content_cn', null, ['id' => 'term_cn']) }}
                                                 <br>
                                                 {{--<center>--}}
                                                     {{--<button class="add_more_cn">添加更多條件</button>--}}

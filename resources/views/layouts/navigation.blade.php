@@ -89,6 +89,12 @@
                                 {{ Request::route()->getName() == 'image.upload' ? "style=color:green" : "" }}
                                 {{ Request::route()->getName() == 'image.edit' ? "style=color:green" : "" }}
                                 {{ Request::route()->getName() == 'upload_image' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'list_term' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'insert_term' ? "style=color:green" : "" }}
+
+                                {{ Request::route()->getName() == 'edit_term_th' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'edit_term_en' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'edit_term_cn' ? "style=color:green" : "" }}
                         >
                             Offers <span class="caret"></span>
                         </a>

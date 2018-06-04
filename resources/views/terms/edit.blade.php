@@ -1,18 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    {{--<script type="text/javascript">--}}
-    {{--jQuery(document).ready(function ($) {--}}
-    {{--ClassicEditor--}}
-    {{--.create( document.querySelector( '#editor' ) )--}}
-    {{--.then( editor => {--}}
-    {{--console.log( editor );--}}
-    {{--} )--}}
-    {{--.catch( error => {--}}
-    {{--console.error( error );--}}
-    {{--} );--}}
-    {{--});--}}
-    {{--</script>--}}
+    <script type="text/javascript">
+
+        jQuery(document).ready(function ($) {
+            ClassicEditor
+                .create(document.querySelector('#editor'))
+                .then(editor => {
+                console.log(editor);
+        } )
+        .
+            catch(error => {
+                console.error(error);
+        } )
+            ;
+        });
+
+    </script>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -50,7 +54,7 @@
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_term_content', 'Term Content') }}</td>
-                                    <td> {{ Form::textarea('term_content', $term_content, ['class' => 'form-control']) }}</td>
+                                    <td>{{ Form::textarea('term_content', $term_content , ['id' => 'editor']) }}</td>
                                 </tr>
                                 </tbody>
                             </table>

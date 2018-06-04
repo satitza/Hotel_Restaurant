@@ -88,81 +88,6 @@
             ;
         });
 
-        jQuery(document).ready(function ($) {
-            ClassicEditor
-                .create(document.querySelector('#term_en'))
-                .then(editor => {
-                console.log(editor);
-        } )
-        .
-            catch(error => {
-                console.error(error);
-        } )
-            ;
-        });
-
-        jQuery(document).ready(function ($) {
-            ClassicEditor
-                .create(document.querySelector('#term_th'))
-                .then(editor => {
-                console.log(editor);
-        } )
-        .
-            catch(error => {
-                console.error(error);
-        } )
-            ;
-        });
-
-        jQuery(document).ready(function ($) {
-            ClassicEditor
-                .create(document.querySelector('#term_cn'))
-                .then(editor => {
-                console.log(editor);
-        } )
-        .
-            catch(error => {
-                console.error(error);
-        } )
-            ;
-        });
-
-        // $(document).ready(function () {
-        //     $('.add_more_th').click(function (e) {
-        //         e.preventDefault();
-        //         $(this).before("<br>\n" +
-        //             "<input type=\"text\" name=\"term_header_th[]\" class=\"form-control\"\n" +
-        //             "placeholder=\"หัวข้อเงือนไข\">\n" +
-        //             "<br>\n" +
-        //             "<textarea name=\"term_content_th[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"รายละเอียดเงือนไข\"></textarea>\n" +
-        //             "<br>");
-        //     });
-        // });
-        //
-        // $(document).ready(function () {
-        //     $('.add_more_en').click(function (e) {
-        //         e.preventDefault();
-        //         $(this).before("<br>\n" +
-        //             "<input type=\"text\" name=\"term_header_en[]\" class=\"form-control\"\n" +
-        //             "placeholder=\"Terms Conditions Header\">\n" +
-        //             "<br>\n" +
-        //             "<textarea name=\"term_content_en[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"Terms Conditions Content\"></textarea>\n" +
-        //             "<br>");
-        //     });
-        // });
-        //
-        // $(document).ready(function () {
-        //     $('.add_more_cn').click(function (e) {
-        //         e.preventDefault();
-        //         $(this).before("<br>\n" +
-        //             "<input type=\"text\" name=\"term_header_cn[]\" class=\"form-control\"\n" +
-        //             "placeholder=\"條款條件標題\">\n" +
-        //             "<br>\n" +
-        //             "<textarea name=\"term_content_en[]\"  class=\"form-control\" cols=\"30\" rows=\"5\" placeholder=\"條款條件內容\"></textarea>\n" +
-        //             "<br>");
-        //     });
-        // });
-
 
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
@@ -195,7 +120,7 @@
                             <tbody>
                             <tr>
                                 <td>{{ Form::label('lb_offer_old_attachments', 'Attachments') }}</td>
-                                <td>{{ Form::text('old_', $old_attachments, ['class' => 'form-control', 'placeholder' => '', 'readonly']) }}</td>
+                                <td>{{ Form::text('old_attachments', $old_attachments, ['class' => 'form-control', 'placeholder' => '', 'readonly']) }}</td>
                             </tr>
                             <tr>
                                 <td>{{ Form::label('lb_offer_attachments', 'New Attachments', array('class' => 'lb_offer_image')) }}</td>
@@ -381,9 +306,6 @@
                                 <a href="{{ url('list_term/'.$offer_id) }}" class="button-link-success">
                                     Terms & Conditions
                                 </a>
-                                {{--<a href="{{ url('insert_term/'.$offer_id) }}" class="button-link-info">--}}
-                                    {{--Add Terms & Conditions--}}
-                                {{--</a>--}}
                                 <a href="{{ url('upload/'.$offer_id) }}" class="button-link-info">
                                     Upload Images
                                 </a>
@@ -474,69 +396,5 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
-
-    {{--<table class="table table-striped table-hover">--}}
-        {{--<tr>--}}
-            {{--<td>--}}
-                {{--<h3>Term Description</h3>--}}
-                {{--<ul class="nav nav-tabs">--}}
-                    {{--<li class="active"><a data-toggle="tab"--}}
-                                          {{--href="#tab_term_th">คำอธิบายเนื่องในวาระ</a>--}}
-                    {{--</li>--}}
-                    {{--<li><a data-toggle="tab" href="#tab_term_en">Term Description</a></li>--}}
-                    {{--<li><a data-toggle="tab" href="#tab_term_cn">在議程上</a></li>--}}
-
-                {{--</ul>--}}
-            {{--</td>--}}
-        {{--</tr>--}}
-        {{--<tr>--}}
-            {{--<td>--}}
-                {{--<div class="tab-content">--}}
-                    {{--<div id="tab_term_th" class="tab-pane fade in active">--}}
-                        {{--<form action="#">--}}
-                            {{--<br>--}}
-                            {{--<input type="text" name="term_header_th[]" class="form-control"--}}
-                                   {{--placeholder="หัวข้อเงือนไข">--}}
-                            {{--<br>--}}
-                            {{--<textarea name="term_content_th[]"  class="form-control" cols="30" rows="5" placeholder="รายละเอียดเงือนไข"></textarea>--}}
-                            {{--<br>--}}
-                            {{--<center>--}}
-                                {{--<button class="add_more_th" >เพิ่มเงือนใขอีก</button>--}}
-                            {{--</center>--}}
-                        {{--</form>--}}
-                    {{--</div>--}}
-                    {{--<div id="tab_term_en" class="tab-pane fade">--}}
-                        {{--<br>--}}
-                        {{--<input type="text" name="term_header_en[]" class="form-control"--}}
-                               {{--placeholder="Terms Conditions Header">--}}
-                        {{--<br>--}}
-                        {{--<textarea name="term_content_en[]"  class="form-control" cols="30" rows="5" placeholder="Terms Conditions Content"></textarea>--}}
-                        {{--<br>--}}
-                        {{--<center>--}}
-                            {{--<button class="add_more_en">Add More Conditions</button>--}}
-                        {{--</center>--}}
-                    {{--</div>--}}
-                    {{--<div id="tab_term_cn" class="tab-pane fade">--}}
-                        {{--<br>--}}
-                        {{--<input type="text" name="term_header_cn[]" class="form-control"--}}
-                               {{--placeholder="條款條件標題">--}}
-                        {{--<br>--}}
-                        {{--<textarea name="term_content_cn[]"  class="form-control" cols="30" rows="5" placeholder="條款條件內容"></textarea>--}}
-                        {{--<br>--}}
-                        {{--<center>--}}
-                            {{--<button class="add_more_cn">添加更多條件</button>--}}
-                        {{--</center>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</td>--}}
-        {{--</tr>--}}
-    {{--</table>--}}
 @endsection
 

@@ -1,41 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    {{--<div class="container-fluid" style="margin-left: 10px; margin-right: 10px">--}}
-    {{--<div class="row">--}}
-    {{--<div class="col-md-12">--}}
-    {{--<div class="panel panel-default">--}}
-    {{--<div class="panel-heading">Search Option</div>--}}
-    {{--<div class="panel-body">--}}
-    {{--{{ Form::open(array('url' => 'search_restaurant', 'method' => 'post')) }}--}}
-    {{--<label>Search By</label>--}}
-    {{--<select class="form-control" name="search_value">--}}
-    {{--<option value="hotel">Hotels</option>--}}
-    {{--<option value="restaurant">Restaurants</option>--}}
-    {{--</select>--}}
-    {{--<label>Hotels</label>--}}
-    {{--<select class="form-control" name="hotel_id">--}}
-    {{--@foreach($hotel_items as $item)--}}
-    {{--<option value="{{ $item->id }}">{{ $item->hotel_name }}</option>--}}
-    {{--@endforeach--}}
-    {{--</select>--}}
-    {{--<label>Restaurants</label>--}}
-    {{--<select class="form-control" name="restaurant_id">--}}
-    {{--@foreach($restaurant_items as $item)--}}
-    {{--<option value="{{ $item->id }}">{{ $item->restaurant_name }}</option>--}}
-    {{--@endforeach--}}
-    {{--</select>--}}
-    {{--<br>--}}
-    {{--{{ Form::submit('Search', ['class' => 'btn btn-success']) }}--}}
-    {{--<a href="{{ action('RestaurantsController@create') }}" class="button-link-dark">--}}
-    {{--Clear--}}
-    {{--</a>--}}
-    {{--<!--{{ csrf_field() }}--}}
-    {{--{!! Form::close() !!} -->--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</div>--}}
+
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
             <div class="col-md-12">
@@ -70,7 +36,7 @@
                                         @foreach($terms_th as $term_th)
                                         <tr>
                                             <td>{{ $term_th->term_header_th }}</td>
-                                            <td>{{ $term_th->term_content_th }}</td>
+                                            <td>{!! $term_th->term_content_th !!}</td>
                                             <td>
                                                 <a href="{{ url('term_th/'.$term_th->id.'/edit/offer/'.$term_th->offer_id) }}"
                                                    class="button-link-success">
@@ -109,7 +75,7 @@
                                         @foreach($terms_en as $term_en)
                                         <tr>
                                             <td>{{ $term_en->term_header_en }}</td>
-                                            <td>{{ $term_en->term_content_en }}</td>
+                                            <td>{!! $term_en->term_content_en !!}</td>
                                             <td>
                                                 <a href="{{ url('term_en/'.$term_en->id.'/edit/offer/'.$term_en->offer_id) }}"
                                                    class="button-link-success">
@@ -147,7 +113,7 @@
                                         @foreach($terms_cn as $term_cn)
                                         <tr>
                                             <td>{{ $term_cn->term_header_cn }}</td>
-                                            <td>{{ $term_cn->term_content_cn }}</td>
+                                            <td>{!! $term_cn->term_content_cn !!}</td>
                                             <td>
                                                 <a href="{{ url('term_cn/'.$term_cn->id.'/edit/offer/'.$term_cn->offer_id) }}"
                                                    class="button-link-success">
