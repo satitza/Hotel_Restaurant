@@ -106,7 +106,6 @@
                                 <th scope="col">Balance</th>
                                 <th scope="col">Status</th>
                                 <th scope="col1">Edit</th>
-                                <th scope="col1">Delete</th>
                             </tr>
                             </thead>
                             @foreach($balances as $balance)
@@ -121,12 +120,6 @@
                                         <a href="{{ url('balance/'.$balance->id.'/edit') }}"
                                            class="button-link-success">
                                             Edit Balance
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('delete_balance/'.$balance->id ) }}" class="button-link-dark"
-                                           onclick="return confirm('Confrim Delete ?')">
-                                            Delete Balance
                                         </a>
                                     </td>
                                 </tr>

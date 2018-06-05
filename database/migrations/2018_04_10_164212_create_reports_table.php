@@ -19,13 +19,13 @@ class CreateReportsTable extends Migration
             $table->string('booking_id', 100);
 
             $table->integer('booking_hotel_id')->unsigned();
-            $table->foreign('booking_hotel_id')->references('id')->on('hotels')->onDelete('cascade');
+            $table->foreign('booking_hotel_id')->references('id')->on('hotels');
 
             $table->integer('booking_restaurant_id')->unsigned();
-            $table->foreign('booking_restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->foreign('booking_restaurant_id')->references('id')->on('restaurants');
 
             $table->integer('booking_offer_id')->unsigned();
-            $table->foreign('booking_offer_id')->references('id')->on('offers')->onDelete('cascade');
+            $table->foreign('booking_offer_id')->references('id')->on('offers');
 
             $table->date('booking_date')->nullable();
             $table->integer('booking_guest')->unsigned();
@@ -42,7 +42,7 @@ class CreateReportsTable extends Migration
             $table->string('booking_time_type', 100);
 
             $table->integer('booking_status')->unsigned();
-            $table->foreign('booking_status')->references('id')->on('booking_statuses')->onDelete('cascade');
+            $table->foreign('booking_status')->references('id')->on('booking_statuses');
 
             $table->timestamps();
         });

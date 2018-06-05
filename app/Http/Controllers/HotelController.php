@@ -163,7 +163,7 @@ class HotelController extends Controller
             return redirect()->action('HotelController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.index')->with('error', $e->getMessage());
+            return view('error.db')->with('error', $e->getMessage());
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }

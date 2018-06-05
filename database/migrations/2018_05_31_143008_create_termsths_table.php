@@ -16,7 +16,7 @@ class CreateTermsthsTable extends Migration
         Schema::create('termsths', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('offer_id')->unsigned();
-            $table->foreign('offer_id')->references('id')->on('offers')->onDelete('cascade');
+            $table->foreign('offer_id')->references('id')->on('offers');
             $table->string('term_header_th', 100)->nullable();
             $table->text('term_content_th')->nullable();
             $table->timestamps();

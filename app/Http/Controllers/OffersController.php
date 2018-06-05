@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BookCheckBalance;
 use App\Hotels;
 use App\Http\Requests\OffersRequest;
 use App\Images;

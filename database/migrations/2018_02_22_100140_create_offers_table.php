@@ -21,10 +21,10 @@ class CreateOffersTable extends Migration
             $table->increments('id');
 
             $table->integer('hotel_id')->unsigned();
-            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
+            $table->foreign('hotel_id')->references('id')->on('hotels');
 
             $table->integer('restaurant_id')->unsigned();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants');
 
             //$table->string('image', 100)->nullable();
             $table->string('attachments', 100)->nullable();
