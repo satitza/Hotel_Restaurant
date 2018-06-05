@@ -44,54 +44,25 @@
     </script>
 
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px;">
-        <div class="row" style="display: none;">
+        <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">Search Option</div>
                     <div class="panel-body">
-                        {{ Form::open(array('url' => '#', 'method' => 'post')) }}
+                        {{ Form::open(array('url' => 'delete_pending', 'method' => 'post')) }}
+                        <table class="table">
+                            <thead class="thead-drack">
+                            <tr>
+                                <td><label>Delete before date</label></td>
+                                <td>{{ Form::text('delete_before_date', null, ['class' => 'form-control datepicker', 'placeholder' => 'Delete before date', 'required']) }}</td>
+                                <td>{{ Form::submit('Delete', ['class' => 'btn btn-success']) }}</td>
+                            </tr>
+                            </thead>
+                        </table>
 
+                        {{ csrf_field() }}
+                        {!! Form::close() !!}
 
-                        <label for="search">
-                            <input type="checkbox" id="search_offer_id"/>
-                            Offer Name <br>
-                            <input type="checkbox" id="search_offer_date"/>
-                            Offer Date <br>
-                            <input type="checkbox" id="search_time_type"/>
-                            Offer Time Type <br>
-                        </label>
-                        <hr>
-                        <div id="offer_id" style="display: none;">
-                            <label>Offer Name</label>
-                            <select class="form-control" name="offer_id">
-                                <option value="">please_selected</option>
-
-                                <option value=""></option>
-
-                            </select>
-                        </div>
-
-                        <div id="offer_date" style="display: none;">
-                            <label>Offer Date</label>
-                            {{ Form::text('offer_date', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}
-                        </div>
-
-                        <div id="time_type" style="display: none;">
-                            <label>Time Type</label>
-                            <select class="form-control" name="time_type">
-                                <option value="">please_selected</option>
-                                <option value="lunch">Lunch</option>
-                                <option value="dinner">Dinner</option>
-                            </select>
-                        </div>
-
-                        <br>
-                        {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
-                        <a href="{{ action('ReportsController@ListBookingPending') }}" class="button-link-dark">
-                            Clear
-                        </a>
-                    <!--{{ csrf_field() }}
-                    {!! Form::close() !!} -->
                     </div>
                 </div>
             </div>
@@ -138,6 +109,10 @@
                     {!! $reports->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
+                        <center>
+                            <a href="{{ route('delete_all_pending') }}" class="button-link-info"
+                               onclick="return confirm('Confrim Delete ?')">Delete All Pending</a>
+                        </center>
                     </div>
                 </div>
             </div>

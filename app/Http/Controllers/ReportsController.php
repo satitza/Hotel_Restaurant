@@ -23,6 +23,8 @@ class ReportsController extends Controller
 
         $this->middleware('admin', ['only' => [
             'ListBookingPending',
+            'DeletePending',
+            'DeleteAllPending',
             //'index',
             //'SearchReports',
             //'create',
@@ -52,6 +54,38 @@ class ReportsController extends Controller
             ]);
 
         } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
+    }
+
+    public function DeletePending(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            DB::table('reports')->where('booking_status', 1)
+                ->whereDate('booking_date', '<', Carbon::parse(date('Y-m-d', strtotime(strtr($request->delete_before_date, '/', '-')))))
+                ->delete();
+            DB::commit();
+            return redirect()->action('ReportsController@ListBookingPending');
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
+    }
+
+    public function DeleteAllPending()
+    {
+        DB::beginTransaction();
+        try {
+            DB::table('reports')->where('booking_status', 1)->delete();
+            DB::commit();
+            return redirect()->action('ReportsController@ListBookingPending');
+        } catch (QueryException $e) {
+            DB::rollback();
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -92,7 +126,7 @@ class ReportsController extends Controller
             }
 
             $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'hotel_name', 'restaurant_name', 'booking_date','booking_guest', 'booking_contact_firstname',
+                ->select('reports.id', 'booking_id', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
                     'booking_contact_lastname', 'booking_price')
                 ->where($where)
                 ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
@@ -163,7 +197,7 @@ class ReportsController extends Controller
         try {
 
             $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'hotel_name', 'restaurant_name', 'booking_date','booking_guest', 'booking_contact_firstname',
+                ->select('reports.id', 'booking_id', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
                     'booking_contact_lastname', 'booking_price')
                 ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                 ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
@@ -185,8 +219,6 @@ class ReportsController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
-
-
     }
 
     /**
@@ -263,11 +295,6 @@ class ReportsController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
-    }
-
-    public function CheckBill($id, $booking_id)
-    {
-
     }
 
     public function GetRestaurants()

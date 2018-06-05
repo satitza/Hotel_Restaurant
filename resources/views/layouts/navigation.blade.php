@@ -34,9 +34,10 @@
 
                 <!--Never Login-->
                 @guest
-                    <li><a href="{{ route('login') }}">Login</a></li>
+                    {{--<li><a href="{{ route('login') }}">Login</a></li>--}}
+{{--                    <li><a href="{{ url('password/reset') }}">Forgot Password</a></li>--}}
                     <!--Register-->
-                <!--li><a href="{{ route('register') }}">Register</a></li-->
+                    <!--li><a href="{{ route('register') }}">Register</a></li-->
                     <!--Loged-->
                 @else
                     <li class="dropdown">

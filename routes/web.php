@@ -64,6 +64,9 @@ Route::post('search_report', 'ReportsController@SearchReports')->name('search_re
 Route::get('booking_pending', 'ReportsController@ListBookingPending')->name('list_pending');
 Route::get('delete_report/{id}', 'ReportsController@destroy');
 
+Route::post('delete_pending', 'ReportsController@DeletePending');
+Route::get('delete_all_pending', 'ReportsController@DeleteAllPending')->name('delete_all_pending');
+
 Route::get('get_restaurant', 'ReportsController@GetRestaurants');
 Route::get('get_offer', 'ReportsController@GetOffers');
 

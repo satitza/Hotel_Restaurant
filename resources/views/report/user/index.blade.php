@@ -163,10 +163,10 @@
                             </thead>
                             @foreach($reports as $report)
                                 <tr>
-                                    <th>{{ $report->booking_id }}</th>
-                                    <th>{{ $report->hotel_name }}</th>
-                                    <th>{{ $report->restaurant_name }}</th>
-                                    <th>{{ $report->booking_date }}</th>
+                                    <td>{{ $report->booking_id }}</td>
+                                    <td>{{ $report->hotel_name }}</td>
+                                    <td>{{ $report->restaurant_name }}</td>
+                                    <td>{{ $report->booking_date }}</td>
                                     <td>{{ $report->booking_contact_firstname."&nbsp;&nbsp;".$report->booking_contact_lastname  }}</td>
                                     <td>{{ $report->booking_guest }}</td>
                                     <td>{{ $report->booking_price }}</td>
