@@ -131,6 +131,12 @@
                     {!! Form::close() !!} -->
                     </div>
                 </div>
+                <center>
+                    <a href="#"
+                       class="button-link-info">
+                        Clear All Balance
+                    </a>
+                </center>
             </div>
         </div>
     </div>
