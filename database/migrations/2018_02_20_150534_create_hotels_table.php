@@ -19,6 +19,8 @@ class CreateHotelsTable extends Migration {
             $table->collation = 'utf8_unicode_ci';
 
             $table->increments('id');
+            $table->string('mid')->nullable();
+            $table->string('secret_key')->nullable();
             $table->string('hotel_name', 100);
             $table->integer('active_id')->unsigned();
             $table->foreign('active_id')->references('id')->on('actives');

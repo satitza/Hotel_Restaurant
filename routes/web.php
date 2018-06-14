@@ -55,7 +55,8 @@ Route::post('upload/image', 'ImagesController@store');
 
 Route::resource('balance', 'BalancesController');
 Route::post('search_balance', 'BalancesController@SearchBalance')->name('search_balance');
-Route::get('delete_balance/{id}', 'BalancesController@destroy');
+Route::get('clear_all_balance_expire', 'BalancesController@ClearAllBalanceExpire')->name('clear_all_balance_expire');
+//Route::get('delete_balance/{id}', 'BalancesController@destroy');
 
 /*--------------------------------------------------------------------------------------------------*/
 Route::resource('report', 'ReportsController');

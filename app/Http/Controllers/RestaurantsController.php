@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Offers;
-use App\SetMenu;
 use DB;
 use File;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Database\QueryException;
 use App\Hotels;
 use App\Actives;
 use App\Restaurants;
 use Illuminate\Http\Request;
 use App\Http\Requests\RestaurantsRequest;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class RestaurantsController extends Controller
 {

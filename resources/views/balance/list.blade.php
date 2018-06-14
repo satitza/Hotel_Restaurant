@@ -35,6 +35,36 @@
             });
 
         });
+
+        // Set the date we're counting down to
+        var countDownDate = new Date("2018-06-07 23:59:59").getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get todays date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("1").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("1").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+
     </script>
 
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
@@ -102,6 +132,7 @@
                                 <th scope="col">Offer Name</th>
                                 <th scope="col">Time Type</th>
                                 <th scope="col">Offer Date</th>
+                                <th scope="cik">Expire</th>
                                 <th scope="col">Last Guest</th>
                                 <th scope="col">Balance</th>
                                 <th scope="col">Status</th>
@@ -113,6 +144,12 @@
                                     <th>{{ $balance->offer_name_en }}</th>
                                     <td>{{ $balance->book_time_type }}</td>
                                     <td>{{ $balance->book_offer_date }}</td>
+                                    <td>
+                                        <script>
+                                            alert("-*-");
+                                        </script>
+                                        <p id="{{ $balance->id }}"></p>
+                                    </td>
                                     <td>{{ $balance->book_offer_guest }}</td>
                                     <td>{{ $balance->book_offer_balance }}</td>
                                     <td>{{ $balance->active }}</td>
@@ -132,9 +169,9 @@
                     </div>
                 </div>
                 <center>
-                    <a href="#"
+                    <a href="{{ route('clear_all_balance_expire') }}"
                        class="button-link-info">
-                        Clear All Balance
+                        Clear all balance expire
                     </a>
                 </center>
             </div>

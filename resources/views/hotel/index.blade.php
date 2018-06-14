@@ -45,6 +45,14 @@
                                     <td>{{ Form::text('hotel_name', null, ['class' => 'form-control', 'placeholder' => 'Hotel Name', 'required']) }}</td>
                                 </tr>
                                 <tr>
+                                    <td>{{ Form::label('lb_mid', 'MID') }}</td>
+                                    <td>{{ Form::text('mid', null, ['class' => 'form-control', 'placeholder' => 'MID']) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ Form::label('lb_secret_key', 'Secret Key') }}</td>
+                                    <td>{{ Form::text('secret_key', null, ['class' => 'form-control', 'placeholder' => 'Secret Key']) }}</td>
+                                </tr>
+                                <tr>
                                     <td>{{ Form::label('lb_active', 'Status') }}</td>
                                     <td>
                                         <div class="form-group">

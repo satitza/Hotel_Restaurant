@@ -41,6 +41,8 @@
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">Hotel Name</th>
+                                <th scope="col">MID</th>
+                                <th scope="col">Secret Key</th>
                                 <th scope="col">Hotel Status</th>
                                 <!--th scope="col">Hotel Comment</th-->
                                 <th scope="col1">Edit Hotel</th>
@@ -52,6 +54,8 @@
                                 <tr>
                                     <th></th>
                                     <td>{{ $hotel->hotel_name }}</td>
+                                    <td>{{ $hotel->mid }}</td>
+                                    <td>{{ $hotel->secret_key }}</td>
                                     <td>{{ $hotel->active }}</td>
                                 <!--td>{{ $hotel->hotel_comment }}</td-->
                                     <td>
