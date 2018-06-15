@@ -28,6 +28,7 @@ class CreateReportsTable extends Migration
             $table->foreign('booking_offer_id')->references('id')->on('offers');
 
             $table->date('booking_date')->nullable();
+            $table->string('booking_time', 10);
             $table->integer('booking_guest')->unsigned();
 
             $table->string('booking_contact_title', 100);
