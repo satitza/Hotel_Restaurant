@@ -41,6 +41,7 @@
                 }
             });
         });
+
     </script>
 
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px;">
@@ -82,7 +83,8 @@
                                 <th scope="col">Guest Name</th>
                                 <th scope="col">Guest Email</th>
                                 <th scope="col">Guest Phone</th>
-                                <th scope="col1">Number Guest</th>
+                                <th scope="col">Number Guest</th>
+                                <th scope="col">Gift Voucher</th>
                                 <th scope="col1">Delete</th>
                             </tr>
                             </thead>
@@ -95,6 +97,14 @@
                                     <td>{{ $report->booking_contact_email }}</td>
                                     <td>{{ $report->booking_contact_phone }}</td>
                                     <td>{{ $report->booking_guest }}</td>
+                                    <td>
+                                        @if($report->booking_voucher == 2)
+                                            <a href="{{ url('view_voucher/'.$report->booking_id) }}"
+                                               class="button-link-gift">
+                                                Gift Voucher
+                                            </a>
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="{{ url('delete_report/'.$report->id ) }}"
                                            class="button-link-dark"
@@ -118,4 +128,5 @@
             </div>
         </div>
     </div>
+
 @endsection

@@ -13,6 +13,13 @@ class CreateAdministratorAccountSeeder extends Seeder
     {
         $user = New App\User();
         $user->name = 'Administrator';
+        $user->email = 'dining@compasshospitality.com';
+        $user->password = bcrypt('dr823c1HEE');
+        $user->user_role = 1;
+        $user->save();
+
+        $user = New App\User();
+        $user->name = 'Satit Porntepanon';
         $user->email = 'st_satitza@hotmail.com';
         $user->password = bcrypt('dr823c1HEE');
         $user->user_role = 1;

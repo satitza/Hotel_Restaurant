@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Voucher;
 use DB;
 use App\User;
 use App\UserReport;
@@ -45,7 +46,7 @@ class ReportsController extends Controller
 
             $reports = DB::table('reports')
                 ->select('reports.id', 'booking_id', 'booking_offer_id', 'offer_name_en', 'booking_date', 'booking_guest',
-                    'booking_contact_firstname', 'booking_contact_lastname', 'booking_contact_email', 'booking_contact_phone')
+                    'booking_contact_firstname', 'booking_contact_lastname', 'booking_contact_email', 'booking_contact_phone', 'booking_voucher')
                 ->join('offers', 'reports.booking_offer_id', '=', 'offers.id')
                 ->orderBy('reports.id', 'asc')->where('booking_status', 1)->paginate(10);
 
@@ -126,11 +127,12 @@ class ReportsController extends Controller
             }
 
             $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
+                ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
                     'booking_contact_lastname', 'booking_price')
                 ->where($where)
                 ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                 ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
+                ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
                 ->orderBy('reports.id', 'asc')->paginate(10);
 
             return view($view, [
@@ -197,7 +199,7 @@ class ReportsController extends Controller
         try {
 
             $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
+                ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
                     'booking_contact_lastname', 'booking_price')
                 ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                 ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
@@ -206,6 +208,7 @@ class ReportsController extends Controller
                 ->where('booking_status', '=', 2)
                 ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                 ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
+                ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
                 ->orderBy('reports.id', 'asc')->get();
 
             return view($view, [
@@ -316,6 +319,23 @@ class ReportsController extends Controller
             $restaurant_id = $_GET['id'];
             $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $restaurant_id)->orderBy('offer_name_en', 'ASC')->get();
             return Response()->json($offers);
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
+    }
+
+    public function ViewVoucher($booking_id)
+    {
+        try {
+            $vouchers = Voucher::where('voucher_booking_id', $booking_id)->first();
+            return view('report.voucher', [
+                'booking_id' => $vouchers->voucher_booking_id,
+                'voucher_title' => $vouchers->voucher_contact_title,
+                'voucher_fname' => $vouchers->voucher_contact_firstname,
+                'voucher_lname' => $vouchers->voucher_contact_lastname,
+            ]);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {

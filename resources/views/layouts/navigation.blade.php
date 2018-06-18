@@ -148,6 +148,7 @@
                                 {{ Request::route()->getName() == 'report.list' ? "style=color:green" : "" }}
                                 {{ Request::route()->getName() == 'report.edit' ? "style=color:green" : "" }}
                                 {{ Request::route()->getName() == 'search_report' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'view_voucher' ? "style=color:green" : "" }}
                         >
                             Report <span class="caret"></span>
                         </a>

@@ -64,6 +64,7 @@ Route::resource('report', 'ReportsController');
 Route::post('search_report', 'ReportsController@SearchReports')->name('search_report');
 Route::get('booking_pending', 'ReportsController@ListBookingPending')->name('list_pending');
 Route::get('delete_report/{id}', 'ReportsController@destroy');
+Route::get('view_voucher/{booking_id}', 'ReportsController@ViewVoucher')->name('view_voucher');
 
 Route::post('delete_pending', 'ReportsController@DeletePending');
 Route::get('delete_all_pending', 'ReportsController@DeleteAllPending')->name('delete_all_pending');

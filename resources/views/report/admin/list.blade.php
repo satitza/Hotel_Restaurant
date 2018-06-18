@@ -175,6 +175,7 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Booking ID</th>
+                                <th scope="col">Offer Name</th>
                                 <th scope="col">Hotel Name</th>
                                 <th scope="col">Restaurant Name</th>
                                 <th scope="col">Booking Date</th>
@@ -187,6 +188,7 @@
                             @foreach($reports as $report)
                                 <tr>
                                     <td>{{ $report->booking_id }}</td>
+                                    <td>{{ $report->offer_name_en }}</td>
                                     <td>{{ $report->hotel_name }}</td>
                                     <td>{{ $report->restaurant_name }}</td>
                                     <td>{{ $report->booking_date }}</td>

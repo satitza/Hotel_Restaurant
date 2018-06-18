@@ -11,7 +11,7 @@
     <title>Compass Hospitality Laravel </title>
 
     <!-- Styles -->
-<!-- link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" -->
+    {{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">--}}
     <link href="{{ asset('css/bootstrap.3.3.7.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" type="text/css">
 
