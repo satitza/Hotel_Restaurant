@@ -349,5 +349,4 @@ class ReportsController extends Controller
             return view('error.index')->with('error', 'Voucher not found');
         }
     }
-
 }
