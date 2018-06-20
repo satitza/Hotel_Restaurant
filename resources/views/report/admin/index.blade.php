@@ -185,7 +185,7 @@
                                 <th scope="col">Guest Name</th>
                                 <th scope="col">Guest Number</th>
                                 <th scope="col">Total Price</th>
-                                <!--th scope="col1">Edit</th-->
+                                <th scope="col">Gift Voucher</th>
                             </tr>
                             </thead>
                             @foreach($reports as $report)
@@ -198,6 +198,14 @@
                                     <td>{{ $report->booking_contact_firstname."&nbsp;&nbsp;".$report->booking_contact_lastname  }}</td>
                                     <td>{{ $report->booking_guest }}</td>
                                     <td>{{ $report->booking_price }}</td>
+                                    <td>
+                                        @if($report->booking_voucher == 2)
+                                            <a href="{{ url('view_voucher/'.$report->booking_id) }}"
+                                               class="button-link-gift">
+                                                Gift Voucher
+                                            </a>
+                                        @endif
+                                    </td>
                                 <!--td>
                                         <a href="{{ url('report/'.$report->id.'/edit') }}"
                                            class="button-link-success">

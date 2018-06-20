@@ -128,7 +128,7 @@ class ReportsController extends Controller
 
             $reports = DB::table('reports')
                 ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
-                    'booking_contact_lastname', 'booking_price')
+                    'booking_contact_lastname', 'booking_price', 'booking_voucher')
                 ->where($where)
                 ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                 ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
@@ -200,7 +200,7 @@ class ReportsController extends Controller
 
             $reports = DB::table('reports')
                 ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
-                    'booking_contact_lastname', 'booking_price')
+                    'booking_contact_lastname', 'booking_price', 'booking_voucher')
                 ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                 ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                 ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
@@ -328,18 +328,25 @@ class ReportsController extends Controller
 
     public function ViewVoucher($booking_id)
     {
-        try {
-            $vouchers = Voucher::where('voucher_booking_id', $booking_id)->first();
-            return view('report.voucher', [
-                'booking_id' => $vouchers->voucher_booking_id,
-                'voucher_title' => $vouchers->voucher_contact_title,
-                'voucher_fname' => $vouchers->voucher_contact_firstname,
-                'voucher_lname' => $vouchers->voucher_contact_lastname,
-            ]);
-        } catch (QueryException $e) {
-            return view('error.index')->with('error', $e->getMessage());
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e->getMessage());
+        if (Voucher::where('voucher_booking_id', $booking_id)->exists()) {
+            try {
+                $vouchers = Voucher::where('voucher_booking_id', $booking_id)->first();
+                return view('report.voucher', [
+                    'booking_id' => $vouchers->voucher_booking_id,
+                    'voucher_title' => $vouchers->voucher_contact_title,
+                    'voucher_fname' => $vouchers->voucher_contact_firstname,
+                    'voucher_lname' => $vouchers->voucher_contact_lastname,
+                    'voucher_email' => $vouchers->voucher_contact_email,
+                    'voucher_phone' => $vouchers->voucher_contact_phone,
+                    'voucher_request' => $vouchers->voucher_contact_request
+                ]);
+            } catch (QueryException $e) {
+                return view('error.index')->with('error', $e->getMessage());
+            } catch (Exception $e) {
+                return view('error.index')->with('error', $e->getMessage());
+            }
+        } else {
+            return view('error.index')->with('error', 'Voucher not found');
         }
     }
 

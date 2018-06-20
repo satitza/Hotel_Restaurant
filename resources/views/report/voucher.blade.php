@@ -46,11 +46,23 @@
                                     <td>{{ Form::label('lb_voucher_lname', 'Last Name') }}</td>
                                     <td>{{ Form::text('voucher_lname', $voucher_lname, ['class' => 'form-control', 'placeholder' => 'Last Name', 'readonly']) }}</td>
                                 </tr>
+                                <tr>
+                                    <td>{{ Form::label('lb_voucher_email', 'E-Mail') }}</td>
+                                    <td>{{ Form::text('voucher_email', $voucher_email, ['class' => 'form-control', 'placeholder' => 'E-Mail Address', 'readonly']) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ Form::label('lb_voucher_phone', 'Phone') }}</td>
+                                    <td>{{ Form::text('voucher_phone', $voucher_phone, ['class' => 'form-control', 'placeholder' => 'Phone', 'readonly']) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ Form::label('lb_voucher_request', 'Request') }}</td>
+                                    <td>{{ Form::text('voucher_request', $voucher_request, ['class' => 'form-control', 'placeholder' => 'Request', 'readonly']) }}</td>
+                                </tr>
                                 </tbody>
                             </table>
-                            <center>
-                                <a href="{{ route('list_pending') }}" class="button-link-success">Back</a>
-                            </center>
+                            {{--<center>--}}
+                                {{--<a href="{{ route('list_pending') }}" class="button-link-success">Back</a>--}}
+                            {{--</center>--}}
                             {{ csrf_field() }}
                             {{ Form::close() }}
                         </div>
