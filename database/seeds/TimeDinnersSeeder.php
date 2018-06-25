@@ -11,56 +11,26 @@ class TimeDinnersSeeder extends Seeder
      */
     public function run()
     {
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = 'closed';
-        $time_dinner->save();
+        $times = [
+            ['time_dinner' => 'closed'],
+            ['time_dinner' => '18.00'],
+            ['time_dinner' => '18.30'],
+            ['time_dinner' => '19.00'],
+            ['time_dinner' => '19.30'],
+            ['time_dinner' => '20.00'],
+            ['time_dinner' => '20.30'],
+            ['time_dinner' => '21.00'],
+            ['time_dinner' => '21.30'],
+            ['time_dinner' => '22.00'],
+            ['time_dinner' => '22.30'],
+            ['time_dinner' => '23.00'],
+            ['time_dinner' => '23.30'],
+        ];
 
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '18.00';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '18.30';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '19.00';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '19.30';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '20.00';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '20.30';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '21.00';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '21.30';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '22.00';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '22.30';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '23.00';
-        $time_dinner->save();
-        
-        $time_dinner = New App\TimeDinner();
-        $time_dinner->time_dinner = '23.30';
-        $time_dinner->save();     
+        foreach ($times as $time) {
+            $time_dinner = New App\TimeDinner();
+            $time_dinner->time_dinner = $time['time_dinner'];
+            $time_dinner->save();
+        }
     }
 }

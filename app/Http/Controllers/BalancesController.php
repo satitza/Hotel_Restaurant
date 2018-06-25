@@ -219,45 +219,44 @@ class BalancesController extends Controller
 
     public function ClearAllBalanceExpire()
     {
-        echo "-*-";
-//        DB::beginTransaction();
-//        try {
-//
-//            $balances = DB::table('book_check_balances')
-//                ->select('book_check_balances.id', 'book_check_balances.book_offer_balance', 'offers.offer_date_end')
-//                ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
-//                ->orderBy('book_check_balances.id', 'asc')->where('offers.id', 9)->get();
-//
-//            foreach ($balances as $balance){
-//
-//                if ($balance->book_offer_balance == 0){
-//                    echo "offer guest is over";
-//                }else if (Carbon::parse($balance->offer_date_end)->addHours(23) < Carbon::now()){
-//                    echo Carbon::parse($balance->offer_date_end)->addHours(23).'<br>';
-//                    echo Carbon::now()/*->addRealHour()*/."<br>";
-//                    echo "offer is expire today";
-//                }
-//
-//            }
-//
-//            //dd($balances);
-//
-//
-//            /*DB::table('book_check_balances')
-//                ->where('book_offer_balance', 0)
-//                ->update([
-//                    'active_id' => 2,
-//                ]);*/
-//
-//
-//            //DB::table('book_check_balances')->where('id', $id)->delete();
-//            //DB::commit();
-//            //return redirect()->action('BalancesController@create');
-//        } catch (QueryException $e) {
-//            DB::rollback();
-//            return view('error.index')->with('error', $e->getMessage());
-//        } catch (Exception $e) {
-//            return view('error.index')->with('error', $e->getMessage());
-//        }
+        DB::beginTransaction();
+        try {
+
+            $balances = DB::table('book_check_balances')
+                ->select('book_check_balances.id', 'book_check_balances.book_offer_balance', 'offers.offer_name_en','offers.offer_date_end')
+                ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
+                ->orderBy('book_check_balances.id', 'asc')->get();
+
+            foreach ($balances as $balance){
+
+                if ($balance->book_offer_balance == 0){
+                    echo "offer guest is over";
+                }else if (Carbon::parse($balance->offer_date_end)->addHours(23) < Carbon::now()){
+                    echo Carbon::parse($balance->offer_date_end)->addHours(23).'<br>';
+                    echo Carbon::now()/*->addRealHour()*/."<br>";
+                    echo $balance->offer_name_en . " Balance is expired";
+                }
+
+            }
+
+            dd($balances);
+
+
+            /*DB::table('book_check_balances')
+                ->where('book_offer_balance', 0)
+                ->update([
+                    'active_id' => 2,
+                ]);*/
+
+
+            //DB::table('book_check_balances')->where('id', $id)->delete();
+            //DB::commit();
+            //return redirect()->action('BalancesController@create');
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 }

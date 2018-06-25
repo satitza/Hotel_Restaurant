@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ActivesTableSeeder::class);
         $this->call(BookingStatusSeeder::class);
         $this->call(CreateAdministratorAccountSeeder::class);
+        $this->call(CurrencyTableSeeder::class);
         $this->call(HotelsListSeeder::class);
         $this->call(RestaurantListSeeder::class);
         $this->call(TimeLunchsSeeder::class);
         $this->call(TimeDinnersSeeder::class);
-        //$this->call(SetMenuListSeeder::class);
     }
 }

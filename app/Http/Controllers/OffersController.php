@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BookCheckBalance;
+use App\Currency;
 use App\Hotels;
 use App\Http\Requests\OffersRequest;
 use App\Images;
@@ -51,6 +52,7 @@ class OffersController extends Controller
     {
         try {
 
+            $currencies = Currency::orderBy('id', 'ASC')->get();
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
             $check_rows = User::find(Auth::id());
@@ -79,6 +81,7 @@ class OffersController extends Controller
 
             return view($view, [
                 'restaurants' => $restaurants,
+                'currencies' => $currencies,
                 'time_lunchs' => $time_lunchs,
                 'time_dinners' => $time_dinners
             ]);
@@ -258,10 +261,16 @@ class OffersController extends Controller
             $offers->offer_time_lunch_start = $request->offer_time_lunch_start;
             $offers->offer_time_lunch_end = $request->offer_time_lunch_end;
             $offers->offer_lunch_price = $lunch_price;
+
+            $offers->lunch_currency_id = $request->offer_lunch_currency;
+
             $offers->offer_lunch_guest = $lunch_guest;
             $offers->offer_time_dinner_start = $request->offer_time_dinner_start;
             $offers->offer_time_dinner_end = $request->offer_time_dinner_end;
             $offers->offer_dinner_price = $dinner_price;
+
+            $offers->dinner_currency_id = $request->offer_dinner_currency;
+
             $offers->offer_dinner_guest = $dinner_guest;
             $offers->offer_short_th = $request->offer_short_th;
             $offers->offer_short_en = $request->offer_short_en;

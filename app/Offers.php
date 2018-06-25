@@ -23,6 +23,7 @@ class Offers extends Model
         return $this->belongsTo(Restaurants::class, 'restaurant_id');
     }
 
+
     public function BookCheckBalance()
     {
         return $this->hasMany(BookCheckBalance::class);
@@ -46,5 +47,15 @@ class Offers extends Model
     public function Termscn()
     {
         return $this->hasMany(Termscn::class);
+    }
+
+    public function Lunch_Currency()
+    {
+        return $this->belongsTo(Currency::class, 'lunch_currency_id');
+    }
+
+    public function Dinner_Currency()
+    {
+        return $this->belongsTo(Currency::class, 'dinner_currency_id');
     }
 }

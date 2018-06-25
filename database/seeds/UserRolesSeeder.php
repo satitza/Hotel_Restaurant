@@ -11,20 +11,17 @@ class UserRolesSeeder extends Seeder
      */
     public function run()
     {
-        $user_roles = New App\UserRole();
-        $user_roles->role = 'admin';
-        $user_roles->save();
+        $roles = [
+            ['role' => 'admin'],
+            ['role' => 'editor'],
+            ['role' => 'report'],
+            ['role' => 'user'],
+        ];
 
-        $user_roles = New App\UserRole();
-        $user_roles->role = 'editor';
-        $user_roles->save();
-
-        $user_roles = New App\UserRole();
-        $user_roles->role = 'report';
-        $user_roles->save();
-
-        $user_roles = New App\UserRole();
-        $user_roles->role = 'user';
-        $user_roles->save();
+        foreach ($roles as $role) {
+            $user_roles = New App\UserRole();
+            $user_roles->role = $role['role'];
+            $user_roles->save();
+        }
     }
 }

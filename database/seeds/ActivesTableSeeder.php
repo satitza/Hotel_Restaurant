@@ -10,13 +10,17 @@ class ActivesTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $actives = new App\Actives;
-        $actives->active = 'Enable';
-        $actives->save();
-        
-        $actives = new App\Actives;
-        $actives->active = 'Disable';
-        $actives->save();
+
+        $actives = [
+            ['active' => 'Enable'],
+            ['active' => 'Disable']
+        ];
+
+        foreach ($actives as $act){
+            $active = new App\Actives;
+            $active->active = $act['active'];
+            $active->save();
+        }
     }
 
 }

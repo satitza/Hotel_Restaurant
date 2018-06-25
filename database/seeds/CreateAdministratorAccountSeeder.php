@@ -11,46 +11,22 @@ class CreateAdministratorAccountSeeder extends Seeder
      */
     public function run()
     {
-        $user = New App\User();
-        $user->name = 'Administrator';
-        $user->email = 'dining@compasshospitality.com';
-        $user->password = bcrypt('dr823c1HEE');
-        $user->user_role = 1;
-        $user->save();
+        $users = [
+            ['name' => 'Administrator', 'email' => 'dining@compasshospitality.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 1],
+            ['name' => 'Satit Porntepanon', 'email' => 'st_satitza@hotmail.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 1],
+            ['name' => 'Admin', 'email' => 'admin@admin.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 1],
+            ['name' => 'Editor', 'email' => 'editor@editor.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 2],
+            ['name' => 'Report', 'email' => 'report@report.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 3],
+            ['name' => 'User', 'email' => 'user@user.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 4],
+        ];
 
-        $user = New App\User();
-        $user->name = 'Satit Porntepanon';
-        $user->email = 'st_satitza@hotmail.com';
-        $user->password = bcrypt('dr823c1HEE');
-        $user->user_role = 1;
-        $user->save();
-
-        $user = New App\User();
-        $user->name = 'admin';
-        $user->email = 'admin@admin.com';
-        $user->password = bcrypt('dr823c1HEE');
-        $user->user_role = 1;
-        $user->save();
-
-        $user = New App\User();
-        $user->name = 'editor';
-        $user->email = 'editor@editor.com';
-        $user->password = bcrypt('dr823c1HEE');
-        $user->user_role = 2;
-        $user->save();
-
-        $user = New App\User();
-        $user->name = 'report';
-        $user->email = 'report@report.com';
-        $user->password = bcrypt('dr823c1HEE');
-        $user->user_role = 3;
-        $user->save();
-
-        $user = New App\User();
-        $user->name = 'user';
-        $user->email = 'user@user.com';
-        $user->password = bcrypt('dr823c1HEE');
-        $user->user_role = 4;
-        $user->save();
+        foreach ($users as $use){
+            $user = New App\User();
+            $user->name = $use['name'];
+            $user->email = $use['email'];
+            $user->password = bcrypt('dr823c1HEE');
+            $user->user_role = 1;
+            $user->save();
+        }
     }
 }

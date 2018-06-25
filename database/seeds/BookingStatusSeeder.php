@@ -11,12 +11,15 @@ class BookingStatusSeeder extends Seeder
      */
     public function run()
     {
-        $booking_status = new App\BookingStatus;
-        $booking_status->booking_status = 'Pending';
-        $booking_status->save();
+        $status = [
+            ['status' => 'Pending'],
+            ['status' => 'Complete']
+        ];
 
-        $booking_status = new App\BookingStatus;
-        $booking_status->booking_status = 'Complete';
-        $booking_status->save();
+        foreach ($status as $sta){
+            $booking_status = new App\BookingStatus;
+            $booking_status->booking_status = $sta['status'];
+            $booking_status->save();
+        }
     }
 }
