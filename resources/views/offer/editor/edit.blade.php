@@ -201,10 +201,16 @@
                                                     <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
                                                 @endforeach
                                             </select>
+
                                             {{ Form::label('lb_lunch_price', 'Lunch Price per person') }}
                                             {{ Form::text('offer_lunch_price', $offer_lunch_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}
+
+                                            {{ Form::label('lb_lunch_currency', 'Lunch Currency') }}
+                                            {{ Form::text('offer_lunch_currency', $lunch_currency, ['class' => 'form-control', 'placeholder' => 'Lunch Currency', 'readonly']) }}
+
                                             {{ Form::label('lb_lunch_guest', 'Lunch Max guest') }}
                                             {{ Form::text('offer_lunch_guest', $offer_lunch_guest, ['class' => 'form-control', 'placeholder' => 'Max Guest', 'readonly']) }}
+
                                         </div>
                                     </div>
                                     <div id="dinner_time" class="tab-pane fade">
@@ -227,10 +233,16 @@
                                                 @endforeach
                                             </select>
                                         </div>
+
                                         {{ Form::label('lb_price', 'Dinner Price per person') }}
                                         {{ Form::text('offer_dinner_price', $offer_dinner_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}
+
+                                        {{ Form::label('lb_dinner_currency', 'Dinner Currency') }}
+                                        {{ Form::text('offer_dinner_currency', $dinner_currency, ['class' => 'form-control', 'placeholder' => 'Dinner Currency', 'readonly']) }}
+
                                         {{ Form::label('lb_guest', 'Dinner Max guest') }}
                                         {{ Form::text('offer_dinner_guest', $offer_dinner_guest, ['class' => 'form-control', 'placeholder' => 'Max Guest', 'readonly']) }}
+                                        
                                     </div>
                                 </div>
                             </tr>

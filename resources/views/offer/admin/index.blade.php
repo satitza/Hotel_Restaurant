@@ -261,6 +261,9 @@
                                             </select>
                                         </div>
 
+                                        {{ Form::label('lb_price', 'Dinner Price per person') }}
+                                        {{ Form::text('offer_dinner_price', null, ['class' => 'form-control', 'placeholder' => '00.00']) }}
+
                                         {{ Form::label('lb_dinner_currency', 'Dinner Currency') }}
                                         <select class="form-control" name="offer_dinner_currency">
                                             <!--<option value="" disabled selected>please_selected</option>-->
@@ -268,9 +271,6 @@
                                                 <option value="{{ $currency->id }}">{{ $currency->currency }}</option>
                                             @endforeach
                                         </select>
-
-                                        {{ Form::label('lb_price', 'Dinner Price per person') }}
-                                        {{ Form::text('offer_dinner_price', null, ['class' => 'form-control', 'placeholder' => '00.00']) }}
 
                                         {{ Form::label('lb_guest', 'Dinner Max guest') }}
                                         {{ Form::text('offer_dinner_guest', null, ['class' => 'form-control', 'placeholder' => 'Max Guest']) }}

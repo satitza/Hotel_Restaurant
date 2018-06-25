@@ -25,7 +25,7 @@ class CreateAdministratorAccountSeeder extends Seeder
             $user->name = $use['name'];
             $user->email = $use['email'];
             $user->password = bcrypt('dr823c1HEE');
-            $user->user_role = 1;
+            $user->user_role = $use['role'];
             $user->save();
         }
     }

@@ -233,6 +233,10 @@ class OffersController extends Controller
             $dinner_guest = $request->offer_dinner_guest;
         }
 
+        if ($request->offer_lunch_currency != $request->offer_dinner_currency){
+            return view('error.index')->with('error', 'Currency is not the same.');
+        }
+
         DB::beginTransaction();
         try {
 
@@ -261,16 +265,12 @@ class OffersController extends Controller
             $offers->offer_time_lunch_start = $request->offer_time_lunch_start;
             $offers->offer_time_lunch_end = $request->offer_time_lunch_end;
             $offers->offer_lunch_price = $lunch_price;
-
             $offers->lunch_currency_id = $request->offer_lunch_currency;
-
             $offers->offer_lunch_guest = $lunch_guest;
             $offers->offer_time_dinner_start = $request->offer_time_dinner_start;
             $offers->offer_time_dinner_end = $request->offer_time_dinner_end;
             $offers->offer_dinner_price = $dinner_price;
-
             $offers->dinner_currency_id = $request->offer_dinner_currency;
-
             $offers->offer_dinner_guest = $dinner_guest;
             $offers->offer_short_th = $request->offer_short_th;
             $offers->offer_short_en = $request->offer_short_en;
@@ -340,13 +340,14 @@ class OffersController extends Controller
 
             $offers = DB::table('offers')
                 ->select('offers.id', 'hotels.hotel_name',
-                    'offers.restaurant_id', 'restaurants.restaurant_name',
-                    'offer_name_th', 'offer_name_en', 'offer_name_cn', 'attachments', 'offer_date_start', 'offer_date_end', 'offer_day_select',
-                    'offer_time_lunch_start', 'offer_time_lunch_end', 'offer_lunch_price', 'offer_lunch_guest', 'offer_time_dinner_start',
-                    'offer_time_dinner_end', 'offer_dinner_price', 'offer_dinner_guest', 'offer_short_th', 'offer_short_en', 'offer_short_cn',
-                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
+                    'offers.restaurant_id', 'restaurants.restaurant_name', 'offer_name_th', 'offer_name_en', 'offer_name_cn',
+                    'attachments', 'offer_date_start', 'offer_date_end', 'offer_day_select', 'offer_time_lunch_start',
+                    'offer_time_lunch_end', 'offer_lunch_price', 'currencies.currency', 'offer_lunch_guest',
+                    'offer_time_dinner_start', 'offer_time_dinner_end', 'offer_dinner_price', 'currencies.currency',
+                    'offer_dinner_guest', 'offer_short_th', 'offer_short_en', 'offer_short_cn', 'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
+                ->join('currencies', 'offers.lunch_currency_id', '=', 'currencies.id')
                 ->where('offers.id', $id)->get();
 
 
@@ -412,7 +413,6 @@ class OffersController extends Controller
                     $view = 'offer.admin.edit';
                 }
 
-
                 //Administrator role
                 return view($view, [
                     'offer_id' => $offer->id,
@@ -429,10 +429,12 @@ class OffersController extends Controller
                     'offer_time_lunch_start' => $offer->offer_time_lunch_start,
                     'offer_time_lunch_end' => $offer->offer_time_lunch_end,
                     'offer_lunch_price' => $offer->offer_lunch_price,
+                    'lunch_currency' => $offer->currency,
                     'offer_lunch_guest' => $offer->offer_lunch_guest,
                     'offer_time_dinner_start' => $offer->offer_time_dinner_start,
                     'offer_time_dinner_end' => $offer->offer_time_dinner_end,
                     'offer_dinner_price' => $offer->offer_dinner_price,
+                    'dinner_currency' => $offer->currency,
                     'offer_dinner_guest' => $offer->offer_dinner_guest,
                     'offer_short_th' => $offer_short_th,
                     'offer_short_en' => $offer->offer_short_en,
