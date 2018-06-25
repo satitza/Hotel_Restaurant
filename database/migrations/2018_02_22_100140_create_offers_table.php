@@ -41,17 +41,19 @@ class CreateOffersTable extends Migration
             $table->string('offer_time_lunch_start', 50)->nullable();
             $table->string('offer_time_lunch_end', 50)->nullable();
             $table->double('offer_lunch_price', 8, 2)->unsigned();
-            $table->integer('lunch_currency_id')->unsigned();
-            $table->foreign('lunch_currency_id')->references('id')->on('currencies');
             $table->integer('offer_lunch_guest')->unsigned();
 
 
             $table->string('offer_time_dinner_start', 50)->nullable();
             $table->string('offer_time_dinner_end', 50)->nullable();
             $table->double('offer_dinner_price', 8, 2)->unsigned();
-            $table->integer('dinner_currency_id')->unsigned();
-            $table->foreign('dinner_currency_id')->references('id')->on('currencies');
             $table->integer('offer_dinner_guest')->unsigned();
+
+            $table->integer('currency_id')->unsigned();
+            $table->foreign('currency_id')->references('id')->on('currencies');
+
+            $table->integer('rate_suffix_id')->unsigned();
+            $table->foreign('rate_suffix_id')->references('id')->on('rate_suffixes');
 
             $table->text('offer_short_th')->nullable();
             $table->text('offer_short_en')->nullable();

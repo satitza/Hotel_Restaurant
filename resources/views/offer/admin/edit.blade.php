@@ -204,9 +204,6 @@
                                             {{ Form::label('lb_lunch_price', 'Lunch Price per person') }}
                                             {{ Form::text('offer_lunch_price', $offer_lunch_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}
 
-                                            {{ Form::label('lb_lunch_currency', 'Lunch Currency') }}
-                                            {{ Form::text('offer_lunch_currency', $lunch_currency, ['class' => 'form-control', 'placeholder' => 'Lunch Currency', 'readonly']) }}
-
                                             {{ Form::label('lb_lunch_guest', 'Lunch Max guest') }}
                                             {{ Form::text('offer_lunch_guest', $offer_lunch_guest, ['class' => 'form-control', 'placeholder' => 'Max Guest', 'readonly']) }}
 
@@ -236,9 +233,6 @@
                                         {{ Form::label('lb_price', 'Dinner Price per person') }}
                                         {{ Form::text('offer_dinner_price', $offer_dinner_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}
 
-                                        {{ Form::label('lb_dinner_currency', 'Dinner Currency') }}
-                                        {{ Form::text('offer_dinner_currency', $dinner_currency, ['class' => 'form-control', 'placeholder' => 'Dinner Currency', 'readonly']) }}
-
                                         {{ Form::label('lb_guest', 'Dinner Max guest') }}
                                         {{ Form::text('offer_dinner_guest', $offer_dinner_guest, ['class' => 'form-control', 'placeholder' => 'Max Guest', 'readonly']) }}
 
@@ -246,9 +240,25 @@
                                 </div>
                             </tr>
                         </table>
-                        <hr>
+                            <hr>
 
+                            {{ Form::label('lb_currency', 'Currency') }}
+                            <select class="form-control" name="offer_currency">
+                                <option value="{{ $currency_id }}">{{ $currency }}</option>
+                                @foreach($currencies as $currency)
+                                    <option value="{{ $currency->id }}">{{ $currency->currency }}</option>
+                                @endforeach
+                            </select>
 
+                            {{ Form::label('lb_rate_suffix', 'Rate Suffix') }}
+                            <select class="form-control" name="offer_rate_suffix">
+                                <option value="{{ $rate_suffix_id }}">{{ $rate_suffix }}</option>
+                                @foreach($rate_suffixes as $rate)
+                                    <option value="{{ $rate->id }}">{{ $rate->rate_suffix }}</option>
+                                @endforeach
+                            </select>
+
+                            <hr>
                         <table class="table table-striped table-hover">
                             <tr>
                                 <td>

@@ -15,6 +15,8 @@ class CreateRateSuffixesTable extends Migration
     {
         Schema::create('rate_suffixes', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('rate_suffix', 100)->nullable();
+            $table->string('description', 100)->nullable();
             $table->timestamps();
         });
     }

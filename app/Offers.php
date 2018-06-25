@@ -49,13 +49,13 @@ class Offers extends Model
         return $this->hasMany(Termscn::class);
     }
 
-    public function Lunch_Currency()
+    public function Currency()
     {
-        return $this->belongsTo(Currency::class, 'lunch_currency_id');
+        return $this->belongsTo(Currency::class, 'currency_id');
     }
 
-    public function Dinner_Currency()
+    public function ReteSuffix()
     {
-        return $this->belongsTo(Currency::class, 'dinner_currency_id');
+        return $this->belongsTo(RateSuffix::class, 'rate_suffix_id');
     }
 }

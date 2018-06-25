@@ -8,6 +8,7 @@ use App\Hotels;
 use App\Http\Requests\OffersRequest;
 use App\Images;
 use App\Offers;
+use App\RateSuffix;
 use App\Restaurants;
 use App\TimeDinner;
 use App\TimeLunch;
@@ -52,9 +53,12 @@ class OffersController extends Controller
     {
         try {
 
-            $currencies = Currency::orderBy('id', 'ASC')->get();
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
+
+            $currencies = Currency::orderBy('id', 'ASC')->get();
+            $rate_suffix = RateSuffix::orderBy('id', 'ASC')->get();
+
             $check_rows = User::find(Auth::id());
             $restaurants = array();
             $view = null;
@@ -81,9 +85,10 @@ class OffersController extends Controller
 
             return view($view, [
                 'restaurants' => $restaurants,
-                'currencies' => $currencies,
                 'time_lunchs' => $time_lunchs,
-                'time_dinners' => $time_dinners
+                'time_dinners' => $time_dinners,
+                'currencies' => $currencies,
+                'rate_suffix' => $rate_suffix
             ]);
 
         } catch (QueryException $e) {
@@ -233,10 +238,6 @@ class OffersController extends Controller
             $dinner_guest = $request->offer_dinner_guest;
         }
 
-        if ($request->offer_lunch_currency != $request->offer_dinner_currency){
-            return view('error.index')->with('error', 'Currency is not the same.');
-        }
-
         DB::beginTransaction();
         try {
 
@@ -265,13 +266,13 @@ class OffersController extends Controller
             $offers->offer_time_lunch_start = $request->offer_time_lunch_start;
             $offers->offer_time_lunch_end = $request->offer_time_lunch_end;
             $offers->offer_lunch_price = $lunch_price;
-            $offers->lunch_currency_id = $request->offer_lunch_currency;
             $offers->offer_lunch_guest = $lunch_guest;
             $offers->offer_time_dinner_start = $request->offer_time_dinner_start;
             $offers->offer_time_dinner_end = $request->offer_time_dinner_end;
             $offers->offer_dinner_price = $dinner_price;
-            $offers->dinner_currency_id = $request->offer_dinner_currency;
             $offers->offer_dinner_guest = $dinner_guest;
+            $offers->currency_id = $request->offer_currency;
+            $offers->rate_suffix_id = $request->offer_rate_suffix;
             $offers->offer_short_th = $request->offer_short_th;
             $offers->offer_short_en = $request->offer_short_en;
             $offers->offer_short_cn = $request->offer_short_cn;
@@ -338,16 +339,21 @@ class OffersController extends Controller
             $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
             $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
 
+            $currencies = Currency::orderBy('id', 'ASC')->get();
+            $rate_suffix = RateSuffix::orderBy('id', 'ASC')->get();
+
             $offers = DB::table('offers')
                 ->select('offers.id', 'hotels.hotel_name',
                     'offers.restaurant_id', 'restaurants.restaurant_name', 'offer_name_th', 'offer_name_en', 'offer_name_cn',
                     'attachments', 'offer_date_start', 'offer_date_end', 'offer_day_select', 'offer_time_lunch_start',
-                    'offer_time_lunch_end', 'offer_lunch_price', 'currencies.currency', 'offer_lunch_guest',
-                    'offer_time_dinner_start', 'offer_time_dinner_end', 'offer_dinner_price', 'currencies.currency',
-                    'offer_dinner_guest', 'offer_short_th', 'offer_short_en', 'offer_short_cn', 'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
+                    'offer_time_lunch_end', 'offer_lunch_price', 'offer_lunch_guest', 'offer_time_dinner_start',
+                    'offer_time_dinner_end', 'offer_dinner_price', 'offer_dinner_guest', 'offers.currency_id', 'currencies.currency',
+                    'offers.rate_suffix_id', 'rate_suffixes.rate_suffix', 'offer_short_th', 'offer_short_en', 'offer_short_cn',
+                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
-                ->join('currencies', 'offers.lunch_currency_id', '=', 'currencies.id')
+                ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
+                ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
                 ->where('offers.id', $id)->get();
 
 
@@ -429,13 +435,15 @@ class OffersController extends Controller
                     'offer_time_lunch_start' => $offer->offer_time_lunch_start,
                     'offer_time_lunch_end' => $offer->offer_time_lunch_end,
                     'offer_lunch_price' => $offer->offer_lunch_price,
-                    'lunch_currency' => $offer->currency,
                     'offer_lunch_guest' => $offer->offer_lunch_guest,
                     'offer_time_dinner_start' => $offer->offer_time_dinner_start,
                     'offer_time_dinner_end' => $offer->offer_time_dinner_end,
                     'offer_dinner_price' => $offer->offer_dinner_price,
-                    'dinner_currency' => $offer->currency,
                     'offer_dinner_guest' => $offer->offer_dinner_guest,
+                    'currency_id' => $offer->currency_id,
+                    'currency' => $offer->currency,
+                    'rate_suffix_id' => $offer->rate_suffix_id,
+                    'rate_suffix' => $offer->rate_suffix,
                     'offer_short_th' => $offer_short_th,
                     'offer_short_en' => $offer->offer_short_en,
                     'offer_short_cn' => $offer_short_cn,
@@ -445,7 +453,9 @@ class OffersController extends Controller
                 ])
                     ->with('restaurants', $restaurants)
                     ->with('time_lunchs', $time_lunchs)
-                    ->with('time_dinners', $time_dinners);
+                    ->with('time_dinners', $time_dinners)
+                    ->with('currencies', $currencies)
+                    ->with('rate_suffixes', $rate_suffix);
             } else {
                 return view('error.index')->with('error', 'Search not found');
             }
@@ -516,7 +526,6 @@ class OffersController extends Controller
             }
 
             DB::beginTransaction();
-
             DB::table('offers')
                 ->where('id', $id)
                 ->update([
@@ -537,6 +546,8 @@ class OffersController extends Controller
                     'offer_time_dinner_end' => $request->offer_time_dinner_end,
                     'offer_dinner_price' => $dinner_price,
                     'offer_dinner_guest' => $dinner_guest,
+                    'currency_id' => $request->offer_currency,
+                    'rate_suffix_id' => $request->offer_rate_suffix,
                     'offer_short_th' => $request->offer_short_th,
                     'offer_short_en' => $request->offer_short_en,
                     'offer_short_cn' => $request->offer_short_cn,
