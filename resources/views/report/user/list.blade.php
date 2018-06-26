@@ -175,6 +175,8 @@
                                 <th scope="col">Guest Name</th>
                                 <th scope="col">Guest Number</th>
                                 <th scope="col">Total Price</th>
+                                <th scope="col">Currency</th>
+                                <th scope="col">Rate Suffix</th>
                                 <th scope="col1">Gift Voucher</th>
                             </tr>
                             </thead>
@@ -188,6 +190,8 @@
                                     <td>{{ $report->booking_contact_firstname."&nbsp;&nbsp;".$report->booking_contact_lastname  }}</td>
                                     <td>{{ $report->booking_guest }}</td>
                                     <td>{{ $report->booking_price }}</td>
+                                    <td>{{ $report->currency }}</td>
+                                    <td>{{ $report->rate_suffix }}</td>
                                     <td>
                                         @if($report->booking_voucher == 2)
                                             <a href="{{ url('view_voucher/'.$report->booking_id) }}"

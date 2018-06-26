@@ -127,12 +127,15 @@ class ReportsController extends Controller
             }
 
             $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
-                    'booking_contact_lastname', 'booking_price', 'booking_voucher')
+                ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
+                    'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
+                    'currency', 'rate_suffix', 'booking_voucher')
                 ->where($where)
                 ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                 ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
                 ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
+                ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
+                ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
                 ->orderBy('reports.id', 'asc')->paginate(10);
 
             return view($view, [
@@ -199,8 +202,9 @@ class ReportsController extends Controller
         try {
 
             $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date', 'booking_guest', 'booking_contact_firstname',
-                    'booking_contact_lastname', 'booking_price', 'booking_voucher')
+                ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
+                    'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
+                    'currency', 'rate_suffix', 'booking_voucher')
                 ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                 ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                 ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
@@ -209,6 +213,8 @@ class ReportsController extends Controller
                 ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                 ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
                 ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
+                ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
+                ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
                 ->orderBy('reports.id', 'asc')->get();
 
             return view($view, [

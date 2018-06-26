@@ -27,4 +27,14 @@ class Report extends Model
     {
         return $this->belongsTo(BookingStatus::class, 'booking_status');
     }
+
+    public function Currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
+    public function ReteSuffix()
+    {
+        return $this->belongsTo(RateSuffix::class, 'rate_suffix_id');
+    }
 }

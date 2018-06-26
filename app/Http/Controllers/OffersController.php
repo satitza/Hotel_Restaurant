@@ -560,7 +560,9 @@ class OffersController extends Controller
                 DB::table('reports')->where('booking_offer_id', '=', $id)
                     ->update([
                         'booking_hotel_id' => $get_hotel_id->hotel_id,
-                        'booking_restaurant_id' => $request->restaurant_id
+                        'booking_restaurant_id' => $request->restaurant_id,
+                        'currency_id' => $request->offer_currency,
+                        'rate_suffix_id' => $request->offer_rate_suffix,
                     ]);
             }
 

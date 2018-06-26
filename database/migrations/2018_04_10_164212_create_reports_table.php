@@ -40,6 +40,12 @@ class CreateReportsTable extends Migration
 
             $table->float('booking_price', 8, 2)->unsigned();
 
+            $table->integer('currency_id')->unsigned();
+            $table->foreign('currency_id')->references('id')->on('currencies');
+
+            $table->integer('rate_suffix_id')->unsigned();
+            $table->foreign('rate_suffix_id')->references('id')->on('rate_suffixes');
+
             $table->string('booking_time_type', 100);
             $table->string('booking_voucher', 10)->nullable();
 
