@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActionLog;
 use App\Offers;
 use DB;
 use File;
@@ -11,6 +12,7 @@ use App\Actives;
 use App\Restaurants;
 use Illuminate\Http\Request;
 use App\Http\Requests\RestaurantsRequest;
+use Illuminate\Support\Facades\Auth;
 
 class RestaurantsController extends Controller
 {
@@ -26,6 +28,9 @@ class RestaurantsController extends Controller
             'update',
             'destroy'
         ]]);
+
+        $GLOBALS['controller'] = 'RestaurantsController';
+
     }
 
     /**
@@ -95,6 +100,9 @@ class RestaurantsController extends Controller
             $restaurants->active_id = $request->active_id;
             $restaurants->restaurant_comment = $request->restaurant_comment;
             $restaurants->save();
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
+
             DB::commit();
             return redirect()->action('RestaurantsController@create');
         } catch (QueryException $e) {
@@ -210,8 +218,12 @@ class RestaurantsController extends Controller
                     'restaurant_email' => $request->restaurant_email,
                     'hotel_id' => $request->hotel_id,
                     'active_id' => $request->active_id,
-                    'restaurant_comment' => $request->restaurant_comment
+                    'restaurant_comment' => $request->restaurant_comment,
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $id);
+
             DB::commit();
             if (Offers::select('hotel_id')->where('restaurant_id', $id)->exists()) {
                 //Found hotel_id  in  set_menus
@@ -242,7 +254,10 @@ class RestaurantsController extends Controller
     {
         DB::beginTransaction();
         try {
+
             DB::table('restaurants')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'destroy', $id);
+
             DB::commit();
             return redirect()->action('RestaurantsController@create');
         } catch (QueryException $e) {
@@ -251,5 +266,21 @@ class RestaurantsController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 }

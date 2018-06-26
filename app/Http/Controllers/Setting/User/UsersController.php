@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Setting\User;
 
+use App\ActionLog;
 use DB;
 use App\User;
+use Carbon\Carbon;
 use App\UserRole;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -25,6 +27,9 @@ class UsersController extends Controller
             'show',
             'update_password'
         ]]);
+
+        $GLOBALS['controller'] = 'UsersController';
+
     }
 
     /**
@@ -84,6 +89,9 @@ class UsersController extends Controller
             $users->password = bcrypt($request->user_password);
             $users->user_role = $request->user_role;
             $users->save();
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
         } catch (QueryException $e) {
@@ -126,8 +134,12 @@ class UsersController extends Controller
             DB::table('users')
                 ->where('id', $request->user_id)
                 ->update([
-                    'password' => bcrypt($request->user_password)
+                    'password' => bcrypt($request->user_password),
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update_password', $request->user_id);
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
         } catch (QueryException $e) {
@@ -182,8 +194,12 @@ class UsersController extends Controller
                 ->update([
                     'name' => $request->user_name,
                     'email' => $request->user_email,
-                    'user_role' => $request->user_role
+                    'user_role' => $request->user_role,
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $id);
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
         } catch (QueryException $e) {
@@ -205,7 +221,10 @@ class UsersController extends Controller
     {
         DB::beginTransaction();
         try {
+
             DB::table('users')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'destroy', $id);
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\UsersController@create');
         } catch (QueryException $e) {
@@ -214,5 +233,21 @@ class UsersController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 }

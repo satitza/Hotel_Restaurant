@@ -27,6 +27,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function ActionLog() {
+        return $this->hasMany(ActionLog::class);
+    }
+
     public function UserReport() {
         return $this->hasMany(UserReport::class);
     }

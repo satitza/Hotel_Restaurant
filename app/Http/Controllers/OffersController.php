@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\BookCheckBalance;
+use App\ActionLog;
 use App\Currency;
 use App\Hotels;
 use App\Http\Requests\OffersRequest;
@@ -41,6 +41,8 @@ class OffersController extends Controller
             'DeleteAllImage'
         ]]);
         $this->middleware('editor');
+
+        $GLOBALS['controller'] = 'OffersController';
 
     }
 
@@ -281,6 +283,7 @@ class OffersController extends Controller
             $offers->offer_comment_cn = $request->offer_comment_cn;
             $offers->save();
 
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
 
             DB::commit();
             return redirect()->action('OffersController@create');
@@ -553,7 +556,8 @@ class OffersController extends Controller
                     'offer_short_cn' => $request->offer_short_cn,
                     'offer_comment_th' => $request->offer_comment_th,
                     'offer_comment_en' => $request->offer_comment_en,
-                    'offer_comment_cn' => $request->offer_comment_cn
+                    'offer_comment_cn' => $request->offer_comment_cn,
+                    'updated_at' => Carbon::now()
                 ]);
 
             if (DB::table('reports')->where('booking_offer_id', '=', $id)->exists()) {
@@ -565,6 +569,8 @@ class OffersController extends Controller
                         'rate_suffix_id' => $request->offer_rate_suffix,
                     ]);
             }
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $id);
 
             DB::commit();
             return redirect()->action('OffersController@create');
@@ -586,9 +592,12 @@ class OffersController extends Controller
     {
         DB::beginTransaction();
         try {
+
             $this->DeleteAttachments($id);
             $this->DeleteAllImage($id);
             DB::table('offers')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'destroy', $id);
+
             DB::commit();
             return redirect()->action('OffersController@create');
         } catch (QueryException $e) {
@@ -632,4 +641,19 @@ class OffersController extends Controller
         }
     }
 
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
+    }
 }

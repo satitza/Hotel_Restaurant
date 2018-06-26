@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Setting\User;
 
+use App\ActionLog;
 use App\UserReport;
 use DB;
 use App\User;
+use Carbon\Carbon;
 use App\Hotels;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ReportUsersController extends Controller
 {
@@ -23,6 +26,9 @@ class ReportUsersController extends Controller
             'update',
             'destroy('
         ]]);
+
+        $GLOBALS['controller'] = 'ReportUsersController';
+
     }
 
     /**
@@ -88,6 +94,9 @@ class ReportUsersController extends Controller
             $user_report->user_id = $request->user_id;
             $user_report->hotel_id = $request->hotel_id;
             $user_report->save();
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
         } catch (QueryException $e) {
@@ -160,7 +169,11 @@ class ReportUsersController extends Controller
                 ->update([
                     'user_id' => $request->user_id,
                     'hotel_id' => $request->hotel_id,
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', $id);
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
         } catch (QueryException $e) {
@@ -181,7 +194,10 @@ class ReportUsersController extends Controller
     {
         DB::beginTransaction();
         try {
+
             DB::table('user_reports')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'destroy', $id);
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\ReportUsersController@create');
         } catch (QueryException $e) {
@@ -190,5 +206,15 @@ class ReportUsersController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 }

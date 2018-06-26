@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\ActionLog;
 use DB;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Requests\HotelsRequest;
 use App\Hotels;
 use App\Actives;
+use Symfony\Component\Finder\Glob;
 
 class HotelController extends Controller
 {
@@ -23,6 +27,9 @@ class HotelController extends Controller
             'update',
             'destroy'
         ]]);
+
+        $GLOBALS['controller'] = 'HotelController';
+
     }
 
     /**
@@ -42,16 +49,15 @@ class HotelController extends Controller
         }
     }
 
-    /*
-      Show list hotel from database
-     */
-
+    /**
+     * Show list hotel from database
+     **/
     public function create()
     {
         try {
             $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
             $hotels = DB::table('hotels')
-                ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key','actives.active', 'hotel_comment')
+                ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'actives.active', 'hotel_comment')
                 ->join('actives', 'hotels.active_id', '=', 'actives.id')
                 ->orderBy('hotels.id', 'asc')->paginate(10);
             return view('hotel.list', [
@@ -80,6 +86,9 @@ class HotelController extends Controller
             $hotel->active_id = $request->active_id;
             $hotel->hotel_comment = $request->hotel_comment;
             $hotel->save();
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
+
             DB::commit();
             return redirect()->action('HotelController@create');
         } catch (QueryException $e) {
@@ -163,13 +172,17 @@ class HotelController extends Controller
                     'mid' => $request->mid,
                     'secret_key' => $request->secret_key,
                     'active_id' => $request->active_id,
-                    'hotel_comment' => $request->hotel_comment
+                    'hotel_comment' => $request->hotel_comment,
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $id);
+
             DB::commit();
             return redirect()->action('HotelController@create');
         } catch (QueryException $e) {
             DB::rollback();
-            return view('error.db')->with('error', $e->getMessage());
+            return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
@@ -182,7 +195,10 @@ class HotelController extends Controller
     {
         DB::beginTransaction();
         try {
+
             DB::table('hotels')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'destroy', $id);
+
             DB::commit();
             return redirect()->action('HotelController@create');
         } catch (QueryException $e) {
@@ -191,6 +207,22 @@ class HotelController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 
 }

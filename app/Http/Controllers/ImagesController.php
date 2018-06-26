@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\ActionLog;
 use App\User;
 use App\UserEditor;
 use DB;
 use App\Images;
 use App\Offers;
 use File;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +28,9 @@ class ImagesController extends Controller
             'DeleteAllImage'
         ]]);
         $this->middleware('editor');
+
+        $GLOBALS['controller'] = 'ImagesController';
+
     }
 
     /**
@@ -275,6 +280,9 @@ class ImagesController extends Controller
                         ->update([
                             'image' => implode(',', $collect)
                         ]);
+
+                    $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
+
                     DB::commit();
                     return redirect()->action('OffersController@create');
                 } else {
@@ -282,6 +290,9 @@ class ImagesController extends Controller
                     $images->offer_id = $request->offer_id;
                     $images->image = implode(",", $collect);
                     $images->save();
+
+                    $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
+
                     DB::commit();
                     return redirect()->action('OffersController@create');
                 }
@@ -428,8 +439,12 @@ class ImagesController extends Controller
             DB::table('images')
                 ->where('id', $id)
                 ->update([
-                    'image' => $new_images
+                    'image' => $new_images,
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $id);
+
             DB::commit();
             return redirect()->action('OffersController@create');
         } catch (QueryException $e) {
@@ -450,8 +465,11 @@ class ImagesController extends Controller
     {
         DB::beginTransaction();
         try {
+
             $this->DeleteAllImage($id);
             DB::table('images')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'destroy', $id);
+
             DB::commit();
             return redirect()->action('ImagesController@create');
         } catch (QueryException $e) {
@@ -479,5 +497,21 @@ class ImagesController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 }

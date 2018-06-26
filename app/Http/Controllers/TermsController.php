@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\ActionLog;
 use DB;
 use App\Termscn;
 use App\Termsen;
 use App\Offers;
 use App\Termsth;
+use Carbon\Carbon;
 use App\User;
 use App\UserEditor;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +26,9 @@ class TermsController extends Controller
             'term_cn_delete'
         ]]);
         $this->middleware('editor');
+
+        $GLOBALS['controller'] = 'TermsController';
+
     }
 
     public function index($offer_id)
@@ -152,6 +157,8 @@ class TermsController extends Controller
                 $terms_cn->term_content_cn = $request->term_content_cn;
                 $terms_cn->save();
             }
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
 
             DB::commit();
             return redirect()->action('TermsController@create', [$request->offer_id]);
@@ -354,7 +361,11 @@ class TermsController extends Controller
                 ->update([
                     $term_header => $request->term_header,
                     $term_content => $request->term_content,
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $request->term_id);
+
             DB::commit();
 
             return redirect()->action('TermsController@create', [$request->offer_id]);
@@ -377,6 +388,8 @@ class TermsController extends Controller
         try {
 
             DB::table('termsths')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'term_th_delete', $id);
+
             DB::commit();
             return redirect()->action('TermsController@create', [$offer_id]);
 
@@ -394,6 +407,8 @@ class TermsController extends Controller
         try {
 
             DB::table('termsens')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'term_en_delete', $id);
+
             DB::commit();
             return redirect()->action('TermsController@create', [$offer_id]);
 
@@ -411,6 +426,8 @@ class TermsController extends Controller
         try {
 
             DB::table('termscns')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'term_cn_delete', $id);
+
             DB::commit();
             return redirect()->action('TermsController@create', [$offer_id]);
 
@@ -420,5 +437,21 @@ class TermsController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 }

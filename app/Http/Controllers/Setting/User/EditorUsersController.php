@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Setting\User;
 
+use App\ActionLog;
 use DB;
 use App\User;
 use App\Restaurants;
 use App\UserEditor;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class EditorUsersController extends Controller
 {
@@ -32,6 +35,9 @@ class EditorUsersController extends Controller
             'update',
             'destroy'
         ]]);
+
+        $GLOBALS['controller'] = 'EditorUsersController';
+
     }
 
     public function index()
@@ -114,6 +120,9 @@ class EditorUsersController extends Controller
             $user_editor->user_id = $request->user_id;
             $user_editor->restaurant_id = implode(",", $request->input('restaurants_check_box')) . ",";
             $user_editor->save();
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
         } catch (QueryException $e) {
@@ -167,8 +176,11 @@ class EditorUsersController extends Controller
             DB::table('user_editors')
                 ->where('id', $id)
                 ->update([
-                    'restaurant_id' => implode(",", $arrays) . ","
+                    'restaurant_id' => implode(",", $arrays) . ",",
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'UpdateAddRestaurant', $id);
 
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
@@ -244,8 +256,12 @@ class EditorUsersController extends Controller
             DB::table('user_editors')
                 ->where('id', $id)
                 ->update([
-                    'restaurant_id' => implode(",", $request->input('old_restaurants_check_box')) . ","
+                    'restaurant_id' => implode(",", $request->input('old_restaurants_check_box')) . ",",
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $id);
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
         } catch (QueryException $e) {
@@ -267,7 +283,10 @@ class EditorUsersController extends Controller
     {
         DB::beginTransaction();
         try {
+
             DB::table('user_editors')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'destroy', $id);
+
             DB::commit();
             return redirect()->action('\App\Http\Controllers\Setting\User\EditorUsersController@create');
         } catch (QueryException $e) {
@@ -276,5 +295,21 @@ class EditorUsersController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 }
