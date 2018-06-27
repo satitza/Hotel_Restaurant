@@ -83,7 +83,7 @@
                                 <th scope="col">Guest Name</th>
                                 <th scope="col">Guest Email</th>
                                 <th scope="col">Guest Phone</th>
-                                <th scope="col">Number Guest</th>
+                                <th scope="col">Offer Guest</th>
                                 <th scope="col">Gift Voucher</th>
                                 <th scope="col1">Delete</th>
                             </tr>

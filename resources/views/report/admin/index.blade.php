@@ -4,10 +4,16 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            $(".datepicker").datepicker({
-                dateFormat: 'dd/mm/yy',
-                changeMonth: true,
-                changeYear: true,
+            $(".datepicker_from").datepicker({
+                 dateFormat: 'dd/mm/yy',
+                 changeMonth: true,
+                 changeYear: true,
+            });
+
+            $(".datepicker_to").datepicker({
+                 dateFormat: 'dd/mm/yy',
+                 changeMonth: true,
+                 changeYear: true,
             });
 
             $("#search_hotel_id").click(function () {
@@ -91,7 +97,8 @@
             });
 
             $("#offer_id_select").change(function () {
-                $('#text_date').val('');
+                $('#text_date_from').val('');
+                $('#text_date_to').val('');
             });
 
         });
@@ -114,8 +121,11 @@
                             Restaurant<br>
                             <input type="checkbox" id="search_offer_id"/>
                             Offer <br>
+
+                            <hr>
+
                             <input type="checkbox" id="search_date"/>
-                            Date <br>
+                            Include Date<br>
                         </label>
                         <hr>
                         <div id="hotel_id" style="display: none;">
@@ -143,8 +153,13 @@
                         </div>
 
                         <div id="offer_date" style="display: none;">
-                            <label>Offer Date</label>
-                            {{ Form::text('offer_date', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date', 'id' => 'text_date']) }}
+
+                            <label>From</label>
+                            {{ Form::text('offer_date_from', null, ['class' => 'form-control datepicker_from', 'placeholder' => 'Click select date from', 'id' => 'text_date_from']) }}
+
+                            <label>To</label>
+                            {{ Form::text('offer_date_to', null, ['class' => 'form-control datepicker_to', 'placeholder' => 'Click select date to', 'id' => 'text_date_to']) }}
+
                         </div>
 
                         <br>
@@ -160,12 +175,12 @@
         </div>
     </div>
 
-    {{--<div class="container-fluid">--}}
-        {{--<button type="button" class="btn btn-primary">Booking <span class="badge">{{ $count }}</span></button>--}}
-        {{--<button type="button" class="btn btn-success">Guest <span class="badge">{{ $guest }}</span></button>--}}
-        {{--<button type="button" class="btn btn-dark">Price <span class="badge">{{ $price }}</span></button>--}}
-    {{--</div>--}}
-    {{--<br>--}}
+    <div class="container-fluid">
+        <button type="button" class="btn btn-primary">Booking <span class="badge">{{ $count_book }}</span></button>
+        <button type="button" class="btn btn-success">Guest <span class="badge">{{ $count_guest }}</span></button>
+        <button type="button" class="btn btn-dark">Price <span class="badge">{{ $count_price }}</span></button>
+    </div>
+    <br>
 
     <div class="container-fluid">
         <div class="row">
@@ -183,7 +198,7 @@
                                 <th scope="col">Restaurant Name</th>
                                 <th scope="col">Booking Date</th>
                                 <th scope="col">Guest Name</th>
-                                <th scope="col">Guest Number</th>
+                                <th scope="col">Offer Guest</th>
                                 <th scope="col">Total Price</th>
                                 <th scope="col">Currency</th>
                                 <th scope="col">Rate Suffix</th>

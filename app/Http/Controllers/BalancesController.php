@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\ActionLog;
 use DB;
 use App\Actives;
-use App\BookCheckBalance;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 
 class BalancesController extends Controller
@@ -25,6 +26,9 @@ class BalancesController extends Controller
             'update',
             'destroy'
         ]]);
+
+        $GLOBALS['controller'] = 'BalancesController';
+
     }
 
     /**
@@ -185,7 +189,11 @@ class BalancesController extends Controller
                 ->where('id', $id)
                 ->update([
                     'active_id' => $request->active_id,
+                    'updated_at' => Carbon::now()
                 ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $id);
+
             DB::commit();
             return redirect()->action('BalancesController@create');
         } catch (QueryException $e) {
@@ -223,17 +231,17 @@ class BalancesController extends Controller
         try {
 
             $balances = DB::table('book_check_balances')
-                ->select('book_check_balances.id', 'book_check_balances.book_offer_balance', 'offers.offer_name_en','offers.offer_date_end')
+                ->select('book_check_balances.id', 'book_check_balances.book_offer_balance', 'offers.offer_name_en', 'offers.offer_date_end')
                 ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
                 ->orderBy('book_check_balances.id', 'asc')->get();
 
-            foreach ($balances as $balance){
+            foreach ($balances as $balance) {
 
-                if ($balance->book_offer_balance == 0){
+                if ($balance->book_offer_balance == 0) {
                     echo "offer guest is over";
-                }else if (Carbon::parse($balance->offer_date_end)->addHours(23) < Carbon::now()){
-                    echo Carbon::parse($balance->offer_date_end)->addHours(23).'<br>';
-                    echo Carbon::now()/*->addRealHour()*/."<br>";
+                } else if (Carbon::parse($balance->offer_date_end)->addHours(23) < Carbon::now()) {
+                    echo Carbon::parse($balance->offer_date_end)->addHours(23) . '<br>';
+                    echo Carbon::now()/*->addRealHour()*/ . "<br>";
                     echo $balance->offer_name_en . " Balance is expired";
                 }
 
@@ -258,5 +266,21 @@ class BalancesController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 }

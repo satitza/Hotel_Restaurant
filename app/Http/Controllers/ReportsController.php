@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ActionLog;
+use App\Report;
 use App\Voucher;
 use DB;
 use App\User;
@@ -38,6 +40,9 @@ class ReportsController extends Controller
             //'GetOffers'
         ]]);
         $this->middleware('report');
+
+        $GLOBALS['controller'] = 'ReportsController';
+
     }
 
     public function ListBookingPending()
@@ -48,7 +53,7 @@ class ReportsController extends Controller
                 ->select('reports.id', 'booking_id', 'booking_offer_id', 'offer_name_en', 'booking_date', 'booking_guest',
                     'booking_contact_firstname', 'booking_contact_lastname', 'booking_contact_email', 'booking_contact_phone', 'booking_voucher')
                 ->join('offers', 'reports.booking_offer_id', '=', 'offers.id')
-                ->orderBy('reports.id', 'asc')->where('booking_status', 1)->paginate(10);
+                ->orderBy('reports.id', 'desc')->where('booking_status', 1)->paginate(10);
 
             return view('report.admin.list_pending', [
                 'reports' => $reports
@@ -68,6 +73,9 @@ class ReportsController extends Controller
             DB::table('reports')->where('booking_status', 1)
                 ->whereDate('booking_date', '<', Carbon::parse(date('Y-m-d', strtotime(strtr($request->delete_before_date, '/', '-')))))
                 ->delete();
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'DeletePending', Carbon::parse(date('Y-m-d', strtotime(strtr($request->delete_before_date, '/', '-')))));
+
             DB::commit();
             return redirect()->action('ReportsController@ListBookingPending');
         } catch (QueryException $e) {
@@ -82,7 +90,10 @@ class ReportsController extends Controller
     {
         DB::beginTransaction();
         try {
+
             DB::table('reports')->where('booking_status', 1)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'DeleteAllPending', '');
+
             DB::commit();
             return redirect()->action('ReportsController@ListBookingPending');
         } catch (QueryException $e) {
@@ -106,6 +117,10 @@ class ReportsController extends Controller
             $view = null;
             $where = null;
 
+            $count_book = null;
+            $count_guest = null;
+            $count_price = null;
+
             $check_rows = User::find(Auth::id());
 
             if ($check_rows->user_role == 3) {
@@ -116,7 +131,12 @@ class ReportsController extends Controller
                     foreach ($get_hotel_id as $get_id) {
                         $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_id->hotel_id)->orderBy('id', 'ASC')->get();
                         $where = ['booking_status' => 2, 'booking_hotel_id' => $get_id->hotel_id];
+
+                        $count_book = Report::where('booking_hotel_id', '=', $get_id->hotel_id)->count();
+                        $count_guest = Report::select('booking_guest')->where('booking_hotel_id', '=', $get_id->hotel_id)->sum('booking_guest');
+                        $count_price = Report::select('booking_guest')->where('booking_hotel_id', '=', $get_id->hotel_id)->sum('booking_price');
                     }
+
                     $view = 'report.user.index';
                 }
             } else {
@@ -124,6 +144,11 @@ class ReportsController extends Controller
                 $items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
                 $where = ['booking_status' => 2];
                 $view = 'report.admin.index';
+
+                $count_book = Report::count();
+                $count_guest = Report::select('booking_guest')->sum('booking_guest');
+                $count_price = Report::select('booking_guest')->sum('booking_price');
+
             }
 
             $reports = DB::table('reports')
@@ -136,10 +161,13 @@ class ReportsController extends Controller
                 ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
                 ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
                 ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
-                ->orderBy('reports.id', 'asc')->paginate(10);
+                ->orderBy('reports.booking_date', 'asc')->paginate(10);
 
             return view($view, [
                 'items' => $items,
+                'count_book' => $count_book,
+                'count_guest' => $count_guest,
+                'count_price' => $count_price,
                 'reports' => $reports
             ]);
 
@@ -156,7 +184,8 @@ class ReportsController extends Controller
         $hotel_id = null;
         $restaurant_id = null;
         $offer_id = null;
-        $offer_date = null;
+        $offer_date_from = null;
+        $offer_date_to = null;
 
         if (!isset($request->hotel_id)) {
             $hotel_id = '';
@@ -174,12 +203,6 @@ class ReportsController extends Controller
             $offer_id = '';
         } else {
             $offer_id = $request->offer_id;
-        }
-
-        if (!isset($request->offer_date)) {
-            $offer_date = '';
-        } else {
-            $offer_date = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date, '/', '-'))))->toDateString();
         }
 
         /*--------------------------------------------------------------------------------------------------------------------------------*/
@@ -201,24 +224,62 @@ class ReportsController extends Controller
 
         try {
 
-            $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
-                    'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
-                    'currency', 'rate_suffix', 'booking_voucher')
-                ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
-                ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
-                ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
-                ->where('booking_date', 'like', '%' . $offer_date . '%')
-                ->where('booking_status', '=', 2)
-                ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
-                ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
-                ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
-                ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
-                ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
-                ->orderBy('reports.id', 'asc')->get();
+            $reports = null;
+
+            if($request->offer_date_from != '' && $request->offer_date_to != ''){
+                $reports = DB::table('reports')
+                    ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
+                        'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
+                        'currency', 'rate_suffix', 'booking_voucher')
+                    ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                    ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                    ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                    ->whereBetween('booking_date', [
+                        Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
+                        Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
+                    ])
+                    ->where('booking_status', '=', 2)
+                    ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
+                    ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
+                    ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
+                    ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
+                    ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
+                    ->orderBy('reports.booking_date', 'asc')->get();
+            }
+            else{
+
+                $reports = DB::table('reports')
+                    ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
+                        'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
+                        'currency', 'rate_suffix', 'booking_voucher')
+                    ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                    ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                    ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                    ->where('booking_status', '=', 2)
+                    ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
+                    ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
+                    ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
+                    ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
+                    ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
+                    ->orderBy('reports.booking_date', 'asc')->get();
+            }
+
+            $count_book = 0;
+            $count_guest = 0;
+            $count_price = 0;
+
+            foreach ($reports as $report){
+                $count_book++;
+                $count_guest = $count_guest + $report->booking_guest;
+                $count_price = $count_price + $report->booking_price;
+            }
+
 
             return view($view, [
                 'items' => $items,
+                'count_book' => $count_book,
+                'count_guest' => $count_guest,
+                'count_price' => $count_price,
                 'reports' => $reports
 
             ]);
@@ -295,7 +356,9 @@ class ReportsController extends Controller
     {
         DB::beginTransaction();
         try {
+
             DB::table('reports')->where('id', $id)->delete();
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'destroy', $id);
             DB::commit();
             return redirect()->action('ReportsController@ListBookingPending');
         } catch (QueryException $e) {
@@ -354,5 +417,21 @@ class ReportsController extends Controller
         } else {
             return view('error.index')->with('error', 'Voucher not found');
         }
+    }
+
+    /**
+     * @param $user_id
+     * @param $controller
+     * @param $function
+     * @param $action_id
+     */
+    public function SaveLog($user_id, $controller, $function, $action_id)
+    {
+        $action = new ActionLog;
+        $action->user_id = $user_id;
+        $action->controller = $controller;
+        $action->function = $function;
+        $action->action_id = $action_id;
+        $action->save();
     }
 }

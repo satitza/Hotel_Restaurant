@@ -21,7 +21,7 @@ class CreateActionLogsTable extends Migration
 
             $table->string('controller', 100)->nullable();
             $table->string('function', 100)->nullable();
-            $table->string('action_id', 10)->nullable();
+            $table->string('action_id', 100)->nullable();
 
             $table->timestamps();
         });
