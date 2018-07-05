@@ -40,7 +40,7 @@ class HotelController extends Controller
     public function index()
     {
         try {
-            $actives = Actives::orderBy('id', 'ASC')->get();
+            $actives = $this->GetActivesItems();
             return view('hotel.index', [
                 'actives' => $actives,
             ]);
@@ -55,11 +55,11 @@ class HotelController extends Controller
     public function create()
     {
         try {
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            $hotel_items = $this->GetHotelsItems();
             $hotels = DB::table('hotels')
                 ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'actives.active', 'hotel_comment')
                 ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                ->orderBy('hotels.id', 'asc')->paginate(10);
+                ->where('active_id', 1)->orderBy('hotels.id', 'asc')->paginate(10);
             return view('hotel.list', [
                 'hotel_items' => $hotel_items,
                 'hotels' => $hotels
@@ -102,11 +102,12 @@ class HotelController extends Controller
     public function searchHotel(Request $request)
     {
         try {
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+            $hotel_items = $this->GetHotelsItems();
+            $where = ['hotels.id' => $request->hotel_id, 'hotels.active_id' => 1];
             $hotels = DB::table('hotels')
                 ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'actives.active', 'hotel_comment')
                 ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                ->where('hotels.id', $request->hotel_id)->orderBy('hotels.hotel_name', 'ASC')->paginate(10);
+                ->where($where)->orderBy('hotels.hotel_name', 'ASC')->paginate(10);
             return view('hotel.search', [
                 'hotel_items' => $hotel_items,
                 'hotels' => $hotels
@@ -141,7 +142,7 @@ class HotelController extends Controller
                 ->join('actives', 'hotels.active_id', '=', 'actives.id')
                 ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->first();
 
-            $actives = Actives::orderBy('id', 'ASC')->get();
+            $actives = $this->GetActivesItems();
             return view('hotel.edit', [
                 'hotel_id' => $hotels->id,
                 'hotel_name' => $hotels->hotel_name,
@@ -223,6 +224,22 @@ class HotelController extends Controller
         $action->function = $function;
         $action->action_id = $action_id;
         $action->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetHotelsItems()
+    {
+        return Hotels::select('id', 'hotel_name')->where('hotels.active_id', 1)->orderBy('hotel_name', 'ASC')->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetActivesItems()
+    {
+        return Actives::orderBy('id', 'ASC')->get();
     }
 
 }

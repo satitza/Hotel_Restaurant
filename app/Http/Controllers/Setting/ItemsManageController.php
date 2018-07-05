@@ -5,8 +5,19 @@ namespace App\Http\Controllers\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ActionLogsController extends Controller
+class ItemsManageController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+
+        $GLOBALS['controller'] = 'ItemsManageController';
+
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,7 @@ class ActionLogsController extends Controller
      */
     public function index()
     {
-        echo "Action log index";
+
     }
 
     /**

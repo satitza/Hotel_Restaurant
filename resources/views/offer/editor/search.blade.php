@@ -12,7 +12,7 @@
                         <select class="form-control" name="restaurant_id">
                             <!--option value="" disabled selected>please_selected</option-->
                             @foreach($restaurant_items as $restaurant)
-                                <option value="{{ $restaurant[0]->id }}">{{ $restaurant[0]->restaurant_name }}</option>
+                                <option value="{{ $restaurant->id }}">{{ $restaurant->restaurant_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -42,7 +42,6 @@
                             <!--th scope="col">Comment</th-->
                             <th scope="col">View Attachments</th>
                             <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -63,12 +62,6 @@
                                 <td>
                                     <a href="{{ url('offer/'.$offer->id.'/edit') }}" class="button-link-success">
                                         Edit Offer
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ url('delete_offer/'.$offer->id) }}" class="button-link-dark"
-                                       onclick="return confirm('Confrim Delete ?')">
-                                        Delete Offer
                                     </a>
                                 </td>
                             </tr>

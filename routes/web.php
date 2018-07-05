@@ -96,9 +96,9 @@ Route::group(['prefix' => 'setting'], function () {
         Route::get('delete_editor_users/{id}', '\App\Http\Controllers\Setting\User\EditorUsersController@destroy');
     });
 
-    /*Route::group(['prefix' => 'logs'], function () {
-        //Route::resource('log', '\App\Http\Controllers\Setting\ActionLogsController');
-    });*/
+    Route::group(['prefix' => 'item'], function () {
+        Route::resource('test', '\App\Http\Controllers\Setting\ItemsManageController');
+    });
 
 });
 

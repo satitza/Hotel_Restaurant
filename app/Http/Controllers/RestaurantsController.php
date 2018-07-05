@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ActionLog;
-use App\Offers;
 use DB;
 use File;
+use App\ActionLog;
+use App\Offers;
 use Illuminate\Database\QueryException;
 use App\Hotels;
 use App\Actives;
@@ -42,8 +42,8 @@ class RestaurantsController extends Controller
     public function index()
     {
         try {
-            $hotels = Hotels::orderBy('hotel_name', 'ASC')->where('active_id', '1')->get();
-            $actives = Actives::orderBy('id', 'ASC')->get();
+            $hotels = $this->GetHotelsItems();
+            $actives = $this->GetActivesItems();
             return view('restaurant.index', [
                 'hotels' => $hotels,
                 'actives' => $actives
@@ -64,14 +64,14 @@ class RestaurantsController extends Controller
     {
         try {
 
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
+            $hotel_items = $this->GetHotelsItems();
+            $restaurant_items = $this->GetRestaurantsItems();
 
             $restaurants = DB::table('restaurants')
                 ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
-                ->orderBy('restaurants.id', 'asc')->paginate(10);
+                ->where('restaurants.active_id', 1)->orderBy('restaurants.id', 'asc')->paginate(10);
             return view('restaurant.list', [
                 'hotel_items' => $hotel_items,
                 'restaurant_items' => $restaurant_items,
@@ -117,14 +117,14 @@ class RestaurantsController extends Controller
     public function searchRestaurant(Request $request)
     {
         try {
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
+            $hotel_items = $this->GetHotelsItems();
+            $restaurant_items = $this->GetRestaurantsItems();
             $where = null;
 
             if ($request->search_value == 'hotel') {
-                $where = ['restaurants.hotel_id' => $request->hotel_id];
+                $where = ['restaurants.hotel_id' => $request->hotel_id, 'restaurants.active_id' => 1];
             } else {
-                $where = ['restaurants.id' => $request->restaurant_id];
+                $where = ['restaurants.id' => $request->restaurant_id, 'restaurants.active_id' => 1];
             }
 
             $restaurants = DB::table('restaurants')
@@ -152,16 +152,7 @@ class RestaurantsController extends Controller
      */
     public function show($id)
     {
-        /*try {
-            $restaurants = Restaurants::find($id);
-            if ($restaurants->pdf_name != null) {
-                return response()->file(public_path('pdf/' . $restaurants->pdf_name));
-            } else {
-                return view('error.index')->with('error', 'File PDF not found');
-            }
-        } catch (FileException $e) {
-            return view('error.index')->with('error', $e);
-        }*/
+
     }
 
     /**
@@ -173,14 +164,15 @@ class RestaurantsController extends Controller
     public function edit($id)
     {
         try {
+
+            $actives = $this->GetActivesItems();
+            $hotels = $this->GetHotelsItems();
+
             $restaurants = DB::table('restaurants')
                 ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->first();
-
-            $actives = Actives::orderBy('id', 'ASC')->get();
-            $hotels = Hotels::orderBy('hotel_name', 'ASC')->where('active_id', '1')->get();
 
             return view('restaurant.edit', [
                 'id' => $restaurants->id,
@@ -283,5 +275,30 @@ class RestaurantsController extends Controller
         $action->function = $function;
         $action->action_id = $action_id;
         $action->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetRestaurantsItems()
+    {
+        return Restaurants::select('id', 'restaurant_name')->where('restaurants.active_id', 1)->orderBy('restaurant_name', 'ASC')->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetHotelsItems()
+    {
+        return Hotels::select('id', 'hotel_name')->where('hotels.active_id', 1)->orderBy('hotel_name', 'ASC')->get();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function GetActivesItems()
+    {
+        return Actives::orderBy('id', 'ASC')->get();
     }
 }

@@ -155,6 +155,19 @@
                                 <td>{{ Form::text('offer_name_cn', $offer_name_cn, ['class' => 'form-control', 'placeholder' => '提供名稱']) }}</td>
                             </tr>
                             <tr>
+                                <td>{{ Form::label('lb_restaurant_active', 'Status') }}</td>
+                                <td>
+                                    <div class="form-group">
+                                        <select class="form-control" name="active_id">
+                                            <option value="{{ $offer_active_id }}">{{ $offer_active }}</option>
+                                            @foreach ($actives as $active)
+                                                <option value="{{ $active->id }}"> {{ $active->active }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>{{ Form::label('lb_offer_date_start', 'Date start') }}</td>
                                 <td>{{ Form::text('offer_date_start', $offer_date_start, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>

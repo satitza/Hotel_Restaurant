@@ -8,6 +8,11 @@ class Offers extends Model
 {
     protected $table = 'offers';
 
+    public function Actives()
+    {
+        return $this->belongsTo(Hotels::class, 'active_id');
+    }
+
     public function Image()
     {
         return $this->hasMany(Image::class);

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use File;
+use App\Actives;
 use App\ActionLog;
 use App\Currency;
 use App\Hotels;
@@ -14,8 +17,6 @@ use App\TimeDinner;
 use App\TimeLunch;
 use App\User;
 use Carbon\Carbon;
-use DB;
-use File;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,14 +56,14 @@ class OffersController extends Controller
     {
         try {
 
-            $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
-            $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
-
-            $currencies = Currency::orderBy('id', 'ASC')->get();
-            $rate_suffix = RateSuffix::orderBy('id', 'ASC')->get();
+            $actives = $this->GetActivesItems();
+            $time_lunchs = $this->GetTimeLunch();
+            $time_dinners = $this->GetTimeDinner();
+            $currencies = $this->GetCurrency();
+            $rate_suffix = $this->GetRateSuffix();
 
             $check_rows = User::find(Auth::id());
-            $restaurants = array();
+            $rs = null;
             $view = null;
 
             //User Editor
@@ -71,22 +72,19 @@ class OffersController extends Controller
                 if (count($restaurant_id) == 0) {
                     return view('error.index')->with('error', 'You never match with restaurant');
                 } else {
+                    $arrays = array();
                     foreach ($restaurant_id as $id) {
                         $arrays = explode(',', $id->restaurant_id, -1);
-                        foreach ($arrays as $array) {
-                            $where = ['id' => $array];
-                            array_push($restaurants, Restaurants::where($where)->get());
-                        }
                     }
-                    $view = 'offer.editor.index';
+                    $restaurants = Restaurants::select('id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', 1)->get();
                 }
             } else {
-                $view = 'offer.admin.index';
-                $restaurants = Restaurants::orderBy('restaurant_name', 'ASC')->where('active_id', '1')->get();
+                $restaurants = $this->GetRestaurantsItems();
             }
 
-            return view($view, [
+            return view('offer.admin.index', [
                 'restaurants' => $restaurants,
+                'actives' => $actives,
                 'time_lunchs' => $time_lunchs,
                 'time_dinners' => $time_dinners,
                 'currencies' => $currencies,
@@ -106,13 +104,11 @@ class OffersController extends Controller
 
             $where = null;
             $view = null;
-            $hotel_items = null;
-            $restaurant_items = array();
 
             if ($request->search_value == 'hotel') {
-                $where = ['offers.hotel_id' => $request->hotel_id];
+                $where = ['offers.hotel_id' => $request->hotel_id, 'offers.active_id' => 1];
             } elseif ($request->search_value == 'restaurant') {
-                $where = ['offers.restaurant_id' => $request->restaurant_id];
+                $where = ['offers.restaurant_id' => $request->restaurant_id, 'offers.active_id' => 1];
             }
 
             $check_rows = User::find(Auth::id());
@@ -121,17 +117,13 @@ class OffersController extends Controller
 
                 $restaurants_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->first();
                 $arrays = explode(',', $restaurants_id->restaurant_id, -1);
-                foreach ($arrays as $array) {
-                    $where = ['id' => $array];
-                    array_push($restaurant_items, Restaurants::where($where)->get());
-                }
-
+                $restaurant_items = Restaurants::select('id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', 1)->get();
                 $view = 'offer.editor.search';
                 $where = ['offers.restaurant_id' => $request->restaurant_id];
 
             } else {
-                $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-                $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
+                $hotel_items = $this->GetHotelsItems();
+                $restaurant_items = $this->GetRestaurantsItems();
                 $view = 'offer.admin.search';
             }
             $offers = DB::table('offers')->
@@ -164,16 +156,15 @@ class OffersController extends Controller
         try {
 
             $check_rows = User::find(Auth::id());
-            $hotel_items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            $restaurant_items = Restaurants::select('id', 'restaurant_name')->orderBy('restaurant_name', 'ASC')->get();
-            $restaurants = array();
+            $hotel_items = $this->GetHotelsItems();
+            $view = null;
 
             $offers = DB::table('offers')
                 ->select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
                     'offer_name_en', 'attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
-                ->orderBy('offers.id', 'asc')->paginate(10);
+                ->where('offers.active_id', 1)->orderBy('offers.id', 'asc')->paginate(10);
 
             //Editor User
             if ($check_rows->user_role == 2) {
@@ -183,22 +174,19 @@ class OffersController extends Controller
                 } else {
                     foreach ($restaurant_id as $id) {
                         $arrays = explode(',', $id->restaurant_id, -1);
-                        foreach ($arrays as $array) {
-                            $where = ['id' => $array];
-                            array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
-                        }
                     }
-                    return view('offer.editor.editor_info', [
-                        'restaurants' => $restaurants,
-                    ]);
+                    $restaurant_items = Restaurants::select('id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', 1)->get();
+                    $view = 'offer.editor.list';
                 }
             } else {
-                return view('offer.admin.list', [
-                    'hotel_items' => $hotel_items,
-                    'restaurant_items' => $restaurant_items,
-                    'offers' => $offers
-                ]);
+                $restaurant_items = $this->GetRestaurantsItems();
+                $view = 'offer.admin.list';
             }
+            return view($view, [
+                'hotel_items' => $hotel_items,
+                'restaurant_items' => $restaurant_items,
+                'offers' => $offers
+            ]);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -281,6 +269,7 @@ class OffersController extends Controller
             $offers->offer_comment_th = $request->offer_comment_th;
             $offers->offer_comment_en = $request->offer_comment_en;
             $offers->offer_comment_cn = $request->offer_comment_cn;
+            $offers->active_id = $request->active_id;
             $offers->save();
 
             $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
@@ -327,7 +316,7 @@ class OffersController extends Controller
     {
         try {
 
-            $restaurants = array();
+            $restaurant_items = null;
             $view = null;
 
             $offer_name_th = null;
@@ -339,11 +328,11 @@ class OffersController extends Controller
             $offer_comment_th = null;
             $offer_comment_cn = null;
 
-            $time_lunchs = TimeLunch::orderBy('id', 'ASC')->get();
-            $time_dinners = TimeDinner::orderBy('id', 'ASC')->get();
-
-            $currencies = Currency::orderBy('id', 'ASC')->get();
-            $rate_suffix = RateSuffix::orderBy('id', 'ASC')->get();
+            $time_lunchs = $this->GetTimeLunch();
+            $time_dinners = $this->GetTimeDinner();
+            $actives = $this->GetActivesItems();
+            $currencies = $this->GetCurrency();
+            $rate_suffix = $this->GetRateSuffix();
 
             $offers = DB::table('offers')
                 ->select('offers.id', 'hotels.hotel_name',
@@ -352,7 +341,8 @@ class OffersController extends Controller
                     'offer_time_lunch_end', 'offer_lunch_price', 'offer_lunch_guest', 'offer_time_dinner_start',
                     'offer_time_dinner_end', 'offer_dinner_price', 'offer_dinner_guest', 'offers.currency_id', 'currencies.currency',
                     'offers.rate_suffix_id', 'rate_suffixes.rate_suffix', 'offer_short_th', 'offer_short_en', 'offer_short_cn',
-                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn')
+                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn', 'actives.active', 'offers.active_id')
+                ->join('actives', 'offers.active_id', '=', 'actives.id')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
                 ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
@@ -411,14 +401,14 @@ class OffersController extends Controller
                         if ($offer->restaurant_id == $array) {
                             $view = 'offer.editor.edit';
                         }
-                        $where = ['id' => $array];
-                        array_push($restaurants, Restaurants::select('id', 'restaurant_name')->where($where)->get());
                     }
+                    $restaurant_items = Restaurants::select('id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', 1)->get();
+
                     if (!isset($view)) {
                         return view('error.index')->with('error', 'You don`t have permission');
                     }
                 } else {
-                    $restaurants = Restaurants::orderBy('restaurant_name', 'ASC')->where('active_id', '1')->get();
+                    $restaurant_items = Restaurants::orderBy('restaurant_name', 'ASC')->where('active_id', '1')->get();
                     $view = 'offer.admin.edit';
                 }
 
@@ -431,6 +421,8 @@ class OffersController extends Controller
                     'offer_name_th' => $offer_name_th,
                     'offer_name_en' => $offer->offer_name_en,
                     'offer_name_cn' => $offer_name_cn,
+                    'offer_active' => $offer->active,
+                    'offer_active_id' => $offer->active_id,
                     'old_attachments' => $offer->attachments,
                     'offer_date_start' => $date_start_format,
                     'offer_date_end' => $date_end_format,
@@ -454,7 +446,8 @@ class OffersController extends Controller
                     'offer_comment_en' => $offer->offer_comment_en,
                     'offer_comment_cn' => $offer_comment_cn
                 ])
-                    ->with('restaurants', $restaurants)
+                    ->with('restaurants', $restaurant_items)
+                    ->with('actives', $actives)
                     ->with('time_lunchs', $time_lunchs)
                     ->with('time_dinners', $time_dinners)
                     ->with('currencies', $currencies)
@@ -557,6 +550,7 @@ class OffersController extends Controller
                     'offer_comment_th' => $request->offer_comment_th,
                     'offer_comment_en' => $request->offer_comment_en,
                     'offer_comment_cn' => $request->offer_comment_cn,
+                    'active_id' => $request->active_id,
                     'updated_at' => Carbon::now()
                 ]);
 
@@ -656,4 +650,63 @@ class OffersController extends Controller
         $action->action_id = $action_id;
         $action->save();
     }
+
+    /**
+     * @return mixed
+     */
+    public function GetRestaurantsItems()
+    {
+        return Restaurants::select('id', 'restaurant_name')->where('restaurants.active_id', 1)->orderBy('restaurant_name', 'ASC')->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetHotelsItems()
+    {
+        return Hotels::select('id', 'hotel_name')->where('hotels.active_id', 1)->orderBy('hotel_name', 'ASC')->get();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function GetActivesItems()
+    {
+        return Actives::orderBy('id', 'ASC')->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetTimeLunch()
+    {
+        return TimeLunch::orderBy('id', 'ASC')->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetTimeDinner()
+    {
+        return TimeDinner::orderBy('id', 'ASC')->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetCurrency()
+    {
+        return Currency::orderBy('id', 'ASC')->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetRateSuffix()
+    {
+        return RateSuffix::orderBy('id', 'ASC')->get();
+    }
+
+
 }

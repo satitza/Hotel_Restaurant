@@ -142,6 +142,19 @@
                                 <td>{{ Form::text('offer_name_cn', null, ['class' => 'form-control', 'placeholder' => '提供名稱']) }}</td>
                             </tr>
                             <tr>
+                                <td>{{ Form::label('lb_restaurant_active', 'Status') }}</td>
+                                <td>
+                                    <div class="form-group">
+                                        <select class="form-control" name="active_id">
+                                            <!-- option value="" disabled selected>please_selected</option -->
+                                            @foreach ($actives as $active)
+                                                <option value="{{ $active->id }}"> {{ $active->active }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>{{ Form::label('lb_attachments', 'Attachments') }}</td>
                                 <td>{{ Form::file('attachments', array('class' => 'image')) }}</td>
                             </tr>

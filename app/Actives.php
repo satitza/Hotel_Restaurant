@@ -16,6 +16,10 @@ class Actives extends Model {
         return $this->hasMany(Restaurants::class);
     }
 
+    public function Offers() {
+        return $this->hasMany(Offers::class);
+    }
+
     public function BookCheckBalance(){
         return $this->hasMany(BookCheckBalance::class);
     }

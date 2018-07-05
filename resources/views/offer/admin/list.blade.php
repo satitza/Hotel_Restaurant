@@ -54,7 +54,7 @@
                             <!--th scope="col">Comment</th-->
                             <th scope="col">View Attachments</th>
                             <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
+                            {{--<th scope="col">Delete</th>--}}
                         </tr>
                         </thead>
                         <tbody>
@@ -77,12 +77,12 @@
                                         Edit Offer
                                     </a>
                                 </td>
-                                <td>
-                                    <a href="{{ url('delete_offer/'.$offer->id) }}" class="button-link-dark"
-                                       onclick="return confirm('Confrim Delete ?')">
-                                        Delete Offer
-                                    </a>
-                                </td>
+                                {{--<td>--}}
+                                    {{--<a href="{{ url('delete_offer/'.$offer->id) }}" class="button-link-dark"--}}
+                                       {{--onclick="return confirm('Confrim Delete ?')">--}}
+                                        {{--Delete Offer--}}
+                                    {{--</a>--}}
+                                {{--</td>--}}
                             </tr>
                         @endforeach
                         </tbody>
