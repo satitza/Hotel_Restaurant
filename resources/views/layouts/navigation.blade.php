@@ -35,7 +35,7 @@
                 <!--Never Login-->
                 @guest
                     {{--<li><a href="{{ route('login') }}">Login</a></li>--}}
-{{--                    <li><a href="{{ url('password/reset') }}">Forgot Password</a></li>--}}
+                    {{--<li><a href="{{ url('password/reset') }}">Forgot Password</a></li>--}}
                     <!--Register-->
                     <!--li><a href="{{ route('register') }}">Register</a></li-->
                     <!--Loged-->
@@ -168,6 +168,7 @@
                                 {{ Request::route()->getName() == 'users.index' ? "style=color:green" : "" }}
                                 {{ Request::route()->getName() == 'users.create' ? "style=color:green" : "" }}
                                 {{ Request::route()->getName() == 'users.edit' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'items.index' ? "style=color:green" : "" }}
                         >Setting <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-submenu">
@@ -193,6 +194,13 @@
                                     <li><a href="{{ url('setting/editor/users/create') }}">List Editor User</a></li>
                                 </ul>
                             </li>
+                            <li class="dropdown-submenu">
+                                <a class="submenu" tabindex="-1" href="#">Disabled Items Manage<span
+                                            class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ url('setting/item/items') }}">View All Items Disabled</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <!------------------------------------------------------------------------------------------------------------------->
@@ -215,7 +223,7 @@
                             </li>
                         </ul>
                     </li>
-                <!--li class="dropdown">
+                    <!--li class="dropdown">
                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                              {{ Auth::user()->name }} <span class="caret"></span>
                          </a>
@@ -227,11 +235,11 @@
                                      Logout
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                        </form>
-                      </li>
-                 </ul>
-             </li-->
+                                {{ csrf_field() }}
+                                </form>
+                             </li>
+                        </ul>
+                     </li-->
                 @endguest
             </ul>
         </div>

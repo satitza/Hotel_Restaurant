@@ -12,7 +12,12 @@ class CreateAdministratorAccountSeeder extends Seeder
     public function run()
     {
         $users = [
-
+            ['name' => 'Administrator', 'email' => 'dining@compasshospitality.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 1],
+            ['name' => 'Satit Porntepanon', 'email' => 'st_satitza@hotmail.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 1],
+            ['name' => 'Admin', 'email' => 'admin@admin.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 1],
+            ['name' => 'Editor', 'email' => 'editor@editor.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 2],
+            ['name' => 'Report', 'email' => 'report@report.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 3],
+            ['name' => 'User', 'email' => 'user@user.com', 'password' => bcrypt('dr823c1HEE'), 'role' => 4],
         ];
 
         foreach ($users as $use){

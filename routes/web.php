@@ -97,7 +97,8 @@ Route::group(['prefix' => 'setting'], function () {
     });
 
     Route::group(['prefix' => 'item'], function () {
-        Route::resource('test', '\App\Http\Controllers\Setting\ItemsManageController');
+        Route::resource('items', '\App\Http\Controllers\Setting\ItemsManageController');
+        Route::post('update_item', '\App\Http\Controllers\Setting\ItemsManageController@update');
     });
 
 });
