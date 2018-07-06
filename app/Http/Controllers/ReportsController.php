@@ -43,6 +43,12 @@ class ReportsController extends Controller
 
         $GLOBALS['controller'] = 'ReportsController';
 
+        $GLOBALS['pending'] = 1;
+        $GLOBALS['complete'] = 2;
+
+        $GLOBALS['enable'] = 1;
+        $GLOBALS['disable'] = 2;
+
     }
 
     public function ListBookingPending()
@@ -53,7 +59,7 @@ class ReportsController extends Controller
                 ->select('reports.id', 'booking_id', 'booking_offer_id', 'offer_name_en', 'booking_date', 'booking_guest',
                     'booking_contact_firstname', 'booking_contact_lastname', 'booking_contact_email', 'booking_contact_phone', 'booking_voucher')
                 ->join('offers', 'reports.booking_offer_id', '=', 'offers.id')
-                ->orderBy('reports.id', 'desc')->where('booking_status', 1)->paginate(10);
+                ->orderBy('reports.id', 'desc')->where('booking_status', $GLOBALS['pending'])->paginate(10);
 
             return view('report.admin.list_pending', [
                 'reports' => $reports
@@ -70,7 +76,7 @@ class ReportsController extends Controller
     {
         DB::beginTransaction();
         try {
-            DB::table('reports')->where('booking_status', 1)
+            DB::table('reports')->where('booking_status', $GLOBALS['pending'])
                 ->whereDate('booking_date', '<', Carbon::parse(date('Y-m-d', strtotime(strtr($request->delete_before_date, '/', '-')))))
                 ->delete();
 
@@ -91,7 +97,7 @@ class ReportsController extends Controller
         DB::beginTransaction();
         try {
 
-            DB::table('reports')->where('booking_status', 1)->delete();
+            DB::table('reports')->where('booking_status', $GLOBALS['pending'])->delete();
             $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'DeleteAllPending', '');
 
             DB::commit();
@@ -130,7 +136,7 @@ class ReportsController extends Controller
                 } else {
                     foreach ($get_hotel_id as $get_id) {
                         $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_id->hotel_id)->orderBy('id', 'ASC')->get();
-                        $where = ['booking_status' => 2, 'booking_hotel_id' => $get_id->hotel_id];
+                        $where = ['booking_status' => $GLOBALS['complete'], 'booking_hotel_id' => $get_id->hotel_id];
 
                         $count_book = Report::where('booking_hotel_id', '=', $get_id->hotel_id)->count();
                         $count_guest = Report::select('booking_guest')->where('booking_hotel_id', '=', $get_id->hotel_id)->sum('booking_guest');
@@ -141,13 +147,13 @@ class ReportsController extends Controller
                 }
             } else {
 
-                $items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-                $where = ['booking_status' => 2];
+                $items = $this->GetHotelItem();
+                $where = ['booking_status' => $GLOBALS['complete']];
                 $view = 'report.admin.index';
 
-                $count_book = Report::count();
-                $count_guest = Report::select('booking_guest')->sum('booking_guest');
-                $count_price = Report::select('booking_guest')->sum('booking_price');
+                $count_book = Report::where('booking_status', $GLOBALS['complete'])->count();
+                $count_guest = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_guest');
+                $count_price = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_price');
 
             }
 
@@ -226,7 +232,7 @@ class ReportsController extends Controller
 
             $reports = null;
 
-            if($request->offer_date_from != '' && $request->offer_date_to != ''){
+            if ($request->offer_date_from != '' && $request->offer_date_to != '') {
                 $reports = DB::table('reports')
                     ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
                         'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
@@ -238,15 +244,14 @@ class ReportsController extends Controller
                         Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
                         Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
                     ])
-                    ->where('booking_status', '=', 2)
+                    ->where('booking_status', '=', $GLOBALS['complete'])
                     ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                     ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
                     ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
                     ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
                     ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
                     ->orderBy('reports.booking_date', 'asc')->get();
-            }
-            else{
+            } else {
 
                 $reports = DB::table('reports')
                     ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
@@ -255,7 +260,7 @@ class ReportsController extends Controller
                     ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                     ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                     ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
-                    ->where('booking_status', '=', 2)
+                    ->where('booking_status', '=', $GLOBALS['complete'])
                     ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                     ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
                     ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
@@ -268,12 +273,11 @@ class ReportsController extends Controller
             $count_guest = 0;
             $count_price = 0;
 
-            foreach ($reports as $report){
+            foreach ($reports as $report) {
                 $count_book++;
                 $count_guest = $count_guest + $report->booking_guest;
                 $count_price = $count_price + $report->booking_price;
             }
-
 
             return view($view, [
                 'items' => $items,
@@ -433,5 +437,13 @@ class ReportsController extends Controller
         $action->function = $function;
         $action->action_id = $action_id;
         $action->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetHotelItem()
+    {
+        return Hotels::select('id', 'hotel_name')->where('active_id', $GLOBALS['enable'])->orderBy('hotel_name', 'ASC')->get();
     }
 }

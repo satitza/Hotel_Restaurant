@@ -97,8 +97,12 @@ Route::group(['prefix' => 'setting'], function () {
     });
 
     Route::group(['prefix' => 'item'], function () {
+
         Route::resource('items', '\App\Http\Controllers\Setting\ItemsManageController');
-        Route::post('update_item', '\App\Http\Controllers\Setting\ItemsManageController@update');
+
+        Route::get('enable_hotel/{hotel_id}', '\App\Http\Controllers\Setting\ItemsManageController@enableHotel');
+        Route::get('enable_restaurant/{restaurant_id}', '\App\Http\Controllers\Setting\ItemsManageController@enableRestaurant');
+        Route::get('enable_offer/{offer_id}', '\App\Http\Controllers\Setting\ItemsManageController@enableOffer');
     });
 
 });

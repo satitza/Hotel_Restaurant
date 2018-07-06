@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ActionLog;
+use App\Offers;
 use DB;
 use App\Actives;
 use Carbon\Carbon;
@@ -28,7 +29,7 @@ class BalancesController extends Controller
         ]]);
 
         $GLOBALS['controller'] = 'BalancesController';
-
+        $GLOBALS['enable'] = 1;
     }
 
     /**
@@ -38,11 +39,7 @@ class BalancesController extends Controller
      */
     public function index()
     {
-        /*try {
-            return view('balance.index');
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e->getMessage());
-        }*/
+
     }
 
     /**
@@ -54,9 +51,8 @@ class BalancesController extends Controller
     {
         try {
 
-            $offer_items = DB::table('offers')->select('id', 'offer_name_en')->get();
-
-            $balances = $balances = DB::table('book_check_balances')
+            $offer_items = $this->GetOfferItem();
+            $balances = DB::table('book_check_balances')
                 ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
                     'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
                 ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
@@ -67,6 +63,7 @@ class BalancesController extends Controller
                 'balances' => $balances,
                 'offer_items' => $offer_items
             ]);
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -99,7 +96,7 @@ class BalancesController extends Controller
         }
 
         try {
-            $offer_items = DB::table('offers')->select('id', 'offer_name_en')->get();
+            $offer_items = $this->GetOfferItem();
             $balances = DB::table('book_check_balances')
                 ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
                     'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
@@ -154,10 +151,10 @@ class BalancesController extends Controller
     {
         try {
 
-            $actives = Actives::orderBy('id', 'ASC')->get();
+            $actives = $this->GetActiveItem();
             $balances = DB::table('book_check_balances')
                 ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
-                    'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active_id', 'active')
+                    'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'book_check_balances.active_id', 'active')
                 ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
                 ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
                 ->where('book_check_balances.id', $id)->first();
@@ -225,49 +222,6 @@ class BalancesController extends Controller
         }*/
     }
 
-    public function ClearAllBalanceExpire()
-    {
-        DB::beginTransaction();
-        try {
-
-            $balances = DB::table('book_check_balances')
-                ->select('book_check_balances.id', 'book_check_balances.book_offer_balance', 'offers.offer_name_en', 'offers.offer_date_end')
-                ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
-                ->orderBy('book_check_balances.id', 'asc')->get();
-
-            foreach ($balances as $balance) {
-
-                if ($balance->book_offer_balance == 0) {
-                    echo "offer guest is over";
-                } else if (Carbon::parse($balance->offer_date_end)->addHours(23) < Carbon::now()) {
-                    echo Carbon::parse($balance->offer_date_end)->addHours(23) . '<br>';
-                    echo Carbon::now()/*->addRealHour()*/ . "<br>";
-                    echo $balance->offer_name_en . " Balance is expired";
-                }
-
-            }
-
-            dd($balances);
-
-
-            /*DB::table('book_check_balances')
-                ->where('book_offer_balance', 0)
-                ->update([
-                    'active_id' => 2,
-                ]);*/
-
-
-            //DB::table('book_check_balances')->where('id', $id)->delete();
-            //DB::commit();
-            //return redirect()->action('BalancesController@create');
-        } catch (QueryException $e) {
-            DB::rollback();
-            return view('error.index')->with('error', $e->getMessage());
-        } catch (Exception $e) {
-            return view('error.index')->with('error', $e->getMessage());
-        }
-    }
-
     /**
      * @param $user_id
      * @param $controller
@@ -282,5 +236,21 @@ class BalancesController extends Controller
         $action->function = $function;
         $action->action_id = $action_id;
         $action->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetOfferItem()
+    {
+        return Offers::select('id', 'offer_name_en')->where('active_id', $GLOBALS['enable'])->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetActiveItem()
+    {
+        return Actives::orderBy('id', 'ASC')->get();
     }
 }

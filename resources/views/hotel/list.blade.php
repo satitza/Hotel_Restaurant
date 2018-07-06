@@ -44,9 +44,7 @@
                                 <th scope="col">MID</th>
                                 <th scope="col">Secret Key</th>
                                 <th scope="col">Hotel Status</th>
-                                <!--th scope="col">Hotel Comment</th-->
                                 <th scope="col1">Edit Hotel</th>
-                                <th scope="col1">Delete</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -61,12 +59,6 @@
                                     <td>
                                         <a href="{{ url('hotel/'.$hotel->id .'/edit') }}" class="button-link-success">
                                             Edit Hotel
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('delete_hotel/'.$hotel->id) }}" class="button-link-dark"
-                                           onclick="return confirm('Confrim Delete ?')">
-                                            Delete Hotel
                                         </a>
                                     </td>
                                 </tr>

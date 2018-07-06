@@ -30,7 +30,6 @@
                                             </li>
                                             <li><a data-toggle="tab" href="#tab_restaurant">Disabled Restaurant</a></li>
                                             <li><a data-toggle="tab" href="#tab_offer">Disabled Offer</a></li>
-
                                         </ul>
                                     </td>
                                 </tr>
@@ -54,7 +53,7 @@
                                                             <td>{{ $hotel->hotel_name }}</td>
                                                             <td>{{ $hotel->active }}</td>
                                                             <td>
-                                                                <a href="{{ url('') }}"
+                                                                <a href="{{ url('setting/item/enable_hotel/'.$hotel->id) }}"
                                                                    class="button-link-success">
                                                                     Enable
                                                                 </a>
@@ -87,7 +86,7 @@
                                                             <td>{{ $restaurant->hotel_name }}</td>
                                                             <td>{{ $restaurant->active }}</td>
                                                             <td>
-                                                                <a href="{{ url('') }}"
+                                                                <a href="{{ url('setting/item/enable_restaurant/'.$restaurant->id) }}"
                                                                    class="button-link-success">
                                                                     Enable
                                                                 </a>
@@ -122,7 +121,7 @@
                                                             <td>{{ $offer->offer_name_en }}</td>
                                                             <td>{{ $offer->active }}</td>
                                                             <td>
-                                                                <a href="{{ url('') }}"
+                                                                <a href="{{ url('setting/item/enable_offer/'.$offer->id) }}"
                                                                    class="button-link-success">
                                                                     Enable
                                                                 </a>
@@ -136,6 +135,7 @@
                                             {!! Form::close() !!} -->
 
                                             </div>
+
                                         </div>
                                     </td>
                                 </tr>

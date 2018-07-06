@@ -132,12 +132,6 @@
                     {!! Form::close() !!} -->
                     </div>
                 </div>
-                <center>
-                    <a href="{{ route('clear_all_balance_expire') }}"
-                       class="button-link-info">
-                        Clear all balance expire
-                    </a>
-                </center>
             </div>
         </div>
     </div>

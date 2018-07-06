@@ -50,9 +50,7 @@
                                 <th scope="col">Hotel Name</th>
                                 <th scope="col">E-Mail</th>
                                 <th scope="col">Status</th>
-                                <!--th scope="col">Restaurant Comment</th-->
                                 <th scope="col1">Edit Restaurant</th>
-                                <th scope="col1">Delete</th>
                             </tr>
                             </thead>
                             @foreach ($restaurants as $restaurant)
@@ -67,13 +65,6 @@
                                         <a href="{{ url('restaurant/'.$restaurant->id.'/edit') }}"
                                            class="button-link-success">
                                             Edit Restaurant
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('delete_restaurant/'.$restaurant->id ) }}"
-                                           class="button-link-dark"
-                                           onclick="return confirm('Confrim Delete ?')">
-                                            Delete Restaurant
                                         </a>
                                     </td>
                                 </tr>
