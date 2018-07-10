@@ -338,7 +338,7 @@
 
                         <center>
                             <div class="container-fluid">
-                                {{ Form::submit('Update Offer', ['class' => 'btn btn-success']) }}
+                                {{ Form::submit('Save', ['class' => 'btn btn-success']) }}
                                 <a href="{{ url('list_term/'.$offer_id) }}" class="button-link-success">
                                     Terms & Conditions
                                 </a>
