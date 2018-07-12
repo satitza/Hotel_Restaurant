@@ -155,6 +155,21 @@
                                 <td>{{ Form::text('offer_name_cn', $offer_name_cn, ['class' => 'form-control', 'placeholder' => '提供名稱']) }}</td>
                             </tr>
                             <tr>
+                                <td>{{ Form::label('lb_offer_type', 'Type') }}</td>
+                                <td>
+                                    <div class="form-group">
+                                        <select class="form-control" name="offer_type">
+                                            <option value="{{ $offer_type }}">{{ $offer_type }}</option>
+                                            <option value="offer">Offer</option>
+                                            <option value="voucher">Voucher</option>
+                                            {{--@foreach ($actives as $active)--}}
+                                                {{--<option value="{{ $active->id }}"> {{ $active->active }}</option>--}}
+                                            {{--@endforeach--}}
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>{{ Form::label('lb_restaurant_active', 'Status') }}</td>
                                 <td>
                                     <div class="form-group">

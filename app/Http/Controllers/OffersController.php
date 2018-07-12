@@ -270,6 +270,7 @@ class OffersController extends Controller
             $offers->offer_comment_th = $request->offer_comment_th;
             $offers->offer_comment_en = $request->offer_comment_en;
             $offers->offer_comment_cn = $request->offer_comment_cn;
+            $offers->offer_type = $request->offer_type;
             $offers->active_id = $request->active_id;
             $offers->save();
 
@@ -342,7 +343,7 @@ class OffersController extends Controller
                     'offer_time_lunch_end', 'offer_lunch_price', 'offer_lunch_guest', 'offer_time_dinner_start',
                     'offer_time_dinner_end', 'offer_dinner_price', 'offer_dinner_guest', 'offers.currency_id', 'currencies.currency',
                     'offers.rate_suffix_id', 'rate_suffixes.rate_suffix', 'offer_short_th', 'offer_short_en', 'offer_short_cn',
-                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn', 'actives.active', 'offers.active_id')
+                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn', 'offers.offer_type','actives.active', 'offers.active_id')
                 ->join('actives', 'offers.active_id', '=', 'actives.id')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
@@ -422,6 +423,7 @@ class OffersController extends Controller
                     'offer_name_th' => $offer_name_th,
                     'offer_name_en' => $offer->offer_name_en,
                     'offer_name_cn' => $offer_name_cn,
+                    'offer_type' => $offer->offer_type,
                     'offer_active' => $offer->active,
                     'offer_active_id' => $offer->active_id,
                     'old_attachments' => $offer->attachments,
@@ -551,6 +553,7 @@ class OffersController extends Controller
                     'offer_comment_th' => $request->offer_comment_th,
                     'offer_comment_en' => $request->offer_comment_en,
                     'offer_comment_cn' => $request->offer_comment_cn,
+                    'offer_type' => $request->offer_type,
                     'active_id' => $request->active_id,
                     'updated_at' => Carbon::now()
                 ]);

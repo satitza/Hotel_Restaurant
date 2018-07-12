@@ -63,6 +63,8 @@ class CreateOffersTable extends Migration
             $table->text('offer_comment_en')->nullable();
             $table->text('offer_comment_cn')->nullable();
 
+            $table->string('offer_type', 100)->nullable();
+
             $table->integer('active_id')->unsigned();
             $table->foreign('active_id')->references('id')->on('actives');
 
