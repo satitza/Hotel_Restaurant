@@ -201,6 +201,22 @@
                                     <li><a href="{{ url('setting/item/items') }}">View All Items Disabled</a></li>
                                 </ul>
                             </li>
+                            <li class="dropdown-submenu">
+                                <a class="submenu" tabindex="-1" href="#">Currency<span
+                                            class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ url('setting/currencies/currency') }}">Add Currency</a></li>
+                                    <li><a href="{{ url('setting/currencies/currency/create') }}">List Currency</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a class="submenu" tabindex="-1" href="#">Rate Suffix<span
+                                            class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="">Add Rate Suffix</a></li>
+                                    <li><a href="">List Rate Suffix</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <!------------------------------------------------------------------------------------------------------------------->

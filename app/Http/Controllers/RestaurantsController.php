@@ -68,7 +68,7 @@ class RestaurantsController extends Controller
             $restaurant_items = $this->GetRestaurantsItems();
 
             $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
+                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'restaurant_phone', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->where('restaurants.active_id', 1)->orderBy('restaurants.id', 'asc')->paginate(10);
@@ -97,6 +97,7 @@ class RestaurantsController extends Controller
             $restaurants = new Restaurants;
             $restaurants->restaurant_name = $request->restaurant_name;
             $restaurants->restaurant_email = $request->restaurant_email;
+            $restaurants->restaurant_phone = $request->restaurant_phone;
             $restaurants->hotel_id = $request->hotel_id;
             $restaurants->active_id = $request->active_id;
             $restaurants->restaurant_comment = $request->restaurant_comment;
@@ -169,7 +170,7 @@ class RestaurantsController extends Controller
             $hotels = $this->GetHotelsItems();
 
             $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
+                ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurant_phone','restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
                 ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
                 ->join('actives', 'restaurants.active_id', '=', 'actives.id')
                 ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->first();
@@ -178,6 +179,7 @@ class RestaurantsController extends Controller
                 'id' => $restaurants->id,
                 'restaurant_name' => $restaurants->restaurant_name,
                 'restaurant_email' => $restaurants->restaurant_email,
+                'restaurant_phone' => $restaurants->restaurant_phone,
                 'hotel_id' => $restaurants->hotel_id,
                 'hotel_name' => $restaurants->hotel_name,
                 'active_id' => $restaurants->active_id,
@@ -209,6 +211,7 @@ class RestaurantsController extends Controller
                 ->update([
                     'restaurant_name' => $request->restaurant_name,
                     'restaurant_email' => $request->restaurant_email,
+                    'restaurant_phone' => $request->restaurant_phone,
                     'hotel_id' => $request->hotel_id,
                     'active_id' => $request->active_id,
                     'restaurant_comment' => $request->restaurant_comment,

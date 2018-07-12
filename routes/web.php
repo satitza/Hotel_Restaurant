@@ -105,6 +105,13 @@ Route::group(['prefix' => 'setting'], function () {
         Route::get('enable_offer/{offer_id}', '\App\Http\Controllers\Setting\ItemsManageController@enableOffer');
     });
 
+    Route::group(['prefix' => 'currencies'], function () {
+
+        Route::resource('currency', '\App\Http\Controllers\Setting\CurrencyController');
+        Route::get('delete_currency/{id}', '\App\Http\Controllers\Setting\CurrencyController@destroy');
+
+    });
+
 });
 
 

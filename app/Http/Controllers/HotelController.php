@@ -71,10 +71,10 @@ class HotelController extends Controller
         }
     }
 
-    /*
-      Insert hotel information into database
+    /**
+     * @param HotelsRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-
     public function store(HotelsRequest $request)
     {
         DB::beginTransaction();

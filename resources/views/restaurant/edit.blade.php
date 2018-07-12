@@ -48,6 +48,10 @@
                                     <td>{{ Form::text('restaurant_email', $restaurant_email, ['class' => 'form-control', 'placeholder' => 'Email Address']) }}</td>
                                 </tr>
                                 <tr>
+                                    <td>{{ Form::label('lb_restaurant_phone', 'Phone') }}</td>
+                                    <td>{{ Form::text('restaurant_phone', $restaurant_phone, ['class' => 'form-control', 'placeholder' => 'Phone']) }}</td>
+                                </tr>
+                                <tr>
                                     <td>{{ Form::label('lb_hotel_id', 'Hotel') }}</td>
                                     <td style="display: none;">
                                         <div style="display: none">
