@@ -215,8 +215,10 @@ class OffersController extends Controller
 
         if ($request->input('day_check_box') == null) {
             return view('error.index')->with('error', 'You never set date select');
-        } elseif ($request->offer_comment_en == "<p>&nbsp;</p>") {
-            return view('error.index')->with('error', 'Please insert default offer description');
+        }else if ($request->offer_short_en == "<p>&nbsp;</p>"){
+            return view('error.index')->with('error', 'Please insert default offer short description');
+        } else if ($request->offer_comment_en == "<p>&nbsp;</p>") {
+            return view('error.index')->with('error', 'Please insert default offer long description');
         }
 
         if ($request->offer_time_lunch_start != 'closed' || $request->offer_time_lunch_end != 'closed') {

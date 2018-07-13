@@ -14,26 +14,24 @@
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Currency</th>
+                                <th scope="col">Rate Suffix</th>
                                 <th scope="col">Description</th>
                                 <th scope="col1">Edit Currency</th>
                                 <th scope="col1">Delete Currency</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($currencies as $currency)
+                                @foreach($rate_suffixes as $rate_suffix)
                                 <tr>
-                                    <th></th>
-                                    <td>{{ $currency->currency }}</td>
-                                    <td>{!! $currency->description !!}</td>
+                                    <th>{{ $rate_suffix->rate_suffix }}</th>
+                                    <td>{!!  $rate_suffix->description !!}</td>
                                     <td>
-                                        <a href="{{ url('setting/currencies/currency/'.$currency->id.'/edit') }}" class="button-link-success">
+                                        <a href="{{ url('setting/rate_suffixes/rate_suffix/'.$rate_suffix->id.'/edit') }}" class="button-link-success">
                                             Edit
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ url('setting/currencies/delete_currency/'.$currency->id) }}" class="button-link-dark" onclick="return confirm('Confrim Delete ?')">
+                                        <a href="{{ url('setting/rate_suffixes/delete_rate_suffix/'.$rate_suffix->id) }}" class="button-link-dark" onclick="return confirm('Confrim Delete ?')">
                                             Delete
                                         </a>
                                     </td>
@@ -41,7 +39,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                    {!! $currencies->render() !!}
+                    {!! $rate_suffixes->render() !!}
                     <!--{{ csrf_field() }}
                     {!! Form::close() !!} -->
                     </div>

@@ -26,12 +26,12 @@
                     </div>
                 @endif
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit Currency</div>
+                    <div class="panel-heading">Edit Rate Suffix</div>
 
                     <div class="panel-body">
                         <div class="form-group">
                         <!-- {!! Form::open(['url' => 'hotel', 'files' => false]) !!} -->
-                            {{ Form::open(array('url' => 'setting/currencies/currency/'.$id , 'method' => 'put')) }}
+                            {{ Form::open(array('url' => 'setting/rate_suffixes/rate_suffix/'.$id , 'method' => 'put')) }}
                             <table class="table table-striped table-hover ">
                                 <thead>
                                 <tr class="">
@@ -41,8 +41,8 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_currency', 'Currency') }}</td>
-                                    <td>{{ Form::text('currency', $currency, ['class' => 'form-control', 'placeholder' => 'Currency', 'required']) }}</td>
+                                    <td>{{ Form::label('lb_rate_suffix', 'Rate Suffix') }}</td>
+                                    <td>{{ Form::text('rate_suffix', $rate_suffix, ['class' => 'form-control', 'placeholder' => 'Rate Suffix', 'required']) }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ Form::label('lb_description', 'Comment') }}</td>
@@ -51,7 +51,7 @@
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Update Currency', ['class' => 'btn btn-success']) }}
+                                {{ Form::submit('Update Rate Suffix', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ csrf_field() }}
                             {{ Form::close() }}

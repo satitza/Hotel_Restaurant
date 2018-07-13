@@ -4,7 +4,7 @@
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             ClassicEditor
-                .create( document.querySelector( '#editor' ) )
+                .create( document.querySelector( '#description' ) )
                 .then( editor => {
                 console.log( editor );
         } )
@@ -13,6 +13,7 @@
         } );
         });
     </script>
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -26,12 +27,10 @@
                     </div>
                 @endif
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit Currency</div>
-
+                    <div class="panel-heading">Add Rate Suffix</div>
                     <div class="panel-body">
                         <div class="form-group">
-                        <!-- {!! Form::open(['url' => 'hotel', 'files' => false]) !!} -->
-                            {{ Form::open(array('url' => 'setting/currencies/currency/'.$id , 'method' => 'put')) }}
+                            {!! Form::open(['url' => 'setting/rate_suffixes/rate_suffix', 'files' => false]) !!}
                             <table class="table table-striped table-hover ">
                                 <thead>
                                 <tr class="">
@@ -41,21 +40,22 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ Form::label('lb_currency', 'Currency') }}</td>
-                                    <td>{{ Form::text('currency', $currency, ['class' => 'form-control', 'placeholder' => 'Currency', 'required']) }}</td>
+                                    <td>{{ Form::label('lb_rate_suffix', 'Rate Suffix') }}</td>
+                                    <td>{{ Form::text('rate_suffix', null, ['class' => 'form-control', 'placeholder' => 'Rate Suffix', 'required']) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ Form::label('lb_description', 'Comment') }}</td>
-                                    <td>{{ Form::textarea('description', $description, ['id' => 'editor', 'placeholder' => 'Description']) }}</td>
+                                    <td>{{ Form::label('lb_description', 'Description') }}</td>
+                                    <td>{{ Form::textarea('description', null, ['id' => 'description', 'placeholder' => 'Description']) }}</td>
                                 </tr>
                                 </tbody>
                             </table>
                             <center>
-                                {{ Form::submit('Update Currency', ['class' => 'btn btn-success']) }}
+                                {{ Form::submit('Add Rate Suffix', ['class' => 'btn btn-success']) }}
                             </center>
                             {{ csrf_field() }}
-                            {{ Form::close() }}
+                            {!! Form::close() !!}
                         </div>
+
                     </div>
                 </div>
             </div>

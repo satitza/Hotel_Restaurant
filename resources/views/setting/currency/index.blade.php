@@ -27,7 +27,7 @@
                     </div>
                 @endif
                 <div class="panel panel-default">
-                    <div class="panel-heading">Add Hotel</div>
+                    <div class="panel-heading">Add Currency</div>
                     <div class="panel-body">
                         <div class="form-group">
                         {!! Form::open(['url' => 'setting/currencies/currency', 'files' => false]) !!}

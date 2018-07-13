@@ -169,6 +169,15 @@
                                 {{ Request::route()->getName() == 'users.create' ? "style=color:green" : "" }}
                                 {{ Request::route()->getName() == 'users.edit' ? "style=color:green" : "" }}
                                 {{ Request::route()->getName() == 'items.index' ? "style=color:green" : "" }}
+
+                                {{ Request::route()->getName() == 'currency.index' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'currency.create' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'currency.edit' ? "style=color:green" : "" }}
+
+                                {{ Request::route()->getName() == 'rate_suffix.index' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'rate_suffix.create' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'rate_suffix.edit' ? "style=color:green" : "" }}
+
                         >Setting <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-submenu">
@@ -213,8 +222,8 @@
                                 <a class="submenu" tabindex="-1" href="#">Rate Suffix<span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="">Add Rate Suffix</a></li>
-                                    <li><a href="">List Rate Suffix</a></li>
+                                    <li><a href="{{ url('setting/rate_suffixes/rate_suffix') }}">Add Rate Suffix</a></li>
+                                    <li><a href="{{ url('setting/rate_suffixes/rate_suffix/create') }}">List Rate Suffix</a></li>
                                 </ul>
                             </li>
                         </ul>

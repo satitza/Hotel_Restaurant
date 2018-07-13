@@ -34,7 +34,6 @@ class CurrencyController extends Controller
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
-        return view('setting.currency.index');
     }
 
     /**
@@ -65,7 +64,23 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        echo "store";
+        DB::beginTransaction();
+        try {
+            $currency = new Currency;
+            $currency->currency = $request->currency;
+            $currency->description = $request->description;
+            $currency->save();
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'store', '');
+
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\CurrencyController@create');
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -87,7 +102,22 @@ class CurrencyController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $currency = DB::table('currencies')
+                ->select('id', 'currency', 'description')
+                ->where('id', $id)->first();
+
+            return view('setting.currency.edit', [
+                'id' => $currency->id,
+                'currency' => $currency->currency,
+                'description' => $currency->description,
+            ]);
+
+        } catch (QueryException $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -99,7 +129,26 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            DB::table('currencies')
+                ->where('id', $id)
+                ->update([
+                    'currency' => $request->currency,
+                    'description' => $request->description,
+                    'updated_at' => Carbon::now()
+                ]);
+
+            $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'update', $id);
+
+            DB::commit();
+            return redirect()->action('\App\Http\Controllers\Setting\CurrencyController@create');
+        } catch (QueryException $e) {
+            DB::rollback();
+            return view('error.index')->with('error', $e->getMessage());
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
     /**

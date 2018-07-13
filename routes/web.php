@@ -109,7 +109,12 @@ Route::group(['prefix' => 'setting'], function () {
 
         Route::resource('currency', '\App\Http\Controllers\Setting\CurrencyController');
         Route::get('delete_currency/{id}', '\App\Http\Controllers\Setting\CurrencyController@destroy');
+    });
 
+    Route::group(['prefix' => 'rate_suffixes'], function () {
+
+        Route::resource('rate_suffix', '\App\Http\Controllers\Setting\RateSuffixController');
+        Route::get('delete_rate_suffix/{id}', '\App\Http\Controllers\Setting\RateSuffixController@destroy');
     });
 
 });
@@ -123,9 +128,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('test', function () {
-    //return view('test.index');
-});
+Route::get('/test_pdf', 'ReportPDFController@test');
 
 
 
