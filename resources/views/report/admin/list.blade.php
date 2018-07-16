@@ -161,12 +161,13 @@
                         </div>
 
                         <br>
-                        {{ Form::submit('Search', ['class' => 'btn btn-success']) }}
+                        {{ Form::submit('Search', ['class' => 'btn btn-success', 'name' => 'submitbutton', 'value' => 'search']) }}
                         <a href="{{ action('ReportsController@index') }}" class="button-link-dark">
                             Clear
                         </a>
-                    <!--{{ csrf_field() }}
-                    {!! Form::close() !!} -->
+                       {{ Form::submit('Custom PDF', ['class' => 'btn btn-info', 'name' => 'submitbutton', 'value' => 'search-pdf']) }}
+                    {{ csrf_field() }}
+                    {!! Form::close() !!}
                     </div>
                 </div>
             </div>

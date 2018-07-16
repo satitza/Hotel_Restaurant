@@ -279,14 +279,23 @@ class ReportsController extends Controller
                 $count_price = $count_price + $report->booking_price;
             }
 
-            return view($view, [
-                'items' => $items,
-                'count_book' => $count_book,
-                'count_guest' => $count_guest,
-                'count_price' => $count_price,
-                'reports' => $reports
+            switch($request->submitbutton) {
 
-            ]);
+                case 'Search':
+                    return view($view, [
+                        'items' => $items,
+                        'count_book' => $count_book,
+                        'count_guest' => $count_guest,
+                        'count_price' => $count_price,
+                        'reports' => $reports
+
+                    ]);
+                    break;
+
+                case 'Custom PDF':
+                    echo "search-pdf";
+                    break;
+            }
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());

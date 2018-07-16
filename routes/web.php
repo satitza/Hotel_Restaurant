@@ -119,6 +119,13 @@ Route::group(['prefix' => 'setting'], function () {
 
 });
 
+Route::group(['prefix' => 'pdf'], function () {
+
+    Route::get('/load_all', 'ReportPDFController@loadAllPdf')->name('load_all');
+    Route::post('/custom_report', 'ReportPDFController@CustomPdf');
+
+});
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -128,7 +135,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/test_pdf', 'ReportPDFController@test');
+
 
 
 
