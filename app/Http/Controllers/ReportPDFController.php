@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use DB;
 use PDF;
 use App\Report;
+use App\User;
 use Carbon\Carbon;
 use App\ActionLog;
+use App\UserReport;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -27,6 +29,9 @@ class ReportPDFController extends Controller
         $GLOBALS['complete'] = 2;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function loadAllPdf()
     {
         try {
@@ -35,7 +40,28 @@ class ReportPDFController extends Controller
             $count_guest = null;
             $count_price = null;
 
-            $where = ['booking_status' => $GLOBALS['complete']];
+            $where = null;
+
+            $check_rows = User::find(Auth::id());
+
+            if ($check_rows->user_role == 3) {
+
+                $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
+                $where = ['booking_hotel_id' => $get_hotel_id->hotel_id];
+
+                //$items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
+                //$hotel_id = $get_hotel_id->hotel_id;
+                //$view = 'report.user.list';
+            } else {
+                $where = ['booking_status' => $GLOBALS['complete']];
+
+                $count_book = Report::where('booking_status', $GLOBALS['complete'])->count();
+                $count_guest = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_guest');
+                $count_price = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_price');
+
+                //$items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+                //$view = 'report.admin.list';
+            }
 
             $reports = DB::table('reports')
                 ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
@@ -49,20 +75,16 @@ class ReportPDFController extends Controller
                 ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
                 ->orderBy('reports.booking_date', 'asc')->get();
 
-            $count_book = Report::where('booking_status', $GLOBALS['complete'])->count();
-            $count_guest = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_guest');
-            $count_price = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_price');
-
             $this->SaveLog(Auth::id(), $GLOBALS['controller'], 'loadAllPdf', '');
 
-            $pdf = PDF::loadView('pdf.load_all', [
+            $pdf = PDF::loadView('pdf.load_pdf', [
                 'date_now' => Carbon::now()->format('d-m-Y'),
                 'reports' => $reports,
                 'count_book' => $count_book,
                 'count_guest' => $count_guest,
                 'count_price' => $count_price
             ]);
-            return $pdf->stream('load_all.pdf');
+            return $pdf->stream('load_pdf.pdf');
 
 
         } catch (QueryException $e) {

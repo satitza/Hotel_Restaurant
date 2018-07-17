@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use PDF;
 use App\ActionLog;
 use App\Report;
 use App\Voucher;
-use DB;
 use App\User;
 use App\UserReport;
 use App\Offers;
@@ -293,7 +294,14 @@ class ReportsController extends Controller
                     break;
 
                 case 'Custom PDF':
-                    echo "search-pdf";
+                    $pdf = PDF::loadView('pdf.load_pdf', [
+                        'date_now' => Carbon::now()->format('d-m-Y'),
+                        'reports' => $reports,
+                        'count_book' => $count_book,
+                        'count_guest' => $count_guest,
+                        'count_price' => $count_price
+                    ]);
+                    return $pdf->stream('load_pdf.pdf');
                     break;
             }
 
