@@ -49,18 +49,12 @@ class ReportPDFController extends Controller
                 $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
                 $where = ['booking_hotel_id' => $get_hotel_id->hotel_id];
 
-                //$items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
-                //$hotel_id = $get_hotel_id->hotel_id;
-                //$view = 'report.user.list';
             } else {
                 $where = ['booking_status' => $GLOBALS['complete']];
 
                 $count_book = Report::where('booking_status', $GLOBALS['complete'])->count();
                 $count_guest = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_guest');
                 $count_price = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_price');
-
-                //$items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-                //$view = 'report.admin.list';
             }
 
             $reports = DB::table('reports')
@@ -94,9 +88,10 @@ class ReportPDFController extends Controller
         }
     }
 
-     public function CustomPdf(Request $request){
+    public function CustomPdf(Request $request)
+    {
 
-     }
+    }
 
     /**
      * @param $user_id

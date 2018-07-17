@@ -158,6 +158,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         /*mPDF*/
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        RezaAr\Highcharts\Provider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -208,5 +209,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'Chart' => RezaAr\Highcharts\Facade::class,
     ],
 ];
