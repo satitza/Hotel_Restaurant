@@ -32,11 +32,11 @@ class HotelsListSeeder extends Seeder
             'Citrus Grande Pattaya', //17
             'Citrus Johor Bahru', //18
             'Citrus Parc', //19
-            'Citrus Suites Sukhumvit 6 Bangkok', //20
+            'Citrus Suites Sukhumvit 6 Bangkok by Compass Hospitality', //20
             'Citrus Sukhumvit 11 Bangkok', //21
             'Citrus Sukhumvit 13 Bangkok', //22
             'Columba', //23
-            'Compass Skyview', //24
+            'Compass Skyview Hotel by Compass Hospitality', //24
             'Crown Spa Hotel', //25
             'Galleria 10', //26
             'Galleria 12', //27

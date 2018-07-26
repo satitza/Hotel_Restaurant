@@ -84,9 +84,11 @@
                                             <div id="tab_term_th" class="tab-pane fade in active">
                                                 <form action="#">
                                                     <br>
+                                                    <label for="tab_term_th">หัวข้อ</label>
                                                     <input type="text" name="term_header_th" class="form-control"
                                                            placeholder="หัวข้อเงือนไข">
                                                     <br>
+                                                    <label for="term_content_th">รายละเอียด</label>
                                                     {{ Form::textarea('term_content_th', null, ['id' => 'term_th']) }}
                                                     <br>
                                                     {{--<center>--}}
@@ -96,9 +98,11 @@
                                             </div>
                                             <div id="tab_term_en" class="tab-pane fade">
                                                 <br>
+                                                <label for="tab_term_en">Header</label>
                                                 <input type="text" name="term_header_en" class="form-control"
                                                        placeholder="Terms Conditions Header">
                                                 <br>
+                                                <label for="term_content_en">Content</label>
                                                 {{ Form::textarea('term_content_en', null, ['id' => 'term_en']) }}
                                                 <br>
                                                 {{--<center>--}}
@@ -107,9 +111,11 @@
                                             </div>
                                             <div id="tab_term_cn" class="tab-pane fade">
                                                 <br>
+                                                <label for="term_header_cn">條款條件標題</label>
                                                 <input type="text" name="term_header_cn" class="form-control"
                                                        placeholder="條款條件標題">
                                                 <br>
+                                                <label for="细节">细节</label>
                                                 {{ Form::textarea('term_content_cn', null, ['id' => 'term_cn']) }}
                                                 <br>
                                                 {{--<center>--}}

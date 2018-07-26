@@ -1,11 +1,8 @@
-<html>
-<head>
-    <title>Test Chart</title>
-    <meta charset="UTF-8">
-</head>
-<body>
+@extends('layouts.chart_app')
+
+@section('content')
 <div id="chart1"></div>
 
 {!! $chart1 !!}
-</body>
-</html>
+
+@endsection

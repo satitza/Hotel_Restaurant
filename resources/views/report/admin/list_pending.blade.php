@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Search Option</div>
+                    <div class="panel-heading">Delete Option</div>
                     <div class="panel-body">
                         {{ Form::open(array('url' => 'delete_pending', 'method' => 'post')) }}
                         <table class="table">
