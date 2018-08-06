@@ -36,6 +36,7 @@
                             <th scope="col">Hotel Name</th>
                             <th scope="col">Restaurant Name</th>
                             <th scope="col">Offer Name</th>
+                            <th scope="col">Offer Type</th>
                             <th scope="col">Attachments</th>
                             <th scope="col">Date Start</th>
                             <th scope="col">Date End</th>
@@ -51,6 +52,7 @@
                                 <td>{{ $offer->hotel_name }}</td>
                                 <td>{{ $offer->restaurant_name }}</td>
                                 <td>{{ $offer->offer_name_en }}</td>
+                                <td>{{ $offer->offer_type }}</td>
                                 <td>{{ $offer->attachments }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_start)) }}</td>
                                 <td>{{ date('d/m/Y', strtotime($offer->offer_date_end)) }}</td>

@@ -162,7 +162,7 @@ class OffersController extends Controller
 
             $offers = DB::table('offers')
                 ->select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                    'offer_name_en', 'attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
+                    'offer_name_en', 'offer_type','attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
                 ->where('offers.active_id', $GLOBALS['enable'])->orderBy('offers.id', 'asc')->paginate(10);
@@ -204,8 +204,15 @@ class OffersController extends Controller
 
     public function store(OffersRequest $request)
     {
-
         $filename = null;
+
+        $day_select = null;
+
+        $time_lunch_start = null;
+        $time_lunch_end = null;
+
+        $time_dinner_start = null;
+        $time_dinner_end = null;
 
         $lunch_price = 0;
         $lunch_guest = 0;
@@ -213,22 +220,66 @@ class OffersController extends Controller
         $dinner_price = 0;
         $dinner_guest = 0;
 
-        if ($request->input('day_check_box') == null) {
+        if ($request->offer_type == 'voucher') {
+            $day_select = null;
+
+            $time_lunch_start = null;
+            $time_lunch_end = null;
+
+            $time_dinner_start = null;
+            $time_dinner_end = null;
+
+            if($request->offer_lunch_price == null){
+                return view('error.index')->with('error', 'Lunch price is cannot be null in set offer type voucher');
+            }else if ($request->offer_lunch_guest == null){
+                return view('error.index')->with('error', 'Lunch guest is cannot be null in set offer type voucher');
+            }
+
+            if($request->offer_dinner_price == null){
+                return view('error.index')->with('error', 'Dinner price is cannot be null in set offer type voucher');
+            }else if ($request->offer_dinner_guest == null){
+                return view('error.index')->with('error', 'Dinner guest is cannot be null in set offer type voucher');
+            }
+
+        } else if ($request->input('day_check_box') == null) {
             return view('error.index')->with('error', 'You never set date select');
-        }else if ($request->offer_short_en == "<p>&nbsp;</p>"){
+        } else {
+            $day_select = implode(", ", $request->input('day_check_box')) . ",";
+
+            $time_lunch_start = $request->offer_time_lunch_start;
+            $time_lunch_end = $request->offer_time_lunch_end;
+
+            $time_dinner_start = $request->offer_time_dinner_start;
+            $time_dinner_end = $request->offer_time_dinner_end;
+
+        }
+
+
+        if($request->offer_type == 'offer'){
+            if ($request->offer_time_lunch_start != 'closed' || $request->offer_time_lunch_end != 'closed') {
+                $lunch_price = $request->offer_lunch_price;
+                $lunch_guest = $request->offer_lunch_guest;
+            }
+
+            if ($request->offer_time_dinner_start != 'closed' || $request->offer_time_dinner_end != 'closed') {
+                $dinner_price = $request->offer_dinner_price;
+                $dinner_guest = $request->offer_dinner_guest;
+            }
+        }else{
+
+            $lunch_price = $request->offer_lunch_price;
+            $lunch_guest = $request->offer_lunch_guest;
+
+            $dinner_price = $request->offer_dinner_price;
+            $dinner_guest = $request->offer_dinner_guest;
+
+        }
+
+
+        if ($request->offer_short_en == "<p>&nbsp;</p>") {
             return view('error.index')->with('error', 'Please insert default offer short description');
         } else if ($request->offer_comment_en == "<p>&nbsp;</p>") {
             return view('error.index')->with('error', 'Please insert default offer long description');
-        }
-
-        if ($request->offer_time_lunch_start != 'closed' || $request->offer_time_lunch_end != 'closed') {
-            $lunch_price = $request->offer_lunch_price;
-            $lunch_guest = $request->offer_lunch_guest;
-        }
-
-        if ($request->offer_time_dinner_start != 'closed' || $request->offer_time_dinner_end != 'closed') {
-            $dinner_price = $request->offer_dinner_price;
-            $dinner_guest = $request->offer_dinner_guest;
         }
 
         DB::beginTransaction();
@@ -255,15 +306,19 @@ class OffersController extends Controller
             $offers->attachments = $filename;
             $offers->offer_date_start = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_start, '/', '-'))));
             $offers->offer_date_end = Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_end, '/', '-'))));
-            $offers->offer_day_select = implode(", ", $request->input('day_check_box')) . ",";
-            $offers->offer_time_lunch_start = $request->offer_time_lunch_start;
-            $offers->offer_time_lunch_end = $request->offer_time_lunch_end;
+
+            $offers->offer_day_select = $day_select;
+
+            $offers->offer_time_lunch_start = $time_lunch_start;
+            $offers->offer_time_lunch_end = $time_lunch_end;
             $offers->offer_lunch_price = $lunch_price;
             $offers->offer_lunch_guest = $lunch_guest;
-            $offers->offer_time_dinner_start = $request->offer_time_dinner_start;
-            $offers->offer_time_dinner_end = $request->offer_time_dinner_end;
+
+            $offers->offer_time_dinner_start = $time_dinner_start;
+            $offers->offer_time_dinner_end = $time_dinner_end;
             $offers->offer_dinner_price = $dinner_price;
             $offers->offer_dinner_guest = $dinner_guest;
+
             $offers->currency_id = $request->offer_currency;
             $offers->rate_suffix_id = $request->offer_rate_suffix;
             $offers->offer_short_th = $request->offer_short_th;
@@ -272,7 +327,9 @@ class OffersController extends Controller
             $offers->offer_comment_th = $request->offer_comment_th;
             $offers->offer_comment_en = $request->offer_comment_en;
             $offers->offer_comment_cn = $request->offer_comment_cn;
+
             $offers->offer_type = $request->offer_type;
+
             $offers->active_id = $request->active_id;
             $offers->save();
 
@@ -345,7 +402,7 @@ class OffersController extends Controller
                     'offer_time_lunch_end', 'offer_lunch_price', 'offer_lunch_guest', 'offer_time_dinner_start',
                     'offer_time_dinner_end', 'offer_dinner_price', 'offer_dinner_guest', 'offers.currency_id', 'currencies.currency',
                     'offers.rate_suffix_id', 'rate_suffixes.rate_suffix', 'offer_short_th', 'offer_short_en', 'offer_short_cn',
-                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn', 'offers.offer_type','actives.active', 'offers.active_id')
+                    'offer_comment_th', 'offer_comment_en', 'offer_comment_cn', 'offers.offer_type', 'actives.active', 'offers.active_id')
                 ->join('actives', 'offers.active_id', '=', 'actives.id')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
@@ -476,36 +533,75 @@ class OffersController extends Controller
      */
     public function update(OffersRequest $request, $id)
     {
+
         $day_insert = null;
         $filename = null;
 
+        $time_lunch_start = null;
+        $time_lunch_end = null;
         $lunch_price = 0;
         $lunch_guest = 0;
 
+        $time_dinner_start = null;
+        $time_dinner_end = null;
         $dinner_price = 0;
         $dinner_guest = 0;
 
         $new_day_select = ($request->input('day_check_box'));
         $get_hotel_id = Restaurants::find($request->restaurant_id);
 
-        if ($request->offer_comment_en == "<p>&nbsp;</p>") {
-            return view('error.index')->with('error', 'Please insert default offer description');
-        } elseif (!isset($new_day_select)) {
-            //Check box is null insert old date select
-            $day_insert = $request->old_day_select;
-        } else {
-            //Check box not null insert new date select json
-            $day_insert = implode(",", $request->input('day_check_box')) . ",";
-        }
 
-        if ($request->offer_time_lunch_start != 'closed' || $request->offer_time_lunch_end != 'closed') {
+        if($request->offer_type == 'voucher'){
+            $day_insert = null;
+
+            $time_lunch_start = null;
+            $time_lunch_end = null;
             $lunch_price = $request->offer_lunch_price;
             $lunch_guest = $request->offer_lunch_guest;
-        }
 
-        if ($request->offer_time_dinner_start != 'closed' || $request->offer_time_dinner_end != 'closed') {
+            $time_dinner_start = null;
+            $time_dinner_end = null;
             $dinner_price = $request->offer_dinner_price;
             $dinner_guest = $request->offer_dinner_guest;
+
+        }else if ($request->offer_type == 'offer'){
+            if (!isset($new_day_select)) {
+                //Check box is null insert old date select
+                if($request->old_day_select == null){
+                    return view('error.index')->with('error', 'Day select cannot be not empty in offer type offer');
+                }else{
+                    $day_insert = $request->old_day_select;
+                }
+            } else {
+                //Check box not null insert new date select json
+                $day_insert = implode(",", $request->input('day_check_box')) . ",";
+            }
+
+            if($request->offer_time_lunch_start == null || $request->offer_time_lunch_end == null){
+                return view('error.index')->with('error', 'Time lunch cannot be empty in offer type offer');
+            }else if ($request->offer_time_dinner_start == null || $request->offer_time_dinner_end == null){
+                return view('error.index')->with('error', 'Time Dinner cannot be empty in offer type offer');
+            }
+
+            if ($request->offer_time_lunch_start != 'closed' || $request->offer_time_lunch_end != 'closed') {
+                $lunch_price = $request->offer_lunch_price;
+                $lunch_guest = $request->offer_lunch_guest;
+            }
+
+            if ($request->offer_time_dinner_start != 'closed' || $request->offer_time_dinner_end != 'closed') {
+                $dinner_price = $request->offer_dinner_price;
+                $dinner_guest = $request->offer_dinner_guest;
+            }
+
+            if ($request->offer_comment_en == "<p>&nbsp;</p>") {
+                return view('error.index')->with('error', 'Please insert default offer description');
+            }
+
+            $time_lunch_start = $request->offer_time_lunch_start;
+            $time_lunch_end = $request->offer_time_lunch_end;
+
+            $time_dinner_start = $request->offer_time_dinner_start;
+            $time_dinner_end = $request->offer_time_dinner_end;
         }
 
         try {
@@ -539,12 +635,12 @@ class OffersController extends Controller
                     'offer_date_start' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_start, '/', '-')))),
                     'offer_date_end' => Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_end, '/', '-')))),
                     'offer_day_select' => $day_insert,
-                    'offer_time_lunch_start' => $request->offer_time_lunch_start,
-                    'offer_time_lunch_end' => $request->offer_time_lunch_end,
+                    'offer_time_lunch_start' => $time_lunch_start,
+                    'offer_time_lunch_end' => $time_lunch_end,
                     'offer_lunch_price' => $lunch_price,
                     'offer_lunch_guest' => $lunch_guest,
-                    'offer_time_dinner_start' => $request->offer_time_dinner_start,
-                    'offer_time_dinner_end' => $request->offer_time_dinner_end,
+                    'offer_time_dinner_start' => $time_dinner_start,
+                    'offer_time_dinner_end' => $time_dinner_end,
                     'offer_dinner_price' => $dinner_price,
                     'offer_dinner_guest' => $dinner_guest,
                     'currency_id' => $request->offer_currency,

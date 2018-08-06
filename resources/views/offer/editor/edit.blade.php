@@ -88,6 +88,29 @@
             ;
         });
 
+        jQuery(document).ready(function ($) {
+            var offer_type = $("#offer_type_select").val();
+
+            if (offer_type == 'voucher') {
+                $("#row-day-select").hide();
+                $("#row-lunch-time").hide();
+                $("#row-dinner-time").hide();
+            }
+
+            $('#offer_type_select').on('change', function () {
+                //alert( this.value );
+                if (this.value == 'voucher') {
+                    $("#row-day-select").hide();
+                    $("#row-lunch-time").hide();
+                    $("#row-dinner-time").hide();
+                } else {
+                    $("#row-day-select").show();
+                    $("#row-lunch-time").show();
+                    $("#row-dinner-time").show();
+                }
+            });
+        });
+
 
     </script>
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
@@ -159,7 +182,7 @@
                                 <td>{{ Form::label('lb_offer_type', 'Type') }}</td>
                                 <td>
                                     <div class="form-group">
-                                        <select class="form-control" name="offer_type">
+                                        <select class="form-control" name="offer_type" id="offer_type_select">
                                             <option value="{{ $offer_type }}">{{ $offer_type }}</option>
                                             <option value="offer">Offer</option>
                                             <option value="voucher">Voucher</option>
@@ -191,7 +214,7 @@
                                 <td>{{ Form::label('lb_offer_date_end', 'Date end') }}</td>
                                 <td>{{ Form::text('offer_date_end', $offer_date_end, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>
-                            <tr>
+                            <tr id="row-day-select">
                                 <td>{{ Form::label('lb_offer_day_select', 'Day Select') }}</td>
                                 <td>{{ Form::text('old_day_select', $offer_day_select, ['class' => 'form-control', 'placeholder' => 'Select Day', 'readonly']) }}</td>
                                 <td>
@@ -215,20 +238,23 @@
                                     <div id="lunch_time" class="tab-pane fade in active">
                                         <div class="form-group">
                                             <br>
-                                            {{ Form::label('lb_time_lunch_start', 'Lunch time start') }}
-                                            <select class="form-control" name="offer_time_lunch_start">
-                                                <option value="{{ $offer_time_lunch_start }}">{{ $offer_time_lunch_start }}</option>
-                                                @foreach($time_lunchs as $time_lunch)
-                                                    <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
-                                                @endforeach
-                                            </select>
-                                            {{ Form::label('lb_time_lunch_end', 'Lunch time end') }}
-                                            <select class="form-control" name="offer_time_lunch_end">
-                                                <option value="{{ $offer_time_lunch_end }}">{{ $offer_time_lunch_end }}</option>
-                                                @foreach($time_lunchs as $time_lunch)
-                                                    <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
-                                                @endforeach
-                                            </select>
+
+                                            <div id="row-lunch-time">
+                                                {{ Form::label('lb_time_lunch_start', 'Lunch time start') }}
+                                                <select class="form-control" name="offer_time_lunch_start">
+                                                    <option value="{{ $offer_time_lunch_start }}">{{ $offer_time_lunch_start }}</option>
+                                                    @foreach($time_lunchs as $time_lunch)
+                                                        <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
+                                                    @endforeach
+                                                </select>
+                                                {{ Form::label('lb_time_lunch_end', 'Lunch time end') }}
+                                                <select class="form-control" name="offer_time_lunch_end">
+                                                    <option value="{{ $offer_time_lunch_end }}">{{ $offer_time_lunch_end }}</option>
+                                                    @foreach($time_lunchs as $time_lunch)
+                                                        <option value="{{ $time_lunch->time_lunch }}">{{ $time_lunch->time_lunch }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
                                             {{ Form::label('lb_lunch_price', 'Lunch Price per person') }}
                                             {{ Form::text('offer_lunch_price', $offer_lunch_price, ['class' => 'form-control', 'placeholder' => '00.00', 'readonly']) }}
@@ -240,23 +266,26 @@
                                     </div>
                                     <div id="dinner_time" class="tab-pane fade">
                                         <br>
-                                        {{ Form::label('lb_time_dinner_start', 'Dinner time start') }}
-                                        <div class="form-group">
-                                            <select class="form-control" name="offer_time_dinner_start">
-                                                <option value="{{ $offer_time_dinner_start }}">{{ $offer_time_dinner_start }}</option>
-                                                @foreach($time_dinners as $time_dinner)
-                                                    <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        {{ Form::label('lb_time_dinner_end', 'Dinner time end') }}
-                                        <div class="form-group">
-                                            <select class="form-control" name="offer_time_dinner_end">
-                                                <option value="{{ $offer_time_dinner_end }}">{{ $offer_time_dinner_end }}</option>
-                                                @foreach($time_dinners as $time_dinner)
-                                                    <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
-                                                @endforeach
-                                            </select>
+
+                                        <div id="row-dinner-time">
+                                            {{ Form::label('lb_time_dinner_start', 'Dinner time start') }}
+                                            <div class="form-group">
+                                                <select class="form-control" name="offer_time_dinner_start">
+                                                    <option value="{{ $offer_time_dinner_start }}">{{ $offer_time_dinner_start }}</option>
+                                                    @foreach($time_dinners as $time_dinner)
+                                                        <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            {{ Form::label('lb_time_dinner_end', 'Dinner time end') }}
+                                            <div class="form-group">
+                                                <select class="form-control" name="offer_time_dinner_end">
+                                                    <option value="{{ $offer_time_dinner_end }}">{{ $offer_time_dinner_end }}</option>
+                                                    @foreach($time_dinners as $time_dinner)
+                                                        <option value="{{ $time_dinner->time_dinner }}">{{ $time_dinner->time_dinner }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
 
                                         {{ Form::label('lb_price', 'Dinner Price per person') }}

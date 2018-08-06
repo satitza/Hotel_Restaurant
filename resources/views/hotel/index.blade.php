@@ -11,6 +11,10 @@
                  .catch( error => {
                   console.error( error );
                } );
+
+            var x = document.getElementById("key-panel");
+            x.style.display = "none";
+
         });
     </script>
 
@@ -44,14 +48,32 @@
                                     <td>{{ Form::label('lb_hotel_name', 'Hotel Name') }}</td>
                                     <td>{{ Form::text('hotel_name', null, ['class' => 'form-control', 'placeholder' => 'Hotel Name', 'required']) }}</td>
                                 </tr>
+
                                 <tr>
-                                    <td>{{ Form::label('lb_mid', 'MID') }}</td>
-                                    <td>{{ Form::text('mid', null, ['class' => 'form-control', 'placeholder' => 'MID']) }}</td>
+                                    <td>{{ Form::label('lb_payment', 'Payments') }}</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" name="payment_id">
+                                                <!--option value="" disabled selected>please_selected</option-->
+                                                @foreach ($payments as $payment)
+                                                    <option value="{{ $payment->id }}">{{ $payment->payment }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td>{{ Form::label('lb_secret_key', 'Secret Key') }}</td>
-                                    <td>{{ Form::text('secret_key', null, ['class' => 'form-control', 'placeholder' => 'Secret Key']) }}</td>
-                                </tr>
+
+                                <div id="key-panel">
+                                    <tr>
+                                        <td>{{ Form::label('lb_mid', 'MID') }}</td>
+                                        <td>{{ Form::text('mid', null, ['class' => 'form-control', 'placeholder' => 'MID']) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ Form::label('lb_secret_key', 'Secret Key') }}</td>
+                                        <td>{{ Form::text('secret_key', null, ['class' => 'form-control', 'placeholder' => 'Secret Key']) }}</td>
+                                    </tr>
+                                </div>
+                                
                                 <tr>
                                     <td>{{ Form::label('lb_active', 'Status') }}</td>
                                     <td>
