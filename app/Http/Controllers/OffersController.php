@@ -131,7 +131,7 @@ class OffersController extends Controller
             }
             $offers = DB::table('offers')->
             select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                'offer_name_en', 'attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
+                'offer_name_en', 'offer_type','attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
                 ->where($where)->paginate(10);
