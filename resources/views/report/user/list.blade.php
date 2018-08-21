@@ -196,6 +196,7 @@
                                 <th scope="col">Currency</th>
                                 <th scope="col">Rate Suffix</th>
                                 <th scope="col1">Gift Voucher</th>
+                                <th scope="col">Usage Status</th>
                             </tr>
                             </thead>
                             @foreach($reports as $report)
@@ -217,7 +218,15 @@
                                                 Gift Voucher
                                             </a>
                                     @endif
-                                <!--td>
+                                    </td>
+                                    <td>
+                                        @if($report->usage_status == null)
+                                            <p>Never Used</p>
+                                        @elseif($report->usage_status == 'used')
+                                            <p>Already Used</p>
+                                        @endif
+                                    </td>
+                                    <!--td>
                                         <a href="{{ url('report/'.$report->id.'/edit') }}"
                                            class="button-link-success">
                                             Edit Report

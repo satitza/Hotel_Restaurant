@@ -167,7 +167,7 @@ class ReportsController extends Controller
                 $reports = DB::table('reports')
                     ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
                         'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
-                        'currency', 'rate_suffix', 'booking_voucher')
+                        'currency', 'rate_suffix', 'booking_voucher', 'usage_status')
                     ->where($where)
                     ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                     ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
@@ -235,23 +235,10 @@ class ReportsController extends Controller
                     $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
                     $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
                     $hotel_id = $get_hotel_id->hotel_id;
-
-                    $where = ['reports.booking_hotel_id' => $hotel_id, 'reports.booking_status' => $GLOBALS['complete']];
-
-                    $count_book = Report::where($where)->count();
-                    $count_guest = Report::select('booking_guest')->where($where)->sum('booking_guest');
-                    $count_price = Report::select('booking_guest')->where($where)->sum('booking_price');
-
                     $view = 'report.user.list';
                 } else {
 
                     $items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-                    $where = ['booking_status' => $GLOBALS['complete']];
-
-                    $count_book = Report::where($where)->count();
-                    $count_guest = Report::select('booking_guest')->where($where)->sum('booking_guest');
-                    $count_price = Report::select('booking_guest')->where($where)->sum('booking_price');
-
                     $view = 'report.admin.list';
                 }
 
@@ -260,7 +247,7 @@ class ReportsController extends Controller
                     $reports = DB::table('reports')
                         ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
                             'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
-                            'currency', 'rate_suffix', 'booking_voucher')
+                            'currency', 'rate_suffix', 'booking_voucher', 'usage_status')
                         ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
@@ -275,12 +262,44 @@ class ReportsController extends Controller
                         ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
                         ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
                         ->orderBy('reports.booking_date', 'asc')->get();
+
+                    $count_book = Report::
+                    where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                        ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                        ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->whereBetween('booking_date', [
+                            Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
+                            Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
+                        ])
+                        ->where('booking_status', '=', $GLOBALS['complete'])
+                        ->count();
+
+                    $count_guest = Report::
+                    where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                        ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                        ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->whereBetween('booking_date', [
+                            Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
+                            Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
+                        ])
+                        ->where('booking_status', '=', $GLOBALS['complete'])->sum('booking_guest');
+
+                    $count_price = Report::
+                    where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                        ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                        ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->whereBetween('booking_date', [
+                            Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
+                            Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
+                        ])
+                        ->where('booking_status', '=', $GLOBALS['complete'])->sum('booking_price');
+
                 } else {
 
                     $reports = DB::table('reports')
                         ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
                             'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
-                            'currency', 'rate_suffix', 'booking_voucher')
+                            'currency', 'rate_suffix', 'booking_voucher', 'usage_status')
                         ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
@@ -291,17 +310,26 @@ class ReportsController extends Controller
                         ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
                         ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
                         ->orderBy('reports.booking_date', 'asc')->get();
+
+                    $count_book = Report::
+                    where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                        ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                        ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_status', '=', $GLOBALS['complete'])
+                        ->count();
+
+                    $count_guest = Report::
+                    where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                        ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                        ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_status', '=', $GLOBALS['complete'])->sum('booking_guest');
+
+                    $count_price = Report::
+                    where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                        ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                        ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_status', '=', $GLOBALS['complete'])->sum('booking_price');
                 }
-
-                /*$count_book = 0;
-                $count_guest = 0;
-                $count_price = 0;
-
-                foreach ($reports as $report) {
-                    $count_book++;
-                    $count_guest = $count_guest + $report->booking_guest;
-                    $count_price = $count_price + $report->booking_price;
-                }*/
 
                 switch ($request->submitbutton) {
 

@@ -261,7 +261,7 @@ class HotelController extends Controller
      */
     public function GetPaymentsItems()
     {
-        return Payment::orderBy('id', 'ASC')->get();
+        //return Payment::orderBy('id', 'ASC')->get();
     }
 
     /**

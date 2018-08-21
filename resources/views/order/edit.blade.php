@@ -91,11 +91,11 @@
                                     <td>
                                         @if($usage_status == null)
                                             <a href="{{ url('update_usage/'.$booking_id) }}"
-                                               class="button-link-gift">
-                                               Update to used
+                                               class="button-link-gift" onclick="return confirm('Confrim Update to Already Used ?')" >
+                                               Update to Already Used
                                             </a>
                                         @elseif($usage_status == 'used')
-                                            <p>Used To</p>
+                                            <p>Already Used</p>
                                         @endif
                                     </td>
                                 </tr>
