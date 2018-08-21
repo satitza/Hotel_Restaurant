@@ -47,14 +47,19 @@ class ReportPDFController extends Controller
             if ($check_rows->user_role == 3) {
 
                 $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
-                $where = ['booking_hotel_id' => $get_hotel_id->hotel_id];
+                $where = ['reports.booking_hotel_id' => $get_hotel_id->hotel_id, 'reports.booking_status' => $GLOBALS['complete']];
+
+                $count_book = Report::where($where)->count();
+                $count_guest = Report::select('booking_guest')->where($where)->sum('booking_guest');
+                $count_price = Report::select('booking_guest')->where($where)->sum('booking_price');
 
             } else {
+
                 $where = ['booking_status' => $GLOBALS['complete']];
 
-                $count_book = Report::where('booking_status', $GLOBALS['complete'])->count();
-                $count_guest = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_guest');
-                $count_price = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_price');
+                $count_book = Report::where($where)->count();
+                $count_guest = Report::select('booking_guest')->where($where)->sum('booking_guest');
+                $count_price = Report::select('booking_guest')->where($where)->sum('booking_price');
             }
 
             $reports = DB::table('reports')

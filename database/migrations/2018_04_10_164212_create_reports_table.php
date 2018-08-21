@@ -52,6 +52,8 @@ class CreateReportsTable extends Migration
             $table->integer('booking_status')->unsigned();
             $table->foreign('booking_status')->references('id')->on('booking_statuses');
 
+            $table->string('usage_status', 10)->nullable();
+
             $table->timestamps();
         });
     }

@@ -24,7 +24,6 @@ class ReportsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
         $this->middleware('admin', ['only' => [
             'ListBookingPending',
             'DeletePending',
@@ -56,15 +55,19 @@ class ReportsController extends Controller
     {
         try {
 
-            $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'booking_offer_id', 'offer_name_en', 'booking_date', 'booking_guest',
-                    'booking_contact_firstname', 'booking_contact_lastname', 'booking_contact_email', 'booking_contact_phone', 'booking_voucher')
-                ->join('offers', 'reports.booking_offer_id', '=', 'offers.id')
-                ->orderBy('reports.id', 'desc')->where('booking_status', $GLOBALS['pending'])->paginate(10);
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $reports = DB::table('reports')
+                    ->select('reports.id', 'booking_id', 'booking_offer_id', 'offer_name_en', 'booking_date', 'booking_guest',
+                        'booking_contact_firstname', 'booking_contact_lastname', 'booking_contact_email', 'booking_contact_phone', 'booking_voucher')
+                    ->join('offers', 'reports.booking_offer_id', '=', 'offers.id')
+                    ->orderBy('reports.id', 'desc')->where('booking_status', $GLOBALS['pending'])->paginate(10);
 
-            return view('report.admin.list_pending', [
-                'reports' => $reports
-            ]);
+                return view('report.admin.list_pending', [
+                    'reports' => $reports
+                ]);
+            }
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -130,53 +133,58 @@ class ReportsController extends Controller
 
             $check_rows = User::find(Auth::id());
 
-            if ($check_rows->user_role == 3) {
-                $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->get();
-                if (count($get_hotel_id) == 0) {
-                    return view('error.index')->with('error', 'You never match hotel with this user');
-                } else {
-                    foreach ($get_hotel_id as $get_id) {
-                        $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_id->hotel_id)->orderBy('id', 'ASC')->get();
-                        $where = ['booking_status' => $GLOBALS['complete'], 'booking_hotel_id' => $get_id->hotel_id];
-
-                        $count_book = Report::where('booking_hotel_id', '=', $get_id->hotel_id)->count();
-                        $count_guest = Report::select('booking_guest')->where('booking_hotel_id', '=', $get_id->hotel_id)->sum('booking_guest');
-                        $count_price = Report::select('booking_guest')->where('booking_hotel_id', '=', $get_id->hotel_id)->sum('booking_price');
-                    }
-
-                    $view = 'report.user.index';
-                }
+            if (Auth::user()->user_role != 1 && Auth::user()->user_role != 3) {
+                return view('error.index')->with('error', 'You don`t have permission');
             } else {
+                if ($check_rows->user_role == 3) {
+                    $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->get();
+                    if (count($get_hotel_id) == 0) {
+                        return view('error.index')->with('error', 'You never match hotel with this user');
+                    } else {
+                        foreach ($get_hotel_id as $get_id) {
+                            $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_id->hotel_id)->orderBy('id', 'ASC')->get();
+                            $where = ['reports.booking_status' => $GLOBALS['complete'], 'reports.booking_hotel_id' => $get_id->hotel_id];
 
-                $items = $this->GetHotelItem();
-                $where = ['booking_status' => $GLOBALS['complete']];
-                $view = 'report.admin.index';
+                            $count_book = Report::where($where)->count();
+                            $count_guest = Report::select('booking_guest')->where($where)->sum('booking_guest');
+                            $count_price = Report::select('booking_guest')->where($where)->sum('booking_price');
+                        }
 
-                $count_book = Report::where('booking_status', $GLOBALS['complete'])->count();
-                $count_guest = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_guest');
-                $count_price = Report::select('booking_guest')->where('booking_status', $GLOBALS['complete'])->sum('booking_price');
+                        $view = 'report.user.index';
+                    }
+                } else {
 
+                    $items = $this->GetHotelItem();
+                    $where = ['reports.booking_status' => $GLOBALS['complete']];
+                    $view = 'report.admin.index';
+
+                    $count_book = Report::where($where)->count();
+                    $count_guest = Report::select('booking_guest')->where($where)->sum('booking_guest');
+                    $count_price = Report::select('booking_guest')->where($where)->sum('booking_price');
+
+                }
+
+                $reports = DB::table('reports')
+                    ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
+                        'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
+                        'currency', 'rate_suffix', 'booking_voucher')
+                    ->where($where)
+                    ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
+                    ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
+                    ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
+                    ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
+                    ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
+                    ->orderBy('reports.booking_date', 'asc')->paginate(10);
+
+                return view($view, [
+                    'items' => $items,
+                    'count_book' => $count_book,
+                    'count_guest' => $count_guest,
+                    'count_price' => $count_price,
+                    'reports' => $reports
+                ]);
             }
 
-            $reports = DB::table('reports')
-                ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
-                    'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
-                    'currency', 'rate_suffix', 'booking_voucher')
-                ->where($where)
-                ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
-                ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
-                ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
-                ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
-                ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
-                ->orderBy('reports.booking_date', 'asc')->paginate(10);
-
-            return view($view, [
-                'items' => $items,
-                'count_book' => $count_book,
-                'count_guest' => $count_guest,
-                'count_price' => $count_price,
-                'reports' => $reports
-            ]);
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -214,95 +222,111 @@ class ReportsController extends Controller
 
         /*--------------------------------------------------------------------------------------------------------------------------------*/
 
-        $view = null;
-        $items = null;
-
-        $check_rows = User::find(Auth::id());
-
-        if ($check_rows->user_role == 3) {
-            $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
-            $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
-            $hotel_id = $get_hotel_id->hotel_id;
-            $view = 'report.user.list';
-        } else {
-            $items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
-            $view = 'report.admin.list';
-        }
-
         try {
 
-            $reports = null;
-
-            if ($request->offer_date_from != '' && $request->offer_date_to != '') {
-                $reports = DB::table('reports')
-                    ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
-                        'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
-                        'currency', 'rate_suffix', 'booking_voucher')
-                    ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
-                    ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
-                    ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
-                    ->whereBetween('booking_date', [
-                        Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
-                        Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
-                    ])
-                    ->where('booking_status', '=', $GLOBALS['complete'])
-                    ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
-                    ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
-                    ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
-                    ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
-                    ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
-                    ->orderBy('reports.booking_date', 'asc')->get();
+            if (Auth::user()->user_role != 1 && Auth::user()->user_role != 3) {
+                return view('error.index')->with('error', 'You don`t have permission');
             } else {
+                $view = null;
+                $items = null;
+                $check_rows = User::find(Auth::id());
 
-                $reports = DB::table('reports')
-                    ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
-                        'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
-                        'currency', 'rate_suffix', 'booking_voucher')
-                    ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
-                    ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
-                    ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
-                    ->where('booking_status', '=', $GLOBALS['complete'])
-                    ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
-                    ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
-                    ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
-                    ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
-                    ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
-                    ->orderBy('reports.booking_date', 'asc')->get();
-            }
+                if ($check_rows->user_role == 3) {
+                    $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
+                    $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
+                    $hotel_id = $get_hotel_id->hotel_id;
 
-            $count_book = 0;
-            $count_guest = 0;
-            $count_price = 0;
+                    $where = ['reports.booking_hotel_id' => $hotel_id, 'reports.booking_status' => $GLOBALS['complete']];
 
-            foreach ($reports as $report) {
-                $count_book++;
-                $count_guest = $count_guest + $report->booking_guest;
-                $count_price = $count_price + $report->booking_price;
-            }
+                    $count_book = Report::where($where)->count();
+                    $count_guest = Report::select('booking_guest')->where($where)->sum('booking_guest');
+                    $count_price = Report::select('booking_guest')->where($where)->sum('booking_price');
 
-            switch($request->submitbutton) {
+                    $view = 'report.user.list';
+                } else {
 
-                case 'Search':
-                    return view($view, [
-                        'items' => $items,
-                        'count_book' => $count_book,
-                        'count_guest' => $count_guest,
-                        'count_price' => $count_price,
-                        'reports' => $reports
+                    $items = Hotels::select('id', 'hotel_name')->orderBy('hotel_name', 'ASC')->get();
+                    $where = ['booking_status' => $GLOBALS['complete']];
 
-                    ]);
-                    break;
+                    $count_book = Report::where($where)->count();
+                    $count_guest = Report::select('booking_guest')->where($where)->sum('booking_guest');
+                    $count_price = Report::select('booking_guest')->where($where)->sum('booking_price');
 
-                case 'Custom PDF':
-                    $pdf = PDF::loadView('pdf.load_pdf', [
-                        'date_now' => Carbon::now()->format('d-m-Y'),
-                        'reports' => $reports,
-                        'count_book' => $count_book,
-                        'count_guest' => $count_guest,
-                        'count_price' => $count_price
-                    ]);
-                    return $pdf->stream('load_pdf.pdf');
-                    break;
+                    $view = 'report.admin.list';
+                }
+
+                $reports = null;
+                if ($request->offer_date_from != '' && $request->offer_date_to != '') {
+                    $reports = DB::table('reports')
+                        ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
+                            'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
+                            'currency', 'rate_suffix', 'booking_voucher')
+                        ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                        ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                        ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->whereBetween('booking_date', [
+                            Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
+                            Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
+                        ])
+                        ->where('booking_status', '=', $GLOBALS['complete'])
+                        ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
+                        ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
+                        ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
+                        ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
+                        ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
+                        ->orderBy('reports.booking_date', 'asc')->get();
+                } else {
+
+                    $reports = DB::table('reports')
+                        ->select('reports.id', 'booking_id', 'offers.offer_name_en', 'hotel_name', 'restaurant_name', 'booking_date',
+                            'booking_guest', 'booking_contact_firstname', 'booking_contact_lastname', 'booking_price',
+                            'currency', 'rate_suffix', 'booking_voucher')
+                        ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
+                        ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
+                        ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_status', '=', $GLOBALS['complete'])
+                        ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
+                        ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
+                        ->join('offers', 'offers.id', '=', 'reports.booking_offer_id')
+                        ->join('currencies', 'offers.currency_id', '=', 'currencies.id')
+                        ->join('rate_suffixes', 'offers.rate_suffix_id', '=', 'rate_suffixes.id')
+                        ->orderBy('reports.booking_date', 'asc')->get();
+                }
+
+                /*$count_book = 0;
+                $count_guest = 0;
+                $count_price = 0;
+
+                foreach ($reports as $report) {
+                    $count_book++;
+                    $count_guest = $count_guest + $report->booking_guest;
+                    $count_price = $count_price + $report->booking_price;
+                }*/
+
+                switch ($request->submitbutton) {
+
+                    case 'Search':
+                        return view($view, [
+                            'items' => $items,
+                            'count_book' => $count_book,
+                            'count_guest' => $count_guest,
+                            'count_price' => $count_price,
+                            'reports' => $reports
+
+                        ]);
+                        break;
+
+                    case 'Custom PDF':
+                        $pdf = PDF::loadView('pdf.load_pdf', [
+                            'date_now' => Carbon::now()->format('d-m-Y'),
+                            'reports' => $reports,
+                            'count_book' => $count_book,
+                            'count_guest' => $count_guest,
+                            'count_price' => $count_price
+                        ]);
+                        return $pdf->stream('load_pdf.pdf');
+                        break;
+                }
             }
 
         } catch (QueryException $e) {
@@ -394,7 +418,8 @@ class ReportsController extends Controller
     {
         try {
             $id = $_GET['id'];
-            $restaurants = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $id)->orderBy('restaurant_name', 'ASC')->get();
+            $where = ['hotel_id' => $id, 'active_id' => $GLOBALS['enable']];
+            $restaurants = Restaurants::select('id', 'restaurant_name')->where($where)->orderBy('restaurant_name', 'ASC')->get();
             return Response()->json($restaurants);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -407,7 +432,8 @@ class ReportsController extends Controller
     {
         try {
             $restaurant_id = $_GET['id'];
-            $offers = Offers::select('id', 'offer_name_en')->where('restaurant_id', $restaurant_id)->orderBy('offer_name_en', 'ASC')->get();
+            $where = ['restaurant_id' => $restaurant_id, 'active_id' => $GLOBALS['enable']];
+            $offers = Offers::select('id', 'offer_name_en')->where($where)->orderBy('offer_name_en', 'ASC')->get();
             return Response()->json($offers);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());

@@ -21,9 +21,9 @@ class TermsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('admin', ['only' => [
-            'term_th_delete',
-            'term_en_delete',
-            'term_cn_delete'
+            //'term_th_delete',
+            //'term_en_delete',
+            //'term_cn_delete'
         ]]);
         $this->middleware('editor');
 

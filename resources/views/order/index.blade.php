@@ -19,12 +19,6 @@
 
                     <div class="panel-body">
 
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
                         {{ Form::open(array('url' => 'search_order', 'method' => 'post')) }}
                         <table class="table table-striped table-hover ">
                             <thead>

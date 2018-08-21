@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ $title }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -82,15 +82,15 @@
         </style>
     </head>
     <body>
-        @section('content')
+        {{--@section('content')--}}
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-{{--                        <a href="{{ route('login') }}">Login</a>--}}
-{{--                        <a href="{{ url('password/reset') }}">Forgot Password</a>--}}
+                        {{-- <a href="{{ route('login') }}">Login</a>--}}
+                        {{-- <a href="{{ url('password/reset') }}">Forgot Password</a>--}}
                         <!--a href="{{ route('register') }}">Register</a-->
                     @endauth
                 </div>
@@ -99,7 +99,7 @@
             <div class="content">
                 <div class="title m-b-md">
                     <img class="d-block w-50" src="{{ asset('/images/banner/logo-compass.png') }}" alt="" width="150px"><br>
-                    Laravel
+                    {{ $title }}
 
                 </div>
                 <a href="{{ route('login') }}" class="btn-link-success">Login</a>
@@ -113,5 +113,6 @@
                 </div>
             </div>
         </div>
+        {{--@endsection--}}
     </body>
 </html>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.chart_app')
 
 @section('content')
 
@@ -169,7 +169,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">List Balance</div>
+                    <div class="panel-heading">List Booking Complate</div>
                     <div class="panel-body">
                     <!--{!! Form::open(['url' => '#', 'files' => false]) !!} -->
                         <table class="table">

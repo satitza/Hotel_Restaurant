@@ -60,8 +60,8 @@ class HotelsListSeeder extends Seeder
         foreach ($hotel_names as $name) {
             $hotels = New App\Hotels();
             $hotels->hotel_name = $name;
+            $hotels->payment_id = 1;
             $hotels->active_id = 1;
-            //$hotels->hotel_comment = '';
             $hotels->save();
         }
     }

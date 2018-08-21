@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.chart_app')
 
 @section('content')
     <script type="text/javascript">
@@ -106,6 +106,7 @@
         });
 
     </script>
+
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
         <div class="row">
             <div class="col-md-12">
@@ -139,8 +140,8 @@
                                     <div class="form-group">
                                         <select class="form-control" name="restaurant_id">
                                             <!--option value="" disabled selected>please_selected</option-->
-                                            @foreach($restaurants as $restaurant)
-                                                <option value="">{{ $restaurant->restaurant_name }}</option>
+                                            @foreach($restaurants as  $restaurant)
+                                                <option value="{{ $restaurant->id }}">{{ $restaurant->restaurant_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -197,7 +198,7 @@
                                 <td>{{ Form::label('lb_date_end', 'Date end') }}</td>
                                 <td>{{ Form::text('offer_date_end', null, ['class' => 'form-control datepicker', 'placeholder' => 'Click select date']) }}</td>
                             </tr>
-                            <tr>
+                            <tr id="row-day-select">
                                 <td>{{ Form::label('lb_day_select', 'Day select') }}</td>
                                 <td>
                                     <div class="checkbox">
@@ -246,8 +247,8 @@
                             <tr>
                                 <h3>Offer Time Setting</h3>
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#lunch_time">Lunch Time</a></li>
-                                    <li><a data-toggle="tab" href="#dinner_time">Dinner Time</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#lunch_time">Lunch Setting</a></li>
+                                    <li><a data-toggle="tab" href="#dinner_time">Dinner Setting</a></li>
                                 </ul>
 
                                 <div class="tab-content">
@@ -277,7 +278,6 @@
 
                                             {{ Form::label('lb_lunch_guest', 'Lunch Max guest') }}
                                             {{ Form::text('offer_lunch_guest', null, ['class' => 'form-control', 'placeholder' => 'Max Guest']) }}
-
                                         </div>
                                     </div>
                                     <div id="dinner_time" class="tab-pane fade">
@@ -309,7 +309,6 @@
 
                                         {{ Form::label('lb_guest', 'Dinner Max guest') }}
                                         {{ Form::text('offer_dinner_guest', null, ['class' => 'form-control', 'placeholder' => 'Max Guest']) }}
-
                                     </div>
                                 </div>
                             </tr>

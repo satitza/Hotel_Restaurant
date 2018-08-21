@@ -32,11 +32,23 @@
     </script>
 </head>
 <body>
-<div id="app">
-    @include('layouts.navigation')
-    @yield('content')
-</div>
 
+<div id="app">
+
+    @if(\Illuminate\Support\Facades\Auth::user()->user_role == 1)
+          @include('layouts.navigation')
+    @elseif(\Illuminate\Support\Facades\Auth::user()->user_role == 2)
+        @include('layouts.nav_editor')
+    @elseif(\Illuminate\Support\Facades\Auth::user()->user_role == 3)
+        @include('layouts.nav_report')
+    @elseif(\Illuminate\Support\Facades\Auth::user()->user_role == 4)
+        @include('layouts.nav_user')
+    @endif
+
+    @yield('content')
+
+</div>
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 @include('layouts.footer')
 </html>

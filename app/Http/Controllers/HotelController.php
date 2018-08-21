@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\ActionLog;
 use DB;
+use App\ActionLog;
+use App\Payment;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
@@ -40,10 +41,17 @@ class HotelController extends Controller
     public function index()
     {
         try {
-            $actives = $this->GetActivesItems();
-            return view('hotel.index', [
-                'actives' => $actives,
-            ]);
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $payments = $this->GetPaymentsItems();
+                $actives = $this->GetActivesItems();
+                return view('hotel.index', [
+                    'payments' => $payments,
+                    'actives' => $actives,
+                ]);
+            }
+
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
         }
@@ -55,15 +63,20 @@ class HotelController extends Controller
     public function create()
     {
         try {
-            $hotel_items = $this->GetHotelsItems();
-            $hotels = DB::table('hotels')
-                ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'actives.active', 'hotel_comment')
-                ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                ->where('active_id', 1)->orderBy('hotels.id', 'asc')->paginate(10);
-            return view('hotel.list', [
-                'hotel_items' => $hotel_items,
-                'hotels' => $hotels
-            ]);
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $hotel_items = $this->GetHotelsItems();
+                $hotels = DB::table('hotels')
+                    ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'actives.active', 'hotel_comment')
+                    ->join('actives', 'hotels.active_id', '=', 'actives.id')
+                    ->where('active_id', 1)->orderBy('hotels.id', 'asc')->paginate(10);
+                return view('hotel.list', [
+                    'hotel_items' => $hotel_items,
+                    'hotels' => $hotels
+                ]);
+            }
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -102,16 +115,21 @@ class HotelController extends Controller
     public function searchHotel(Request $request)
     {
         try {
-            $hotel_items = $this->GetHotelsItems();
-            $where = ['hotels.id' => $request->hotel_id, 'hotels.active_id' => 1];
-            $hotels = DB::table('hotels')
-                ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'actives.active', 'hotel_comment')
-                ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                ->where($where)->orderBy('hotels.hotel_name', 'ASC')->paginate(10);
-            return view('hotel.search', [
-                'hotel_items' => $hotel_items,
-                'hotels' => $hotels
-            ]);
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $hotel_items = $this->GetHotelsItems();
+                $where = ['hotels.id' => $request->hotel_id, 'hotels.active_id' => 1];
+                $hotels = DB::table('hotels')
+                    ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'actives.active', 'hotel_comment')
+                    ->join('actives', 'hotels.active_id', '=', 'actives.id')
+                    ->where($where)->orderBy('hotels.hotel_name', 'ASC')->paginate(10);
+
+                return view('hotel.search', [
+                    'hotel_items' => $hotel_items,
+                    'hotels' => $hotels
+                ]);
+            }
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -137,21 +155,25 @@ class HotelController extends Controller
     public function edit($id)
     {
         try {
-            $hotels = DB::table('hotels')
-                ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'hotels.active_id', 'actives.active', 'hotel_comment')
-                ->join('actives', 'hotels.active_id', '=', 'actives.id')
-                ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->first();
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $hotels = DB::table('hotels')
+                    ->select('hotels.id', 'hotel_name', 'hotels.mid', 'hotels.secret_key', 'hotels.active_id', 'actives.active', 'hotel_comment')
+                    ->join('actives', 'hotels.active_id', '=', 'actives.id')
+                    ->orderBy('hotels.id', 'asc')->where('hotels.id', $id)->first();
 
-            $actives = $this->GetActivesItems();
-            return view('hotel.edit', [
-                'hotel_id' => $hotels->id,
-                'hotel_name' => $hotels->hotel_name,
-                'mid' => $hotels->mid,
-                'secret_key' => $hotels->secret_key,
-                'hotel_active_id' => $hotels->active_id,
-                'hotel_active' => $hotels->active,
-                'hotel_comment' => $hotels->hotel_comment
-            ])->with('actives', $actives);
+                $actives = $this->GetActivesItems();
+                return view('hotel.edit', [
+                    'hotel_id' => $hotels->id,
+                    'hotel_name' => $hotels->hotel_name,
+                    'mid' => $hotels->mid,
+                    'secret_key' => $hotels->secret_key,
+                    'hotel_active_id' => $hotels->active_id,
+                    'hotel_active' => $hotels->active,
+                    'hotel_comment' => $hotels->hotel_comment
+                ])->with('actives', $actives);
+            }
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -232,6 +254,14 @@ class HotelController extends Controller
     public function GetHotelsItems()
     {
         return Hotels::select('id', 'hotel_name')->where('hotels.active_id', 1)->orderBy('hotel_name', 'ASC')->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function GetPaymentsItems()
+    {
+        return Payment::orderBy('id', 'ASC')->get();
     }
 
     /**

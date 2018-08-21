@@ -42,12 +42,17 @@ class RestaurantsController extends Controller
     public function index()
     {
         try {
-            $hotels = $this->GetHotelsItems();
-            $actives = $this->GetActivesItems();
-            return view('restaurant.index', [
-                'hotels' => $hotels,
-                'actives' => $actives
-            ]);
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $hotels = $this->GetHotelsItems();
+                $actives = $this->GetActivesItems();
+                return view('restaurant.index', [
+                    'hotels' => $hotels,
+                    'actives' => $actives
+                ]);
+            }
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -64,19 +69,22 @@ class RestaurantsController extends Controller
     {
         try {
 
-            $hotel_items = $this->GetHotelsItems();
-            $restaurant_items = $this->GetRestaurantsItems();
-
-            $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'restaurant_phone', 'actives.active', 'restaurant_comment')
-                ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
-                ->join('actives', 'restaurants.active_id', '=', 'actives.id')
-                ->where('restaurants.active_id', 1)->orderBy('restaurants.id', 'asc')->paginate(10);
-            return view('restaurant.list', [
-                'hotel_items' => $hotel_items,
-                'restaurant_items' => $restaurant_items,
-                'restaurants' => $restaurants
-            ]);
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $hotel_items = $this->GetHotelsItems();
+                $restaurant_items = $this->GetRestaurantsItems();
+                $restaurants = DB::table('restaurants')
+                    ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'restaurant_phone', 'actives.active', 'restaurant_comment')
+                    ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
+                    ->join('actives', 'restaurants.active_id', '=', 'actives.id')
+                    ->where('restaurants.active_id', 1)->orderBy('restaurants.id', 'asc')->paginate(10);
+                return view('restaurant.list', [
+                    'hotel_items' => $hotel_items,
+                    'restaurant_items' => $restaurant_items,
+                    'restaurants' => $restaurants
+                ]);
+            }
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -118,26 +126,31 @@ class RestaurantsController extends Controller
     public function searchRestaurant(Request $request)
     {
         try {
-            $hotel_items = $this->GetHotelsItems();
-            $restaurant_items = $this->GetRestaurantsItems();
-            $where = null;
-
-            if ($request->search_value == 'hotel') {
-                $where = ['restaurants.hotel_id' => $request->hotel_id, 'restaurants.active_id' => 1];
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
             } else {
-                $where = ['restaurants.id' => $request->restaurant_id, 'restaurants.active_id' => 1];
+                $hotel_items = $this->GetHotelsItems();
+                $restaurant_items = $this->GetRestaurantsItems();
+                $where = null;
+
+                if ($request->search_value == 'hotel') {
+                    $where = ['restaurants.hotel_id' => $request->hotel_id, 'restaurants.active_id' => 1];
+                } else {
+                    $where = ['restaurants.id' => $request->restaurant_id, 'restaurants.active_id' => 1];
+                }
+
+                $restaurants = DB::table('restaurants')
+                    ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
+                    ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
+                    ->join('actives', 'restaurants.active_id', '=', 'actives.id')
+                    ->where($where)->get();
+                return view('restaurant.search', [
+                    'hotel_items' => $hotel_items,
+                    'restaurant_items' => $restaurant_items,
+                    'restaurants' => $restaurants
+                ]);
             }
 
-            $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'hotel_name', 'restaurant_email', 'actives.active', 'restaurant_comment')
-                ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
-                ->join('actives', 'restaurants.active_id', '=', 'actives.id')
-                ->where($where)->get();
-            return view('restaurant.search', [
-                'hotel_items' => $hotel_items,
-                'restaurant_items' => $restaurant_items,
-                'restaurants' => $restaurants
-            ]);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -166,26 +179,29 @@ class RestaurantsController extends Controller
     {
         try {
 
-            $actives = $this->GetActivesItems();
-            $hotels = $this->GetHotelsItems();
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $actives = $this->GetActivesItems();
+                $hotels = $this->GetHotelsItems();
+                $restaurants = DB::table('restaurants')
+                    ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurant_phone', 'restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
+                    ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
+                    ->join('actives', 'restaurants.active_id', '=', 'actives.id')
+                    ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->first();
 
-            $restaurants = DB::table('restaurants')
-                ->select('restaurants.id', 'restaurant_name', 'restaurant_email', 'restaurant_phone','restaurants.hotel_id', 'hotel_name', 'restaurants.active_id', 'actives.active', 'restaurant_comment')
-                ->join('hotels', 'restaurants.hotel_id', '=', 'hotels.id')
-                ->join('actives', 'restaurants.active_id', '=', 'actives.id')
-                ->orderBy('restaurants.id', 'asc')->where('restaurants.id', $id)->first();
-
-            return view('restaurant.edit', [
-                'id' => $restaurants->id,
-                'restaurant_name' => $restaurants->restaurant_name,
-                'restaurant_email' => $restaurants->restaurant_email,
-                'restaurant_phone' => $restaurants->restaurant_phone,
-                'hotel_id' => $restaurants->hotel_id,
-                'hotel_name' => $restaurants->hotel_name,
-                'active_id' => $restaurants->active_id,
-                'active' => $restaurants->active,
-                'restaurant_comment' => $restaurants->restaurant_comment
-            ])->with('actives', $actives)->with('hotels', $hotels);
+                return view('restaurant.edit', [
+                    'id' => $restaurants->id,
+                    'restaurant_name' => $restaurants->restaurant_name,
+                    'restaurant_email' => $restaurants->restaurant_email,
+                    'restaurant_phone' => $restaurants->restaurant_phone,
+                    'hotel_id' => $restaurants->hotel_id,
+                    'hotel_name' => $restaurants->hotel_name,
+                    'active_id' => $restaurants->active_id,
+                    'active' => $restaurants->active,
+                    'restaurant_comment' => $restaurants->restaurant_comment
+                ])->with('actives', $actives)->with('hotels', $hotels);
+            }
 
         } catch (QueryException $e) {
             DB::rollback();

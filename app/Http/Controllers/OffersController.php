@@ -78,12 +78,14 @@ class OffersController extends Controller
                         $arrays = explode(',', $id->restaurant_id, -1);
                     }
                     $restaurants = Restaurants::select('id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', $GLOBALS['enable'])->get();
+                    $view = 'offer.editor.index';
                 }
             } else {
                 $restaurants = $this->GetRestaurantsItems();
+                $view = 'offer.admin.index';
             }
 
-            return view('offer.admin.index', [
+            return view($view, [
                 'restaurants' => $restaurants,
                 'actives' => $actives,
                 'time_lunchs' => $time_lunchs,
@@ -120,10 +122,10 @@ class OffersController extends Controller
                 $arrays = explode(',', $restaurants_id->restaurant_id, -1);
                 $restaurant_items = Restaurants::select('id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', $GLOBALS['enable'])->get();
                 $view = 'offer.editor.search';
-                $where = ['offers.restaurant_id' => $request->restaurant_id];
+                $where = ['offers.restaurant_id' => $request->restaurant_id, 'offers.active_id' => $GLOBALS['enable']];
 
             } else {
-                $hotel_items = $this->GetHotelsItems();
+                //$hotel_items = $this->GetHotelsItems();
                 $restaurant_items = $this->GetRestaurantsItems();
                 $view = 'offer.admin.search';
             }
@@ -135,8 +137,8 @@ class OffersController extends Controller
                 ->where($where)->paginate(10);
 
             return view($view, [
-                'hotel_items' => $hotel_items,
-                'restaurant_items' => $restaurant_items,
+                'hotel_items' => $this->GetHotelsItems(),
+                'restaurant_items' => $restaurant_items,  //$this->GetRestaurantsItems(),
                 'offers' => $offers
             ]);
 
@@ -159,13 +161,7 @@ class OffersController extends Controller
             $check_rows = User::find(Auth::id());
             $hotel_items = $this->GetHotelsItems();
             $view = null;
-
-            $offers = DB::table('offers')
-                ->select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                    'offer_name_en', 'offer_type','attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
-                ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
-                ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
-                ->where('offers.active_id', $GLOBALS['enable'])->orderBy('offers.id', 'asc')->paginate(10);
+            $where = null;
 
             //Editor User
             if ($check_rows->user_role == 2) {
@@ -177,12 +173,30 @@ class OffersController extends Controller
                         $arrays = explode(',', $id->restaurant_id, -1);
                     }
                     $restaurant_items = Restaurants::select('id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', $GLOBALS['enable'])->get();
+                    $where = ['offers.active_id' => $GLOBALS['enable']];
                     $view = 'offer.editor.list';
+
+                    $offers = DB::table('offers')
+                        ->select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
+                            'offer_name_en', 'offer_type', 'attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
+                        ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
+                        ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
+                        ->whereIn('offers.restaurant_id', $arrays)
+                        ->where($where)->orderBy('offers.id', 'asc')->paginate(10);
                 }
             } else {
                 $restaurant_items = $this->GetRestaurantsItems();
+                $where = ['offers.active_id' => $GLOBALS['enable']];
                 $view = 'offer.admin.list';
+
+                $offers = DB::table('offers')
+                    ->select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
+                        'offer_name_en', 'offer_type', 'attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
+                    ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
+                    ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
+                    ->where($where)->orderBy('offers.id', 'asc')->paginate(10);
             }
+
             return view($view, [
                 'hotel_items' => $hotel_items,
                 'restaurant_items' => $restaurant_items,
@@ -229,15 +243,15 @@ class OffersController extends Controller
             $time_dinner_start = null;
             $time_dinner_end = null;
 
-            if($request->offer_lunch_price == null){
+            if ($request->offer_lunch_price == null) {
                 return view('error.index')->with('error', 'Lunch price is cannot be null in set offer type voucher');
-            }else if ($request->offer_lunch_guest == null){
+            } else if ($request->offer_lunch_guest == null) {
                 return view('error.index')->with('error', 'Lunch guest is cannot be null in set offer type voucher');
             }
 
-            if($request->offer_dinner_price == null){
+            if ($request->offer_dinner_price == null) {
                 return view('error.index')->with('error', 'Dinner price is cannot be null in set offer type voucher');
-            }else if ($request->offer_dinner_guest == null){
+            } else if ($request->offer_dinner_guest == null) {
                 return view('error.index')->with('error', 'Dinner guest is cannot be null in set offer type voucher');
             }
 
@@ -255,7 +269,7 @@ class OffersController extends Controller
         }
 
 
-        if($request->offer_type == 'offer'){
+        if ($request->offer_type == 'offer') {
             if ($request->offer_time_lunch_start != 'closed' || $request->offer_time_lunch_end != 'closed') {
                 $lunch_price = $request->offer_lunch_price;
                 $lunch_guest = $request->offer_lunch_guest;
@@ -265,7 +279,7 @@ class OffersController extends Controller
                 $dinner_price = $request->offer_dinner_price;
                 $dinner_guest = $request->offer_dinner_guest;
             }
-        }else{
+        } else {
 
             $lunch_price = $request->offer_lunch_price;
             $lunch_guest = $request->offer_lunch_guest;
@@ -551,7 +565,7 @@ class OffersController extends Controller
         $get_hotel_id = Restaurants::find($request->restaurant_id);
 
 
-        if($request->offer_type == 'voucher'){
+        if ($request->offer_type == 'voucher') {
             $day_insert = null;
 
             $time_lunch_start = null;
@@ -564,12 +578,12 @@ class OffersController extends Controller
             $dinner_price = $request->offer_dinner_price;
             $dinner_guest = $request->offer_dinner_guest;
 
-        }else if ($request->offer_type == 'offer'){
+        } else if ($request->offer_type == 'offer') {
             if (!isset($new_day_select)) {
                 //Check box is null insert old date select
-                if($request->old_day_select == null){
+                if ($request->old_day_select == null) {
                     return view('error.index')->with('error', 'Day select cannot be not empty in offer type offer');
-                }else{
+                } else {
                     $day_insert = $request->old_day_select;
                 }
             } else {
@@ -577,9 +591,9 @@ class OffersController extends Controller
                 $day_insert = implode(",", $request->input('day_check_box')) . ",";
             }
 
-            if($request->offer_time_lunch_start == null || $request->offer_time_lunch_end == null){
+            if ($request->offer_time_lunch_start == null || $request->offer_time_lunch_end == null) {
                 return view('error.index')->with('error', 'Time lunch cannot be empty in offer type offer');
-            }else if ($request->offer_time_dinner_start == null || $request->offer_time_dinner_end == null){
+            } else if ($request->offer_time_dinner_start == null || $request->offer_time_dinner_end == null) {
                 return view('error.index')->with('error', 'Time Dinner cannot be empty in offer type offer');
             }
 

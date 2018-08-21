@@ -36,6 +36,7 @@ class EditorUsersController extends Controller
             'destroy'
         ]]);
 
+        $GLOBALS['enable'] = 1;
         $GLOBALS['controller'] = 'EditorUsersController';
 
     }
@@ -65,21 +66,24 @@ class EditorUsersController extends Controller
     public function create()
     {
         try {
+            $echo = null;
             $user_editors = DB::table('user_editors')
                 ->select('user_editors.id', 'user_id', 'users.name', 'restaurant_id')
                 ->join('users', 'user_editors.user_id', '=', 'users.id')
                 ->orderBy('user_editors.id', 'asc')->paginate(10);
 
-            $collect = array();
+            $arrays = [];
             foreach ($user_editors as $user_editor) {
                 $arrays = explode(',', $user_editor->restaurant_id, -1);
-                array_push($collect, DB::table('restaurants')->select('id', 'restaurant_name')->whereIn('id', $arrays)->get());
+                //array_push($collect, DB::table('restaurants')->select('id', 'restaurant_name')->whereIn('id', $arrays)->get());
             }
+            $restaurants = Restaurants::select('restaurant_name')->whereIn('id', $arrays)->where('active_id', $GLOBALS['enable'])->get();
 
             return view('setting.editor_user.list_user', [
                 'user_editors' => $user_editors,
-                'restaurants' => $collect
+                'restaurants' => $restaurants
             ]);
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -142,14 +146,20 @@ class EditorUsersController extends Controller
                 ->join('users', 'user_editors.user_id', '=', 'users.id')
                 ->where('user_editors.id', $id)->get();
 
+            $arrays = [];
             foreach ($user_editors as $user_editor) {
+                $arrays = explode(',', $user_editor->restaurant_id, -1);
             }
+            $old_restaurants = Restaurants::select('restaurant_name')->whereIn('id', $arrays)->where('active_id', $GLOBALS['enable'])->get();
 
             return view('setting.editor_user.add_restaurant', [
                 'id' => $user_editor->id,
                 'user_id' => $user_editor->user_id,
-                'user_name' => $user_editor->name
-            ])->with('restaurants', $restaurants);
+                'user_name' => $user_editor->name,
+                'restaurants' => $restaurants,
+                'old_restaurants' => $old_restaurants
+            ]);
+
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
@@ -216,20 +226,27 @@ class EditorUsersController extends Controller
             $user_editors = DB::table('user_editors')
                 ->select('user_editors.id', 'user_id', 'users.name', 'restaurant_id')
                 ->join('users', 'user_editors.user_id', '=', 'users.id')
-                ->where('user_editors.id', '=', $id)->first();
+                ->where('user_editors.id', '=', $id)->get();
 
-            $old_restaurants = array();
-            $old_restaurants_id = explode(',', $user_editors->restaurant_id, -1);
-            foreach ($old_restaurants_id as $old_restaurant_id) {
-                array_push($old_restaurants, DB::table('restaurants')->select('id', 'restaurant_name')->where('id', $old_restaurant_id)->get());
+            $user_id = null;
+            $user_name = null;
+
+            $arrays = array();
+            foreach ($user_editors as $user_editor) {
+                $arrays = explode(',', $user_editor->restaurant_id, -1);
+                $user_id = $user_editor->user_id;
+                $user_name = $user_editor->name;
+                //array_push($collect, DB::table('restaurants')->select('id', 'restaurant_name')->whereIn('id', $arrays)->get());
             }
+            $restaurants = Restaurants::select('id as restaurant_id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', $GLOBALS['enable'])->get();
 
             return view('setting.editor_user.edit_user', [
-                'id' => $user_editors->id,
-                'user_id' => $user_editors->user_id,
-                'user_name' => $user_editors->name,
-                'old_restaurants' => $old_restaurants,
-                'old_restaurants_id' => $old_restaurants_id
+                'id' => $id,
+                'user_id' => $user_id,
+                'user_name' => $user_name,
+                'restaurants' => $restaurants
+                //'old_restaurants' => $old_restaurants,
+                //'old_restaurants_id' => $old_restaurants_id
             ]);
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());

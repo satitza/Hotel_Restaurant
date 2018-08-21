@@ -33,13 +33,29 @@
 
 
                 <!--Never Login-->
-                @guest
-                    {{--<li><a href="{{ route('login') }}">Login</a></li>--}}
-                    {{--<li><a href="{{ url('password/reset') }}">Forgot Password</a></li>--}}
-                    <!--Register-->
-                    <!--li><a href="{{ route('register') }}">Register</a></li-->
+            @guest
+                {{--<li><a href="{{ route('login') }}">Login</a></li>--}}
+                {{--<li><a href="{{ url('password/reset') }}">Forgot Password</a></li>--}}
+                <!--Register-->
+                <!--li><a href="{{ route('register') }}">Register</a></li-->
                     <!--Loged-->
                 @else
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"
+                                {{ Request::route()->getName() == 'order.index' ? "style=color:green" : "" }}
+                                {{ Request::route()->getName() == 'search_order' ? "style=color:green" : "" }}
+                        >
+                            Order <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ url('order') }}">Check Order ID</a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                            aria-expanded="false"
@@ -52,7 +68,7 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a  href="{{ url('hotel') }}">Add Hotel</a>
+                                <a href="{{ url('hotel') }}">Add Hotel</a>
                             </li>
                             <li>
                                 <a href="{{ url('hotel/create') }}">List Hotel</a>
@@ -222,8 +238,10 @@
                                 <a class="submenu" tabindex="-1" href="#">Rate Suffix<span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ url('setting/rate_suffixes/rate_suffix') }}">Add Rate Suffix</a></li>
-                                    <li><a href="{{ url('setting/rate_suffixes/rate_suffix/create') }}">List Rate Suffix</a></li>
+                                    <li><a href="{{ url('setting/rate_suffixes/rate_suffix') }}">Add Rate Suffix</a>
+                                    </li>
+                                    <li><a href="{{ url('setting/rate_suffixes/rate_suffix/create') }}">List Rate
+                                            Suffix</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -248,7 +266,7 @@
                             </li>
                         </ul>
                     </li>
-                    <!--li class="dropdown">
+                <!--li class="dropdown">
                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                              {{ Auth::user()->name }} <span class="caret"></span>
                          </a>
@@ -261,10 +279,10 @@
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
-                                </form>
-                             </li>
-                        </ul>
-                     </li-->
+                        </form>
+                     </li>
+                </ul>
+             </li-->
                 @endguest
             </ul>
         </div>

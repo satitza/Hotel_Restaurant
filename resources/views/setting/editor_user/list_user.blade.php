@@ -24,8 +24,8 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Restaurant</th>
-                                <th scope="col">Add Restaurant</th>
+                                {{--<th scope="col">Restaurant</th>--}}
+                                <th scope="col">View & Add Restaurant</th>
                                 <th scope="col1">Delete Restaurant</th>
                                 <th scope="col1">Delete User</th>
                             </tr>
@@ -35,11 +35,11 @@
                             @foreach($user_editors as $indexKey => $user_editor)
                                 <tr>
                                     <td>{{ $user_editor->name }}</td>
-                                    <td>{{ $restaurants[$indexKey] }}</td>
+{{--                                    <td>{!!  $restaurants !!}</td>--}}
                                     <td>
                                         <a href="{{ url('setting/editor/users_editor/'.$user_editor->id.'/add') }}"
                                            class="button-link-success">
-                                            Add Restaurant
+                                            View & Add Restaurant
                                         </a>
                                     </td>
                                     <td>

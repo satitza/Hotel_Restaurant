@@ -51,18 +51,23 @@ class BalancesController extends Controller
     {
         try {
 
-            $offer_items = $this->GetOfferItem();
-            $balances = DB::table('book_check_balances')
-                ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
-                    'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
-                ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
-                ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
-                ->orderBy('book_check_balances.id', 'asc')->paginate(10);
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $offer_items = $this->GetOfferItem();
+                $balances = DB::table('book_check_balances')
+                    ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
+                        'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
+                    ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
+                    ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
+                    ->orderBy('book_check_balances.id', 'asc')->paginate(10);
 
-            return view('balance.list', [
-                'balances' => $balances,
-                'offer_items' => $offer_items
-            ]);
+                return view('balance.list', [
+                    'balances' => $balances,
+                    'offer_items' => $offer_items
+                ]);
+            }
+
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -96,21 +101,26 @@ class BalancesController extends Controller
         }
 
         try {
-            $offer_items = $this->GetOfferItem();
-            $balances = DB::table('book_check_balances')
-                ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
-                    'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
-                ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
-                ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
-                ->where('book_offer_id', 'like', '%' . $offer_id . '%')
-                ->where('book_offer_date', 'like', '%' . $offer_date . '%')
-                ->where('book_time_type', 'like', '%' . $time_type . '%')
-                ->orderBy('book_check_balances.id', 'asc')->get();
 
-            return view('balance.search', [
-                'balances' => $balances,
-                'offer_items' => $offer_items
-            ]);
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $offer_items = $this->GetOfferItem();
+                $balances = DB::table('book_check_balances')
+                    ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
+                        'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'active')
+                    ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
+                    ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
+                    ->where('book_offer_id', 'like', '%' . $offer_id . '%')
+                    ->where('book_offer_date', 'like', '%' . $offer_date . '%')
+                    ->where('book_time_type', 'like', '%' . $time_type . '%')
+                    ->orderBy('book_check_balances.id', 'asc')->get();
+
+                return view('balance.search', [
+                    'balances' => $balances,
+                    'offer_items' => $offer_items
+                ]);
+            }
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());
@@ -151,18 +161,22 @@ class BalancesController extends Controller
     {
         try {
 
-            $actives = $this->GetActiveItem();
-            $balances = DB::table('book_check_balances')
-                ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
-                    'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'book_check_balances.active_id', 'active')
-                ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
-                ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
-                ->where('book_check_balances.id', $id)->first();
+            if (Auth::user()->user_role != 1) {
+                return view('error.index')->with('error', 'You don`t have permission');
+            } else {
+                $actives = $this->GetActiveItem();
+                $balances = DB::table('book_check_balances')
+                    ->select('book_check_balances.id', 'book_offer_id', 'offers.offer_name_en', 'book_time_type',
+                        'book_offer_date', 'book_offer_guest', 'book_offer_balance', 'book_check_balances.active_id', 'active')
+                    ->join('offers', 'book_check_balances.book_offer_id', '=', 'offers.id')
+                    ->join('actives', 'book_check_balances.active_id', '=', 'actives.id')
+                    ->where('book_check_balances.id', $id)->first();
 
-            return view('balance.edit', [
-                'balances' => $balances,
-                'actives' => $actives
-            ]);
+                return view('balance.edit', [
+                    'balances' => $balances,
+                    'actives' => $actives
+                ]);
+            }
 
         } catch (QueryException $e) {
             return view('error.index')->with('error', $e->getMessage());

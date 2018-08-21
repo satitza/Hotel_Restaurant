@@ -33,6 +33,14 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>{{ Form::label('lb_old_restaurant', 'Restaurant matched') }}</td>
+                                    <td>
+                                        @foreach($old_restaurants as $old_restaurant )
+                                            {{ $old_restaurant->restaurant_name }}<br>
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>{{ Form::label('lb_restaurant', 'Restaurant') }}</td>
                                     <td>
                                         <div class="form-group">

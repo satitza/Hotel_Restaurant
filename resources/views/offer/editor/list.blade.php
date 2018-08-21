@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.chart_app')
 
 @section('content')
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
@@ -36,6 +36,7 @@
                             <th scope="col">Hotel Name</th>
                             <th scope="col">Restaurant Name</th>
                             <th scope="col">Offer Name</th>
+                            <th scope="col">Offer Type</th>
                             <th scope="col">Offer Type</th>
                             <th scope="col">Attachments</th>
                             <th scope="col">Date Start</th>

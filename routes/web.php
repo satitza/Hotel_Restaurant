@@ -19,6 +19,15 @@
   die("Could not connect to the database.  Please check your configuration.");
   }
  *  */
+
+Route::resource('order', 'OrdersController');
+Route::post('search_order', 'OrdersController@searchOrder')->name('search_order');
+Route::get('update_usage/{order_id}', 'OrdersController@updateUsage');
+
+
+
+/*--------------------------------------------------------------------------------------------------*/
+
 Route::resource('hotel', 'HotelController');
 Route::post('search_hotel', 'HotelController@searchHotel')->name('search_hotel');
 Route::get('delete_hotel/{id}', 'HotelController@destroy');
@@ -128,12 +137,14 @@ Route::group(['prefix' => 'pdf'], function () {
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome'); // is login page
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home'); // is index page
+
+
 
 
 

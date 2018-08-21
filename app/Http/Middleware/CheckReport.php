@@ -23,7 +23,6 @@ class CheckReport
             ], 403);*/
             return new Response(view('error.index')->with('error', 'You don`t have administrator or report user'));
         }
-
         return $next($request);
     }
 }

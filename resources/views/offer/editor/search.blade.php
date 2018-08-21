@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.chart_app')
 
 @section('content')
     <div class="container-fluid" style="margin-left: 10px; margin-right: 10px">
