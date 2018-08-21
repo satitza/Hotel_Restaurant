@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Voucher;
 use DB;
 use App\ActionLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 
 class OrdersController extends Controller
@@ -17,7 +19,6 @@ class OrdersController extends Controller
         $this->middleware('auth');
 
         $GLOBALS['controller'] = 'OrdersController';
-
         $GLOBALS['pending'] = 1;
         $GLOBALS['complete'] = 2;
 
@@ -30,9 +31,17 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        return view('order.index');
+        try {
+            return view('order.index');
+        } catch (Exception $e) {
+            return view('error.index')->with('error', $e->getMessage());
+        }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function searchOrder(Request $request)
     {
         try {
@@ -82,6 +91,10 @@ class OrdersController extends Controller
         }
     }
 
+    /**
+     * @param $order_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function updateUsage($order_id)
     {
         DB::beginTransaction();
@@ -102,6 +115,34 @@ class OrdersController extends Controller
             return view('error.index')->with('error', $e->getMessage());
         } catch (Exception $e) {
             return view('error.index')->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * @param $booking_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function ViewVoucher($booking_id)
+    {
+        if (Voucher::where('voucher_booking_id', $booking_id)->exists()) {
+            try {
+                $vouchers = Voucher::where('voucher_booking_id', $booking_id)->first();
+                return view('order.voucher', [
+                    'booking_id' => $vouchers->voucher_booking_id,
+                    'voucher_title' => $vouchers->voucher_contact_title,
+                    'voucher_fname' => $vouchers->voucher_contact_firstname,
+                    'voucher_lname' => $vouchers->voucher_contact_lastname,
+                    'voucher_email' => $vouchers->voucher_contact_email,
+                    'voucher_phone' => $vouchers->voucher_contact_phone,
+                    'voucher_request' => $vouchers->voucher_contact_request
+                ]);
+            } catch (QueryException $e) {
+                return view('error.index')->with('error', $e->getMessage());
+            } catch (Exception $e) {
+                return view('error.index')->with('error', $e->getMessage());
+            }
+        } else {
+            return view('error.index')->with('error', 'Voucher not found');
         }
     }
 

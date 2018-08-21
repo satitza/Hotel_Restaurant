@@ -79,7 +79,7 @@
                                     <td>{{ Form::label('lb_voucher', 'Gift Voucher') }}</td>
                                     <td>
                                         @if($gift_voucher == 2)
-                                            <a href="{{ url('view_voucher/'.$booking_id) }}"
+                                            <a href="{{ url('see_voucher/'.$booking_id) }}"
                                                class="button-link-gift">
                                                 Gift Voucher
                                             </a>

@@ -49,20 +49,6 @@
                                     <td>{{ Form::text('hotel_name', null, ['class' => 'form-control', 'placeholder' => 'Hotel Name', 'required']) }}</td>
                                 </tr>
 
-                                <tr>
-                                    <td>{{ Form::label('lb_payment', 'Payments') }}</td>
-                                    <td>
-                                        <div class="form-group">
-                                            <select class="form-control" name="payment_id">
-                                                <!--option value="" disabled selected>please_selected</option-->
-                                                @foreach ($payments as $payment)
-                                                    <option value="{{ $payment->id }}">{{ $payment->payment }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </td>
-                                </tr>
-
                                 <div id="key-panel">
                                     <tr>
                                         <td>{{ Form::label('lb_mid', 'MID') }}</td>

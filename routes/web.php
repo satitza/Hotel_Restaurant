@@ -23,6 +23,7 @@
 Route::resource('order', 'OrdersController');
 Route::post('search_order', 'OrdersController@searchOrder')->name('search_order');
 Route::get('update_usage/{order_id}', 'OrdersController@updateUsage');
+Route::get('see_voucher/{order_id}', 'OrdersController@ViewVoucher');
 
 
 

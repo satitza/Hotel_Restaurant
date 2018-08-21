@@ -12,10 +12,6 @@ class Hotels extends Model {
         return $this->hasMany(UserReport::class);
     }
 
-    public function Payments(){
-        return $this->belongsTo(Payment::class, 'payment_id');
-    }
-    
     public function Actives(){
         return $this->belongsTo(Actives::class, 'active_id');
     }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\ActionLog;
-use App\Payment;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
@@ -44,10 +43,8 @@ class HotelController extends Controller
             if (Auth::user()->user_role != 1) {
                 return view('error.index')->with('error', 'You don`t have permission');
             } else {
-                $payments = $this->GetPaymentsItems();
                 $actives = $this->GetActivesItems();
                 return view('hotel.index', [
-                    'payments' => $payments,
                     'actives' => $actives,
                 ]);
             }
@@ -254,14 +251,6 @@ class HotelController extends Controller
     public function GetHotelsItems()
     {
         return Hotels::select('id', 'hotel_name')->where('hotels.active_id', 1)->orderBy('hotel_name', 'ASC')->get();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function GetPaymentsItems()
-    {
-        //return Payment::orderBy('id', 'ASC')->get();
     }
 
     /**
