@@ -112,21 +112,14 @@
                     <div class="panel-body">
                         {{ Form::open(array('url' => 'search_report', 'method' => 'post')) }}
 
-                        <label for="search">
+                        <label>
                             <input type="checkbox" id="search_restaurant_id"/>
                             Restaurant<br>
                             <input type="checkbox" id="search_offer_id"/>
                             Offer <br>
-
-                            <hr>
-
-                            <input type="checkbox" id="search_date"/>
-                            Include Date <br>
-                            <input type="checkbox" id="search_id">
-                            Search By ID<br>
                         </label>
-                        <hr>
 
+                        <hr>
                         <div id="restaurant_id" style="display: none;">
                             <label>Restaurant Name</label>
                             <select class="form-control" name="restaurant_id" id="restaurant_id_select">
@@ -143,6 +136,17 @@
                                 <option value="">Please Select</option>
                             </select>
                         </div>
+                        <hr>
+
+                        <br>
+                        <label>
+                            <input type="checkbox" id="search_date"/>
+                            Include Date <br>
+                            <input type="checkbox" id="search_id">
+                            Search By ID<br>
+                        </label>
+                        <hr>
+
 
                         <div id="offer_date" style="display: none;">
 
@@ -164,9 +168,9 @@
                         <a href="{{ action('ReportsController@index') }}" class="button-link-dark">
                             Clear
                         </a>
-                    {{ Form::submit('Custom PDF', ['class' => 'btn btn-info', 'name' => 'submitbutton', 'value' => 'search-pdf']) }}
-                    {{ csrf_field() }}
-                    {!! Form::close() !!}
+                        {{ Form::submit('Custom PDF', ['class' => 'btn btn-info', 'name' => 'submitbutton', 'value' => 'search-pdf']) }}
+                        {{ csrf_field() }}
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -231,7 +235,7 @@
                                             <p>Already Used</p>
                                         @endif
                                     </td>
-                                    <!--td>
+                                <!--td>
                                         <a href="{{ url('report/'.$report->id.'/edit') }}"
                                            class="button-link-success">
                                             Edit Report

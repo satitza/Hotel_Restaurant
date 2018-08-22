@@ -121,23 +121,17 @@
                     <div class="panel-body">
                         {{ Form::open(array('url' => 'search_report', 'method' => 'post')) }}
 
-
-                        <label for="search">
+                        <label>
                             <input type="checkbox" id="search_hotel_id"/>
                             Hotel<br>
                             <input type="checkbox" id="search_restaurant_id"/>
                             Restaurant<br>
                             <input type="checkbox" id="search_offer_id"/>
                             Offer <br>
-
-                            <hr>
-
-                            <input type="checkbox" id="search_date"/>
-                            Include Date<br>
-                            <input type="checkbox" id="search_id">
-                            Search By ID<br>
                         </label>
+
                         <hr>
+
                         <div id="hotel_id" style="display: none;">
                             <label>Hotel Name</label>
                             <select class="form-control" name="hotel_id" id="hotel_id_select">
@@ -147,7 +141,6 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div id="restaurant_id" style="display: none;">
                             <label>Restaurant Name</label>
                             <select class="form-control" name="restaurant_id" id="restaurant_id_select">
@@ -161,6 +154,19 @@
                                 <option value="">Please Select</option>
                             </select>
                         </div>
+
+                        <hr>
+
+                        <br>
+                        <label>
+
+                            <input type="checkbox" id="search_date"/>
+                            Include Date<br>
+                            <input type="checkbox" id="search_id">
+                            Search By ID<br>
+                        </label>
+
+                        <hr>
 
                         <div id="offer_date" style="display: none;">
 
