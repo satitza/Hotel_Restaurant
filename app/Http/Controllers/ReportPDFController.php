@@ -42,11 +42,9 @@ class ReportPDFController extends Controller
 
             $where = null;
 
-            $check_rows = User::find(Auth::id());
+            if (Auth::user()->user_role == 3) {
 
-            if ($check_rows->user_role == 3) {
-
-                $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
+                $get_hotel_id = UserReport::select('hotel_id')->where('user_id', Auth::id())->first();
                 $where = ['reports.booking_hotel_id' => $get_hotel_id->hotel_id, 'reports.booking_status' => $GLOBALS['complete']];
 
                 $count_book = Report::where($where)->count();

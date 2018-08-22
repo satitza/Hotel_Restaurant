@@ -131,13 +131,11 @@ class ReportsController extends Controller
             $count_guest = null;
             $count_price = null;
 
-            $check_rows = User::find(Auth::id());
-
             if (Auth::user()->user_role != 1 && Auth::user()->user_role != 3) {
                 return view('error.index')->with('error', 'You don`t have permission');
             } else {
-                if ($check_rows->user_role == 3) {
-                    $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->get();
+                if (Auth::user()->user_role == 3) {
+                    $get_hotel_id = UserReport::select('hotel_id')->where('user_id', Auth::id())->get();
                     if (count($get_hotel_id) == 0) {
                         return view('error.index')->with('error', 'You never match hotel with this user');
                     } else {
@@ -201,6 +199,7 @@ class ReportsController extends Controller
         $offer_id = null;
         $offer_date_from = null;
         $offer_date_to = null;
+        $booking_id = null;
 
         if (!isset($request->hotel_id)) {
             $hotel_id = '';
@@ -220,6 +219,12 @@ class ReportsController extends Controller
             $offer_id = $request->offer_id;
         }
 
+        if (!isset($request->booking_id)) {
+            $booking_id = '';
+        } else {
+            $booking_id = $request->booking_id;
+        }
+
         /*--------------------------------------------------------------------------------------------------------------------------------*/
 
         try {
@@ -229,10 +234,10 @@ class ReportsController extends Controller
             } else {
                 $view = null;
                 $items = null;
-                $check_rows = User::find(Auth::id());
+                //$check_rows = User::find(Auth::id());
 
-                if ($check_rows->user_role == 3) {
-                    $get_hotel_id = UserReport::select('hotel_id')->where('user_id', $check_rows->id)->first();
+                if (Auth::user()->user_role == 3) {
+                    $get_hotel_id = UserReport::select('hotel_id')->where('user_id', Auth::id())->first();
                     $items = Restaurants::select('id', 'restaurant_name')->where('hotel_id', $get_hotel_id->hotel_id)->orderBy('id', 'ASC')->get();
                     $hotel_id = $get_hotel_id->hotel_id;
                     $view = 'report.user.list';
@@ -251,6 +256,7 @@ class ReportsController extends Controller
                         ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_id', 'like', '%' . $booking_id . '%')
                         ->whereBetween('booking_date', [
                             Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
                             Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
@@ -267,6 +273,7 @@ class ReportsController extends Controller
                     where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_id', 'like', '%' . $booking_id . '%')
                         ->whereBetween('booking_date', [
                             Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
                             Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
@@ -278,6 +285,7 @@ class ReportsController extends Controller
                     where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_id', 'like', '%' . $booking_id . '%')
                         ->whereBetween('booking_date', [
                             Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
                             Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
@@ -288,6 +296,7 @@ class ReportsController extends Controller
                     where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_id', 'like', '%' . $booking_id . '%')
                         ->whereBetween('booking_date', [
                             Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_from, '/', '-'))))->toDateString(),
                             Carbon::parse(date('Y-m-d', strtotime(strtr($request->offer_date_to, '/', '-'))))->toDateString()
@@ -303,6 +312,7 @@ class ReportsController extends Controller
                         ->where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_id', 'like', '%' . $booking_id . '%')
                         ->where('booking_status', '=', $GLOBALS['complete'])
                         ->join('hotels', 'hotels.id', '=', 'reports.booking_hotel_id')
                         ->join('restaurants', 'restaurants.id', '=', 'reports.booking_restaurant_id')
@@ -315,6 +325,7 @@ class ReportsController extends Controller
                     where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_id', 'like', '%' . $booking_id . '%')
                         ->where('booking_status', '=', $GLOBALS['complete'])
                         ->count();
 
@@ -322,12 +333,14 @@ class ReportsController extends Controller
                     where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_id', 'like', '%' . $booking_id . '%')
                         ->where('booking_status', '=', $GLOBALS['complete'])->sum('booking_guest');
 
                     $count_price = Report::
                     where('booking_hotel_id', 'like', '%' . $hotel_id . '%')
                         ->where('booking_restaurant_id', 'like', '%' . $restaurant_id . '%')
                         ->where('booking_offer_id', 'like', '%' . $offer_id . '%')
+                        ->where('booking_id', 'like', '%' . $booking_id . '%')
                         ->where('booking_status', '=', $GLOBALS['complete'])->sum('booking_price');
                 }
 

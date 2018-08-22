@@ -37,9 +37,8 @@ class TermsController extends Controller
 
             $offers = null;
             $offer_name_en = null;
-            $check_rows = User::find(Auth::id());
 
-            if ($check_rows->user_role == 2) {
+            if (Auth::user()->user_role == 2) {
                 $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
                 $restaurants_id = explode(',', $user_editors->restaurant_id);
                 foreach ($restaurants_id as $id) {
@@ -82,9 +81,8 @@ class TermsController extends Controller
 
             $offers = null;
             $offer_name_en = null;
-            $check_rows = User::find(Auth::id());
 
-            if ($check_rows->user_role == 2) {
+            if (Auth::user()->user_role == 2) {
                 $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
                 $restaurants_id = explode(',', $user_editors->restaurant_id);
                 foreach ($restaurants_id as $id) {
@@ -180,9 +178,8 @@ class TermsController extends Controller
         try {
 
             $terms_th = null;
-            $check_rows = User::find(Auth::id());
 
-            if ($check_rows->user_role == 2) {
+            if (Auth::user()->user_role == 2) {
                 $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
                 $restaurants_id = explode(',', $user_editors->restaurant_id);
                 foreach ($restaurants_id as $id) {
@@ -232,9 +229,8 @@ class TermsController extends Controller
         try {
 
             $terms_en = null;
-            $check_rows = User::find(Auth::id());
 
-            if ($check_rows->user_role == 2) {
+            if (Auth::user()->user_role == 2) {
                 $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
                 $restaurants_id = explode(',', $user_editors->restaurant_id);
                 foreach ($restaurants_id as $id) {
@@ -284,9 +280,8 @@ class TermsController extends Controller
         try {
 
             $terms_cn = null;
-            $check_rows = User::find(Auth::id());
 
-            if ($check_rows->user_role == 2) {
+            if (Auth::user()->user_role == 2) {
                 $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
                 $restaurants_id = explode(',', $user_editors->restaurant_id);
                 foreach ($restaurants_id as $id) {

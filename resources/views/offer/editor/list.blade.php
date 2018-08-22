@@ -37,7 +37,6 @@
                             <th scope="col">Restaurant Name</th>
                             <th scope="col">Offer Name</th>
                             <th scope="col">Offer Type</th>
-                            <th scope="col">Offer Type</th>
                             <th scope="col">Attachments</th>
                             <th scope="col">Date Start</th>
                             <th scope="col">Date End</th>

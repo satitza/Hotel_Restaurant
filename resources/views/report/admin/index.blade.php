@@ -5,15 +5,15 @@
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             $(".datepicker_from").datepicker({
-                 dateFormat: 'dd/mm/yy',
-                 changeMonth: true,
-                 changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
             });
 
             $(".datepicker_to").datepicker({
-                 dateFormat: 'dd/mm/yy',
-                 changeMonth: true,
-                 changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
             });
 
             $("#search_hotel_id").click(function () {
@@ -54,6 +54,14 @@
                 }
             });
 
+            $("#search_id").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#order_id").show();
+                } else {
+                    $("#order_id").remove();
+                }
+            });
+
             $("#hotel_id_select").change(function () {
                 var hotel_id = $("#hotel_id_select").val();
                 $('#text_date').val('');
@@ -63,9 +71,9 @@
                     data: {id: hotel_id},
                     success: function (response) {
                         $('#restaurant_id_select').find('option').remove().end()
-                        $("#restaurant_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
+                        $("#restaurant_id_select").prepend("<option value='' selected='selected'>Please Select</option>");
                         $('#offer_id_select').find('option').remove().end()
-                        $("#offer_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
+                        $("#offer_id_select").prepend("<option value='' selected='selected'>Please Select</option>");
                         $.each(response, function (index, value) {
                             $('#restaurant_id_select')
                                 .append($("<option></option>")
@@ -85,7 +93,7 @@
                     data: {id: restaurant_id},
                     success: function (response) {
                         $('#offer_id_select').find('option').remove().end()
-                        $("#offer_id_select").prepend("<option value='' selected='selected'>please_selected</option>");
+                        $("#offer_id_select").prepend("<option value='' selected='selected'>Please Select</option>");
                         $.each(response, function (index, value) {
                             $('#offer_id_select')
                                 .append($("<option></option>")
@@ -126,12 +134,14 @@
 
                             <input type="checkbox" id="search_date"/>
                             Include Date<br>
+                            <input type="checkbox" id="search_id">
+                            Search By ID<br>
                         </label>
                         <hr>
                         <div id="hotel_id" style="display: none;">
                             <label>Hotel Name</label>
                             <select class="form-control" name="hotel_id" id="hotel_id_select">
-                                <option value="">please_selected</option>
+                                <option value="">Please Select</option>
                                 @foreach($items as $item)
                                     <option value="{{ $item->id }}">{{ $item->hotel_name }}</option>
                                 @endforeach
@@ -141,14 +151,14 @@
                         <div id="restaurant_id" style="display: none;">
                             <label>Restaurant Name</label>
                             <select class="form-control" name="restaurant_id" id="restaurant_id_select">
-                                <option value="">please_selected</option>
+                                <option value="">Please Select</option>
                             </select>
                         </div>
 
                         <div id="offer_id" style="display: none;">
                             <label>Offer Name</label>
                             <select class="form-control" name="offer_id" id="offer_id_select">
-                                <option value="">please_selected</option>
+                                <option value="">Please Select</option>
                             </select>
                         </div>
 
@@ -162,14 +172,19 @@
 
                         </div>
 
+                        <div id="order_id" style="display: none;">
+                            <label>Order ID</label>
+                            {{ Form::text('booking_id', null, ['class' => 'form-control', 'placeholder' => 'Insert order id for searching', 'id' => 'text_order_id']) }}
+                        </div>
+
                         <br>
                         {{ Form::submit('Search', ['class' => 'btn btn-success', 'name' => 'submitbutton', 'value' => 'search']) }}
                         <a href="{{ action('ReportsController@index') }}" class="button-link-dark">
                             Clear
                         </a>
-                    {{ Form::submit('Custom PDF', ['class' => 'btn btn-info', 'name' => 'submitbutton', 'value' => 'search-pdf']) }}
-                    {{ csrf_field() }}
-                    {!! Form::close() !!}
+                        {{ Form::submit('Custom PDF', ['class' => 'btn btn-info', 'name' => 'submitbutton', 'value' => 'search-pdf']) }}
+                        {{ csrf_field() }}
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -187,7 +202,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">List Balance</div>
+                    <div class="panel-heading">List Booking Complete</div>
                     <div class="panel-body">
                     <!--{!! Form::open(['url' => '#', 'files' => false]) !!} -->
                         <table class="table">
@@ -234,7 +249,7 @@
                                             <p>Already Used</p>
                                         @endif
                                     </td>
-                                    <!--td>
+                                <!--td>
                                         <a href="{{ url('report/'.$report->id.'/edit') }}"
                                            class="button-link-success">
                                             Edit Report

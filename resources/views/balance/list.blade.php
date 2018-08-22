@@ -59,7 +59,7 @@
                         <div id="offer_id" style="display: none;">
                             <label>Offer Name</label>
                             <select class="form-control" name="offer_id">
-                                <option value="">please_selected</option>
+                                <option value="">Please Select</option>
                                 @foreach($offer_items as $item)
                                     <option value="{{ $item->id }}">{{ $item->offer_name_en }}</option>
                                 @endforeach
@@ -74,7 +74,7 @@
                         <div id="time_type" style="display: none;">
                             <label>Time Type</label>
                             <select class="form-control" name="time_type">
-                                <option value="">please_selected</option>
+                                <option value="">Please Select</option>
                                 <option value="lunch">Lunch</option>
                                 <option value="dinner">Dinner</option>
                             </select>

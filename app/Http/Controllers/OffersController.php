@@ -63,12 +63,11 @@ class OffersController extends Controller
             $currencies = $this->GetCurrency();
             $rate_suffix = $this->GetRateSuffix();
 
-            $check_rows = User::find(Auth::id());
             $rs = null;
             $view = null;
 
             //User Editor
-            if ($check_rows->user_role == 2) {
+            if (Auth::user()->user_role == 2) {
                 $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
                 if (count($restaurant_id) == 0) {
                     return view('error.index')->with('error', 'You never match with restaurant');
@@ -114,10 +113,7 @@ class OffersController extends Controller
                 $where = ['offers.restaurant_id' => $request->restaurant_id, 'offers.active_id' => $GLOBALS['enable']];
             }
 
-            $check_rows = User::find(Auth::id());
-
-            if ($check_rows->user_role == 2) {
-
+            if (Auth::user()->user_role == 2) {
                 $restaurants_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->first();
                 $arrays = explode(',', $restaurants_id->restaurant_id, -1);
                 $restaurant_items = Restaurants::select('id', 'restaurant_name')->whereIn('id', $arrays)->where('active_id', $GLOBALS['enable'])->get();
@@ -125,20 +121,19 @@ class OffersController extends Controller
                 $where = ['offers.restaurant_id' => $request->restaurant_id, 'offers.active_id' => $GLOBALS['enable']];
 
             } else {
-                //$hotel_items = $this->GetHotelsItems();
                 $restaurant_items = $this->GetRestaurantsItems();
                 $view = 'offer.admin.search';
             }
             $offers = DB::table('offers')->
             select('offers.id', 'hotels.hotel_name', 'restaurants.restaurant_name',
-                'offer_name_en', 'offer_type','attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
+                'offer_name_en', 'offer_type', 'attachments', 'offer_date_start', 'offer_date_end', 'offer_comment_en')
                 ->join('hotels', 'offers.hotel_id', '=', 'hotels.id')
                 ->join('restaurants', 'offers.restaurant_id', '=', 'restaurants.id')
                 ->where($where)->paginate(10);
 
             return view($view, [
                 'hotel_items' => $this->GetHotelsItems(),
-                'restaurant_items' => $restaurant_items,  //$this->GetRestaurantsItems(),
+                'restaurant_items' => $restaurant_items,
                 'offers' => $offers
             ]);
 
@@ -157,14 +152,12 @@ class OffersController extends Controller
     public function create()
     {
         try {
-
-            $check_rows = User::find(Auth::id());
             $hotel_items = $this->GetHotelsItems();
             $view = null;
             $where = null;
 
             //Editor User
-            if ($check_rows->user_role == 2) {
+            if (Auth::user()->user_role == 2) {
                 $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->get();
                 if (count($restaurant_id) == 0) {
                     return view('error.index')->with('error', 'You never match with restaurant');
@@ -467,9 +460,8 @@ class OffersController extends Controller
                     }
                 }
 
-                $check_rows = User::find(Auth::id());
                 //User editor
-                if ($check_rows->user_role == 2) {
+                if (Auth::user()->user_role == 2) {
                     $restaurant_id = DB::table('user_editors')->select('restaurant_id')->where('user_id', Auth::id())->first();
                     $arrays = explode(',', $restaurant_id->restaurant_id, -1);
                     foreach ($arrays as $array) {

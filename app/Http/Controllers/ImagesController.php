@@ -43,10 +43,9 @@ class ImagesController extends Controller
 //        try {
 //
 //            $offer_items = array();
-//            $check_rows = User::find(Auth::id());
 //            $view = null;
 //
-//            if ($check_rows->user_role == 2) {
+//           if (Auth::user()->user_role == 2) {
 //                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
 //                $restaurants_id = explode(',', $user_editors->restaurant_id);
 //                foreach ($restaurants_id as $id) {
@@ -78,10 +77,9 @@ class ImagesController extends Controller
         try {
 
             $offer_items = array();
-            $check_rows = User::find(Auth::id());
             $view = null;
 
-            if ($check_rows->user_role == 2) {
+            if (Auth::user()->user_role == 2) {
                 $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
                 $restaurants_id = explode(',', $user_editors->restaurant_id);
                 foreach ($restaurants_id as $id) {
@@ -92,9 +90,9 @@ class ImagesController extends Controller
                     }
                 }
 
-                if($offer_items == null){
+                if ($offer_items == null) {
                     return view('error.index')->with('error', 'Restaurant ID Not Found');
-                }else{
+                } else {
                     $view = 'image.editor.index';
                 }
             } else {
@@ -124,9 +122,8 @@ class ImagesController extends Controller
 //        try {
 //
 //            $offer_items = array();
-//            $check_rows = User::find(Auth::id());
 //
-//            if ($check_rows->user_role == 2) {
+//            if (Auth::user()->user_role == 2) {
 //                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->get();
 //                if (count($user_editors) == 0) {
 //                    return view('error.index')->with('error', 'You never match with restaurant');
@@ -175,9 +172,8 @@ class ImagesController extends Controller
 //            $view = null;
 //            $where = null;
 //
-//            $check_rows = User::find(Auth::id());
 //
-//            if ($check_rows->user_role == 2) {
+//            if (Auth::user()->user_role == 2) {
 //                $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->get();
 //                if (count($user_editors) == 0) {
 //                    return view('error.index')->with('error', 'You never match with restaurant');
@@ -229,7 +225,6 @@ class ImagesController extends Controller
      */
     public function store(Request $request)
     {
-        //echo $request->offer_id;
         if (Input::hasFile('images')) {
 
             $collect = array();
@@ -344,8 +339,7 @@ class ImagesController extends Controller
                     $photos = explode(',', $images->image);
                 }
 
-                $check_rows = User::find(Auth::id());
-                if ($check_rows->user_role == 2) {
+                if (Auth::user()->user_role == 2) {
                     $user_editors = UserEditor::select('restaurant_id')->where('user_id', Auth::id())->first();
                     $restaurants_id = explode(',', $user_editors->restaurant_id);
                     foreach ($restaurants_id as $restaurant_id) {
@@ -379,7 +373,7 @@ class ImagesController extends Controller
         }
     }
 
-//Unset Array Item
+    //Unset Array Item
     public
     function UnsetItem($id, array $items)
     {
